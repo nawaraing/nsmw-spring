@@ -1,6 +1,5 @@
 package model.memberModel;
 
-public class MemberDTO {
-	
+public class MemberService {
 
 }
