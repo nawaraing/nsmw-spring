@@ -1,4 +1,4 @@
-package model.memberModel;
+package com.naeddoco.nsmwspring.model.memberModel;
 
 import java.util.List;
 
