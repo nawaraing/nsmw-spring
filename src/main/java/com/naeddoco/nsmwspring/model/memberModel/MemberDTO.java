@@ -15,6 +15,8 @@ public class MemberDTO {
 	private String authority;// 권한(admin or user)
 	private String memberState; // 상태(탈퇴 or 고스트 등등)
 	
+	private String searchCondition; // 쿼리 분기 지정
 	
+	private int ancGradeID; // FK : 회원 등급 아이디
 	
 }
