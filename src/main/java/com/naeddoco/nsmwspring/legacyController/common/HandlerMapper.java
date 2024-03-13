@@ -29,7 +29,6 @@ import com.naeddoco.nsmwspring.legacyController.action.ProductDetailPageAction;
 import com.naeddoco.nsmwspring.legacyController.action.ReviewDetailPageAction;
 import com.naeddoco.nsmwspring.legacyController.action.ReviewInfoPageAction;
 import com.naeddoco.nsmwspring.legacyController.action.TermsPageAction;
-import com.naeddoco.nsmwspring.legacyController.action.WriteReviewAction;
 import com.naeddoco.nsmwspring.legacyController.action.WriteReviewPageAction;
 import com.naeddoco.nsmwspring.legacyKakao.KakaoLoginAction;
 
@@ -56,7 +55,7 @@ public class HandlerMapper {
 		this.mappings.put("/buyInfoPage.do", new BuyInfoPageAction());// 마이페이지_구매내역
 		this.mappings.put("/couponInfoPage.do", new CouponInfoPageAction());// 마이페이지_쿠폰목록(쿠폰관리)
 		this.mappings.put("/writeReviewPage.do", new WriteReviewPageAction());// 리뷰작성페이지
-		this.mappings.put("/writeReview.do", new WriteReviewAction());// 리뷰작성
+		//this.mappings.put("/writeReview.do", new WriteReviewAction());// 리뷰작성
 		this.mappings.put("/reviewInfoPage.do", new ReviewInfoPageAction());// 리뷰목록페이지
 		this.mappings.put("/reviewDetailPage.do", new ReviewDetailPageAction());// 리뷰상세페이지
 		this.mappings.put("/deleteReview.do", new DeleteReviewAction());// 리뷰삭제
