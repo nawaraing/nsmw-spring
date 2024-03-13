@@ -109,7 +109,7 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 		Iterator<Element> itr = elems.iterator();
 		if (itr.hasNext()) {
 //			System.out.println("div.desctiption: " + itr.next().text());
-			pDTO.setpDetail(itr.next().text());
+			pDTO.setProductDetail(itr.next().text());
 		}
 		
 		// costPrice
@@ -128,22 +128,22 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 			int selling = Integer.parseInt(strPrice);
 //			int selling = 3000;
 			pDTO.setCostPrice(selling + 2000);
-			pDTO.setRegularPrice(selling + 1000);
-			pDTO.setSellingPrice(selling);
+			pDTO.setRetailPrice(selling + 1000);
+			pDTO.setSalePrice(selling);
 		}
 
 		// pQty
-		pDTO.setpQty(30);
+		pDTO.setStock(30);
 
 		// regTime : 현재 시간
 		// DB에서 넣어줌
 //		pDTO.setRegTime(Timestamp.from(Instant.now()));
 		
 		// imagePath
-		pDTO.setImagePath(imgPath);
+		pDTO.setAncImagePath(imgPath);
 		
 		// sellingState
-		pDTO.setSellingState("판매중");
+		pDTO.setSaleState("판매중");
 		
 		elems = doc.select("dd");
 		itr = elems.iterator();
@@ -159,13 +159,13 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 				if (strs.length > 1) {
 					pName = strs[1];
 				}
-				pDTO.setpName(pName);
+				pDTO.setProductName(pName);
 
 			} else if (cnt == 3) {
 
 				// exp
 				String exp = e.text().split(" /")[0];
-				pDTO.setExp(exp);
+				pDTO.setExpirationDate(exp);
 
 			} else if (cnt == 6) {
 
@@ -195,21 +195,21 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 				// category
 				String str = e.text();
 				if (str.contains("눈")) {
-					pDTO.setCategory("눈");
+					pDTO.setAncCategory("눈");
 				} else if (str.contains("간")) {
-					pDTO.setCategory("간");
+					pDTO.setAncCategory("간");
 				} else if (str.contains("뼈")) {
-					pDTO.setCategory("뼈/치아");
+					pDTO.setAncCategory("뼈/치아");
 				} else if (str.contains("에너지")) {
-					pDTO.setCategory("활력");
+					pDTO.setAncCategory("활력");
 				} else if (str.contains("스트레스") || str.contains("면역")) {
-					pDTO.setCategory("면역");
+					pDTO.setAncCategory("면역");
 				} else if (str.contains("기억력")) {
-					pDTO.setCategory("두뇌");
+					pDTO.setAncCategory("두뇌");
 				} else if (str.contains("피부")) {
-					pDTO.setCategory("피부");
+					pDTO.setAncCategory("피부");
 				} else if (str.contains("유산균")) {
-					pDTO.setCategory("소화");
+					pDTO.setAncCategory("소화");
 				}
 			}
 
