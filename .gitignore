@@ -37,8 +37,3 @@ out/
 .vscode/
 
 ### CUSTOM ###
-*.properties
-*.gradle
-build.gradle
-src/main/resources/application.properties
-build.gradle
