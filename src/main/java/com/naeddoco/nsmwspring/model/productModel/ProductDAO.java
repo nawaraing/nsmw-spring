@@ -20,11 +20,10 @@ public class ProductDAO {
 	private static final String SELECTALL = "";
 	
 	private static final String SELECTONE = "";
-	
-	private static final String INSERT_PRODUCT = "INSERT INTO PRODUCT "
-			+ "(P_ID, P_NAME, P_DETAIL, COST_PRICE, REGULAR_PRICE, SELLING_PRICE, P_QTY, INGREDIENT, CATEGORY, REG_TIME, SELLING_STATE, IMAGE_PATH) "
+
+	private static final String INSERT = "INSERT INTO PRODUCT "
+			+ "(PRODUCT_NAME, PRODUCT_DETAIL, COST_PRICE, RETAIL_PRICE, SALE_PRICE, STOCK, INGREDIENT, USAGE, EXPIRATION_DATE, REGISTER_DATE, MODIFY_DATE, SALE_STATE) "
 			+ "	VALUES "
-			+ "(NVL((SELECT MAX(P_ID) FROM PRODUCT), 0) + 1, "
 			+ "?, "
 			+ "?, "
 			+ "?, "
@@ -33,8 +32,9 @@ public class ProductDAO {
 			+ "?, "
 			+ "?, "
 			+ "?, "
-			+ "SYSTIMESTAMP, "
-			+ "?, "
+			+ "CURRENT_TIMESTAMP, "
+			+ "CURRENT_TIMESTAMP, "
+			+ "CURRENT_TIMESTAMP, "
 			+ "? "
 			+ "	)";
 	
@@ -69,24 +69,16 @@ public class ProductDAO {
 	// PK제외 모든 항목
 	public boolean insert(ProductDTO productDTO) {
 		
-		int result = jdbcTemplate.update(INSERT, 
-										 productDTO.getProductName(), 
-										 productDTO.getProductDetail(), 
-										 productDTO.getCostPrice(), 
-										 productDTO.getRetailPrice(),
-									     productDTO.getSalePrice(),
-										 productDTO.getStock(),
-									     productDTO.getIngredient(),
-										 productDTO.getUsage(),
-										 productDTO.getExpirationDate(),
-										 productDTO.getRegisterDate(),
-										 productDTO.getModifyDate(),
-										 productDTO.getSaleState()
-										 );
+		int result = jdbcTemplate.update(INSERT, productDTO.getProductName(), productDTO.getProductDetail(), productDTO.getCostPrice(), productDTO.getRetailPrice(), productDTO.getSalePrice(), productDTO.getStock(),productDTO.getIngredient(), productDTO.getUsage(), productDTO.getSaleState());
+		
 		if (result <= 0) {
+			
 			return false;
+			
 		}
+		
 		return true;
+		
 	}
 
 	// 

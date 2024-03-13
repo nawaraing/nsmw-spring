@@ -22,24 +22,27 @@ public class ProductDTO {
 	private String searchCondition; // 쿼리 분기
 	
 	private String ancImagePath; // 이미지
-	private String ancCategory;
+	private String ancCategory; // 카테고리
 	
 	@Override
 	public String toString() {
 		
-		return "ProductDTO [productID =" + productID + ", "
-				+ "productName =" + productName + ", "
-				+ "productDetail =" + productDetail + ", " 
-				+ "costPrice =" + costPrice + ", " 
-				+ "retailPrice =" + retailPrice + ", "
-				+ "salePrice =" + salePrice + ", " 
-				+ "stock =" + stock + ", "
-				+ "ingredient =" + ingredient + ", "
-				+ "usage =" + usage + "," 
-				+ "expirationDate =" + expirationDate + ", "
-				+ "registerDate =" + registerDate + ", "
-				+ "modifyDate =" + modifyDate +", "
-				+ "saleState =" + saleState 
+		return "ProductDTO ["
+			    + "productID = " + productID + ", "
+				+ "productName = " + productName + ", "
+				+ "productDetail = " + productDetail + ", " 
+				+ "costPrice = " + costPrice + ", " 
+				+ "retailPrice = " + retailPrice + ", "
+				+ "salePrice = " + salePrice + ", " 
+				+ "stock = " + stock + ", "
+				+ "ingredient = " + ingredient + ", "
+				+ "usage = " + usage + "," 
+				+ "expirationDate = " + expirationDate + ", "
+				+ "registerDate = " + registerDate + ", "
+				+ "modifyDate = " + modifyDate +", "
+				+ "saleState = " + saleState + ", " 
+				+ "ancImagePath = " + ancImagePath + ", "
+				+ "ancCategory = " + ancCategory
 				+ "]";
 		
 	}
