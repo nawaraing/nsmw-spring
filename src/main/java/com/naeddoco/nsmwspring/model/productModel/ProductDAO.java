@@ -18,26 +18,57 @@ public class ProductDAO {
 	
 	// 쿼리문
 	private static final String SELECTALL = "";
+	
 	private static final String SELECTONE = "";
-	private static final String INSERT = "";
+	
+	private static final String INSERT_PRODUCT = "INSERT INTO PRODUCT "
+			+ "(P_ID, P_NAME, P_DETAIL, COST_PRICE, REGULAR_PRICE, SELLING_PRICE, P_QTY, INGREDIENT, CATEGORY, REG_TIME, SELLING_STATE, IMAGE_PATH) "
+			+ "	VALUES "
+			+ "(NVL((SELECT MAX(P_ID) FROM PRODUCT), 0) + 1, "
+			+ "?, "
+			+ "?, "
+			+ "?, "
+			+ "?, "
+			+ "?, "
+			+ "?, "
+			+ "?, "
+			+ "?, "
+			+ "SYSTIMESTAMP, "
+			+ "?, "
+			+ "? "
+			+ "	)";
+	
 	private static final String UPDATE = "";
+	
 	private static final String DELETE = "";
+	
+/*------------------------------------------------------------------------------------------------------------------------------------------------------*/	
 
 	public List<ProductDTO> selectAll(ProductDTO productDTO) {
+		
 		return (List<ProductDTO>) jdbcTemplate.query(SELECTALL, new productRowMapper());
+		
 	}
 
 	public ProductDTO selectOne(ProductDTO productDTO) {
+		
 		Object[] args = { productDTO.getProductID()};
+		
 		try {
+			
 			return jdbcTemplate.queryForObject(SELECTONE, args, new productRowMapper());
+			
 		} catch (Exception e) {
+			
 			return null;
+			
 		}
+		
 	}
 
 	// PK제외 모든 항목
 	public boolean insert(ProductDTO productDTO) {
+		
 		int result = jdbcTemplate.update(INSERT, 
 										 productDTO.getProductName(), 
 										 productDTO.getProductDetail(), 

@@ -1,107 +1,47 @@
 package com.naeddoco.nsmwspring.model.productModel;
 
+import lombok.Data;
+
+@Data
 public class ProductDTO {
 	
-	private int productID;
-	private String productName;
-	private String productDetail;
-	private int costPrice;
-	private int retailPrice;
-	private int salePrice;
-	private int stock;
-	private String ingredient;
-	private String usage;
-	private String expirationDate;
-	private String registerDate;
-	private String modifyDate;
-	private String saleState;
+	private int productID; // 인조식별자 번호
+	private String productName; // 이름
+	private String productDetail; // 상세
+	private int costPrice; // 원가
+	private int retailPrice; // 소비자가
+	private int salePrice; // 판매가
+	private int stock; // 재고
+	private String ingredient; // 성분
+	private String usage; // 용법
+	private String expirationDate; // 소비기한
+	private String registerDate; // 등록일
+	private String modifyDate; // 변경일 
+	private String saleState; // 판매 상태
 	
+	private String searchCondition; // 쿼리 분기
 	
-	public int getProductID() {
-		return productID;
-	}
-	public void setProductID(int productID) {
-		this.productID = productID;
-	}
-	public String getProductName() {
-		return productName;
-	}
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-	public String getProductDetail() {
-		return productDetail;
-	}
-	public void setProductDetail(String productDetail) {
-		this.productDetail = productDetail;
-	}
-	public int getCostPrice() {
-		return costPrice;
-	}
-	public void setCostPrice(int costPrice) {
-		this.costPrice = costPrice;
-	}
-	public int getRetailPrice() {
-		return retailPrice;
-	}
-	public void setRetailPrice(int retailPrice) {
-		this.retailPrice = retailPrice;
-	}
-	public int getSalePrice() {
-		return salePrice;
-	}
-	public void setSalePrice(int salePrice) {
-		this.salePrice = salePrice;
-	}
-	public int getStock() {
-		return stock;
-	}
-	public void setStock(int stock) {
-		this.stock = stock;
-	}
-	public String getIngredient() {
-		return ingredient;
-	}
-	public void setIngredient(String ingredient) {
-		this.ingredient = ingredient;
-	}
-	public String getUsage() {
-		return usage;
-	}
-	public void setUsage(String usage) {
-		this.usage = usage;
-	}
-	public String getExpirationDate() {
-		return expirationDate;
-	}
-	public void setExpirationDate(String expirationDate) {
-		this.expirationDate = expirationDate;
-	}
-	public String getRegisterDate() {
-		return registerDate;
-	}
-	public void setRegisterDate(String registerDate) {
-		this.registerDate = registerDate;
-	}
-	public String getModifyDate() {
-		return modifyDate;
-	}
-	public void setModifyDate(String modifyDate) {
-		this.modifyDate = modifyDate;
-	}
-	public String getSaleState() {
-		return saleState;
-	}
-	public void setSaleState(String saleState) {
-		this.saleState = saleState;
-	}
+	private String ancImagePath; // 이미지
+	private String ancCategory;
+	
 	@Override
 	public String toString() {
-		return "ProductDTO [productID=" + productID + ", productName=" + productName + ", productDetail="
-				+ productDetail + ", costPrice=" + costPrice + ", retailPrice=" + retailPrice + ", salePrice="
-				+ salePrice + ", stock=" + stock + ", ingredient=" + ingredient + ", usage=" + usage
-				+ ", expirationDate=" + expirationDate + ", registerDate=" + registerDate + ", modifyDate=" + modifyDate
-				+ ", saleState=" + saleState + "]";
+		
+		return "ProductDTO [productID =" + productID + ", "
+				+ "productName =" + productName + ", "
+				+ "productDetail =" + productDetail + ", " 
+				+ "costPrice =" + costPrice + ", " 
+				+ "retailPrice =" + retailPrice + ", "
+				+ "salePrice =" + salePrice + ", " 
+				+ "stock =" + stock + ", "
+				+ "ingredient =" + ingredient + ", "
+				+ "usage =" + usage + "," 
+				+ "expirationDate =" + expirationDate + ", "
+				+ "registerDate =" + registerDate + ", "
+				+ "modifyDate =" + modifyDate +", "
+				+ "saleState =" + saleState 
+				+ "]";
+		
 	}
 	
 }
