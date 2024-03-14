@@ -22,8 +22,9 @@ public class ProductDAO {
 	private static final String SELECTONE = "";
 
 	private static final String INSERT = "INSERT INTO PRODUCT "
-			+ "(PRODUCT_NAME, PRODUCT_DETAIL, COST_PRICE, RETAIL_PRICE, SALE_PRICE, STOCK, INGREDIENT, USAGE, EXPIRATION_DATE, REGISTER_DATE, MODIFY_DATE, SALE_STATE) "
+			+ "(PRODUCT_NAME, PRODUCT_DETAIL, COST_PRICE, RETAIL_PRICE, SALE_PRICE, STOCK, INGREDIENT, DOSAGE, EXPIRATION_DATE, REGISTER_DATE, MODIFY_DATE, SALE_STATE) "
 			+ "	VALUES "
+			+ "("
 			+ "?, "
 			+ "?, "
 			+ "?, "
@@ -32,7 +33,7 @@ public class ProductDAO {
 			+ "?, "
 			+ "?, "
 			+ "?, "
-			+ "CURRENT_TIMESTAMP, "
+			+ "?, "
 			+ "CURRENT_TIMESTAMP, "
 			+ "CURRENT_TIMESTAMP, "
 			+ "? "
@@ -69,7 +70,19 @@ public class ProductDAO {
 	// PK제외 모든 항목
 	public boolean insert(ProductDTO productDTO) {
 		
-		int result = jdbcTemplate.update(INSERT, productDTO.getProductName(), productDTO.getProductDetail(), productDTO.getCostPrice(), productDTO.getRetailPrice(), productDTO.getSalePrice(), productDTO.getStock(),productDTO.getIngredient(), productDTO.getUsage(), productDTO.getSaleState());
+		System.out.println("[로그] product insert 진입");
+		
+		int result = jdbcTemplate.update(INSERT, 
+										productDTO.getProductName(), 
+										productDTO.getProductDetail(), 
+										productDTO.getCostPrice(), 
+										productDTO.getRetailPrice(), 
+										productDTO.getSalePrice(), 
+										productDTO.getStock(), 
+										productDTO.getIngredient(), 
+										productDTO.getDosage(), 
+										productDTO.getExpirationDate(), 
+										productDTO.getSaleState());
 		
 		if (result <= 0) {
 			
@@ -91,7 +104,7 @@ public class ProductDAO {
 										productDTO.getSalePrice(),
 										productDTO.getStock(),
 										productDTO.getIngredient(),
-										productDTO.getUsage(),
+										productDTO.getDosage(),
 										productDTO.getExpirationDate(),
 										productDTO.getRegisterDate(),
 										productDTO.getModifyDate(),
@@ -127,7 +140,7 @@ class productRowMapper implements RowMapper<ProductDTO> {
 		data.setSalePrice(rs.getInt("SALE_PRICE"));
 		data.setStock(rs.getInt("STOCK"));
 		data.setIngredient(rs.getString("INGREDIENT"));
-		data.setUsage(rs.getString("USAGE"));
+		data.setDosage(rs.getString("DOSAGE"));
 		data.setExpirationDate(rs.getString("EXPIRATION_DATE"));
 		data.setRegisterDate(rs.getString("REGISTER_DATE"));
 		data.setModifyDate(rs.getString("MODIFY_DATE"));
