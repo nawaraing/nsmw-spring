@@ -38,5 +38,4 @@ out/
 
 ### CUSTOM ###
 *.properties
-*.gradle
 src/main/resources/static/productImages
