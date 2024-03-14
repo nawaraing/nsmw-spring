@@ -13,7 +13,7 @@ public class ProductDTO {
 	private int salePrice; // 판매가
 	private int stock; // 재고
 	private String ingredient; // 성분
-	private String usage; // 용법
+	private String dosage; // 용법
 	private String expirationDate; // 소비기한
 	private String registerDate; // 등록일
 	private String modifyDate; // 변경일 
@@ -36,7 +36,7 @@ public class ProductDTO {
 				+ "salePrice = " + salePrice + ", " 
 				+ "stock = " + stock + ", "
 				+ "ingredient = " + ingredient + ", "
-				+ "usage = " + usage + "," 
+				+ "dosage = " + dosage + "," 
 				+ "expirationDate = " + expirationDate + ", "
 				+ "registerDate = " + registerDate + ", "
 				+ "modifyDate = " + modifyDate +", "
