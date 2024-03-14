@@ -10,6 +10,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,9 @@ import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
 @Component
 public class CrawlingListener implements ApplicationListener<ContextRefreshedEvent> {
 
+	@Autowired
+	private ProductDAO pDAO;
+	
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
     	crawling();
@@ -69,8 +73,8 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 			URL u = new URL(src);
 			InputStream is = u.openStream();
 			path = "src/main/resources/static/productImages/" + productName + ".jpg";
-//			path = "../../../../Users/kangjunhyeon/eclipse-workspace/nutritional-shopping-mall-web/src/main/webapp/img" + productName + ".jpg";
-//			path = "img/" + productName + ".jpg";
+			// path = "../../../../Users/kangjunhyeon/eclipse-workspace/nutritional-shopping-mall-web/src/main/webapp/img" + productName + ".jpg";
+			// path = "img/" + productName + ".jpg";
 
 			FileOutputStream fos = new FileOutputStream(path);
 			int b;
@@ -102,13 +106,13 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 		
 		// PID
 		// DB에서 넣어줌
-//		pDTO.setPID(pk);
+		// pDTO.setPID(pk);
 
 		// pDetail
 		Elements elems = doc.select("div.description");
 		Iterator<Element> itr = elems.iterator();
 		if (itr.hasNext()) {
-//			System.out.println("div.desctiption: " + itr.next().text());
+			// System.out.println("div.desctiption: " + itr.next().text());
 			pDTO.setProductDetail(itr.next().text());
 		}
 		
@@ -126,7 +130,7 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 			strPrice = strPrice.replace(String.valueOf(','), "");
 			System.out.println(strPrice);
 			int selling = Integer.parseInt(strPrice);
-//			int selling = 3000;
+			// int selling = 3000;
 			pDTO.setCostPrice(selling + 2000);
 			pDTO.setRetailPrice(selling + 1000);
 			pDTO.setSalePrice(selling);
@@ -137,7 +141,7 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 
 		// regTime : 현재 시간
 		// DB에서 넣어줌
-//		pDTO.setRegTime(Timestamp.from(Instant.now()));
+		// pDTO.setRegTime(Timestamp.from(Instant.now()));
 		
 		// imagePath
 		pDTO.setAncImagePath(imgPath);
@@ -180,7 +184,7 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 				} else {
 					usage = "1캡슐";
 				}
-				pDTO.setUsage(usage);
+				pDTO.setDosage(usage);
 
 				// ingredient
 				if (strs.length > 1) {
@@ -215,12 +219,23 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 
 			cnt++;
 		}
+		
 		System.out.println(pDTO);
-		ProductDAO pDAO = new ProductDAO();
+		
+		
+		
+		System.out.println("[로그] product insert 진입 직전");
+		
 		if (pDAO.insert(pDTO)) {
+			
 			System.out.println("크롤링 성공!!");
+			
 		} else {
+			
 			System.out.println("크롤링 실패...");
+			
 		}
+		
 	}
+	
 }
