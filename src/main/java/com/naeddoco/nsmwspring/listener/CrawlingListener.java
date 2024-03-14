@@ -18,6 +18,9 @@ import org.springframework.stereotype.Component;
 import com.naeddoco.nsmwspring.model.productModel.ProductDAO;
 import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class CrawlingListener implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -62,13 +65,13 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 			Elements elems = doc.select("li.has-image img[src]");
 			String src = "";
 			for (Element elem : elems) {
-				System.out.println(elem.attr("src"));
+//				System.out.println(elem.attr("src"));
 				src = elem.attr("src");
 				break;
 			}
 			
 			String currentDirectory = System.getProperty("user.dir");
-			System.out.println("현재 작업 디렉토리: " + currentDirectory);
+			log.debug("현재 작업 디렉토리: " + currentDirectory);
 
 			URL u = new URL(src);
 			InputStream is = u.openStream();
@@ -86,7 +89,7 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 			e.printStackTrace();
 		}
 
-        System.out.println(path + " :: 작업 완료");
+        log.debug("작업 완료 - " + path);
         return "productImages/" + productName + ".jpg";
 		
 	}
@@ -128,7 +131,7 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 			}
 			strPrice = strPrice.substring(0, strPrice.length() - 1);
 			strPrice = strPrice.replace(String.valueOf(','), "");
-			System.out.println(strPrice);
+//			System.out.println(strPrice);
 			int selling = Integer.parseInt(strPrice);
 			// int selling = 3000;
 			pDTO.setCostPrice(selling + 2000);
@@ -147,7 +150,7 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 		pDTO.setAncImagePath(imgPath);
 		
 		// sellingState
-		pDTO.setSaleState("판매중");
+		pDTO.setSaleState("SALES");
 		
 		elems = doc.select("dd");
 		itr = elems.iterator();
@@ -175,16 +178,16 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 
 				String str = e.text();
 
-				// usage
+				// dosage
 				String[] strs = str.split(" 1일 섭취량 당 함량 : ");
-				String usage = "";
+				String dosage = "";
 				strs = strs[0].split("1일 섭취량 : ");
 				if (strs.length > 1) {
-					usage = strs[1];
+					dosage = strs[1];
 				} else {
-					usage = "1캡슐";
+					dosage = "1캡슐";
 				}
-				pDTO.setDosage(usage);
+				pDTO.setDosage(dosage);
 
 				// ingredient
 				if (strs.length > 1) {
@@ -220,20 +223,12 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 			cnt++;
 		}
 		
-		System.out.println(pDTO);
-		
-		
-		
-		System.out.println("[로그] product insert 진입 직전");
+		log.debug(pDTO.toString());
 		
 		if (pDAO.insert(pDTO)) {
-			
-			System.out.println("크롤링 성공!!");
-			
+			log.trace("크롤링 성공!!");
 		} else {
-			
-			System.out.println("크롤링 실패...");
-			
+			log.trace("크롤링 실패...");
 		}
 		
 	}
