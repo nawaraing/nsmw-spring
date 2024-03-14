@@ -39,3 +39,4 @@ out/
 ### CUSTOM ###
 *.properties
 src/main/resources/static/productImages
+*.log
