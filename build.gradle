@@ -1,0 +1,41 @@
+plugins {
+	id 'java'
+	id 'war'
+	id 'org.springframework.boot' version '3.2.3'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.naeddoco'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	
+	implementation 'jakarta.servlet:jakarta.servlet-api'
+	
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'com.mysql:mysql-connector-j'
+	
+	implementation 'org.projectlombok:lombok'
+	
+	implementation 'org.jsoup:jsoup:1.17.2'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
