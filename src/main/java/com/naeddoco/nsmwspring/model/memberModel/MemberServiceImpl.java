@@ -23,8 +23,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public boolean insert(MemberDTO memberDTO) {
-		memberDAO.insert(memberDTO); // 성공
-		return memberDAO.insert(memberDTO); // 실패
+		return memberDAO.insert(memberDTO);
 	}
 
 	@Override
