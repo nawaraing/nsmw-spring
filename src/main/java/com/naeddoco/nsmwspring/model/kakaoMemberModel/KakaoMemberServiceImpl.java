@@ -12,28 +12,28 @@ public class KakaoMemberServiceImpl implements KakaoMemberService {
 	private KakaoMemberDAO kakaoMemberDAO;
 
 	@Override
-	public List<KakaoMemberDTO> selectAll(KakaoMemberDTO kakaoDTO) {
-		return kakaoMemberDAO.selectAll(kakaoDTO);
+	public List<KakaoMemberDTO> selectAll(KakaoMemberDTO kakaoMemberDTO) {
+		return kakaoMemberDAO.selectAll(kakaoMemberDTO);
 	}
 
 	@Override
-	public KakaoMemberDTO selectOne(KakaoMemberDTO kakaoDTO) {
-		return kakaoMemberDAO.selectOne(kakaoDTO);
+	public KakaoMemberDTO selectOne(KakaoMemberDTO kakaoMemberDTO) {
+		return kakaoMemberDAO.selectOne(kakaoMemberDTO);
 	}
 
 	@Override
-	public boolean insert(KakaoMemberDTO kakaoDTO) {
-		return kakaoMemberDAO.insert(kakaoDTO);
+	public boolean insert(KakaoMemberDTO kakaoMemberDTO) {
+		return kakaoMemberDAO.insert(kakaoMemberDTO);
 	}
 
 	@Override
-	public boolean update(KakaoMemberDTO kakaoDTO) {
-		return kakaoMemberDAO.update(kakaoDTO);
+	public boolean update(KakaoMemberDTO kakaoMemberDTO) {
+		return kakaoMemberDAO.update(kakaoMemberDTO);
 	}
 
 	@Override
-	public boolean delete(KakaoMemberDTO kakaoDTO) {
-		return kakaoMemberDAO.delete(kakaoDTO);
+	public boolean delete(KakaoMemberDTO kakaoMemberDTO) {
+		return kakaoMemberDAO.delete(kakaoMemberDTO);
 	}
 	
 }

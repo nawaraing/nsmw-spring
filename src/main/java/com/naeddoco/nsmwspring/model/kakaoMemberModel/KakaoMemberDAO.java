@@ -22,7 +22,13 @@ public class KakaoMemberDAO {
 	
 	// 로그인(KAKAO 회원)
 	// KAKAO_ID와 일치하는 MEMBER_ID 반환
-	private static final String SELECTONE_KAKAO_MEMBER_LOGIN = "SELECT MEMBER_ID FROM KAKAO_MEMBER WHERE KAKAO_ID = ?";
+	// MEMBER_STATE('JOIN')도 함께 확인 후 결과 반환
+	private static final String SELECTONE_KAKAO_MEMBER_LOGIN = "SELECT M.MEMBER_ID "
+			+ "FROM MEMBER AS M "
+			+ "INNER JOIN KAKAO_MEMBER AS KM "
+			+ "ON M.MEMBER_ID = KM.MEMBER_ID "
+			+ "WHERE M.MEMBER_STATE = 'JOIN' "
+			+ "AND KM.KAKAO_ID = ?";
 	private static final String INSERT = "";
 	private static final String UPDATE = "";
 	private static final String DELETE = "";
@@ -56,37 +62,37 @@ public class KakaoMemberDAO {
 	
 	public boolean insert(KakaoMemberDTO kakaoMemberDTO) {
 
-//		int result = jdbcTemplate.update(INSERT,));
+//		int result = jdbcTemplate.update(INSERT,kakaoMemberDTO.getKakaoID(),kakaoMemberDTO.getMemberID());
 //
 //		if (result <= 0) {
 //
-//			return false;
+			return false;
 //		}
-		return true;
+//		return true;
 	}
 
 	
 	public boolean update(KakaoMemberDTO kakaoMemberDTO) {
 
-//		int result = jdbcTemplate.update(UPDATE,);
+//		int result = jdbcTemplate.update(UPDATE,kakaoMemberDTO.getKakaoID(),kakaoMemberDTO.getMemberID());
 //
 //		if (result <= 0) {
 //
-//			return false;
+			return false;
 //		}
-		return true;
+//		return true;
 	}
 
 	
 	public boolean delete(KakaoMemberDTO kakaoMemberDTO) {
 //
-//		int result = jdbcTemplate.update(DELETE,);
+//		int result = jdbcTemplate.update(DELETE,kakaoMemberDTO.getKakaoID(),kakaoMemberDTO.getMemberID());
 //
 //		if (result <= 0) {
 //
-//			return false;
+			return false;
 //		}
-		return true;
+//		return true;
 	}
 
 }
