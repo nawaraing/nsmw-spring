@@ -73,7 +73,6 @@ public class ProductCategoryDAO {
 		
 	}
 
-	// 
 	public boolean update(ProductCategoryDTO productCategoryDTO) {
 		
 		System.out.println("[로그] productCategory update 처리 진입");
