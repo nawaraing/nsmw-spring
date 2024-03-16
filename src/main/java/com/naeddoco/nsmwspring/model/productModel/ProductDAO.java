@@ -16,7 +16,7 @@ public class ProductDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	// 쿼리문
+	// 최근에 추가된 하나의 데이터를 가져오는 쿼리문
 	private static final String SELECTALL_LAST_ONE = "SELECT PRODUCT_ID FROM PRODUCT ORDER BY REGISTER_DATE DESC LIMIT 1";
 
 	private static final String SELECTONE = "";
@@ -52,19 +52,21 @@ public class ProductDAO {
 
 	private static final String DELETE = "";
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public List<ProductDTO> selectAll(ProductDTO productDTO) {
 		
-		if(productDTO.getSearchCondition().equals("getLastOne")) {
+		if(productDTO.getSearchCondition().equals("getLastOne")) { // 최근에 추가된 하나의 데이터를 습득
 		
-			return (List<ProductDTO>) jdbcTemplate.query(SELECTALL_LAST_ONE, new productRowMapper());
+			return (List<ProductDTO>) jdbcTemplate.query(SELECTALL_LAST_ONE, new selectAllRowMapper1());
 			
-		}
+		} 
 		
 		return null;
 
 	}
+	
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public ProductDTO selectOne(ProductDTO productDTO) {
 
@@ -72,7 +74,7 @@ public class ProductDAO {
 
 		try {
 
-			return jdbcTemplate.queryForObject(SELECTONE, args, new productRowMapper());
+			return jdbcTemplate.queryForObject(SELECTONE, args, new selectOneRowMapper1());
 
 		} catch (Exception e) {
 
@@ -82,7 +84,8 @@ public class ProductDAO {
 
 	}
 
-	// PK제외 모든 항목
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+	
 	public boolean insert(ProductDTO productDTO) {
 
 		System.out.println("[로그] product insert 처리 진입");
@@ -91,10 +94,11 @@ public class ProductDAO {
 
 		if (productDTO.getSearchCondition().equals("crawlProduct")) {
 
-			result = jdbcTemplate.update(INSERT, productDTO.getProductName(), productDTO.getProductDetail(),
-					productDTO.getCostPrice(), productDTO.getRetailPrice(), productDTO.getSalePrice(),
-					productDTO.getStock(), productDTO.getIngredient(), productDTO.getDosage(),
-					productDTO.getExpirationDate(), productDTO.getSaleState());
+			result = jdbcTemplate.update(INSERT, 
+										productDTO.getProductName(), productDTO.getProductDetail(), productDTO.getCostPrice(), 
+										productDTO.getRetailPrice(), productDTO.getSalePrice(), productDTO.getStock(), 
+										productDTO.getIngredient(), productDTO.getDosage(), productDTO.getExpirationDate(), 
+										productDTO.getSaleState());
 
 		}
 
@@ -108,27 +112,14 @@ public class ProductDAO {
 
 	}
 
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+	
 	public boolean update(ProductDTO productDTO) {
-		int result = jdbcTemplate.update(UPDATE, productDTO.getProductName(), productDTO.getProductDetail(),
-				productDTO.getCostPrice(), productDTO.getRetailPrice(), productDTO.getSalePrice(),
-				productDTO.getStock(), productDTO.getIngredient(), productDTO.getDosage(),
-				productDTO.getExpirationDate(), productDTO.getRegisterDate(), productDTO.getModifyDate(),
-				productDTO.getSaleState());
-
-		if (result <= 0) {
-
-			return false;
-
-		}
-
-		return true;
-
-	}
-
-	// 상품 영구 삭제기능 미지원
-	public boolean delete(ProductDTO productDTO) {
-
-		int result = jdbcTemplate.update(DELETE);
+		int result = jdbcTemplate.update(UPDATE, 
+										productDTO.getProductName(), productDTO.getProductDetail(), productDTO.getCostPrice(), 
+										productDTO.getRetailPrice(), productDTO.getSalePrice(), productDTO.getStock(), 
+										productDTO.getIngredient(), productDTO.getDosage(), productDTO.getExpirationDate(), 
+										productDTO.getRegisterDate(), productDTO.getModifyDate(), productDTO.getSaleState());
 
 		if (result <= 0) {
 
@@ -142,17 +133,44 @@ public class ProductDAO {
 
 }
 
-// 개발자의 편의를 위해 RowMapper 인터페이스를 사용
-class productRowMapper implements RowMapper<ProductDTO> {
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+class selectAllRowMapper1 implements RowMapper<ProductDTO> {
 	
 	@Override
 	public ProductDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-		
-		System.out.println("[로그] productRowMapper 처리 진입");
 
 		ProductDTO productDTO = new ProductDTO();
 		
 		productDTO.setProductID(rs.getInt("PRODUCT_ID"));
+
+		return productDTO;
+
+	}
+
+}
+
+class selectAllRowMapper2 implements RowMapper<ProductDTO> {
+	
+	@Override
+	public ProductDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+		ProductDTO productDTO = new ProductDTO();
+		
+		
+		
+		return productDTO;
+
+	}
+
+}
+
+class selectOneRowMapper1 implements RowMapper<ProductDTO> {
+	
+	@Override
+	public ProductDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+		ProductDTO productDTO = new ProductDTO();
 
 		return productDTO;
 

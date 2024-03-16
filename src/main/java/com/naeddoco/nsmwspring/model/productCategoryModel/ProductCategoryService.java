@@ -12,6 +12,4 @@ public interface ProductCategoryService {
 	
 	public boolean update(ProductCategoryDTO productCategoryDTO);
 	
-	public boolean delete(ProductCategoryDTO productCategoryDTO);
-	
 }

@@ -32,9 +32,4 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.update(productDTO);
 	}
 
-	@Override
-	public boolean delete(ProductDTO productDTO) {
-		return productDAO.delete(productDTO);
-	}
-
 }

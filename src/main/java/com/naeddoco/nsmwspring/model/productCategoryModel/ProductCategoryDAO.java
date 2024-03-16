@@ -28,7 +28,7 @@ public class ProductCategoryDAO {
 
 	private static final String DELETE = "";
 	
-/*------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
 
 	public List<ProductCategoryDTO> selectAll(ProductCategoryDTO productCategoryDTO) {
 		
@@ -37,6 +37,8 @@ public class ProductCategoryDAO {
 		return (List<ProductCategoryDTO>) jdbcTemplate.query(SELECTALL, new productCategoryRowMapper());
 		
 	}
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public ProductCategoryDTO selectOne(ProductCategoryDTO productCategoryDTO) {
 		
@@ -56,6 +58,8 @@ public class ProductCategoryDAO {
 		
 	}
 
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 	// PK제외 모든 항목
 	public boolean insert(ProductCategoryDTO productCategoryDTO) {
 		
@@ -72,6 +76,8 @@ public class ProductCategoryDAO {
 		return true;
 		
 	}
+	
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public boolean update(ProductCategoryDTO productCategoryDTO) {
 		
@@ -88,25 +94,10 @@ public class ProductCategoryDAO {
 		return true;
 		
 	}
-
-	// 상품 영구 삭제기능 미지원
-	public boolean delete(ProductCategoryDTO productCategoryDTO) {
 		
-		System.out.println("[로그] productCategory delete 처리 진입");
-		
-		int result = jdbcTemplate.update(DELETE);
-		
-		if (result <= 0) {
-			
-			return false;
-			
-		}
-		
-		return true;
-		
-	}
-	
 }
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 // 개발자의 편의를 위해 RowMapper 인터페이스를 사용
 class productCategoryRowMapper implements RowMapper<ProductCategoryDTO> {
