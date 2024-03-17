@@ -1,41 +1,14 @@
 package com.naeddoco.nsmwspring.model.cartModel;
 
+import lombok.Data;
+
+@Data
 public class CartDTO {
 
-	private int cartID;
-	private String memberID;
-	private int productID;
-	private int productQuantity;
+	private int cartID; // 장바구니 아이디
+	private String memberID; // 회원 아이디
+	private int productID; // 상품 아이디
+	private int productQuantity; //담기 수량
 	
-	public int getCartID() {
-		return cartID;
-	}
-	public void setCartID(int cartID) {
-		this.cartID = cartID;
-	}
-	public String getMemberID() {
-		return memberID;
-	}
-	public void setMemberID(String memberID) {
-		this.memberID = memberID;
-	}
-	public int getProductID() {
-		return productID;
-	}
-	public void setProductID(int productID) {
-		this.productID = productID;
-	}
-	public int getProductQuantity() {
-		return productQuantity;
-	}
-	public void setProductQuantity(int productQuantity) {
-		this.productQuantity = productQuantity;
-	}
-	
-	@Override
-	public String toString() {
-		return "CartDTO [cartID=" + cartID + ", memberID=" + memberID + ", productID=" + productID
-				+ ", productQuantity=" + productQuantity + ", toString()=" + super.toString() + "]";
-	}
-	
+    private String searchCondition; // 쿼리 분기 지정
 }

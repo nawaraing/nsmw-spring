@@ -6,36 +6,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-@Service("CartService")
+@Service("cartService")
 public class CartServiceImpl implements CartService{
 	
 	@Autowired
-	private CartDAO cDAO;
+	private CartDAO cartDAO;
 	
 	
 	@Override
-	public List<CartDTO> selectAll(CartDTO cDTO) {
-		return cDAO.selectAll(cDTO);
+	public List<CartDTO> selectAll(CartDTO cartDTO) {
+		return cartDAO.selectAll(cartDTO);
 	}
 
 	@Override
-	public CartDTO selectOne(CartDTO cDTO) {
-		return cDAO.selectOne(cDTO);
+	public CartDTO selectOne(CartDTO cartDTO) {
+		return cartDAO.selectOne(cartDTO);
 	}
 
 	@Override
-	public boolean insert(CartDTO cDTO) {
-		return cDAO.insert(cDTO);
+	public boolean insert(CartDTO cartDTO) {
+		return cartDAO.insert(cartDTO);
 	}
 
 	@Override
-	public boolean update(CartDTO cDTO) {
-		return cDAO.update(cDTO);
+	public boolean update(CartDTO cartDTO) {
+		return cartDAO.update(cartDTO);
 	}
 
 	@Override
-	public boolean delete(CartDTO cDTO) {
-		return cDAO.delete(cDTO);
+	public boolean delete(CartDTO cartDTO) {
+		return cartDAO.delete(cartDTO);
 	}
 		
 }
