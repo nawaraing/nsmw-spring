@@ -24,18 +24,18 @@
 			
 				<!-- 로그아웃 버튼 -->
 				<c:if test="${not empty member}">
-					<a class="btn border border-secondary text-primary rounded-pill position-relative my-auto me-4" href="logout.do">로그아웃</a>
+					<a class="btn border border-secondary text-primary rounded-pill position-relative my-auto me-4" href="/logout">로그아웃</a>
 				</c:if>
 				<!-- 로그아웃 버튼 -->
 				
 				
 				<!-- 장바구니 버튼 -->
 				<c:if test="${not empty member}">
-					<a href="cartPage.do" class="position-relative me-4 my-auto"> <i class="fa fa-shopping-bag fa-2x"></i>
+					<a href="/cart" class="position-relative me-4 my-auto"> <i class="fa fa-shopping-bag fa-2x"></i>
 					</a>
 				</c:if>
 				<c:if test="${empty member}">
-					<a href="loginPage.do" class="position-relative me-4 my-auto"> <i class="fa fa-shopping-bag fa-2x"></i>
+					<a href="/login" class="position-relative me-4 my-auto"> <i class="fa fa-shopping-bag fa-2x"></i>
 					</a>
 				</c:if>
 				<!-- 장바구니 버튼 -->
@@ -43,7 +43,7 @@
 				
 				<!-- 프로필 버튼 -->
 				<c:if test="${not empty member}">
-					<a href="mypage.do" class="my-auto"> <i class="fas fa-user fa-2x"></i>
+					<a href="/mypage" class="my-auto"> <i class="fas fa-user fa-2x"></i>
 					</a>
 				</c:if>
 				<!-- 프로필 버튼 -->
