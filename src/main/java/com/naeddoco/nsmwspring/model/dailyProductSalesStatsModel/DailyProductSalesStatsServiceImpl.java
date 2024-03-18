@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-@Service("dailyProductSalesStatsDAO")
+@Service("dailyProductSalesStatsService")
 public class DailyProductSalesStatsServiceImpl implements DailyProductSalesStatsService{
 
 	private DailyProductSalesStatsDAO dailyProductSalesStatsDAO;

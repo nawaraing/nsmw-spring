@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-@Repository("orderDAO")
+@Repository("orderInfoDAO")
 public class OrderInfoDAO {
 
 	// 의존관계 ▶ DI(의존주입)
