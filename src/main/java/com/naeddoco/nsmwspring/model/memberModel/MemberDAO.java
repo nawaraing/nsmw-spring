@@ -195,8 +195,10 @@ class MemberLoginRowMapper implements RowMapper<MemberDTO> {
 		MemberDTO data = new MemberDTO();
 
 		data.setMemberID(rs.getString("MEMBER_ID"));
+		data.setMemberID(rs.getString("AUTHORITY"));
 
 		log.debug(rs.getString("MEMBER_ID"));
+		log.debug(rs.getString("AUTHORITY"));
 
 		return data;
 
