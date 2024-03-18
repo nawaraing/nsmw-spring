@@ -16,7 +16,15 @@ public class OrderInfoDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	private static final String SELECTALL_TOTAL_QUANTITY_DESC_LIMIT_EIGHT = "SELECT PRODUCT_ID, SUM(BUY_QUANTITY) AS cnt FROM ORDER_INFO GROUP BY PRODUCT_ID ORDER BY cnt DESC LIMIT 8";
+	private static final String SELECTALL_TOTAL_QUANTITY_DESC_LIMIT_EIGHT = "SELECT p.PRODUCT_ID, p.PRODUCT_NAME, p.PRODUCT_DETAIL, c.CATEGORY_NAME, i.IMAGE_PATH, "
+																		  + "(SELECT SUM(BUY_QUANTITY) FROM ORDER_INFO o WHERE o.PRODUCT_ID = p.PRODUCT_ID) AS "
+																		  + "FROM PRODUCT p "
+																		  + "JOIN PRODUCT_CATEGORY pc ON p.PRODUCT_ID = pc.PRODUCT_ID "
+																		  + "JOIN CATEGORY c ON pc.CATEGORY_ID = c.CATEGORY_ID "
+																		  + "JOIN PRODUCT_IMAGE pi ON p.PRODUCT_ID = pi.PRODUCT_ID "
+																		  + "JOIN IMAGE i ON pi.IMAGE_ID = i.IMAGE_ID "
+																		  + "ORDER BY cnt DESC "
+																		  + "LIMIT 8";
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
