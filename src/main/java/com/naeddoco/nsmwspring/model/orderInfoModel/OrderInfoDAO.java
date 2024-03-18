@@ -28,11 +28,11 @@ public class OrderInfoDAO {
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-	public List<OrderInfoDTO> selectAll(OrderInfoDTO orderDTO) {
+	public List<OrderInfoDTO> selectAll(OrderInfoDTO orderInfoDTO) {
 		
 		System.out.println("[로그] orderInfo selectAll 처리 진입");
 		
-		if(orderDTO.getSearchCondition().equals("getUpperEight")) {
+		if(orderInfoDTO.getSearchCondition().equals("getUpperEight")) {
 			
 			try {
 				

@@ -23,7 +23,7 @@ public class OrderInfoDTO {
 	@Override
 	public String toString() {
 		
-		return "OrderDTO ["
+		return "OrderInfoDTO ["
 			    + "orderInfoID = " + orderInfoID + ", "
 				+ "buyInfoID = " + buyInfoID + ", "
 				+ "productID = " + productID + ", " 
