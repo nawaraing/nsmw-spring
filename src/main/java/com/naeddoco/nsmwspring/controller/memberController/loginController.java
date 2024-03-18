@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
 import com.naeddoco.nsmwspring.model.memberModel.MemberService;
@@ -16,12 +17,34 @@ public class loginController {
 
 	@Autowired
 	private MemberService memberService;
-
-	@PostMapping("/login")
-	public String test(@ModelAttribute("member") MemberDTO memberDTO, Model model, HttpSession session) {
+	
+	// 로그인 페이지로 이동하는 버튼을 눌렀을 때 기능
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String loginPage(@ModelAttribute("member") MemberDTO memberDTO, Model model, HttpSession session) {
+		
+		// 로그인 페이지 로그
+		System.out.println("[log] Controller 로그인 페이지 이동");
+		
+		return "login";
+	}
+	
+	
+	// 회원 정보를 모두 입력한 후 로그인 버튼의 기능
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@ModelAttribute("member") MemberDTO memberDTO, Model model, HttpSession session) {
+		
+		// 정보 입력 후 로그인버튼 클릭 시 기능
+		System.out.println("[log] Controller 로그인 버튼 클릭");
+		
+		// 입력된 ID와 PW
+		System.out.println("[log] Controller ID 및 PW\n[ID]" + memberDTO.getMemberID() + "\n[PW]" + memberDTO.getMemberPassword());
 		
 		// 쿼리문 실행결과를 memberDTO에 저장
+		memberDTO.setSearchCondition("memberLogin");
 		memberDTO = memberService.selectOne(memberDTO);
+		
+		// selectOne 결과 로그
+		System.out.println("[log] Controller 로그인 결과\n" + memberDTO);
 
 		// memberDTO의 값에 따른 return값 지정
 		// memberDTO의 값이 있다면?
@@ -54,14 +77,18 @@ public class loginController {
 				}			
 			}
 			
+			System.out.println("[log] Controller 탈퇴한 회원 로그인");
+			
 			// 회원이 탈퇴상태라면 
 			model.addAttribute("mag", "탈퇴한 회원입니다");
-			return "goBack";
+			return "main";
 		}
+		
+		System.out.println("[log] Controller 일치하는 회원 없음");
 
 		// 로그인 실패 메세지 전달
 		model.addAttribute("msg", "일치하는 회원이 없습니다");
 		// 로그인 실패로 다시 goBack.jsp 페이지로 이동
-		return "goBack";
+		return "main";
 	}
 }

@@ -51,7 +51,7 @@
 				
 				<!-- 로그인 버튼 -->
 				<c:if test="${empty member}">
-					<a class="btn border border-secondary text-primary rounded-pill position-relative my-auto me-4" href="loginPage.do">로그인</a>
+					<a class="btn border border-secondary text-primary rounded-pill position-relative my-auto me-4" href="/login">로그인</a>
 				</c:if>
 				<!-- 로그인 버튼 -->
 				

@@ -89,9 +89,9 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-6">
 					<!-- 로그인 폼 -->
-					<form action="login.do" method="POST">
-						<input class="form-control p-3 border-secondary my-3" type="text" name="MID" placeholder="아이디" required> 
-						<input class="form-control p-3 border-secondary my-3" type="password" name="mPassword" placeholder="비밀번호" required>
+					<form action="/login" method="POST">
+						<input class="form-control p-3 border-secondary my-3" type="text" name="memberID" placeholder="아이디" required> 
+						<input class="form-control p-3 border-secondary my-3" type="password" name="memberPassword" placeholder="비밀번호" required>
 						<input class="btn border-secondary text-primary rounded-pill py-3 px-5 my-3" type="submit" value="로그인"> 
 						<a class="btn border-secondary text-primary rounded-pill py-3 px-5 my-3" href="termsPage.do">회원가입</a>
 					</form>
