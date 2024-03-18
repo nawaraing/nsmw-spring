@@ -1,11 +1,11 @@
-package com.naeddoco.nsmwspring.model.orderModel;
+package com.naeddoco.nsmwspring.model.orderInfoModel;
 
 import lombok.Data;
 
 @Data
-public class OrderDTO {
+public class OrderInfoDTO {
 	
-	private int orderID;
+	private int orderInfoID;
 	private int buyInfoID;
 	private int productID;
 	private int memberCouponID;
@@ -19,7 +19,7 @@ public class OrderDTO {
 	public String toString() {
 		
 		return "OrderDTO ["
-			    + "orderID = " + orderID + ", "
+			    + "orderInfoID = " + orderInfoID + ", "
 				+ "buyInfoID = " + buyInfoID + ", "
 				+ "productID = " + productID + ", " 
 				+ "memberCouponID = " + memberCouponID + ", " 

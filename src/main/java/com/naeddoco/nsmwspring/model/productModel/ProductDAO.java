@@ -17,7 +17,7 @@ public class ProductDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	// 최근에 추가된 하나의 데이터를 가져오는 쿼리문
-	private static final String SELECTALL_LAST_ONE = "SELECT PRODUCT_ID FROM PRODUCT ORDER BY REGISTER_DATE DESC LIMIT 1";
+	private static final String SELECTALL_GET_LAST_ONE = "SELECT PRODUCT_ID FROM PRODUCT ORDER BY REGISTER_DATE DESC LIMIT 1";
 
 	private static final String SELECTONE = "";
 
@@ -50,15 +50,13 @@ public class ProductDAO {
 
 	private static final String UPDATE = "";
 
-	private static final String DELETE = "";
-
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public List<ProductDTO> selectAll(ProductDTO productDTO) {
 		
 		if(productDTO.getSearchCondition().equals("getLastOne")) { // 최근에 추가된 하나의 데이터를 습득
 		
-			return (List<ProductDTO>) jdbcTemplate.query(SELECTALL_LAST_ONE, new selectAllRowMapper1());
+			return (List<ProductDTO>) jdbcTemplate.query(SELECTALL_GET_LAST_ONE, new selectAllRowMapper1());
 			
 		} 
 		
@@ -156,8 +154,6 @@ class selectAllRowMapper2 implements RowMapper<ProductDTO> {
 	public ProductDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 
 		ProductDTO productDTO = new ProductDTO();
-		
-		
 		
 		return productDTO;
 
