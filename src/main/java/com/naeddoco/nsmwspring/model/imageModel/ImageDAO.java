@@ -15,26 +15,53 @@ import lombok.extern.slf4j.Slf4j;
 @Repository("imageDAO")
 @Slf4j
 public class ImageDAO {
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	private static final String SELECTALL = "";
+	// 최근에 추가된 하나의 데이터를 가져오는 쿼리문
+	private static final String SELECTALL_GET_LAST_ONE = "SELECT IMAGE_ID FROM IMAGE ORDER BY IMAGE_ID DESC LIMIT 1";
 
 	private static final String SELECTONE = "";
 	
-	private static final String INSERT = "";
+	private static final String INSERT = "INSERT INTO IMAGE (IMAGE_PATH) VALUES (?)";
 	
 	private static final String UPDATE = "";
 	
 	private static final String DELETE = "";
 	
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/		
 	
 	public List<ImageDTO> selectAll(ImageDTO imageDTO) {
-		log.debug("selectAll start");
-		return (List<ImageDTO>)jdbcTemplate.query(SELECTALL, new ImageRowMapper());
+		
+		log.debug("[로그] image selectAll 처리 진입");
+		
+		if(imageDTO.getSearchCondition().equals("getLastOne")) {
+		
+			try {
+				
+				log.debug("[로그] image selectAll 처리 성공");
+			
+				return (List<ImageDTO>)jdbcTemplate.query(SELECTALL_GET_LAST_ONE, new ImageRowMapper());
+		
+			} catch (Exception e) {
+				
+				log.debug("[로그] image selectAll 예외 발생");
+
+				return null;
+
+			}
+		
+		}
+		
+		log.debug("[로그] image selectAll 처리 실패");
+		
+		return null;
+		
 	}
 
-	
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+
 	public ImageDTO selectOne(ImageDTO imageDTO) {
 
 //		Object[] args = { gradeDTO.getGradeID() };
@@ -47,20 +74,31 @@ public class ImageDAO {
 			return null;
 //		}
 	}
-
 	
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+
 	public boolean insert(ImageDTO imageDTO) {
+		
+		log.debug("[로그] image insert 처리 진입");
 	
-//		int result = jdbcTemplate.update(INSERT);
-//		if(result <= 0) {
-//			log.debug("insert 실패");
+		int result = jdbcTemplate.update(INSERT, imageDTO.getImagePath());
+		
+		if(result <= 0) {
+			
+			log.debug("[로그] image insert 처리 실패");
+			
 			return false;
-//		}
-//		log.debug("insert 성공");
-//		return true;
+			
+		}
+		
+		log.debug("[로그] image insert 처리 성공");
+		
+		return true;
+		
 	}
-
 	
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+
 	public boolean update(ImageDTO imageDTO) {
 
 //		int result = jdbcTemplate.update(UPDATE);
@@ -71,8 +109,9 @@ public class ImageDAO {
 //		log.debug("update 성공");
 //		return true;
 	}
-
 	
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+
 	public boolean delete(ImageDTO gradeDTO) {
 		
 //		int result = jdbcTemplate.update(DELETE);
@@ -85,20 +124,20 @@ public class ImageDAO {
 	}	
 }
 
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+
 //개발자의 편의를 위해 RowMapper 인터페이스를 사용
-@Slf4j
 class ImageRowMapper implements RowMapper<ImageDTO> {
+	
 	@Override
 	public ImageDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-		ImageDTO data = new ImageDTO();
 		
-		data.setImageID(rs.getInt("IMAGE_ID"));
-		data.setImagePath(rs.getString("IMAGE_PATH"));
-			
-		log.debug(Integer.toString(rs.getInt("IMAGE_ID")));
-		log.debug(rs.getString("IMAGE_PATH"));
+		ImageDTO imageDTO = new ImageDTO();
 		
-		return data;
+		imageDTO.setImageID(rs.getInt("IMAGE_ID"));
+		
+		return imageDTO;
+		
 	}
 	
 }
