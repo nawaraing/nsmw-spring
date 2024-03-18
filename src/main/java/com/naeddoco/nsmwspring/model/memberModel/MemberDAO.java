@@ -23,11 +23,12 @@ public class MemberDAO {
 	private static final String SELECTALL = "SELECT MEMBER_ID, MEMBER_PASSWORD, MEMBER_NAME, "
 			+ "DAY_OF_BIRTH, GENDER, PHONE_NUMBER, EMAIL, AUTHORITY, MEMBER_STATE FROM MEMBER";
 	
-	// 로그인(내또코 회원) + 마이페이지PW확인
-	// 아이디와 비밀번호가 같은 행의 아이디를 확인
+	// 로그인(내또코 회원) (+ 마이페이지PW확인)
+	// 아이디와 비밀번호가 같은 행의 MEMBER_ID를 확인
 	// MEMBER_STATE가 JOIN인지도 함께 확인
+	// 일치하는 회원아이디와 권한(USER or ADMIN) 전달
 	// 로그인시 MEMBER_STATE가 JOIN이 아닐 경우 로그인 실패
-	private static final String SELECTONE_MEMBER_LOGIN = "SELECT MEMBER_ID FROM MEMBER "
+	private static final String SELECTONE_MEMBER_LOGIN = "SELECT MEMBER_ID, AUTHORITY FROM MEMBER "
 			+ "WHERE MEMBER_ID = ? "
 			+ "AND MEMBER_PASSWORD = ? "
 			+ "AND MEMBER_STATE = 'JOIN'";
