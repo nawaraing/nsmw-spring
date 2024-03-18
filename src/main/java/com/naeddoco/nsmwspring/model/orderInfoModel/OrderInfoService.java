@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface OrderInfoService {
 
-	public List<OrderInfoDTO> selectAll(OrderInfoDTO orderDTO);
+	public List<OrderInfoDTO> selectAll(OrderInfoDTO orderInfoDTO);
 
 }

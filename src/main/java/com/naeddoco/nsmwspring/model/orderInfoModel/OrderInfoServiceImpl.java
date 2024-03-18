@@ -12,11 +12,11 @@ import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryDTO;
 public class OrderInfoServiceImpl implements OrderInfoService {
 
 	@Autowired
-	private OrderInfoDAO orderDAO;
+	private OrderInfoDAO orderInfoDAO;
 	
 	@Override
-	public List<OrderInfoDTO> selectAll(OrderInfoDTO orderDTO) {
-		return orderDAO.selectAll(orderDTO);
+	public List<OrderInfoDTO> selectAll(OrderInfoDTO orderInfoDTO) {
+		return orderInfoDAO.selectAll(orderInfoDTO);
 	}
 	
 }
