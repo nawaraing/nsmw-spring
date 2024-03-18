@@ -1,4 +1,4 @@
-package com.naeddoco.nsmwspring.model.orderModel;
+package com.naeddoco.nsmwspring.model.orderInfoModel;
 
 import java.util.List;
 
@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryDAO;
 import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryDTO;
 
-@Service("orderService")
-public class OrderServiceImpl implements OrderService {
+@Service("orderInfoService")
+public class OrderInfoServiceImpl implements OrderInfoService {
 
 	@Autowired
-	private OrderDAO orderDAO;
+	private OrderInfoDAO orderDAO;
 	
 	@Override
-	public List<OrderDTO> selectAll(OrderDTO orderDTO) {
+	public List<OrderInfoDTO> selectAll(OrderInfoDTO orderDTO) {
 		return orderDAO.selectAll(orderDTO);
 	}
 	
