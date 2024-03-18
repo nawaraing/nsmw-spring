@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository("memberDAO")
+@Slf4j
 public class MemberDAO {
 
 	// 의존관계 ▶ DI(의존주입)
@@ -31,6 +32,7 @@ public class MemberDAO {
 			+ "AND MEMBER_PASSWORD = ? "
 			+ "AND MEMBER_STATE = 'JOIN'";
 
+	//현재 미지원 기능
 	//회원 탈퇴시 해당하는 MEMBER_ID의 MEMBER_STATE를 'LEAVE'로 변경
 	//해당 회원의 ID 삭제시 구매내역 등 여러 정보가 불일치될 수 있기때문에 회원 상태만 변경함
 	private static final String UPDATE_MEMBER_STATE = "UPDATE MEMBER "
@@ -78,7 +80,7 @@ public class MemberDAO {
 //	private static final String DELETE = "";
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
+	
 	public List<MemberDTO> selectAll(MemberDTO memberDTO) {
 
 		return (List<MemberDTO>) jdbcTemplate.query(SELECTALL, new MemberRowMapper());
@@ -86,19 +88,25 @@ public class MemberDAO {
 	}
 
 	public MemberDTO selectOne(MemberDTO memberDTO) {
+		
 		if (memberDTO.getSearchCondition().equals("memberLogin")) {
 			
-			Object[] args = { memberDTO.getMemberID(), memberDTO.getMemberPassword() };
+			log.debug("selectOne start");
+			
+			Object[] args = {memberDTO.getMemberID(), memberDTO.getMemberPassword()};
 
 			try {
+				log.debug("selectOne start 진입");
 
-				return jdbcTemplate.queryForObject(SELECTONE_MEMBER_LOGIN, args, new MemberRowMapper());
+				return jdbcTemplate.queryForObject(SELECTONE_MEMBER_LOGIN, args, new MemberLoginRowMapper());
 
 			} catch (Exception e) {
+				log.debug("selectOne Exception");
 
 				return null;
 			}
 		}
+		log.debug("selectOne 진입 실패");
 		return null;
 	}
 
@@ -114,15 +122,18 @@ public class MemberDAO {
 //		return true;
 	}
 
-	
+	//현재 미지원 기능
 	public boolean update(MemberDTO memberDTO) {
 		
+		log.debug("update start");
 		if (memberDTO.getSearchCondition().equals("memberleave")) {
 			int result = jdbcTemplate.update(UPDATE_MEMBER_STATE, memberDTO.getMemberState());
 
 			if (result <= 0) {
+				log.debug("update 실패");
 				return false;
 			}
+			log.debug("update 성공");
 			return true;
 		}
 		return false;
@@ -130,7 +141,7 @@ public class MemberDAO {
 
 	public boolean delete(MemberDTO memberDTO) {
 
-//		int result = jdbcTemplate.update(DELETE, memberDTO.getMemberID(), memberDTO.getMemberPassword());
+//		int result = jdbcTemplate.update(DELETE);
 //
 //		if (result <= 0) {
 			return false;
@@ -146,29 +157,47 @@ class MemberRowMapper implements RowMapper<MemberDTO> {
 	@Override
 	public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-		MemberDTO memberDTO = new MemberDTO();
+		MemberDTO data = new MemberDTO();
 
-		memberDTO.setMemberID(rs.getString("MEMBER_ID"));
-		memberDTO.setMemberPassword(rs.getString("MEMBER_PASSWORD"));
-		memberDTO.setMemberName(rs.getString("MEMBER_NAME"));
-		memberDTO.setDayOfBirth(rs.getString("DAY_OF_BIRTH"));
-		memberDTO.setGender(rs.getString("GENDER"));
-		memberDTO.setPhoneNumber(rs.getString("PHONE_NUMBER"));
-		memberDTO.setEmail(rs.getString("EMAIL"));
-		memberDTO.setAuthority(rs.getString("AUTHORITY"));
-		memberDTO.setMemberState(rs.getString("MEMBER_STATE"));
+		data.setMemberID(rs.getString("MEMBER_ID"));
+		data.setMemberPassword(rs.getString("MEMBER_PASSWORD"));
+		data.setMemberName(rs.getString("MEMBER_NAME"));
+		data.setDayOfBirth(rs.getString("DAY_OF_BIRTH"));
+		data.setGender(rs.getString("GENDER"));
+		data.setPhoneNumber(rs.getString("PHONE_NUMBER"));
+		data.setEmail(rs.getString("EMAIL"));
+		data.setAuthority(rs.getString("AUTHORITY"));
+		data.setMemberState(rs.getString("MEMBER_STATE"));
 
-		log.info(rs.getString("MEMBER_ID"));
-		log.info(rs.getString("MEMBER_PASSWORD"));
-		log.info(rs.getString("MEMBER_NAME"));
-		log.info(rs.getString("DAY_OF_BIRTH"));
-		log.info(rs.getString("GENDER"));
-		log.info(rs.getString("PHONE_NUMBER"));
-		log.info(rs.getString("EMAIL"));
-		log.info(rs.getString("AUTHORITY"));
-		log.info(rs.getString("MEMBER_STATE"));
+		log.debug(rs.getString("MEMBER_ID"));
+		log.debug(rs.getString("MEMBER_PASSWORD"));
+		log.debug(rs.getString("MEMBER_NAME"));
+		log.debug(rs.getString("DAY_OF_BIRTH"));
+		log.debug(rs.getString("GENDER"));
+		log.debug(rs.getString("PHONE_NUMBER"));
+		log.debug(rs.getString("EMAIL"));
+		log.debug(rs.getString("AUTHORITY"));
+		log.debug(rs.getString("MEMBER_STATE"));
 
-		return memberDTO;
+		return data;
+
+	}
+
+}
+
+@Slf4j
+class MemberLoginRowMapper implements RowMapper<MemberDTO> {
+
+	@Override
+	public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+		MemberDTO data = new MemberDTO();
+
+		data.setMemberID(rs.getString("MEMBER_ID"));
+
+		log.debug(rs.getString("MEMBER_ID"));
+
+		return data;
 
 	}
 
