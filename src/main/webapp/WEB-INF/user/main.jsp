@@ -91,7 +91,7 @@
 
         function openPopup() {
         	// 팝업창이 작성되어 있는 JSP파일 주소
-            var popupURL = "popupTest.jsp"; 
+            var popupURL = "popup.jsp";
         	// 팝업창 이름
             var popupName = "popupPage";
         	// 팝업창 너비
@@ -113,11 +113,11 @@
 
 	<%-- 장바구니 추가 비동기처리 --%>
 	<script>
-		function addItemToCart(PID) {
+		function addItemToCart(productID) {
 			$.ajax({
 				type : "POST", // 또는 "GET"
 				url : "insertCart", // 서버에서 아이디 중복 확인을 처리할 PHP 파일 경로
-				data : {'PID' : PID},
+				data : {'productID' : productID},
 				success : function(data) {
 					console.log(data);
 					if (data === "true") {
@@ -187,7 +187,7 @@
 					<c:if test="${fn:length(recommandProducts) > 0}">
 						<c:forEach var="data" items="${recommandProducts}" varStatus="loop">
 							<div class="border border-primary rounded position-relative vesitable-item">
-								<div class="vesitable-img" onclick='location.href="/productDetail?PID=${data.productID}";'>
+								<div class="vesitable-img" onclick='location.href="productDetail?productID=${data.productID}";'>
 									<img src="${data.ancImagePath}" class="img-fluid w-100 rounded-top">
 								</div>
 								<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.ancCategoryName}</div>
@@ -250,10 +250,10 @@
 												<c:forEach var="data" items="${allProducts}" varStatus="loop">
 													<div class="col-md-6 col-lg-4 col-xl-3">
 														<div class="p-4 border border-secondary rounded position-relative fruite-item">
-															<div class="fruite-img" onclick='location.href="productDetailPage.do?PID=${data.productID}";'>
+															<div class="fruite-img" onclick='location.href="productDetail?productID=${data.productID}";'>
 																<img src=${data.ancImagePath } class="img-fluid w-100 rounded-top" alt="">
 															</div>
-															<div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;" onclick='location.href="productDetailPage.do?PID=${data.productID}";'>${data.ancCategoryName}</div>
+															<div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;" onclick='location.href="productDetail?productID=${data.productID}";'>${data.ancCategoryName}</div>
 															<div>
 																<h4>${data.ancProductName}</h4>
 																<div>

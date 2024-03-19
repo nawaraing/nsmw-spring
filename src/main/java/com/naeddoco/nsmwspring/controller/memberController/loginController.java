@@ -71,7 +71,7 @@ public class loginController {
 
 				model.addAttribute("msg", memberDTO.getMemberName() + "관리자님 환영합니다");
 				// 관리자 메인페이지로 이동
-				return "adminMain";
+				return "dashboard";
 			}
 		}
 
