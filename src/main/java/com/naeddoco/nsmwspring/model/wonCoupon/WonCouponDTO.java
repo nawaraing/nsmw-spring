@@ -9,4 +9,6 @@ public class WonCouponDTO {
 	private int couponDiscountAmount; 	// 할인액
 	private int minOrderAmount;			// 최소 구매 금액
 	
+	private String searchCondition; 	// 쿼리 분기
+	
 }

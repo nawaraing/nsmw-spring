@@ -11,4 +11,6 @@ public class MonthlySalesStatsDTO {
 	private int monthlyTotalGrossMargine;		// 매출
 	private int monthlyTotalNetProfit;			// 이익 = 매출 - 원가
 	
+	private String searchCondition; 			// 쿼리 분기
+	
 }

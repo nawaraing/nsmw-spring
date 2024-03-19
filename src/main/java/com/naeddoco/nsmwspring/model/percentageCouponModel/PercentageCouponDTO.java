@@ -9,4 +9,6 @@ public class PercentageCouponDTO {
 	private int couponDiscountRate;	// 할인율
 	private int maxDiscountAmount;	// 최대 할인 금액
 	
+	private String searchCondition; // 쿼리 분기
+	
 }

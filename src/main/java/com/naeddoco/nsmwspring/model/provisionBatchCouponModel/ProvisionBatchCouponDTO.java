@@ -8,4 +8,6 @@ public class ProvisionBatchCouponDTO {
 	private int CouponID;				// 쿠폰 아이디
 	private String deployStatus;		// 배포 상태
 	
+	private String searchCondition; 	// 쿼리 분기
+	
 }
