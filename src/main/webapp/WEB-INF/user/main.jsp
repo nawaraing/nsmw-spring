@@ -187,7 +187,7 @@
 					<c:if test="${fn:length(rcmDTOs) > 0}">
 						<c:forEach var="data" items="${rcmDTOs}" varStatus="loop">
 							<div class="border border-primary rounded position-relative vesitable-item">
-								<div class="vesitable-img" onclick='location.href="productDetailPage.do?PID=${data.productID}";'>
+								<div class="vesitable-img" onclick='location.href="/productDetail?PID=${data.productID}";'>
 									<img src="${data.ancImagePath}" class="img-fluid w-100 rounded-top">
 								</div>
 								<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.ancCategoryName}</div>
@@ -234,7 +234,7 @@
 							<div class="col-lg-8 text-end">
 								<ul class="nav nav-pills d-inline-flex text-center mb-5">
 									<li class="nav-item">
-										<a class="d-flex m-2 py-2 bg-light rounded-pill active" href="productAllPage.do"> 
+										<a class="d-flex m-2 py-2 bg-light rounded-pill active" href="/productAll"> 
 											<span class="text-dark" style="width: 130px;">All Products</span>
 										</a>
 									</li>
@@ -268,7 +268,7 @@
 																		<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${data.productID})">장바구니 추가</button>
 																	</c:if>
 																	<c:if test="${member == null}">
-																		<a href="loginPage.do" class="btn border border-secondary rounded-pill px-3 text-primary"> <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+																		<a href="/login" class="btn border border-secondary rounded-pill px-3 text-primary"> <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
 																		</a>
 																	</c:if>
 																</div>
