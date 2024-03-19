@@ -25,7 +25,8 @@ public class CartDAO {
 
 	private static final String SELECTONE_CART = "";
 	
-	private static final String INSERT_CART = "";
+	//장바구니 추가
+	private static final String INSERT_CART = "INSERT INTO CART (MEMBER_ID, PRODUCT_ID, PRODUCT_QUANTITY) VALUES (?, ?, ?);";
 	
 	private static final String UPDATE_CART = "";
 	
@@ -53,17 +54,24 @@ public class CartDAO {
 
 	
 	public boolean insert(CartDTO cartDTO) {
-	
-//		int result = jdbcTemplate.update(INSERT_CART,
-//											cartDTO.getMemberID(),
-//											cartDTO.getProductID(),
-//											cartDTO.getProductQuantity());
-//		if(result <= 0) {
-//			log.debug("insert 실패");
-			return false;
-//		}
-//		log.debug("insert 성공");
-//		return true;
+		log.debug("insert 진입");
+		
+		//장바구니 추가
+		if (cartDTO.getSearchCondition().equals("insertProductData")) {
+			log.debug("insert_cart 진입");
+			int result = jdbcTemplate.update(INSERT_CART,
+											cartDTO.getMemberID(),
+											cartDTO.getProductID(),
+											cartDTO.getProductQuantity());
+			if(result <= 0) {
+				log.debug("insert_cart 실패");
+				return false;
+			}
+			log.debug("insert_cart 성공");
+			return true;
+		}
+		log.debug("insert 실패");
+		return false;
 	}
 
 	
