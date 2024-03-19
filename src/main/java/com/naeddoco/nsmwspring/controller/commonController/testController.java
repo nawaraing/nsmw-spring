@@ -12,7 +12,7 @@ public class testController {
 		
 		System.out.println("[log] Controller root요청");
 		
-		return "index";
+		return "user/index";
 		
 	}
 }

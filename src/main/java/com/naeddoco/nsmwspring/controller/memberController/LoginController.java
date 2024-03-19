@@ -25,7 +25,7 @@ public class LoginController {
 		// 로그인 페이지 로그
 		System.out.println("[log] Controller 로그인 페이지 이동");
 
-		return "login";
+		return "user/login";
 	}
 
 	// 회원 정보를 모두 입력한 후 로그인 버튼의 기능
@@ -60,7 +60,7 @@ public class LoginController {
 
 				model.addAttribute("msg", memberDTO.getMemberName() + "님 환영합니다");
 				// 메인페이지로 이동
-				return "main";
+				return "user/main";
 
 				// 로그인에 성공했지만 회원 권한이 USER가 아닐때
 				// 오류로인한 관리자페이지 이동을 막기위한 else if 사용
@@ -71,7 +71,7 @@ public class LoginController {
 
 				model.addAttribute("msg", memberDTO.getMemberName() + "관리자님 환영합니다");
 				// 관리자 메인페이지로 이동
-				return "dashboard";
+				return "admin/dashboard";
 			}
 		}
 
@@ -80,6 +80,6 @@ public class LoginController {
 		// 로그인 실패 메세지 전달
 		model.addAttribute("msg", "일치하는 회원이 없습니다");
 		// 로그인 실패로 다시 goBack.jsp 페이지로 이동
-		return "main";
+		return "user/main";
 	}
 }

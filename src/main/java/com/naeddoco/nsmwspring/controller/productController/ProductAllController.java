@@ -15,6 +15,6 @@ public class ProductAllController {
 		
 		
 		// 이동할 페이지명
-		return "productAll";
+		return "user/productAll";
 	}
 }
