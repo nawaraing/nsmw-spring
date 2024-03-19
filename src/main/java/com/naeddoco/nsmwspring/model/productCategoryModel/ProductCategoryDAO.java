@@ -25,8 +25,6 @@ public class ProductCategoryDAO {
 	private static final String INSERT = "INSERT INTO PRODUCT_CATEGORY (PRODUCT_ID, CATEGORY_ID) VALUES (?, ?)";
 
 	private static final String UPDATE = "";
-
-	private static final String DELETE = "";
 	
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
 
@@ -69,9 +67,13 @@ public class ProductCategoryDAO {
 	
 		if (result <= 0) {
 			
+			System.out.println("[로그] productCategory insert 처리 실패");
+			
 			return false;
 			
 		}
+		
+		System.out.println("[로그] productCategory insert 처리 성공");
 		
 		return true;
 		
