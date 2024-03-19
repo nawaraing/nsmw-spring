@@ -37,7 +37,9 @@ public class mainPageController {
 			
 		} else { // 유저의 세션 정보가 있을 경우
 			
-			buyInfoDTO.setSearchCondition("getNotBuyProduct");
+			
+			// 구매까지 구현후에 알맞은 알고리즘 추천으로 변경이 필요
+			model.addAttribute("recommandProducts", orderDTOList); // 메인 상단 상품 리스트 정보
 						
 		}
 		
