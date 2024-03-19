@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="model.dto.*,java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="com.naeddoco.nsmwspring.model.*, java.util.ArrayList"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -187,29 +187,29 @@
 					<c:if test="${fn:length(rcmDTOs) > 0}">
 						<c:forEach var="data" items="${rcmDTOs}" varStatus="loop">
 							<div class="border border-primary rounded position-relative vesitable-item">
-								<div class="vesitable-img" onclick='location.href="productDetailPage.do?PID=${data.PID}";'>
-									<img src="${data.imagePath}" class="img-fluid w-100 rounded-top">
+								<div class="vesitable-img" onclick='location.href="productDetailPage.do?PID=${data.productID}";'>
+									<img src="${data.ancImagePath}" class="img-fluid w-100 rounded-top">
 								</div>
-								<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.category}</div>
+								<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.ancCategoryName}</div>
 								<div class="p-4 rounded-bottom">
-									<h4 style="text-align: center;">${data.pName}</h4>
-									<custom:starRateMain1 score='${data.ancAvgRating}' index='${loop.index}'/>
+									<h4 style="text-align: center;">${data.ancProductName}</h4>
+									<custom:starRateMain1 score='3' index='${loop.index}'/>
 									<div class="line-clamp my-2">
-										<p>${data.pDetail}</p>
+										<p>${data.ancProductDetail}</p>
 									</div>
 									<div class="d-flex justify-content-between flex-lg-wrap">
 										<div class="row">
 											<div class="col">
-												<p class="text-dark fs-5 fw-bold mb-0 my-2"><fmt:formatNumber value="${data.sellingPrice}" currencyCode="KRW" />원</p>
+												<p class="text-dark fs-5 fw-bold mb-0 my-2"><fmt:formatNumber value="${data.ancSalePrice}" currencyCode="KRW" />원</p>
 											</div>
 										</div>
 										<c:if test="${member != null}">
 											<div class="row">
-												<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${data.PID})">장바구니 추가</button>
+												<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${data.productID})">장바구니 추가</button>
 											</div>
 										</c:if>
 										<c:if test="${member == null}">
-											<a href="loginPage.do" class="btn border border-secondary rounded-pill px-3 text-primary"> 
+											<a href="/login" class="btn border border-secondary rounded-pill px-3 text-primary"> 
 												<i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
 											</a>
 										</c:if>
@@ -255,17 +255,17 @@
 															</div>
 															<div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;" onclick='location.href="productDetailPage.do?PID=${data.PID}";'>${data.category}</div>
 															<div>
-																<h4>${data.pName}</h4>
+																<h4>${data.ancProductName}</h4>
 																<div>
-																	<custom:starRateMain2 score='${data.ancAvgRating}' index='${loop.index}'/>
+																	<custom:starRateMain2 score='3' index='${loop.index}'/>
 																</div>
 																<div class="line-clamp my-2">
-																	<p>${data.pDetail}</p>
+																	<p>${data.ancProductDetail}</p>
 																</div>
 																<div class="d-flex justify-content-between flex-lg-wrap">
-																	<p class="text-dark fs-5 fw-bold mb-0"><fmt:formatNumber value="${data.sellingPrice}" currencyCode="KRW" />원</p>
+																	<p class="text-dark fs-5 fw-bold mb-0"><fmt:formatNumber value="${data.ancSalePrice}" currencyCode="KRW" />원</p>
 																	<c:if test="${member != null}">
-																		<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${data.PID})">장바구니 추가</button>
+																		<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${data.productID})">장바구니 추가</button>
 																	</c:if>
 																	<c:if test="${member == null}">
 																		<a href="loginPage.do" class="btn border border-secondary rounded-pill px-3 text-primary"> <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
