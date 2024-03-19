@@ -41,7 +41,7 @@ public class CouponCategoryDAO {
 //		log.debug("selectOne start");
 //	
 //		try {
-//			return jdbcTemplate.queryForObject(SELECTONE, args, new CartRowMapper());
+//			return jdbcTemplate.queryForObject(SELECTONE, args, new CouponCategoryRowMapper());
 //		} catch (Exception e) {
 //			log.debug("selectOne 예외처리");
 			return null;
@@ -89,9 +89,11 @@ public class CouponCategoryDAO {
 class CouponCategoryRowMapper implements RowMapper<CouponCategoryDTO> {
 	@Override
 	public CouponCategoryDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
 		CouponCategoryDTO data = new CouponCategoryDTO();
+		
 		data.setCouponCategoryID(rs.getInt("COUPON_CATEGORY_ID"));
-		data.setCouponCategoryID(rs.getInt("COUPON_ID"));
+		data.setCouponID(rs.getInt("COUPON_ID"));
 		data.setCategoryID(rs.getInt("CATEGORY_ID"));
 			
 		return data;
