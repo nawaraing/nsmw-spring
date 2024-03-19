@@ -22,7 +22,7 @@ public class mainPageController {
 	@Autowired
 	private BuyInfoService buyInfoService;
 
-	@GetMapping("/")
+	@GetMapping("/main")
 	public String test(HttpSession session, Model model, OrderInfoDTO orderDTO, BuyInfoDTO buyInfoDTO) {
 
 		String member = (String) session.getAttribute("member"); // 세션에서 사용자 이름 가져오기
