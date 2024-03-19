@@ -13,7 +13,7 @@ import com.naeddoco.nsmwspring.model.memberModel.MemberService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class loginController {
+public class LoginController {
 
 	@Autowired
 	private MemberService memberService;
