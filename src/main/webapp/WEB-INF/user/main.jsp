@@ -187,7 +187,7 @@
 					<c:if test="${fn:length(recommandProducts) > 0}">
 						<c:forEach var="data" items="${recommandProducts}" varStatus="loop">
 							<div class="border border-primary rounded position-relative vesitable-item">
-								<div class="vesitable-img" onclick='location.href="productDetail?productID=${data.productID}";'>
+								<div class="vesitable-img" onclick='location.href="user/productDetail?productID=${data.productID}";'>
 									<img src="${data.ancImagePath}" class="img-fluid w-100 rounded-top">
 								</div>
 								<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.ancCategoryName}</div>
@@ -250,10 +250,10 @@
 												<c:forEach var="data" items="${allProducts}" varStatus="loop">
 													<div class="col-md-6 col-lg-4 col-xl-3">
 														<div class="p-4 border border-secondary rounded position-relative fruite-item">
-															<div class="fruite-img" onclick='location.href="productDetail?productID=${data.productID}";'>
+															<div class="fruite-img" onclick='location.href="user/productDetail?productID=${data.productID}";'>
 																<img src=${data.ancImagePath } class="img-fluid w-100 rounded-top" alt="">
 															</div>
-															<div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;" onclick='location.href="productDetail?productID=${data.productID}";'>${data.ancCategoryName}</div>
+															<div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;" onclick='location.href="user/productDetail?productID=${data.productID}";'>${data.ancCategoryName}</div>
 															<div>
 																<h4>${data.ancProductName}</h4>
 																<div>

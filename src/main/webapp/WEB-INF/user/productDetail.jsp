@@ -27,15 +27,15 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <!-- Libraries Stylesheet -->
-<link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="user/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+<link href="user/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
 <!-- Customized Bootstrap Stylesheet -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="user/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Template Stylesheet -->
-<link href="css/style.css" rel="stylesheet">
+<link href="user/css/style.css" rel="stylesheet">
 
 <!-- 파비콘 -->
 <custom:favicon />
@@ -104,27 +104,27 @@
 		<div class="container py-5">
 			<div class="row g-4 mb-5">
 				<div class="col-lg-8 col-xl-9">
-					<c:if test="${productDetail!= null}">
+					<c:if test="${productDetail != null}">
 						<div class="row g-4">
 							<div class="col-lg-6">
 								<div class="border rounded">
-									<a href="#"> <img src="${productDetail.imagePath}" class="img-fluid rounded" alt="Image">
+									<a href="#"> <img src="${productDetail.ancImagePath}" class="img-fluid rounded" alt="Image">
 									</a>
 								</div>
 							</div>
 							<!-- 제품 상세 -->
 
 							<div class="col-lg-6">
-								<h4 class="fw-bold mb-3">${productDetail.pName}</h4>
-								<p class="mb-3">카테고리: ${productDetail.category}</p>
+								<h4 class="fw-bold mb-3">${productDetail.productName}</h4>
+								<p class="mb-3">카테고리: ${productDetail.ancCategory}</p>
 								<h5 class="fw-bold mb-3">
-									<fmt:formatNumber value="${productDetail.sellingPrice}" currencyCode="KRW" />
+									<fmt:formatNumber value="${productDetail.salePrice}" currencyCode="KRW" />
 									원
 								</h5>
 								<div class="d-flex mb-4">
-									<custom:starRatePD1 score='${productDetail.ancAvgRating}' index='0' />
+									<custom:starRatePD1 score='3' index='0' />
 								</div>
-								<p class="mb-4">${productDetail.pDetail}</p>
+								<p class="mb-4">${productDetail.productDetail}</p>
 								<div class="input-group quantity mb-5" style="width: 100px;">
 									<div class="input-group-btn">
 										<button class="btn btn-sm btn-minus rounded-circle bg-light border">
@@ -138,11 +138,11 @@
 										</button>
 									</div>
 								</div>
-								<c:if test="${member != null}">
-									<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${productDetail.PID})">장바구니 추가</button>
+								<c:if test="${memberID != null}">
+									<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${productDetail.productID})">장바구니 추가</button>
 								</c:if>
-								<c:if test="${member == null}">
-									<a href="loginPage.do" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> 장바구니 추가</a>
+								<c:if test="${memberID == null}">
+									<a href="user/login" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> 장바구니 추가</a>
 								</c:if>
 							</div>
 
@@ -172,7 +172,7 @@
 												<p class="mb-0 text-left">용법</p>
 											</div>
 											<div class="col-6 text-left">
-												<p class="mb-0">${productDetail.usage}</p>
+												<p class="mb-0">${productDetail.dosage}</p>
 											</div>
 										</div>
 										<div class="row bg-light align-items-center justify-content-center py-2">
@@ -180,11 +180,13 @@
 												<p class="mb-0">소비기한</p>
 											</div>
 											<div class="col-6 text-left">
-												<p class="mb-0">${productDetail.exp}</p>
+												<p class="mb-0">${productDetail.expirationDate}</p>
 											</div>
 										</div>
 
 									</div>
+									
+									<!-- 제품상세 하단 리뷰 -->
 									<div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
 										<c:if test="${empty reviewList}">
 											<c:set var="message" value="리뷰가 존재하지 않습니다." />
@@ -211,6 +213,8 @@
 											</div>
 										</c:forEach>
 									</div>
+									<!-- 제품상세 하단 리뷰 종료 -->
+									
 									<div class="tab-pane" id="nav-vision" role="tabpanel">
 										<p class="text-dark">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. 3</p>
 										<p class="mb-0">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem et sit</p>
@@ -243,13 +247,13 @@
 	<!-- JavaScript Libraries -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="lib/easing/easing.min.js"></script>
-	<script src="lib/waypoints/waypoints.min.js"></script>
-	<script src="lib/lightbox/js/lightbox.min.js"></script>
-	<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="user/lib/easing/easing.min.js"></script>
+	<script src="user/lib/waypoints/waypoints.min.js"></script>
+	<script src="user/lib/lightbox/js/lightbox.min.js"></script>
+	<script src="user/lib/owlcarousel/owl.carousel.min.js"></script>
 
 	<!-- Template Javascript -->
-	<script src="js/main.js"></script>
+	<script src="user/js/main.js"></script>
 
 </body>
 
