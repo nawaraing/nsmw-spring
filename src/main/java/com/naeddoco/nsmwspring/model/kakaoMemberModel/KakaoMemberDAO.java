@@ -9,10 +9,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.naeddoco.nsmwspring.model.imageModel.ImageDAO;
+
 import lombok.extern.slf4j.Slf4j;
 
 
 @Repository("kakaoMemberDAO")
+@Slf4j
 public class KakaoMemberDAO {
 
 	@Autowired
@@ -35,39 +38,44 @@ public class KakaoMemberDAO {
 	
 	
 	public List<KakaoMemberDTO> selectAll(KakaoMemberDTO kakaoMemberDTO) {
-
+		log.debug("selectAll 진입");
 		return (List<KakaoMemberDTO>) jdbcTemplate.query(SELECTALL, new KakaoMemberRowMapper());
 
 	}
 	
 	
 	public KakaoMemberDTO selectOne(KakaoMemberDTO kakaoMemberDTO) {
-		
+		log.debug("selectOne 진입");
 		if(kakaoMemberDTO.getSearchCondition().equals("kakaoLogin")) {
 			
 			Object[] args = { kakaoMemberDTO.getKakaoID()};
 
 			try {
-
+				log.debug("kakaoLogin 진입");
 				return jdbcTemplate.queryForObject(SELECTONE_KAKAO_MEMBER_LOGIN, args, new KakaoMemberRowMapper());
 
 			} catch (Exception e) {
-
+				
+				log.debug("kakaoLogin 예외처리");
 				return null;
 			}
 		}	
+		log.debug("selectOne 진입 실패");
 		return null;
 	}
 
 	
 	public boolean insert(KakaoMemberDTO kakaoMemberDTO) {
+		log.debug("insert 진입");
 
 //		int result = jdbcTemplate.update(INSERT,kakaoMemberDTO.getKakaoID(),kakaoMemberDTO.getMemberID());
 //
 //		if (result <= 0) {
+		log.debug("update 실패");
 //
 			return false;
 //		}
+//			log.debug("update 성공");
 //		return true;
 	}
 
@@ -109,8 +117,8 @@ class KakaoMemberRowMapper implements RowMapper<KakaoMemberDTO> {
 		kakaoMemberDTO.setKakaoID(rs.getString("KAKAO_ID"));
 		kakaoMemberDTO.setMemberID(rs.getString("MEMBER_ID"));
 		
-		log.info(rs.getString("KAKAO_ID"));
-		log.info(rs.getString("MEMBER_ID"));
+		log.debug(rs.getString("KAKAO_ID"));
+		log.debug(rs.getString("MEMBER_ID"));
 
 		return kakaoMemberDTO;
 

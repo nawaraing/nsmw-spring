@@ -3,7 +3,9 @@ package com.naeddoco.nsmwspring.model.wonCoupon;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("wonCouponService")
 public class WonCouponServiceImpl implements WonCouponService {
 	
 	@Autowired
