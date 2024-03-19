@@ -9,12 +9,12 @@ import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
 @Controller
 public class ProductAllController {
 
-	@RequestMapping("/productAllPage")
+	@RequestMapping("/productAll")
 	// productDTO는 Command 객체 사용
 	public String productAll(ProductDTO productDTO) {
 		
 		
 		// 이동할 페이지명
-		return "productAllPage";
+		return "productAll";
 	}
 }

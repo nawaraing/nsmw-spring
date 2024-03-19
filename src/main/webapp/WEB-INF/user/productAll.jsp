@@ -29,18 +29,18 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <!-- Libraries Stylesheet -->
-<link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="user/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+<link href="user/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
 <!-- Customized Bootstrap Stylesheet -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="user/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Template Stylesheet -->
 <!-- error.do 범인 -->
-<link href="css/style.css" rel="stylesheet">
+<link href="user/css/style.css" rel="stylesheet">
 <!-- error.do 범인 -->
-<link rel="stylesheet" type="text/css" href="css/star-rating+.css" />
+<link rel="stylesheet" type="text/css" href="user/css/star-rating+.css" />
 
 <!-- 파비콘 -->
 <custom:favicon/>
@@ -269,14 +269,14 @@
 	<!-- JavaScript Libraries -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="lib/easing/easing.min.js"></script>
-	<script src="lib/waypoints/waypoints.min.js"></script>
-	<script src="lib/lightbox/js/lightbox.min.js"></script>
-	<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="user/lib/easing/easing.min.js"></script>
+	<script src="user/lib/waypoints/waypoints.min.js"></script>
+	<script src="user/lib/lightbox/js/lightbox.min.js"></script>
+	<script src="user/lib/owlcarousel/owl.carousel.min.js"></script>
 
 
 	<!-- Template Javascript -->
-	<script src="js/main.js"></script>
+	<script src="user/js/main.js"></script>
 	
 	
 	<!-- 별점 표시 -->
