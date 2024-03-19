@@ -17,6 +17,7 @@ public class OrderInfoDTO {
 	
 	private String ancProductName;
 	private String ancProductDetail;
+	private String ancSalePrice;
 	private String ancCategoryName;
 	private String ancImagePath;
 	
@@ -33,6 +34,7 @@ public class OrderInfoDTO {
 				+ "hasReview = " + hasReview + ", "
 				+ "ancProductName = " + ancProductName + ", "
 				+ "ancProductDetail = " + ancProductDetail + ", "
+				+ "ancSalePrice = " + ancSalePrice + ", "
 				+ "ancCategoryName = " + ancCategoryName + ", "
 				+ "ancImagePath = " + ancImagePath
 				+ "]";
