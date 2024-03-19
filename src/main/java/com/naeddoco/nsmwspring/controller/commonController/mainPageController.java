@@ -45,7 +45,7 @@ public class mainPageController {
 		
 		model.addAttribute("allProducts", orderDTOList); // 메인 하단 상품 리스트 정보
 		
-		return "main";
+		return "user/main";
 
 	}
 
