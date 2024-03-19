@@ -13,29 +13,37 @@ public class BuyInfoServiceImpl implements BuyInfoService{
 	
 	@Override
 	public List<BuyInfoDTO> selectAll(BuyInfoDTO buyInfoDTO) {
+		
 		return buyInfoDAO.selectAll(buyInfoDTO);
+		
 	}
 
 	@Override
 	public BuyInfoDTO selectOne(BuyInfoDTO buyInfoDTO) {
+		
 		return buyInfoDAO.selectOne(buyInfoDTO);
+		
 	}
 
 	@Override
 	public boolean insert(BuyInfoDTO buyInfoDTO) {
+		
 		return buyInfoDAO.insert(buyInfoDTO);
+		
 	}
 
 	@Override
 	public boolean update(BuyInfoDTO buyInfoDTO) {
+		
 		return buyInfoDAO.update(buyInfoDTO);
+		
 	}
 
 	@Override
 	public boolean delete(BuyInfoDTO buyInfoDTO) {
+		
 		return buyInfoDAO.delete(buyInfoDTO);
+		
 	}
-
-
 
 }
