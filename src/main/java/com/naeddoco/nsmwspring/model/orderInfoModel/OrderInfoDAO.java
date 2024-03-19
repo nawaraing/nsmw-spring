@@ -19,7 +19,7 @@ public class OrderInfoDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	private static final String SELECTALL_TOTAL_QUANTITY_DESC_LIMIT_EIGHT = "SELECT p.PRODUCT_ID, p.PRODUCT_NAME, p.PRODUCT_DETAIL, p.SALE_PRICE, c.CATEGORY_NAME, i.IMAGE_PATH, "
+	private static final String SELECTALL_GET_BEST_EIGHT = "SELECT p.PRODUCT_ID, p.PRODUCT_NAME, p.PRODUCT_DETAIL, p.SALE_PRICE, c.CATEGORY_NAME, i.IMAGE_PATH, "
 																		  + "(SELECT SUM(BUY_QUANTITY) FROM ORDER_INFO o WHERE o.PRODUCT_ID = p.PRODUCT_ID) AS cnt "
 																		  + "FROM PRODUCT p "
 																		  + "JOIN PRODUCT_CATEGORY pc ON p.PRODUCT_ID = pc.PRODUCT_ID "
@@ -35,21 +35,25 @@ public class OrderInfoDAO {
 		
 		log.debug("[로그] orderInfo SELECTALL 처리 진입");
 		
-		if(orderDTO.getSearchCondition().equals("getUpperEight")) {
+		if(orderDTO.getSearchCondition().equals("getBestEight")) {
+			
+			log.debug("[로그] orderInfo getBestEight 처리 진입");
 			
 			try {
 				
-				return (List<OrderInfoDTO>) jdbcTemplate.query(SELECTALL_TOTAL_QUANTITY_DESC_LIMIT_EIGHT, new selectAllRowMapper1());
+				return (List<OrderInfoDTO>) jdbcTemplate.query(SELECTALL_GET_BEST_EIGHT, new getBestEightRowMapper());
 
 			}catch (Exception e) {
 				
-				log.debug("[로그] orderInfo SELECTALL 예외 발생");
+				log.debug("[로그] orderInfo getBestEight 예외 발생");
 				
 				return null;
 				
 			}
 			
 		}
+		
+		log.debug("[로그] orderInfo SELECTALL 처리 실패");
 		
 		return null;
 
@@ -58,12 +62,12 @@ public class OrderInfoDAO {
 }
 
 @Slf4j
-class selectAllRowMapper1 implements RowMapper<OrderInfoDTO> {
+class getBestEightRowMapper implements RowMapper<OrderInfoDTO> {
 
 	@Override
 	public OrderInfoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
-		log.debug("[로그] orderInfo selectAllRowMapper1 처리 진입");
+		log.debug("[로그] orderInfo getBestEightRowMapper 처리 진입");
 		
 		OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
 		
@@ -74,7 +78,7 @@ class selectAllRowMapper1 implements RowMapper<OrderInfoDTO> {
 		orderInfoDTO.setAncCategoryName(rs.getString("c.CATEGORY_NAME"));
 		orderInfoDTO.setAncImagePath(rs.getString("i.IMAGE_PATH"));
 		
-		log.debug("[로그] orderInfo selectAllRowMapper1 처리 완료");
+		log.debug("[로그] orderInfo getBestEightRowMapper 처리 완료");
 
 		return orderInfoDTO;
 
