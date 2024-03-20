@@ -203,14 +203,14 @@
 												<p class="text-dark fs-5 fw-bold mb-0 my-2"><fmt:formatNumber value="${data.ancSalePrice}" currencyCode="KRW" />원</p>
 											</div>
 										</div>
-										<c:if test="${member != null}">
+										<c:if test="${not empty memberID}">
 											<div class="row">
 												<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${data.productID})">장바구니 추가</button>
 											</div>
 										</c:if>
-										<c:if test="${member == null}">
+										<c:if test="${empty memberID}">
 											<a href="/login" class="btn border border-secondary rounded-pill px-3 text-primary"> 
-												<i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+												<i class="fa fa-shopping-bag me-2 text-primary"></i> 장바구니 추가
 											</a>
 										</c:if>
 									</div>
@@ -264,11 +264,11 @@
 																</div>
 																<div class="d-flex justify-content-between flex-lg-wrap">
 																	<p class="text-dark fs-5 fw-bold mb-0"><fmt:formatNumber value="${data.ancSalePrice}" currencyCode="KRW" />원</p>
-																	<c:if test="${member != null}">
+																	<c:if test="${not empty memberID}">
 																		<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${data.productID})">장바구니 추가</button>
 																	</c:if>
-																	<c:if test="${member == null}">
-																		<a href="/login" class="btn border border-secondary rounded-pill px-3 text-primary"> <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+																	<c:if test="${empty memberID}">
+																		<a href="/login" class="btn border border-secondary rounded-pill px-3 text-primary"> <i class="fa fa-shopping-bag me-2 text-primary"></i> 장바구니 추가
 																		</a>
 																	</c:if>
 																</div>
