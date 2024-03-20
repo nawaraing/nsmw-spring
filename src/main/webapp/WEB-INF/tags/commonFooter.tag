@@ -4,8 +4,8 @@
 		<div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5);">
 			<div class="row g-4">
 				<div class="col-lg-3">
-					<a href="/main" class="navbar-brand">
-  						<img src="user/img/logo.png" width="250" alt="대체 텍스트">
+					<a href="/" class="navbar-brand">
+  						<img src="commonImages/logo.png" width="250" alt="대체 텍스트">
 					</a>
 				</div>
 				<div class="col-lg-6"></div>

@@ -5,11 +5,11 @@
 	<nav class="navbar navbar-light bg-white navbar-expand-xl">
 	
 		<!-- 로고 버튼 -->
-		<a href="/main" class="navbar-brand">
-  			<img src="user/img/favicon.png" width="70" alt="대체 텍스트">
+		<a href="/" class="navbar-brand">
+  			<img src="commonImages/favicon.png" width="70" alt="대체 텍스트">
 		</a>
-		<a href="/main" class="navbar-brand">
-  			<img src="user/img/logo.png" width="250" alt="대체 텍스트">
+		<a href="/" class="navbar-brand">
+  			<img src="commonImages/logo.png" width="250" alt="대체 텍스트">
 		</a>
 		<!-- 로고 버튼 -->
 		

@@ -25,7 +25,7 @@ public class LoginController {
 		// 로그인 페이지 로그
 		System.out.println("[log] Controller 로그인 페이지 이동");
 
-		return " user/login";
+		return "user/login";
 	}
 
 	// 회원 정보를 모두 입력한 후 로그인 버튼의 기능
@@ -59,7 +59,7 @@ public class LoginController {
 				session.setAttribute("memberID", memberDTO.getMemberID());			
 
 				// 메인페이지로 이동
-				return "/";
+				return "redirect:/";
 
 				// 로그인에 성공했지만 회원 권한이 USER가 아닐때
 				// 오류로인한 관리자페이지 이동을 막기위한 else if 사용
