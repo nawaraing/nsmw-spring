@@ -15,14 +15,14 @@ import com.naeddoco.nsmwspring.model.orderInfoModel.OrderInfoService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class mainPageController {
+public class MainPageController {
 
 	@Autowired
 	private OrderInfoService orderService;
 	@Autowired
 	private BuyInfoService buyInfoService;
 
-	@GetMapping("/main")
+	@GetMapping("/")
 	public String test(HttpSession session, Model model, OrderInfoDTO orderDTO, BuyInfoDTO buyInfoDTO) {
 
 		String member = (String) session.getAttribute("member"); // 세션에서 사용자 이름 가져오기
