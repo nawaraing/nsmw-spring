@@ -183,9 +183,9 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 
 			int selling = Integer.parseInt(strPrice);
 
-			productDTO.setCostPrice(selling + 2000);
+			productDTO.setCostPrice(selling - 2000);
 
-			productDTO.setRetailPrice(selling + 1000);
+			productDTO.setRetailPrice(selling - 1000);
 
 			productDTO.setSalePrice(selling);
 
