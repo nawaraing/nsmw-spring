@@ -15,7 +15,7 @@ import com.naeddoco.nsmwspring.model.orderInfoModel.OrderInfoService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class MainPageController {
+public class entryMainPageController {
 
 	@Autowired
 	private OrderInfoService orderService;
