@@ -14,7 +14,7 @@ import com.naeddoco.nsmwspring.model.cartModel.CartService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class entryCartPageController {
+public class EntryCartPageController {
 	
 	@Autowired
 	private CartService cartService;
