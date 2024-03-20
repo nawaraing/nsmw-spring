@@ -29,16 +29,17 @@ public class ProductDAO {
 													     "LIMIT 1";
 	
 	// 하나의 상품의 데이터를 가져오는 쿼리문
-	private static final String SELECTONE_GET_PRODUCT_DETAIL = "SELECT p.PRODUCT_ID, p.PRODUCT_NAME, p.PRODUCT_DETAIL, p.SALE_PRICE, p.INGREDIENT, p.DOSAGE, p.EXPIRATION_DATE, c.CATEGORY_NAME, i.IMAGE_PATH " +
-			                                                   "FROM PRODUCT p " +
-			                                                   "JOIN PRODUCT_CATEGORY pc ON p.PRODUCT_ID = pc.PRODUCT_ID " +
-			                                                   "JOIN CATEGORY c ON pc.CATEGORY_ID = c.CATEGORY_ID " +
-			                                                   "JOIN PRODUCT_IMAGE pi ON p.PRODUCT_ID = pi.PRODUCT_ID " +
-			                                                   "JOIN IMAGE i ON pi.IMAGE_ID = i.IMAGE_ID " +
-			                                                   "WHERE p.PRODUCT_ID = ?";
+	private static final String SELECTONE_GET_PRODUCT_DETAIL = "SELECT p.PRODUCT_ID, p.PRODUCT_NAME, p.PRODUCT_DETAIL, p.COST_PRICE, p.RETAIL_PRICE, p.SALE_PRICE, p.STOCK, p.INGREDIENT, p.DOSAGE, "
+													+ "p.EXPIRATION_DATE, p.REGISTER_DATE, p.MODIFY_DATE, p.SALE_STATE, c.CATEGORY_NAME, i.IMAGE_PATH "
+													+ "FROM PRODUCT p "
+													+ "JOIN PRODUCT_CATEGORY pc ON p.PRODUCT_ID = pc.PRODUCT_ID "
+													+ "JOIN CATEGORY c ON pc.CATEGORY_ID = c.CATEGORY_ID "
+													+ "JOIN PRODUCT_IMAGE pi ON p.PRODUCT_ID = pi.PRODUCT_ID "
+													+ "JOIN IMAGE i ON pi.IMAGE_ID = i.IMAGE_ID "
+													+ "WHERE p.PRODUCT_ID = ?";
 
 	// 크롤링한 상품 데이터를 추가하는 쿼리문
-	private static final String INSERT = "INSERT INTO PRODUCT ( PRODUCT_NAME, " + "PRODUCT_DETAIL, COST_PRICE, RETAIL_PRICE, SALE_PRICE, STOCK, INGREDIENT, DOSAGE, EXPIRATION_DATE, REGISTER_DATE, MODIFY_DATE, SALE_STATE ) " + 
+	private static final String INSERT = "INSERT INTO PRODUCT ( PRODUCT_NAME, PRODUCT_DETAIL, COST_PRICE, RETAIL_PRICE, SALE_PRICE, STOCK, INGREDIENT, DOSAGE, EXPIRATION_DATE, REGISTER_DATE, MODIFY_DATE, SALE_STATE ) " + 
 									     "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ? )";
 
 	private static final String UPDATE = "";
@@ -193,10 +194,16 @@ class getProductDetailRowMapper implements RowMapper<ProductDTO> {
 		productDTO.setProductID(rs.getInt("PRODUCT_ID"));
 		productDTO.setProductName(rs.getString("PRODUCT_NAME"));
 		productDTO.setProductDetail(rs.getString("PRODUCT_DETAIL"));
+		productDTO.setSalePrice(rs.getInt("COST_PRICE"));
+		productDTO.setSalePrice(rs.getInt("RETAIL_PRICE"));
 		productDTO.setSalePrice(rs.getInt("SALE_PRICE"));
+		productDTO.setSalePrice(rs.getInt("STOCK"));
 		productDTO.setIngredient(rs.getString("INGREDIENT"));
 		productDTO.setDosage(rs.getString("DOSAGE"));
 		productDTO.setExpirationDate(rs.getString("EXPIRATION_DATE"));
+		productDTO.setExpirationDate(rs.getString("REGISTER_DATE"));
+		productDTO.setExpirationDate(rs.getString("MODIFY_DATE"));
+		productDTO.setExpirationDate(rs.getString("SALE_STATE"));
 		productDTO.setAncCategory(rs.getString("c.CATEGORY_NAME"));
 		productDTO.setAncImagePath(rs.getString("i.IMAGE_PATH"));
 		
