@@ -23,7 +23,7 @@ public class InsertCartController {
 	@Autowired
 	private ProductService productService;
 
-	@RequestMapping(value = "insertCart", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertCart", method = RequestMethod.POST)
 	public @ResponseBody boolean insertCart(CartDTO cartDTO, ProductDTO productDTO, Model model, HttpSession session, 
 			 								@RequestParam String productID,
 			 								@RequestParam String productQuantity) {	
