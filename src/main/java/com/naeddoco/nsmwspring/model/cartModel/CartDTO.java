@@ -11,4 +11,10 @@ public class CartDTO {
 	private int productQuantity; 	// 담긴 수량
 	
     private String searchCondition; // 쿼리 분기 지정
+    
+    								// FK
+    private String ancProductName;	// 상품명
+    private int ancSalePrice;		// 판매 가격
+    private String ancImagePath;	// 이미지 경로
+    
 }
