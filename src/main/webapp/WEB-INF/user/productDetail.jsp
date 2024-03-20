@@ -45,15 +45,15 @@
 
 	<!-- 장바구니 추가 비동기처리 -->
 	<script>
-		function addItemToCart(PID) {
-			var cQty = document.getElementById('cQty').value;
-			//console.log("[로그] 수량:"+cQty);
+		function addItemToCart(productID) {
+			var productQuantity = document.getElementById('productQuantity').value;
+			//console.log("[로그] 수량:"+productQuantity);
 			
 			$.ajax({
 				type : "POST", // 또는 "GET"
 				url : "insertCart", // 서버에서 아이디 중복 확인을 처리할 PHP 파일 경로
-				data : {'PID' : PID,
-						'cQty' : cQty},
+				data : {'productID' : productID,
+						'productQuantity' : productQuantity},
 				success : function(data) {
 					if (data === "true") {
 						Swal.fire({
@@ -131,7 +131,7 @@
 											<i class="fa fa-minus"></i>
 										</button>
 									</div>
-									<input type="text" id="cQty" class="form-control form-control-sm text-center border-0" value="1" readonly>
+									<input type="text" id="productQuantity" class="form-control form-control-sm text-center border-0" value="1" readonly>
 									<div class="input-group-btn">
 										<button class="btn btn-sm btn-plus rounded-circle bg-light border">
 											<i class="fa fa-plus"></i>
