@@ -3,7 +3,7 @@
 <%@ attribute name="score" %>
 <%@ attribute name="index" %>
 
-<link rel="stylesheet" type="text/css" href="css/starRating+.css" />
+<link rel="stylesheet" type="text/css" href="user/css/starRating+.css" />
 
 <div class="star-rating mx-auto">
 	<input type="radio" id="5-stars2-${index}" name="stars2-${index}" value="5"/> 
