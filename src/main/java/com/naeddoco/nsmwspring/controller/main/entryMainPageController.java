@@ -23,7 +23,7 @@ public class entryMainPageController {
 	private BuyInfoService buyInfoService;
 
 	@GetMapping("/")
-	public String test(HttpSession session, Model model, OrderInfoDTO orderDTO, BuyInfoDTO buyInfoDTO) {
+	public String entryMain(HttpSession session, Model model, OrderInfoDTO orderDTO, BuyInfoDTO buyInfoDTO) {
 
 		String member = (String) session.getAttribute("member"); // 세션에서 사용자 이름 가져오기
 		
@@ -45,7 +45,7 @@ public class entryMainPageController {
 		
 		model.addAttribute("allProducts", orderDTOList); // 메인 하단 상품 리스트 정보
 		
-		return "user/main";
+		return "user/main"; // main.jsp로 리턴
 
 	}
 

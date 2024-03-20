@@ -31,7 +31,7 @@
 				
 				<!-- 장바구니 버튼 -->
 				<c:if test="${not empty memberID}">
-					<a href="/cart" class="position-relative me-4 my-auto"> <i class="fa fa-shopping-bag fa-2x"></i>
+					<a href="/entryCart" class="position-relative me-4 my-auto"> <i class="fa fa-shopping-bag fa-2x"></i>
 					</a>
 				</c:if>
 				<c:if test="${empty memberID}">
