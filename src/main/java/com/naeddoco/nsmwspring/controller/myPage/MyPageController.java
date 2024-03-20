@@ -1,4 +1,4 @@
-package com.naeddoco.nsmwspring.controller.memberController;
+package com.naeddoco.nsmwspring.controller.myPage;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;

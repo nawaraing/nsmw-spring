@@ -1,4 +1,4 @@
-package com.naeddoco.nsmwspring.controller.productController;
+package com.naeddoco.nsmwspring.controller.productDetail;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

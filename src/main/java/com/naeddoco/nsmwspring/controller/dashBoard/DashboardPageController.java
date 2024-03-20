@@ -1,4 +1,4 @@
-package com.naeddoco.nsmwspring.controller.commonController;
+package com.naeddoco.nsmwspring.controller.dashBoard;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.naeddoco.nsmwspring.controller.commonController;
+package com.naeddoco.nsmwspring.controller.main;
 
 import java.util.List;
 
