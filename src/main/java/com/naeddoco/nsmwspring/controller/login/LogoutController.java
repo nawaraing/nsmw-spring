@@ -15,13 +15,13 @@ public class LogoutController {
 	@Autowired
 	private MemberService memberService;
 
-	// 로그인 페이지로 이동하는 버튼을 눌렀을 때 기능
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String loginPage(HttpSession session) {
 
-		session.removeAttribute("memberID");
+		session.removeAttribute("memberID"); // 세션에서 유저 아이디 삭제
 		
-		return "forward:/";
+		return "redirect:/";
+		
 	}
 
 }
