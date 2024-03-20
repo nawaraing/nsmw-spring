@@ -43,20 +43,22 @@ public class LoginController {
 		memberDTO.setSearchCondition("memberLogin");
 		memberDTO = memberService.selectOne(memberDTO);
 
-		// selectOne 결과 로그
-		System.out.println(
-				"[log] Controller 로그인 결과\n[ID]" + memberDTO.getMemberID() + "\n[등급]" + memberDTO.getAuthority());
 
 		// memberDTO의 값에 따른 return값 지정
 		// memberDTO의 값이 있다면?
 		if (memberDTO != null) {
+			
 			System.out.println("[log] Controller 로그인 성공");
+			
+			// selectOne 결과 로그
+			System.out.println(
+					"[log] Controller 로그인 결과\n[ID]" + memberDTO.getMemberID() + "\n[등급]" + memberDTO.getAuthority());
 
 			// 로그인 성공했고 회원 권한이 USER일 때
 			if (memberDTO.getAuthority().equals("USER")) {
 				System.out.println("[log] Controller USER 로그인");
 
-				session.setAttribute("memberID", memberDTO.getMemberID());			
+				session.setAttribute("memberID", memberDTO.getMemberID());
 
 				// 메인페이지로 이동
 				return "redirect:/";
@@ -70,15 +72,26 @@ public class LoginController {
 
 				// 관리자 메인페이지로 이동
 				return "admin/dashboard";
+			} else {
+.
+				System.out.println("[log] Controller 회원 상태 미상 로그인 실패");
+				System.out.println("[log] Controller 회원 상태 : " + memberDTO.getAuthority());
+
+				// 로그인 실패 결과 반환
+				model.addAttribute("loginResult", false);
+
+				// 로그인 실패로 다시 goBack.jsp 페이지로 이동
+				return "user/login";
 			}
+		} else {
+
+			System.out.println("[log] Controller 일치하는 회원 없음");
+
+			// 로그인 실패 결과 반환
+			model.addAttribute("loginResult", false);
+
+			// 로그인 실패로 다시 goBack.jsp 페이지로 이동
+			return "user/login";
 		}
-
-		System.out.println("[log] Controller 일치하는 회원 없음");
-		
-		// 로그인 실패 결과 반환
-		model.addAttribute("loginResult", false);
-
-		// 로그인 실패로 다시 goBack.jsp 페이지로 이동
-		return "user/login";
 	}
 }
