@@ -12,12 +12,17 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class MyPageController {
 	
-	@RequestMapping(value = "/myPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/myPage", method = RequestMethod.GET)
 	public String myPage(@ModelAttribute("modelInfo") MemberDTO memberDTO, HttpSession session) {
 		
+		System.out.println("[log] MyPageController 진입");
+		
 		String memberID = (String) session.getAttribute("memberID");
+		
+		System.out.println("[log] MyPageController 로그인 아이디 : " + memberID);
 		
 		return "user/myPage";
 	}
 
 }
+

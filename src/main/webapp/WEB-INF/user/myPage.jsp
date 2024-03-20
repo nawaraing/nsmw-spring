@@ -19,14 +19,14 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <!-- Libraries Stylesheet -->
-<link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="user/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+<link href="user/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 <!-- Customized Bootstrap Stylesheet -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="user/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Template Stylesheet -->
-<link href="css/style.css" rel="stylesheet">
+<link href="user/css/style.css" rel="stylesheet">
 
 <!-- kakao -->
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
@@ -47,62 +47,12 @@
 	<!-- Spinner End -->
 
 
-	<!-- Navbar start -->
+	<!-- 로고가 포홤된 헤더 시작 -->
 	<div class="container-fluid fixed-top">
-		<custom:commonHeader/>
-		<div class="container px-0">
-			<nav class="navbar navbar-light bg-white navbar-expand-xl">
-				<!-- 로고 버튼 -->
-				<a href="mainPage.do" class="navbar-brand">
-  					<img src="img/favicon.png" width="70" alt="대체 텍스트">
-				</a>
-				<a href="mainPage.do" class="navbar-brand">
-  					<img src="img/logo.png" width="250" alt="대체 텍스트">
-				</a>
-				<!-- 로고 버튼 -->
-				<button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-					<span class="fa fa-bars text-primary"></span>
-				</button>
-				<div class="collapse navbar-collapse bg-white" id="navbarCollapse">
-					<div class="navbar-nav mx-auto">
-						<a href="checkUserPasswordPage.do?where=modifyUserInfo" class="nav-item nav-link">개인정보수정</a>
-						<a href="checkUserPasswordPage.do?where=modifyUserPassword" class="nav-item nav-link">비밀번호변경</a> 
-						<a href="buyInfoPage.do" class="nav-item nav-link">구매내역</a> 
-						<a href="reviewInfoPage.do" class="nav-item nav-link">리뷰내역</a> 
-						<a href="couponInfoPage.do" class="nav-item nav-link">쿠폰관리</a>
-					</div>
-				<div class="d-flex m-3 me-0">
-				
-				<!-- 로그아웃 버튼-->
-					<button class="btn border border-secondary text-primary rounded-pill position-relative my-auto me-4" onclick="unlinkApp()">로그아웃</button>
-					<div id="result"></div>
-					<script type="text/javascript">
-					Kakao.init('8a69ee438b3b0270acfb88808676567f'); // 사용하려는 앱의 JavaScript 키 입력
-					console.log(Kakao.isInitialized()); // 초기화 판단여부
-						function unlinkApp() {
-							Kakao.API.request({
-								url: '/v1/user/unlink',
-								success: function(res) {
-									location.replace("logout.do");
-									console.log('success');
-								},
-								fail: function(err) {
-									location.replace("logout.do");
-									console.log('fail');
-								},
-							})
-						}
-					</script>
-				<!-- 로그아웃 버튼 -->
-						<a href="cartPage.do" class="position-relative me-4 my-auto"> <i class="fa fa-shopping-bag fa-2x"></i>
-						</a> <a href="mypage.do" class="my-auto"> <i class="fas fa-user fa-2x"></i>
-						</a>
-					</div>
-				</div>
-			</nav>
-		</div>
+		<custom:commonHeader />
+		<custom:commonHeaderWithLogo />
 	</div>
-	<!-- Navbar End -->
+	<!-- 로고가 포홤된 헤더 끝 -->
 
 
 	<!-- Single Page Header start -->
@@ -225,13 +175,13 @@
 	<!-- JavaScript Libraries -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="lib/easing/easing.min.js"></script>
-	<script src="lib/waypoints/waypoints.min.js"></script>
-	<script src="lib/lightbox/js/lightbox.min.js"></script>
-	<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="user/lib/easing/easing.min.js"></script>
+	<script src="user/lib/waypoints/waypoints.min.js"></script>
+	<script src="user/lib/lightbox/js/lightbox.min.js"></script>
+	<script src="user/lib/owlcarousel/owl.carousel.min.js"></script>
 
 	<!-- Template Javascript -->
-	<script src="js/main.js"></script>
+	<script src="user/js/main.js"></script>
 	
 </body>
 
