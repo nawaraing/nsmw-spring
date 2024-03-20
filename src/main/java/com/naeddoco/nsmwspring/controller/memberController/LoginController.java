@@ -71,7 +71,7 @@ public class LoginController {
 				session.setAttribute("memberID", memberDTO.getMemberID());
 
 				// 관리자 메인페이지로 이동
-				return "admin/dashboard";
+				return "redirect:/dashboard";
 			} else {
 
 				System.out.println("[log] Controller 회원 상태 미상 로그인 실패");
