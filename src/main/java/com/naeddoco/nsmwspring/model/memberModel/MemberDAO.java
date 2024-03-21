@@ -32,6 +32,12 @@ public class MemberDAO {
 			+ "WHERE MEMBER_ID = ? "
 			+ "AND MEMBER_PASSWORD = ? "
 			+ "AND MEMBER_STATE = 'JOIN'";
+	
+	// 한 멤버의 구체적인 정보를 습득하기 위한 쿼리
+	private static final String SELECTONE_MEMBER_INFO = "SELECT m.MEMBER_NAME, m.PHONE_NUMBER, m.EMAIL, sa.SHIPPING_DEFAULT, sa.SHIPPING_POSTCODE, sa.SHIPPING_ADDRESS, sa.SHIPPING_DETAIL_ADDRESS " +
+													    "FROM MEMBER m " +
+													    "JOIN SHIPPING_ADDRESS sa ON m.MEMBER_ID = sa.MEMBER_ID " +
+													    "WHERE m.MEMBER_ID = ?";
 
 	//현재 미지원 기능
 	//회원 탈퇴시 해당하는 MEMBER_ID의 MEMBER_STATE를 'LEAVE'로 변경
@@ -90,65 +96,94 @@ public class MemberDAO {
 
 	public MemberDTO selectOne(MemberDTO memberDTO) {
 		
+		log.debug("selectOne 진입");
+		
 		if (memberDTO.getSearchCondition().equals("memberLogin")) {
 			
-			log.debug("selectOne start");
+			log.debug("memberLogin 진입");
 			
 			Object[] args = {memberDTO.getMemberID(), memberDTO.getMemberPassword()};
 
 			try {
-				log.debug("selectOne start 진입");
 
 				return jdbcTemplate.queryForObject(SELECTONE_MEMBER_LOGIN, args, new MemberLoginRowMapper());
 
 			} catch (Exception e) {
-				log.debug("selectOne Exception");
+				
+				log.debug("memberLogin 실패");
 
 				return null;
 			}
+			
+		} else if(memberDTO.getSearchCondition().equals("selectMemberInfo")) {
+			
+			log.debug("selectMemberInfo 진입");
+			
+			Object[] args = {memberDTO.getMemberID()};
+			
+			try {
+
+				return jdbcTemplate.queryForObject(SELECTONE_MEMBER_INFO, args, new selectMemberInfoRowMapper());
+
+			} catch (Exception e) {
+				
+				log.debug("selectMemberInfo 실패");
+
+				return null;
+			}
+			
 		}
-		log.debug("selectOne 진입 실패");
+		
 		return null;
+		
 	}
 
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+	
 	public boolean insert(MemberDTO memberDTO) {
 
-//		int result = jdbcTemplate.update(INSERT_MEMBER, memberDTO.getMemberID(), memberDTO.getMemberPassword(),
-//				memberDTO.getMemberName(), memberDTO.getDayOfBirth(), memberDTO.getGender(), memberDTO.getPhoneNumber(),
-//				memberDTO.getEmail(), memberDTO.getAuthority(), memberDTO.getMemberState());
-//
-//		if (result <= 0) {
-			return false;
-//		}
-//		return true;
+		return false;
+		
 	}
 
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+	
 	//현재 미지원 기능
 	public boolean update(MemberDTO memberDTO) {
 		
 		log.debug("update start");
+		
 		if (memberDTO.getSearchCondition().equals("memberleave")) {
+			
 			int result = jdbcTemplate.update(UPDATE_MEMBER_STATE, memberDTO.getMemberState());
+			
 
 			if (result <= 0) {
+				
 				log.debug("update 실패");
+				
 				return false;
+				
 			}
+			
 			log.debug("update 성공");
+			
 			return true;
+			
 		}
+		
 		return false;
+		
 	}
+	
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public boolean delete(MemberDTO memberDTO) {
 
-//		int result = jdbcTemplate.update(DELETE);
-//
-//		if (result <= 0) {
-			return false;
-//		}
-//		return true;
+		return false;
+
 	}
+	
 }
 
 // 개발자의 편의를 위해 RowMapper 인터페이스를 사용
@@ -201,6 +236,28 @@ class MemberLoginRowMapper implements RowMapper<MemberDTO> {
 		log.debug(rs.getString("AUTHORITY"));
 
 		return data;
+
+	}
+
+}
+
+@Slf4j
+class selectMemberInfoRowMapper implements RowMapper<MemberDTO> {
+
+	@Override
+	public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+		MemberDTO memberDTO = new MemberDTO();
+
+		memberDTO.setMemberName(rs.getString("m.MEMBER_NAME"));
+		memberDTO.setPhoneNumber(rs.getString("m.PHONE_NUMBER"));
+		memberDTO.setEmail(rs.getString("m.EMAIL"));
+		memberDTO.setAncShippingDefault(rs.getInt("sa.SHIPPING_DEFAULT"));
+		memberDTO.setAncShippingPostCode(rs.getInt("sa.SHIPPING_POSTCODE"));
+		memberDTO.setAncShippingAddress(rs.getString("sa.SHIPPING_ADDRESS"));
+		memberDTO.setAncShippingAddressDetail(rs.getString("sa.SHIPPING_DETAIL_ADDRESS"));
+
+		return memberDTO;
 
 	}
 
