@@ -114,10 +114,10 @@
 	<%-- 장바구니 추가 비동기처리 --%>
 	<script>
 		function addItemToCart(productID) {
-			$.ajax({
+			$.ajax({				
 				type : "POST", // 또는 "GET"
 				url : "/insertCart", // 서버에서 아이디 중복 확인을 처리할 PHP 파일 경로
-				data : {'productID' : productID},
+				data : {'productID' : productID , "productQuantity" : 1},
 				success : function(data) {
 					console.log(data);
 					if (data === "true") {

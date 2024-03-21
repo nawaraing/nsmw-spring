@@ -24,9 +24,11 @@ public class InsertCartController {
 	private ProductService productService;
 
 	@RequestMapping(value = "/insertCart", method = RequestMethod.POST)
-	public @ResponseBody boolean insertCart(CartDTO cartDTO, ProductDTO productDTO, Model model, HttpSession session, 
-			 								@RequestParam String productID,
-			 								@RequestParam String productQuantity) {	
+	public @ResponseBody String insertCart(CartDTO cartDTO, ProductDTO productDTO, Model model, HttpSession session, 
+			 								@RequestParam("productID") int productID,
+			 								@RequestParam("productQuantity") int productQuantity) {	
+		
+		System.out.println("[log] 메인페이지 InsertCart 진입");
 		
 		
 		// 세션에 있는 사용자 아이디 저장
@@ -40,83 +42,81 @@ public class InsertCartController {
 			
 			System.out.println("[log] InsertCart 로그아웃상태");
 			
-			return false;
-		}			
-		
-		// 상품 ID를 받지못하면 실패
-		if(productID == null) {
-			
-			System.out.println("[log] InsertCart 상품아이디없음");
-			
-			return false;
-		}
-		
-		// View에서 전달받은 상품PK를 정수로 변환
-		int pid = Integer.parseInt(productID);
-	
-		// 장바구니에 담기는 상품의 기본 수량
-		int pQty = 1;
-		
-		// 만약 Vire에서 수량을 받아온다면 기본 수량을 받아온 수량으로 변경
-		if (productQuantity != null) {		
-			pQty = Integer.parseInt(productQuantity);			
-		} else {
-			System.out.println("[log] InsertCart 수량 입력 없음");
-		}
-		
-		System.out.println("[log] InsertCart 수량 : " + pQty);
+			return "true";
+		}				
 		
 		// 상품의 재고와 수량을 비교
-		productDTO.setSearchCondition("상품상세정보");
-		productDTO.setProductID(pid);
+		productDTO.setSearchCondition("getProductDetail");
+		productDTO.setProductID(productID);
 		productDTO = productService.selectOne(productDTO);
 		
+		System.out.println("[log] InsertCart 상품 재고 : " + productDTO.getStock());
+		
+		String productStock = Integer.toString(productDTO.getStock());
+		
+		if(productStock == null || productDTO.getStock() < 1) {
+
+			System.out.println("[log] InsertCart 재고없음");
+			
+			return "false";
+			
+		}
+		
 		// 상품의 재고가 수량보다 적다면 실패
-		if (pQty > productDTO.getStock()) {			
-			System.out.println("[log] InsertCart 상품 재고 : " + productDTO.getStock());
-			System.out.println("[log] InsertCart 선택 수량 : " + pQty);
-			return false;
+		if (productQuantity > productDTO.getStock()) {
+			System.out.println("[log] InsertCart 선택한 상품의 재고 부족으로 실패");
+			System.out.print("[log] InsertCart 상품 재고 : " + productDTO.getStock() + " < ");
+			System.out.println("[log] InsertCart 선택 수량 : " + productQuantity);
+			return "false";
 		}
 	
 
 		// 로그인한 회원의 장바구니에 해당 상품이 담겨있는지 확인
-		cartDTO.setSearchCondition("상품확인");
+		cartDTO.setSearchCondition("checkCartProductData");
 		cartDTO.setMemberID(memberID);
-		cartDTO.setProductID(pid);
+		cartDTO.setProductID(productID);
 		
 		// 해당 상품의 cartID를 반환
 		cartDTO = cartService.selectOne(cartDTO);
 		
-		System.out.println("[log] InsertCart 장바구니 확인 : " + cartDTO);
-
 		
 		// 장바구니에 없는 상품이라면 추가
 		if (cartDTO == null) {
+			
+			System.out.println("[log] InsertCart 장바구니에 없는 상품");
+			
 			cartDTO = new CartDTO();
-			cartDTO.setSearchCondition("장바구니추가");
+			cartDTO.setSearchCondition("insertProductData");
 			cartDTO.setMemberID(memberID);
-			cartDTO.setProductID(pid);
-			cartDTO.setProductQuantity(pQty);
+			cartDTO.setProductID(productID);
+			cartDTO.setProductQuantity(productQuantity);
 
 			// 장바구니에 상품추가 결과에 따른 값 반환
-			if (cartService.insert(cartDTO)) {
-				return true;
-			} else {
-				return false;
-			}
+//			if (cartService.insert(cartDTO)) {
+//				return "true";
+//			} else {
+//				return "false";
+//			}
+			return String.valueOf(cartService.insert(cartDTO));
+			
 			// 장바구니에 있는 상품이라면 수량 없데이트
 		} else {
-			cartDTO.setSearchCondition("동일상품추가");
-			cartDTO.setProductQuantity(pQty);
+			
+			System.out.println("[log] InsertCart 장바구니 확인");
+			System.out.println("[log] InsertCart [상품번호] " + cartDTO.getProductID());
+			System.out.println("[log] InsertCart [담긴수량] " + cartDTO.getProductQuantity());
+			
+			cartDTO.setSearchCondition("updateProductData");
+			cartDTO.setProductQuantity(productQuantity);
 
 			System.out.println("[log] InsertCart 변경될 장바구니 정보 : " + cartDTO);
-			
-			// 
-			if (cartService.update(cartDTO)) {
-				return true;
-			} else {
-				return false;
-			}
+						
+//			if (cartService.update(cartDTO)) {
+//				return "true";
+//			} else {
+//				return "false";
+//			}
+			return String.valueOf(cartService.update(cartDTO)); 
 		}
 
 	}
