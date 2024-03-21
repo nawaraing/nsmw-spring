@@ -127,7 +127,7 @@ CREATE TABLE `SHIPPING_ADDRESS` (
   -- 회원 아이디
   `MEMBER_ID` VARCHAR(15) NOT NULL,
   -- 기본 배송지 (1부터 시작, 가장 큰숫자가 기본 배송지)
-  `PRIMARY` INT NOT NULL ,
+  `SHIPPING_DEFAULT` INT NOT NULL ,
   -- 배송지 이름
   `SHIPPING_ADDRESS_NAME` VARCHAR(30) NOT NULL,
   -- 배송지 우편번호 (범위: 01000~63999)
