@@ -21,7 +21,7 @@ public class DashboardPageController {
 		
 		System.out.println("[log] Controller dashboardPage요청");
 		
-		dailySalesStatsDTO.setSearchCondition("selectAdminStatDateDatas");
+		dailySalesStatsDTO.setSearchCondition("selectDashboardDatas");
 		
 		List<DailySalesStatsDTO> dailySalesStatsList = dailySalesStatsService.selectAll(dailySalesStatsDTO);
 		
