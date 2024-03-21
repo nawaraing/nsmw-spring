@@ -19,7 +19,16 @@ public class DailySalesStatsDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	private static final String SELECTALL = "";
+	//관리자 메인 대시보드 화면에서
+	//최근 일주일의 일자별 요약 출력
+	private static final String SELECTALL_DASHBOARD_DATA = "SELECT DAILY_SALES_STATS_ID, "
+										+ "DAILY_TOTAL_CALCULATE_DATE, "
+										+ "DAILY_TOTAL_GROSS_MARGINE, "
+										+ "DAILY_TOTAL_NET_PROFIT "
+										+ "FROM DAILY_SALES_STATS "
+										+ "ORDER BY DAILY_TOTAL_CALCULATE_DATE DESC "
+										+ "LIMIT 7";
+
 
 	private static final String SELECTONE = "";
 
@@ -31,8 +40,24 @@ public class DailySalesStatsDAO {
 
 
 	public List<DailySalesStatsDTO> selectAll(DailySalesStatsDTO dailySalesStatsDTO) {
-		log.debug("selectAll start");
-		return (List<DailySalesStatsDTO>)jdbcTemplate.query(SELECTALL, new DailySalesStatsRowMapper());
+		log.trace("selectAll 진입");
+		
+		if(dailySalesStatsDTO.getSearchCondition().equals("selectDashboardDatas")) {
+			
+			log.trace("selectDashboardDatas 진입");
+			
+			try {
+				return (List<DailySalesStatsDTO>)jdbcTemplate.query(SELECTALL_DASHBOARD_DATA, new DailySalesStatsRowMapper());
+				
+			} catch (Exception e) {
+
+				log.error("selectDashboardDatas 예외/실패");
+
+				return null;
+			}
+		}
+		log.error("selectAll 실패");
+		return null;
 	}
 
 
@@ -93,16 +118,18 @@ class DailySalesStatsRowMapper implements RowMapper<DailySalesStatsDTO> {
 	@Override
 	public DailySalesStatsDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		DailySalesStatsDTO data = new DailySalesStatsDTO();
+		
+		log.debug("DailySalesStatsRowMapper 진입");
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		data.setDailySalesStatsID(rs.getInt("DAILY_SALES_STATS_ID"));
-		data.setDailyTotalCalculateDate(rs.getTimestamp("DAILY_TOTAL_CALCULATE_DATE"));
+		data.setDailyTotalCalculateDate(rs.getDate("DAILY_TOTAL_CALCULATE_DATE"));
 		data.setDailyTotalGrossMargine(rs.getInt("DAILY_TOTAL_GROSS_MARGINE"));
 		data.setDailyTotalNetProfit(rs.getInt("DAILY_TOTAL_NET_PROFIT"));
 
 		log.debug(Integer.toString(rs.getInt("DAILY_SALES_STATS_ID")));
-		log.debug(sdf.format(rs.getTimestamp("DAILY_TOTAL_CALCULATE_DATE")));
+		log.debug(sdf.format(rs.getDate("DAILY_TOTAL_CALCULATE_DATE")));
 		log.debug(Integer.toString(rs.getInt("DAILY_TOTAL_GROSS_MARGINE")));
 		log.debug(Integer.toString(rs.getInt("DAILY_TOTAL_NET_PROFIT")));
 
