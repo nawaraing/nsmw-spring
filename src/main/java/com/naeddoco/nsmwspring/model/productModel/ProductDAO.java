@@ -194,16 +194,16 @@ class getProductDetailRowMapper implements RowMapper<ProductDTO> {
 		productDTO.setProductID(rs.getInt("PRODUCT_ID"));
 		productDTO.setProductName(rs.getString("PRODUCT_NAME"));
 		productDTO.setProductDetail(rs.getString("PRODUCT_DETAIL"));
-		productDTO.setSalePrice(rs.getInt("COST_PRICE"));
-		productDTO.setSalePrice(rs.getInt("RETAIL_PRICE"));
+		productDTO.setCostPrice(rs.getInt("COST_PRICE"));
+		productDTO.setRetailPrice(rs.getInt("RETAIL_PRICE"));
 		productDTO.setSalePrice(rs.getInt("SALE_PRICE"));
-		productDTO.setSalePrice(rs.getInt("STOCK"));
+		productDTO.setStock(rs.getInt("STOCK"));
 		productDTO.setIngredient(rs.getString("INGREDIENT"));
 		productDTO.setDosage(rs.getString("DOSAGE"));
 		productDTO.setExpirationDate(rs.getString("EXPIRATION_DATE"));
-		productDTO.setExpirationDate(rs.getString("REGISTER_DATE"));
-		productDTO.setExpirationDate(rs.getString("MODIFY_DATE"));
-		productDTO.setExpirationDate(rs.getString("SALE_STATE"));
+		productDTO.setRegisterDate(rs.getString("REGISTER_DATE"));
+		productDTO.setModifyDate(rs.getString("MODIFY_DATE"));
+		productDTO.setSaleState(rs.getString("SALE_STATE"));
 		productDTO.setAncCategory(rs.getString("c.CATEGORY_NAME"));
 		productDTO.setAncImagePath(rs.getString("i.IMAGE_PATH"));
 		
