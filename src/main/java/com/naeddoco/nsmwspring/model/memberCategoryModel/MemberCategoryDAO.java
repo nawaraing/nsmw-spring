@@ -22,7 +22,7 @@ public class MemberCategoryDAO {
 
 	private static final String SELECTONE = "";
 	
-	private static final String INSERT = "";
+	private static final String INSERT = "INSERT INTO MEMBER_CATEGORY " + "(CATEGORY_ID, MEMBER_ID) " + "VALUES(?, ?)";
 	
 	private static final String UPDATE = "";
 	
@@ -51,13 +51,19 @@ public class MemberCategoryDAO {
 	
 	public boolean insert(MemberCategoryDTO memberCategoryDTO) {
 	
-//		int result = jdbcTemplate.update(INSERT);
-//		if(result <= 0) {
-//			log.debug("insert 실패");
-			return false;
-//		}
-//		log.debug("insert 성공");
-//		return true;
+		log.trace("insert 진입");
+		if (memberCategoryDTO.getSearchCondition().equals("joinMemberCategory")) {
+
+			int result = jdbcTemplate.update(INSERT, memberCategoryDTO.getCategoryID(),
+													memberCategoryDTO.getMemberID());
+			if (result <= 0) {
+				log.error("insert 실패");
+				return false;
+			}
+			log.trace("insert 성공");
+			return true;
+		}
+		return false;
 	}
 
 	
