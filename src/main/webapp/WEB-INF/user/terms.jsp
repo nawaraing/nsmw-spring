@@ -22,16 +22,16 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <!-- Libraries Stylesheet -->
-<link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+<link href="user/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
 <!-- Customized Bootstrap Stylesheet -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="user/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Template Stylesheet -->
-<link href="css/terms.css" rel="stylesheet">
-<link href="css/style.css" rel="stylesheet">
+<link href="user/css/terms.css" rel="stylesheet">
+<link href="user/css/style.css" rel="stylesheet">
 
 <!-- 파비콘 -->
 <custom:favicon/>
@@ -70,7 +70,7 @@
 						<div class="text-center mx-auto" style="max-width: 700px;">
 							<h1 class="text-primary">약관</h1>
 						</div>
-						<form action="joinPage.do" class="">
+						<form action="/joinPage" class="">
 							<textarea class="w-100 form-control border-0 mb-4" rows="10" cols="10" placeholder="Your Message" readonly>회원 약관에는 회원이 꼭 알아두어야 할 회사와 회원의 관계에 대한 중요한 내용이 포함되어 있습니다.
 가입을 원하시면 아래의 회원 약관을 반드시 읽고 동의 버튼을 눌러주세요.
 
@@ -259,7 +259,7 @@ e .연락처
 본 약관의 적용일자 이전 가입자 또한, 본 약관의 적용을 받습니다.
 
                             </textarea>
-							<input type="checkbox" name="a" value="뼈/치아" required>
+							<input type="checkbox" name="termsCheck" value="1" required>
 							<button class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Submit</button>
 						</form>
 					</div>
@@ -287,13 +287,13 @@ e .연락처
 	<!-- JavaScript Libraries -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="lib/easing/easing.min.js"></script>
-	<script src="lib/waypoints/waypoints.min.js"></script>
-	<script src="lib/lightbox/js/lightbox.min.js"></script>
-	<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="user/lib/easing/easing.min.js"></script>
+	<script src="user/lib/waypoints/waypoints.min.js"></script>
+	<script src="user/lib/lightbox/js/lightbox.min.js"></script>
+	<script src="user/lib/owlcarousel/owl.carousel.min.js"></script>
 
 	<!-- Template Javascript -->
-	<script src="js/main.js"></script>
+	<script src="user/js/main.js"></script>
 </body>
 
 </html>

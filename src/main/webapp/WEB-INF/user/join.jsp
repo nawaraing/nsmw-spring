@@ -27,15 +27,15 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <!-- Libraries Stylesheet -->
-<link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="user/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+<link href="user/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 <!-- Customized Bootstrap Stylesheet -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="user/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Template Stylesheet -->
-<link href="css/style.css" rel="stylesheet">
-<link href="css/number.css" rel="stylesheet">
+<link href="user/css/style.css" rel="stylesheet">
+<link href="user/css/number.css" rel="stylesheet">
 
 <!-- 파비콘 -->
 <custom:favicon/>
@@ -45,11 +45,20 @@
 
 	<!-- 중복 버튼을 눌렀을 때 중복검사하는 ajax -->
 	<script type="text/javascript">
-		var MIDResult;
-		function checkMID() {
+		var checkMemberID_Result;
+		function checkMemberID() {
+			
+			console.log('checkMemberID 진입');
+			
 			// 사용자가 입력한 아이디 가져오기
-			var MID = $("#MID").val();
-			if (MID === "") {
+			var memberID = $("#memberID").val();
+			
+			console.log('입력받은 아이디' + memberID);
+			
+			if (memberID === "") {
+				
+				console.log('아이디 입력 없음(공백)');
+				
 				Swal.fire({
 					icon : 'error',
 					title : '아이디 검사',
@@ -60,12 +69,12 @@
 			// AJAX 요청 보내기
 			$.ajax({
 				type : "POST", // 또는 "GET"
-				url : "checkId", // 서버에서 아이디 중복 확인을 처리할 PHP 파일 경로
+				url : "/checkID", // 서버에서 아이디 중복 확인을 처리할 PHP 파일 경로
 				data : {
-					'MID' : MID
+					'memberID' : memberID
 				},
 				success : function(data) {
-					MIDResult = data
+					checkMemberID_Result = data
 					if (data === "suc") {
 						Swal.fire({
 							icon : 'success',
@@ -90,7 +99,7 @@
 	<script type="text/javascript">
 		var pwResult = false;
 		function pwSameCheck() {
-			if ($('#password').val() == $('#confirmPassword').val()) {
+			if ($('#memberPassword').val() == $('#confirmPassword').val()) {
 				pwResult = true
 				Swal.fire({
 					icon : 'success',
@@ -115,7 +124,7 @@
 
 			var reg = new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
 
-			if (!reg.test($('#password').val())) {
+			if (!reg.test($('#memberPassword').val())) {
 				Swal.fire({
 					icon : 'error',
 					title : '비밀번호 검사',
@@ -129,8 +138,8 @@
 
 	<!-- 회원가입 조건이 충족됬는지 확인 -->
 	<script>
-		function checkForm() {
-			if (MIDResult == "suc" && pwResult == "suc") {
+		function checkForm() {			
+			if (checkMemberID_Result == "suc" && pwResult == true) {
 				return true;
 			} else {
 				return false;
@@ -149,7 +158,7 @@
 			var phoneNum3 = $("#phoneNum3").val();
 			$.ajax({
 				type : "POST",
-				url : "checkTel",
+				url : "/checkTel",
 				data : {
 					'phoneNum1' : phoneNum1,
 					'phoneNum2' : phoneNum2,
@@ -195,19 +204,19 @@
 	<!-- 필수 항목 누락 검사 -->
 	<script>
 		function checkRequirement() {
-			if ($("#MID").val() == "") {
+			if ($("#memberID").val() == "") {
 				Swal.fire({
 					icon : 'error',
 					title : '필수 항목 검사',
 					text : '아이디를 입력해주세요.',
 				})
-			} else if (MIDResult == null) {
+			} else if (checkMemberID_Result == null) {
 				Swal.fire({
 					icon : 'error',
 					title : '필수 항목 검사',
 					text : '아이디 중복 검사를 진행해주세요',
 				})
-			} else if ($("#password").val() == "") {
+			} else if ($("#memberPassword").val() == "") {
 				Swal.fire({
 					icon : 'error',
 					title : '필수 항목 검사',
@@ -225,7 +234,7 @@
 					title : '필수 항목 검사',
 					text : '비밀번호 검사를 진행해주세요.',
 				})
-			} else if ($("#mName").val() == "") {
+			} else if ($("#memberName").val() == "") {
 				Swal.fire({
 					icon : 'error',
 					title : '필수 항목 검사',
@@ -279,7 +288,7 @@
 					title : '필수 항목 검사',
 					text : '이메일 주소를 입력해주세요.',
 				})
-			} else if ($("#zipNo").val() == "") {
+			} else if ($("#shippingPostcode").val() == "") {
 				Swal.fire({
 					icon : 'error',
 					title : '필수 항목 검사',
@@ -339,23 +348,22 @@
 		<div class="container py-5 text-center">
 			<div class="row justify-content-center">
 				<div class="col-lg-6">
-					<form action="join.do" name="joinForm" id="joinForm" method="POST">
+					<form action="/join" name="joinForm" id="joinForm" method="POST">
 						<div class="row g-4">
 							<div class="col-lg-8">
-								<input class="form-control p-3  border-secondary" type="text" name="MID" id="MID" placeholder="아이디" maxlength="15" onblur="checkMinLength(this, 2)">
+								<input class="form-control p-3  border-secondary" type="text" name="memberID" id="memberID" placeholder="아이디" maxlength="15" onblur="checkMinLength(this, 2)">
 							</div>
 							<div class="col-lg-4">
-								<button class="btn border border-secondary text-primary rounded-pill px-4 py-3" id="checkIdDupl" type='button' onclick="checkMID()">중복 검사</button>
-								
+								<button class="btn border border-secondary text-primary rounded-pill px-4 py-3" id="checkIdDupl" type='button' onclick="checkMemberID()">중복 검사</button>	
 							</div>
 							<div class="col-lg-6">
-								<input class="form-control p-3 border-secondary " type="password" name="mPassword1" id="password" placeholder="비밀번호" maxlength="15" onblur="pwFormatCheck()">
+								<input class="form-control p-3 border-secondary " type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호" maxlength="15" onblur="pwFormatCheck()">
 							</div>
 							<div class="col-lg-6">
 								<input class="form-control p-3 border-secondary" type="password" name="mPassword2" id="confirmPassword" placeholder="재입력" maxlength="15" onblur="pwSameCheck()">
 							</div>
 							<div class="col-lg-12">
-								<input class="form-control p-3  border-secondary" type="text" name="mName" id="mName" placeholder="이름" maxlength="20">
+								<input class="form-control p-3  border-secondary" type="text" name="memberName" id="memberName" placeholder="이름" maxlength="20">
 							</div>
 							<div class="col-lg-4">
 								<input class="form-control p-3 border-secondary" type="number" name="year" id="year" placeholder="yyyy" oninput="limitNumLength(this, 4)" onblur="checkMinLength(this, 4)">
@@ -402,33 +410,33 @@
 								<input class="form-control p-3 border-secondary" type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="60">
 							</div>
 							<div class="col-lg-8">
-								<input class="form-control p-3 border-secondary" type="number" id="zipNo" name="zipNo" id="zipNo" placeholder="우편번호" readonly style="background-color:white;">
+								<input class="form-control p-3 border-secondary" type="number" id="shippingPostcode" name="shippingPostcode" placeholder="우편번호" readonly style="background-color:white;">
 							</div>
 							<div class="col-lg-4">
 								<input class="btn border border-secondary text-primary rounded-pill px-4 py-3" type="button" onClick="goPopup()" value="우편번호 찾기">
 							</div>
 							<div class="col-lg-6">
-								<input class="form-control p-3 border-secondary " type="text" id="roadAddrPart1" name="roadAddrPart1" id="roadAddrPart1" placeholder="도로명 주소" readonly style="background-color:white;">
+								<input class="form-control p-3 border-secondary " type="text" id="shippingAddress" name="shippingAddress" placeholder="도로명 주소" readonly style="background-color:white;">
 							</div>
 							<div class="col-lg-6">
-								<input class="form-control p-3 border-secondary" type="text" id="addrDetail" name="addrDetail" id="addrDetail" placeholder="상세 주소" readonly style="background-color:white;">
+								<input class="form-control p-3 border-secondary" type="text" id="shippingDetailAddress" name="shippingDetailAddress" placeholder="상세 주소" readonly style="background-color:white;">
 							</div>
 							<div>
-								<input type="checkbox" name="skel" value="뼈/치아">뼈/치아 
-								<input type="checkbox" name="liver" value="간">간 
-								<input type="checkbox" name="eye" value="눈">눈 
-								<input type="checkbox" name="energy" value="활력">활력 
-								<input type="checkbox" name="immune" value="면역">면역 
-								<input type="checkbox" name="brain" value="두뇌">두뇌 
-								<input type="checkbox" name="skin" value="피부">피부 
-								<input type="checkbox" name="digest" value="소화">소화
+								<input type="checkbox" name="skel" value="skel">뼈/치아 
+								<input type="checkbox" name="liver" value="liver">간 
+								<input type="checkbox" name="eye" value="eye">눈 
+								<input type="checkbox" name="energy" value="energy">활력 
+								<input type="checkbox" name="immune" value="immune">면역 
+								<input type="checkbox" name="brain" value="brain">두뇌 
+								<input type="checkbox" name="skin" value="skin">피부 
+								<input type="checkbox" name="digest" value="digest">소화
 							</div>
 							<input type="hidden" name="kakaoId" id="kakaoId" value="${kakaoId}">
 							<div class="col-lg-6">
 								<button class="btn border border-secondary text-primary rounded-pill px-4 py-3" type="button" onclick="checkRequirement()">회원가입</button>
 							</div>
 							<div class="col-lg-6">
-								<button class="btn border border-secondary text-primary rounded-pill px-5 py-3" type="button" onclick="location.href='loginPage.do'">취소</button>
+								<button class="btn border border-secondary text-primary rounded-pill px-5 py-3" type="button" onclick="location.href='/login'">취소</button>
 							</div>
 						</div>
 					</form>
@@ -458,15 +466,15 @@
 	<!-- JavaScript Libraries -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="lib/easing/easing.min.js"></script>
-	<script src="lib/waypoints/waypoints.min.js"></script>
-	<script src="lib/lightbox/js/lightbox.min.js"></script>
-	<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="user/lib/easing/easing.min.js"></script>
+	<script src="user/lib/waypoints/waypoints.min.js"></script>
+	<script src="user/lib/lightbox/js/lightbox.min.js"></script>
+	<script src="user/lib/owlcarousel/owl.carousel.min.js"></script>
 	<!-- JavaScript Libraries -->
 
 
 	<!-- Template Javascript -->
-	<script src="js/main.js"></script>
+	<script src="user/js/main.js"></script>
 	<!-- Template Javascript -->
 
 
@@ -489,12 +497,12 @@
 			// var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
 		}
 
-		function jusoCallBack(roadAddrPart1, addrDetail, zipNo) {
+		function jusoCallBack(zipNo, roadAddrPart1, addrDetail) {
 
 			// 2017년 2월 제공항목이 추가되었습니다. 원하시는 항목을 추가하여 사용하시면 됩니다.
-			document.joinForm.roadAddrPart1.value = roadAddrPart1;
-			document.joinForm.addrDetail.value = addrDetail;
-			document.joinForm.zipNo.value = zipNo;
+			document.joinForm.shippingPostcode.value = zipNo;
+			document.joinForm.shippingAddress.value = roadAddrPart1;
+			document.joinForm.shippingDetailAddress.value = addrDetail;
 
 		}
 	</script>
