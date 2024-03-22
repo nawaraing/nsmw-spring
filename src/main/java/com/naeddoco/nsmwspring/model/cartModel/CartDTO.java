@@ -16,5 +16,21 @@ public class CartDTO {
     private String ancProductName;	// 상품명
     private int ancSalePrice;		// 판매 가격
     private String ancImagePath;	// 이미지 경로
+    private String ancCategory;     // 카테고리
+    
+    @Override
+	public String toString() {
+		
+		return "CartDTO [" + 
+			   "memberID = " + memberID + ", " + 
+			   "productID = " + productID + ", " +
+			   "productQuantity = " + productQuantity + ", " +
+			   "ancProductName = " + ancProductName + ", " +
+			   "ancSalePrice = " + ancSalePrice + ", " +
+			   "ancImagePath = " + ancImagePath + ", " +
+			   "ancCategory = " + ancCategory +
+			   "]";
+				
+	}
     
 }

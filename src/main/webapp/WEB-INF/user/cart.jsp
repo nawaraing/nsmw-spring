@@ -44,7 +44,7 @@
 	<!-- 페이지 진입 시 총금액 계산 -->
 	<c:set var="total" value="0" /> <!-- 총금액을 저장하기 위한 jstl변수 -->
 	<c:forEach var="cart" items="${cartList}" varStatus="status"> <!-- 장바구니 데이터 반복 -->
-		<c:set var="total" value="${total + (cart.ancSellingPrice * cart.cQty)}" /> <!-- 가격*금액을 총금액에 가산 -->
+		<c:set var="total" value="${total + (cart.ancSalePrice * cart.productQuantity)}" /> <!-- 가격*금액을 총금액에 가산 -->
 	</c:forEach>
 	<script>
 		var total = ${total} <!-- 총금액을 자바스크립트 전역 변수에 저장 -->
@@ -54,24 +54,24 @@
 
 	<!-- 상품 금액 계산 -->
 	<script>
-		function calculPlusPrice(ancSellingPrice, index) { // 수량 + 버튼을 눌렸을 때 가격을 가산 하는기능
-        	var cQTY = parseInt($("#cQTY_" + index).val()) + 1; // 버튼을 눌렀을 시점에는 아직 수량 가산이 안됬기 때문에 +1
-        	var productPrice = ancSellingPrice * cQTY; // 가격 * 수량
+		function calculPlusPrice(ancSalePrice, index) { // 수량 + 버튼을 눌렸을 때 가격을 가산 하는기능
+        	var productQuantity = parseInt($("#productQuantity_" + index).val()) + 1; // 버튼을 눌렀을 시점에는 아직 수량 가산이 안됬기 때문에 +1
+        	var productPrice = ancSalePrice * productQuantity; // 가격 * 수량
         	$("#productPrice_" + index).text(productPrice.toLocaleString('ko-KR') + "" + "원"); // 가격 * 수량 금액을 원화 단위를 적용하여 표시
         
-        	cQTY = cQTY - 1; 
-        	productPrice = ancSellingPrice;
+        	productQuantity = productQuantity - 1; 
+        	productPrice = ancSalePrice;
         	total = total + productPrice;
         	document.getElementById("totalPrice").textContent = total.toLocaleString('ko-KR') + "" + "원";
     	}
-    	function calculMinusPrice(ancSellingPrice, index) {
-    		var cQTY = parseInt($("#cQTY_" + index).val());
-    		if (cQTY > 0) {
-    			cQTY -= 1;
-	           	var productPrice = ancSellingPrice * cQTY;
+    	function calculMinusPrice(ancSalePrice, index) {
+    		var productQuantity = parseInt($("#productQuantity_" + index).val());
+    		if (productQuantity > 0) {
+    			productQuantity -= 1;
+	           	var productPrice = ancSalePrice * productQuantity;
 	           	$("#productPrice_" + index).text(productPrice.toLocaleString('ko-KR') + "" + "원");
 	            
-	           	productPrice = ancSellingPrice;
+	           	productPrice = ancSalePrice;
 	           	total = total - productPrice;
 	           	document.getElementById("totalPrice").textContent = total.toLocaleString('ko-KR') + "" + "원"; 
     		}
@@ -83,7 +83,7 @@
 	<!-- 총금액 갱신 -->
 	<script>
     	function updateTotalPrice(checkbox, price, index) { // 체크박스가 변경될 때 호출되는 함수
-    		var productPrice = price * $("#cQTY_" + index).val();    	
+    		var productPrice = price * $("#productQuantity_" + index).val();    	
         	if (checkbox.checked) { // 체크박스의 체크 상태 확인
         		total = total + productPrice; // 체크되었다면 가격을 배열에 추가
         	} else {
@@ -103,11 +103,11 @@
             	var form = document.getElementById('cartForm');
             	if(row.querySelector('#checkbox').checked){
             		form.innerHTML += '<input type="hidden" name="imagePath[]" value="' + row.querySelector('img').src + '">';
-                	form.innerHTML += '<input type="hidden" name="pName[]" value="' + row.querySelector('#pName').innerText + '">';
-                	form.innerHTML += '<input type="hidden" name="sellingPrice[]" value="' + row.querySelector('#hiddenSellingPrice').value + '">';
-                	form.innerHTML += '<input type="hidden" name="cQty[]" value="' + row.querySelector('input[id^="cQTY_"]').value + '">';
-                	form.innerHTML += '<input type="hidden" name="PID[]" value="' + row.querySelector('#hiddenPID').value + '">';
-                	form.innerHTML += '<input type="hidden" name="CID[]" value="' + row.querySelector('#hiddenCID').value + '">';
+                	form.innerHTML += '<input type="hidden" name="productName[]" value="' + row.querySelector('#productName').innerText + '">';
+                	form.innerHTML += '<input type="hidden" name="salePrice[]" value="' + row.querySelector('#hiddenSalePrice').value + '">';
+                	form.innerHTML += '<input type="hidden" name="productQuantity[]" value="' + row.querySelector('input[id^="productQuantity_"]').value + '">';
+                	form.innerHTML += '<input type="hidden" name="productID[]" value="' + row.querySelector('#hiddenProductID').value + '">';
+                	form.innerHTML += '<input type="hidden" name="cartID[]" value="' + row.querySelector('#hiddenCartID').value + '">';
         		}
         	});
         	// 폼을 서버로 제출합니다.
@@ -142,7 +142,7 @@
 	<div class="container-fluid py-5">
 		<div class="container py-5">
 			<div class="table-responsive">
-				<form id="cartForm" action="buyPage.do" method="post">
+				<form id="cartForm" action="entryBuy" method="post">
 					<table class="table">
 						<thead>
 							<tr>
@@ -160,7 +160,7 @@
 								<tr id="row_${status.index}">
 									<td scope="row">
 										<p class="mb-3 mt-4">
-											<input type="checkbox" id="checkbox" onclick="updateTotalPrice(this, ${cart.ancSellingPrice}, ${status.index})" checked>
+											<input type="checkbox" id="checkbox" onclick="updateTotalPrice(this, ${cart.ancSalePrice}, ${status.index})" checked>
 										</p>									
 									</td>
 									<!-- 이미지 -->
@@ -170,26 +170,26 @@
 									<!-- 이미지 -->
 									<!-- 이름 -->
 									<td>
-										<p class="btn text-primary mb-0 mt-3 mb-0 mt-4" id="pName" onclick='location.href="productDetailPage.do?PID=${cart.PID}"'>${cart.ancPName}</p>
+										<p class="btn text-primary mb-0 mt-3 mb-0 mt-4" id="productName" onclick='location.href="productDetail?productID=${cart.productID}"'>${cart.ancProductName}</p>
 									</td>
 									<!-- 이름 -->
 									<!-- 가격 -->
 									<td>
-										<p class="mb-0 mt-4" id="sellingPrice"><fmt:formatNumber value="${cart.ancSellingPrice}" currencyCode="KRW" />원</p> 
-										<input type="hidden" id="hiddenSellingPrice" value="${cart.ancSellingPrice}" />
+										<p class="mb-0 mt-4" id="salePrice"><fmt:formatNumber value="${cart.ancSalePrice}" currencyCode="KRW" />원</p> 
+										<input type="hidden" id="hiddenSalePrice" value="${cart.ancSalePrice}" />
 									</td>
 									<!-- 가격 -->
 									<!-- 수량 -->
 									<td>
 										<div class="input-group quantity mt-4" style="width: 100px;">
 											<div class="input-group-btn">
-												<button class="btn btn-sm btn-minus rounded-circle bg-light border" type="button" onclick="calculMinusPrice(${cart.ancSellingPrice}, ${status.index})">
+												<button class="btn btn-sm btn-minus rounded-circle bg-light border" type="button" onclick="calculMinusPrice(${cart.ancSalePrice}, ${status.index})">
 													<i class="fa fa-minus"></i>
 												</button>
 											</div>
-											<input id="cQTY_${status.index}" type="number" class="form-control form-control-sm text-center border-0" value="${cart.cQty}" onchange="noQtyZero(this, 1)" readonly>
+											<input id="productQuantity_${status.index}" type="number" class="form-control form-control-sm text-center border-0" value="${cart.productQuantity}" onchange="noQtyZero(this, 1)" readonly>
 											<div class="input-group-btn">
-												<button class="btn btn-sm btn-plus rounded-circle bg-light border" type="button" onclick="calculPlusPrice(${cart.ancSellingPrice}, ${status.index})">
+												<button class="btn btn-sm btn-plus rounded-circle bg-light border" type="button" onclick="calculPlusPrice(${cart.ancSalePrice}, ${status.index})">
 													<i class="fa fa-plus"></i>
 												</button>
 											</div>
@@ -199,20 +199,20 @@
 									<!-- 가격*수량 -->
 									<td>
 										<p class="text-center mb-0 mt-4" id="productPrice_${status.index}">
-											<fmt:formatNumber value="${cart.ancSellingPrice * cart.cQty}" currencyCode="KRW" />
+											<fmt:formatNumber value="${cart.ancSalePrice * cart.productQuantity}" currencyCode="KRW" />
 											원
 										</p>
 									</td>
 									<!-- 취소 버튼 -->
 									<td>
-										<button class="btn btn-md rounded-circle bg-light border mt-4" type="button" onclick='location.href="cartDelete.do?CID=${cart.CID}";'>
+										<button class="btn btn-md rounded-circle bg-light border mt-4" type="button" onclick='location.href="cartDelete.do?cartID=${cart.cartID}";'>
 											<i class="fa fa-times text-danger"></i>
 										</button>
-										<input type="hidden" id="hiddenCID" value="${cart.CID}" />
+										<input type="hidden" id="hiddenCartID" value="${cart.cartID}" />
 									</td>
 									<!-- 취소 버튼 -->
 									<td>
-										<input type="hidden" id="hiddenPID" value="${cart.PID}" />
+										<input type="hidden" id="hiddenProductID" value="${cart.productID}" />
 									</td>
 								</tr>
 							</c:forEach>

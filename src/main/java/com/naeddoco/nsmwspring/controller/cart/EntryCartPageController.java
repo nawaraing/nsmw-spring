@@ -19,7 +19,7 @@ public class EntryCartPageController {
 	@Autowired
 	private CartService cartService;
 
-	@RequestMapping(value = "/entryCart", method = RequestMethod.GET)
+	@RequestMapping(value = "/cart", method = RequestMethod.GET)
 	public String entryCart(HttpSession session, Model model, CartDTO cartDTO) {
 
 		String memberID = (String) session.getAttribute("memberID"); // 세션에 있는 유저 아이디 습득
@@ -29,7 +29,7 @@ public class EntryCartPageController {
 			return "redirect:/"; // 메인 페이지로 강제 이동
 
 		}
-
+		
 		cartDTO.setSearchCondition("selectCartDatas"); // 검색 조건 설정
 		
 		cartDTO.setMemberID(memberID); // 유저 아이디 DTO에 set
@@ -38,7 +38,7 @@ public class EntryCartPageController {
 
 		model.addAttribute("cartList", cartDTOList); // 모델에 데이터 저장
 
-		return "forward:user/cart"; // 장바구니 페이지로 요청
+		return "user/cart"; // 장바구니 페이지로 요청
 
 	}
 
