@@ -32,7 +32,7 @@ body {
 
 	<!-- 팝업 내용을 나타내는 div 요소 추가 -->
 	<div class="popup">
-		<a href="productAllPage.do" target="_blank"><img src="img/popup.jpg" alt="팝업 이미지"></a>
+		<a href="productAllPage.do" target="_blank"><img src="/resources/user/img/popup.jpg" alt="팝업 이미지"></a>
 	</div>
 
 	<div class="btn">
