@@ -22,18 +22,45 @@ public class DailySalesStatsDAO {
 	//관리자 메인 대시보드 화면에서
 	//최근 일주일의 일자별 요약 출력
 	private static final String SELECTALL_DASHBOARD_DATA = "SELECT DAILY_SALES_STATS_ID, "
-										+ "DAILY_TOTAL_CALCULATE_DATE, "
-										+ "DAILY_TOTAL_GROSS_MARGINE, "
-										+ "DAILY_TOTAL_NET_PROFIT "
-										+ "FROM DAILY_SALES_STATS "
-										+ "ORDER BY DAILY_TOTAL_CALCULATE_DATE DESC "
-										+ "LIMIT 7";
-
+															+ "DAILY_TOTAL_CALCULATE_DATE, "
+															+ "DAILY_TOTAL_GROSS_MARGINE, "
+															+ "DAILY_TOTAL_NET_PROFIT "
+														+ "FROM DAILY_SALES_STATS "
+														+ "ORDER BY DAILY_TOTAL_CALCULATE_DATE DESC "
+														+ "LIMIT 7";
+	
+	//기간별 판매 통계 조회
+	private static final String SELECTALL_ADMIN_STAT_DATA = "SELECT "
+															+ "DAILY_SALES_STATS_ID, "
+															+ "DAILY_TOTAL_CALCULATE_DATE, "
+															+ "DAILY_TOTAL_GROSS_MARGINE, "
+															+ "DAILY_TOTAL_NET_PROFIT "
+														+ "FROM "
+															+ "DAILY_SALES_STATS "
+														+ "WHERE "
+															+ "DAILY_TOTAL_CALCULATE_DATE BETWEEN ? AND ? "
+														+ "ORDER BY "
+															+ "DAILY_TOTAL_CALCULATE_DATE "
+														+ "LIMIT ?, ?";
 
 	private static final String SELECTONE = "";
 
-	private static final String INSERT = "";
+	//전일의 매출 통계를 추가하는 쿼리
+	//DAILY_PRODUCT_SALES_STATS 테이블에 만들어놓은 매출과 이익의 합을
+	//해당 일자에 추가함
+	//시스템에서 자동으로 추가되게 구현할 예정
+	private static final String INSERT = "INSERT INTO DAILY_SALES_STATS "
+											+ "(DAILY_TOTAL_CALCULATE_DATE,"
+											+ "DAILY_TOTAL_GROSS_MARGINE, "
+											+ "DAILY_TOTAL_NET_PROFIT) "
+										+ "SELECT DATE_SUB(CURDATE(), INTERVAL 1 DAY), "
+											+ "SUM(DAILY_TOTAL_GROSS_MARGINE), "
+											+ "SUM(DAILY_TOTAL_NET_PROFIT) "
+										+ "FROM DAILY_PRODUCT_SALES_STATS "
+										+ "WHERE DAILY_TOTAL_CALCULATE_DATE = DATE_SUB(CURDATE(), INTERVAL 1 DAY) "
+										+ "GROUP BY DAILY_TOTAL_CALCULATE_DATE";
 
+	
 	private static final String UPDATE = "";
 
 	private static final String DELETE = "";
@@ -56,6 +83,23 @@ public class DailySalesStatsDAO {
 				return null;
 			}
 		}
+		else if(dailySalesStatsDTO.getSearchCondition().equals("selectAdminStatDateDatas")) {
+			
+			Object[] args = { dailySalesStatsDTO.getAncStartDate(), dailySalesStatsDTO.getAncEndDate(), dailySalesStatsDTO.getAncStartRow(), dailySalesStatsDTO.getAncSelectMax() };
+
+			log.trace("selectAdminStatDateDatas 진입");
+			
+			try {
+				return (List<DailySalesStatsDTO>)jdbcTemplate.query(SELECTALL_ADMIN_STAT_DATA, args, new DailySalesStatsRowMapper());
+				
+			} catch (Exception e) {
+
+				log.error("selectAdminStatDateDatas 예외/실패");
+
+				return null;
+			}
+		}
+		
 		log.error("selectAll 실패");
 		return null;
 	}
@@ -77,13 +121,16 @@ public class DailySalesStatsDAO {
 
 	public boolean insert(DailySalesStatsDTO dailySalesStatsDTO) {
 
-		//			int result = jdbcTemplate.update(INSERT);
-		//			if(result <= 0) {
-		//				log.debug("insert 실패");
-				return false;
-		//			}
-		//			log.debug("insert 성공");
-		//			return true;
+		log.debug("insert 진입");
+		
+		int result = jdbcTemplate.update(INSERT);
+		
+		if(result <= 0) {
+			log.error("insert 실패");
+			return false;
+		}
+		log.debug("insert 성공");
+		return true;
 	}
 
 
@@ -136,3 +183,4 @@ class DailySalesStatsRowMapper implements RowMapper<DailySalesStatsDTO> {
 		return data;
 	}
 }
+
