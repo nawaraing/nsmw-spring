@@ -2,8 +2,8 @@
 CREATE TABLE `MEMBER` ( 
   -- 회원 아이디(영문,숫자만 가능 15자 제한) , 기본키
   `MEMBER_ID` VARCHAR(15) NOT NULL,
-  -- 등급 아이디
-  `GRADE_ID` INT NOT NULL,
+  -- 등급 아이디(기본값 1)
+  `GRADE_ID` INT NOT NULL DEFAULT 1,
   -- 회원 비밀번호(필수 포함: 영어 대소문자, 숫자, 특수문자 15자 제한)
   `MEMBER_PASSWORD` VARCHAR(15) NOT NULL,
   -- 회원 이름 
@@ -32,10 +32,10 @@ CREATE TABLE `KAKAO_MEMBER` (
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
 CREATE TABLE `GRADE` (
-  -- 등급 아이디, 기본키
+  -- 등급 아이디, 기본키(ex.1,2,3)
   `GRADE_ID` INT NOT NULL AUTO_INCREMENT,
-  -- 등급 이름
-  `GRADE_NAME` VARCHAR(30) NOT NULL,
+  -- 등급 이름(씨앗,새싹,나무)
+  `GRADE_NAME` VARCHAR(30) NOT NULL ,
   -- 최솟값
   `LOWER_LIMIT` INT NOT NULL,
   -- 최댓값
