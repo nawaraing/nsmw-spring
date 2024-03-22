@@ -6,7 +6,7 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
     <img src="commonImages/favicon.png" height="35" />
-    <a href="dashboard" class="app-brand-link">
+    <a href="/dashboard" class="app-brand-link">
       <span class="app-brand-text demo menu-text fw-bolder ms-2">NAEDDOCO</span>
     </a>
 
@@ -19,19 +19,19 @@
 
   <ul class="menu-inner py-1">
     <li class="menu-item" id="dashboard">
-      <a href="dashboard" class="menu-link">
+      <a href="/dashboard" class="menu-link">
         <i class="menu-icon tf-icons bx bxs-dashboard"></i>
         <div>대시보드</div>
       </a>
     </li>
     <li class="menu-item" id="productList">
-      <a href="productList" class="menu-link">
+      <a href="/productList" class="menu-link">
         <i class="menu-icon tf-icons bx bx-package"></i>
         <div>상품 목록</div>
       </a>
     </li>
     <li class="menu-item" id="memberList">
-      <a href="memberList" class="menu-link">
+      <a href="/memberList" class="menu-link">
         <i class="menu-icon tf-icons bx bx-user"></i>
         <div>회원 목록</div>
       </a>
@@ -41,13 +41,13 @@
       <span class="menu-header-text">판매 통계</span>
     </li>
     <li class="menu-item" id="statDate">
-      <a href="statDate" class="menu-link">
+      <a href="/statDate" class="menu-link">
         <i class="menu-icon tf-icons bx bx-calendar"></i>
         <div>기간별</div>
       </a>
     </li>
     <li class="menu-item" id="statProduct">
-      <a href="statProduct" class="menu-link">
+      <a href="/statProduct" class="menu-link">
         <i class="menu-icon tf-icons bx bx-purchase-tag-alt"></i>
         <div>상품별</div>
       </a>
@@ -57,19 +57,19 @@
       <span class="menu-header-text">쿠폰 지급</span>
     </li>
     <li class="menu-item" id="couponGrade">
-      <a href="couponGrade" class="menu-link">
+      <a href="/couponGrade" class="menu-link">
         <i class="menu-icon tf-icons bx bx-trophy"></i>
         <div>등급별 자동 발송</div>
       </a>
     </li>
     <li class="menu-item" id="couponBatch">
-      <a href="couponBatch" class="menu-link">
+      <a href="/couponBatch" class="menu-link">
         <i class="menu-icon tf-icons bx bx-group"></i>
         <div>전체 발송</div>
       </a>
     </li>
     <li class="menu-item" id="couponDownload">
-      <a href="couponDownload" class="menu-link">
+      <a href="/couponDownload" class="menu-link">
         <i class="menu-icon tf-icons bx bx-download"></i>
         <div>사용자 다운로드</div>
       </a>
