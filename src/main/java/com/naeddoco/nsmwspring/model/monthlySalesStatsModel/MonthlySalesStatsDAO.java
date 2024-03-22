@@ -96,7 +96,7 @@ class MonthlySalesStatsRowMapper implements RowMapper<MonthlySalesStatsDTO> {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		
 		data.setMonthlySalesStatsID(rs.getInt("MONTHLY_SALES_STATS_ID"));
-		data.setMonthlyTotalCalculateDate(rs.getTimestamp("MONTHLY_TOTAL_CALCULATE_DATE"));
+		data.setMonthlyTotalCalculateDate(rs.getDate("MONTHLY_TOTAL_CALCULATE_DATE"));
 		data.setMonthlyTotalGrossMargine(rs.getInt("MONTHLY_TOTAL_GROSS_MARGINE"));
 		data.setMonthlyTotalNetProfit(rs.getInt("MONTHLY_TOTAL_NET_PROFIT"));
 			
