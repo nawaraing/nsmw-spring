@@ -58,7 +58,7 @@
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
-        <custom:adminSidebar/>
+        <custom:adminSidebar pageName='dashboard' />
 
         <!-- Layout container -->
         <div class="layout-page">
@@ -82,7 +82,7 @@
                 </div>
                 <!--/ Expense Overview -->
                 
-                <!-- Striped Rows -->
+                <!-- Striped Table -->
                 <div class="col-md-6 col-lg-6 order-1 mb-4">
                   <div class="card">
                     <h5 class="card-header">일자별 요약</h5>
@@ -90,8 +90,8 @@
                       <table class="table table-striped">
                         <thead>
                           <tr>
-                            <th>일자</th>
-                            <th>매출액(₩)</th>
+                            <th>날짜</th>
+                            <th>매출(₩)</th>
                             <th>이익(₩)</th>
                           </tr>
                         </thead>
@@ -117,7 +117,7 @@
                     </div>
                   </div>
                 </div>
-                <!--/ Striped Rows -->
+                <!--/ Striped Table -->
               </div>
             </div>
             <!-- / Content -->
@@ -150,9 +150,24 @@
     <!-- Main JS -->
     <script src="admin/assets/js/main.js"></script>
 
-    <!-- Page JS -->
+    <!-- Render dashboard charts -->
     <script src="admin/assets/js/dashboards-analytics.js"></script>
-
+    <script>
+      let values = [];
+      let dates = [];
+    </script>
+    <c:if test="${fn:length(dashboardDailySalesStats) > 0}">
+      <c:forEach var="dailySalesStat" items="${dashboardDailySalesStats}">
+        <script>
+          values.push(${dailySalesStat.dailyTotalGrossMargine});
+          dates.push(`${dailySalesStat.dailyTotalCalculateDate}`);
+        </script>
+      </c:forEach>
+    </c:if>
+    <script>
+      renderCharts(values, dates);
+    </script>
+    
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
