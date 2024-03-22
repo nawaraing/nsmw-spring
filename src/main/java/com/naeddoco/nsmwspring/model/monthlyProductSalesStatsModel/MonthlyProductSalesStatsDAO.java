@@ -15,9 +15,28 @@ import lombok.extern.slf4j.Slf4j;
 @Repository("monthlyProductSalesStatsDAO")
 @Slf4j
 public class MonthlyProductSalesStatsDAO {
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
+	
+	//관리자 페이지-상품별 판매 통계 조회(월별)
+	//날짜(yyyy-mm-01)와 시작행의 인덱스, 보여줄 상품 갯수를 입력받아 조회
+	//최대 검색일자 범위는 컨트롤러에서 확인 예정
+	private static final String SELECTALL_ADMIN_STAT_DATA = "SELECT"
+											            		+ "MPS.PRODUCT_ID, "
+											            		+ "P.PRODUCT_NAME, "
+											            		+ "MPS.MONTHLY_TOTAL_CALCULATE_DATE, "
+											            		+ "MPS.MONTHLY_TOTAL_QUANTITY, "
+											            		+ "MPS.MONTHLY_TOTAL_GROSS_MARGINE, "
+											            		+ "MPS.MONTHLY_TOTAL_NET_PROFIT "
+											            	+ "FROM "
+											            		+ "MONTHLY_PRODUCT_SALES_STATS MPS "
+											            	+ "JOIN "
+											            		+ "PRODUCT P ON MPS.PRODUCT_ID = P.PRODUCT_ID "
+											            	+ "WHERE "
+											            		+ "MPS.MONTHLY_TOTAL_CALCULATE_DATE BETWEEN DATE_FORMAT( ?, '%Y-%m-01') AND LAST_DAY(?)"
+											            		+ "LIMIT ?, ?";
+                                                        
 	private static final String SELECTALL = "";
 
 	private static final String SELECTONE = "";
@@ -29,8 +48,26 @@ public class MonthlyProductSalesStatsDAO {
 	private static final String DELETE = "";
 	
 	public List<MonthlyProductSalesStatsDTO> selectAll(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
-		log.debug("selectAll start");
-		return (List<MonthlyProductSalesStatsDTO>)jdbcTemplate.query(SELECTALL, new MonthlyProductSalesStatsRowMapper());
+		
+		log.debug("selectAll 진입");
+		
+		if(monthlyProductSalesStatsDTO.getSearchCondition().equals("selectAdminStatProductDatas")) {
+			
+			Object[] args = { monthlyProductSalesStatsDTO.getAncStartDate(), monthlyProductSalesStatsDTO.getAncEndDate(), monthlyProductSalesStatsDTO.getAncStartRow(), monthlyProductSalesStatsDTO.getAncSelectMax() };
+			
+			log.trace("selectAdminStatProductDatas 진입");
+			try {
+				return (List<MonthlyProductSalesStatsDTO>)jdbcTemplate.query(SELECTALL_ADMIN_STAT_DATA, args, new SelectAdminMonthlyProductSalesStatsRowMapper());
+			}
+			catch (Exception e) {
+
+				log.error("selectAdminStatProductDatas 예외/실패 ");
+
+				return null;
+			}
+		}
+		log.error("selectAll 실패");
+		return null;
 	}
 
 	
@@ -91,11 +128,11 @@ class MonthlyProductSalesStatsRowMapper implements RowMapper<MonthlyProductSales
 	public MonthlyProductSalesStatsDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		MonthlyProductSalesStatsDTO data = new MonthlyProductSalesStatsDTO();
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		data.setMonthlyProductSalesStatsID(rs.getInt("MONTHLY_PRODUCT_SALES_STATS_ID"));
 		data.setProductID(rs.getInt("PRODUCT_ID"));
-		data.setMonthlyTotalCalculateDate(rs.getTimestamp("MONTHLY_TOTAL_CALCULATE_DATE"));
+		data.setMonthlyTotalCalculateDate(rs.getDate("MONTHLY_TOTAL_CALCULATE_DATE"));
 		data.setMonthlyTotalQuantity(rs.getInt("MONTHLY_TOTAL_QUANTITY"));
 		data.setMonthlyTotalGrossMargine(rs.getInt("MONTHLY_TOTAL_GROSS_MARGINE"));
 		data.setMonthlyTotalNetProfit(rs.getInt("MONTHLY_TOTAL_NET_PROFIT"));
@@ -113,3 +150,29 @@ class MonthlyProductSalesStatsRowMapper implements RowMapper<MonthlyProductSales
 	
 }
 
+@Slf4j
+class SelectAdminMonthlyProductSalesStatsRowMapper implements RowMapper<MonthlyProductSalesStatsDTO> {
+	@Override
+	public MonthlyProductSalesStatsDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		MonthlyProductSalesStatsDTO data = new MonthlyProductSalesStatsDTO();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		data.setProductID(rs.getInt("MPS.PRODUCT_ID"));
+		data.setAncProductName(rs.getString("P.PRODUCT_NAME"));
+		data.setMonthlyTotalCalculateDate(rs.getDate("MPS.MONTHLY_TOTAL_CALCULATE_DATE"));
+		data.setMonthlyTotalQuantity(rs.getInt("MPS.MONTHLY_TOTAL_QUANTITY"));
+		data.setMonthlyTotalGrossMargine(rs.getInt("MPS.MONTHLY_TOTAL_GROSS_MARGINE"));
+		data.setMonthlyTotalNetProfit(rs.getInt("MPS.MONTHLY_TOTAL_NET_PROFIT"));
+			
+		log.debug("MPS.PRODUCT_ID : " + Integer.toString(rs.getInt("DPS.PRODUCT_ID")));
+		log.debug("PRODUCT_NAME : " + rs.getString("P.PRODUCT_NAME"));
+		log.debug("MPS.MONTHLY_TOTAL_CALCULATE_DATE : " + sdf.format(rs.getDate("MPS.MONTHLY_TOTAL_CALCULATE_DATE")));
+		log.debug("MONTHLY_TOTAL_QUANTITY : " + Integer.toString(rs.getInt("MPS.MONTHLY_TOTAL_QUANTITY")));
+		log.debug("MONTHLY_TOTAL_GROSS_MARGINE : " + Integer.toString(rs.getInt("MPS.MONTHLY_TOTAL_GROSS_MARGINE")));
+		log.debug("MONTHLY_TOTAL_NET_PROFIT : " + Integer.toString(rs.getInt("MPS.MONTHLY_TOTAL_NET_PROFIT")));
+		
+		
+		return data;
+	}
+}
