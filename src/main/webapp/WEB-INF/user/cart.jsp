@@ -21,16 +21,16 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <!-- Libraries Stylesheet -->
-<link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="user/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+<link href="user/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 <!-- Customized Bootstrap Stylesheet -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="user/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Template Stylesheet -->
-<link href="css/style.css" rel="stylesheet">
-<link href="css/number.css" rel="stylesheet">
-<link href="css/table.css" rel="stylesheet">
+<link href="user/css/style.css" rel="stylesheet">
+<link href="user/css/number.css" rel="stylesheet">
+<link href="user/css/table.css" rel="stylesheet">
 
 <!-- 파비콘 -->
 <custom:favicon/>
@@ -108,6 +108,7 @@
                 	form.innerHTML += '<input type="hidden" name="productQuantity[]" value="' + row.querySelector('input[id^="productQuantity_"]').value + '">';
                 	form.innerHTML += '<input type="hidden" name="productID[]" value="' + row.querySelector('#hiddenProductID').value + '">';
                 	form.innerHTML += '<input type="hidden" name="cartID[]" value="' + row.querySelector('#hiddenCartID').value + '">';
+                	form.innerHTML += '<input type="hidden" name="category[]" value="' + row.querySelector('#hiddenCategory').value + '">';
         		}
         	});
         	// 폼을 서버로 제출합니다.
@@ -165,7 +166,9 @@
 									</td>
 									<!-- 이미지 -->
 									<td scope="row">
-										<img src="${cart.ancImagePath}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">									
+										<div class="row justify-content-center">
+											<img src="${cart.ancImagePath}" class="img-fluid rounded-circle" style="width: 80px; height: 80px;">									
+										</div>
 									</td>
 									<!-- 이미지 -->
 									<!-- 이름 -->
@@ -181,7 +184,8 @@
 									<!-- 가격 -->
 									<!-- 수량 -->
 									<td>
-										<div class="input-group quantity mt-4" style="width: 100px;">
+									    <div class="row justify-content-center">
+										<div class="input-group quantity mt-4" style="width: 150px;">
 											<div class="input-group-btn">
 												<button class="btn btn-sm btn-minus rounded-circle bg-light border" type="button" onclick="calculMinusPrice(${cart.ancSalePrice}, ${status.index})">
 													<i class="fa fa-minus"></i>
@@ -194,6 +198,7 @@
 												</button>
 											</div>
 										</div>
+									    </div>
 									</td>
 									<!-- 수량 -->
 									<!-- 가격*수량 -->
@@ -213,6 +218,7 @@
 									<!-- 취소 버튼 -->
 									<td>
 										<input type="hidden" id="hiddenProductID" value="${cart.productID}" />
+										<input type="hidden" id="hiddenCategory" value="${cart.ancCategory}" />
 									</td>
 								</tr>
 							</c:forEach>
@@ -267,13 +273,13 @@
 	<!-- JavaScript Libraries -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="lib/easing/easing.min.js"></script>
-	<script src="lib/waypoints/waypoints.min.js"></script>
-	<script src="lib/lightbox/js/lightbox.min.js"></script>
-	<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="user/lib/easing/easing.min.js"></script>
+	<script src="user/lib/waypoints/waypoints.min.js"></script>
+	<script src="user/lib/lightbox/js/lightbox.min.js"></script>
+	<script src="user/lib/owlcarousel/owl.carousel.min.js"></script>
 
 	<!-- Template Javascript -->
-	<script src="js/main.js"></script>
+	<script src="user/js/main.js"></script>
 </body>
 
 </html>

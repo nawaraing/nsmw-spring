@@ -41,3 +41,6 @@ out/
 src/main/resources/static/productImages
 *.log
 logs/
+
+### nawaraing ###
+src/main/webapp/WEB-INF/admin/html/
