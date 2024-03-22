@@ -66,6 +66,8 @@ public class CartDAO {
 			
 			} catch (Exception e) {
 				
+				log.debug("selectCartDatas 예외 발생");
+				
 				return null;
 			}
 			
@@ -80,63 +82,90 @@ public class CartDAO {
 /*------------------------------------------------------------------------------------------------------------------------------------------------------*/	
 	
 	public CartDTO selectOne(CartDTO cartDTO) {
+		
 		log.debug("selectOne 진입");
 
 		//장바구니 중복상품 확인
 		if (cartDTO.getSearchCondition().equals("checkCartProductData")) {
-			log.debug("selectOne:checkCartProductData 진입");
+			
+			log.debug("checkCartProductData 진입");
 			
 			Object[] args = { cartDTO.getMemberID(), cartDTO.getProductID() };
 
 			try {
+				
 				return jdbcTemplate.queryForObject(SELECTONE_CART, args, new CheckCartRowMapper());
+				
 			} catch (Exception e) {
-				log.debug("selectOne:checkCartProductData 예외처리");
+				
+				log.debug("selectOne:checkCartProductData 예외 발생");
+				
 				return null;
+				
 			}
+			
 		}
+		
 		log.debug("selectOne 실패");
+		
 		return null;
+		
 	}
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	
 	public boolean insert(CartDTO cartDTO) {
+		
 		log.debug("insert 진입");
 		
 		//장바구니 신규 추가
 		if (cartDTO.getSearchCondition().equals("insertProductData")) {
+			
 			log.debug("insertProductData 진입");
-			int result = jdbcTemplate.update(INSERT_CART,
-											cartDTO.getMemberID(),
-											cartDTO.getProductID(),
-											cartDTO.getProductQuantity());
+			
+			int result = jdbcTemplate.update(INSERT_CART, cartDTO.getMemberID(), cartDTO.getProductID(), cartDTO.getProductQuantity());
+			
 			if(result <= 0) {
+				
 				log.debug("insertProductData 실패");
+				
 				return false;
+				
 			}
+			
 			log.debug("insertProductData 성공");
+			
 			return true;
+			
 		}
+		
 		log.debug("insert 실패");
+		
 		return false;
+		
 	}
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------*/	
 	
 	public boolean update(CartDTO cartDTO) {
+		
 		log.debug("update 진입");
 		
 		//장바구니 중복상품 수량 추가
-		int result = jdbcTemplate.update(UPDATE_CART_QTY_ADD,
-											cartDTO.getProductQuantity(),
-											cartDTO.getCartID());
+		int result = jdbcTemplate.update(UPDATE_CART_QTY_ADD, cartDTO.getProductQuantity(), cartDTO.getCartID());
+		
 		if(result <= 0) {
+			
 			log.debug("updateProductData 실패");
+			
 			return false;
+			
 		}
+		
 		log.debug("updateProductData 성공");
+		
 		return true;
+		
 	}
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------*/	
@@ -155,8 +184,6 @@ class SelectCartDatasRowMapper implements RowMapper<CartDTO> {
 	@Override
 	public CartDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
-		System.out.println("SelectCartDatasRowMapper 진입");
-		
 		CartDTO cartDTO = new CartDTO();
 		
 		cartDTO.setCartID(rs.getInt("C.CART_ID"));
@@ -167,8 +194,6 @@ class SelectCartDatasRowMapper implements RowMapper<CartDTO> {
 		cartDTO.setAncSalePrice(rs.getInt("P.SALE_PRICE"));
 		cartDTO.setAncImagePath(rs.getString("I.IMAGE_PATH"));
 		cartDTO.setAncCategory(rs.getString("CA.CATEGORY_NAME"));
-		
-		System.out.println("SelectCartDatasRowMapper 완료");
 
 		return cartDTO;
 		
