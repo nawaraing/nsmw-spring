@@ -20,6 +20,9 @@ function renderCharts(values, dates) {
         }
       ],
       chart: {
+        zoom: {
+          enabled: false
+        },
         height: 215,
         parentHeightOffset: 0,
         parentWidthOffset: 0,

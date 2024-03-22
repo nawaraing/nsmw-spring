@@ -165,6 +165,8 @@
       </c:forEach>
     </c:if>
     <script>
+      values.reverse();
+      dates.reverse();
       renderCharts(values, dates);
     </script>
     
