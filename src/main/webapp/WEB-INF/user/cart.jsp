@@ -143,7 +143,7 @@
 	<div class="container-fluid py-5">
 		<div class="container py-5">
 			<div class="table-responsive">
-				<form id="cartForm" action="entryBuy" method="post">
+				<form id="cartForm" action="buy/once" method="post">
 					<table class="table">
 						<thead>
 							<tr>
