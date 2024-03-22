@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class EntryMemberListPageController {
 	
-	@RequestMapping(value = "/entryMemberList", method = RequestMethod.GET)
+	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
 	public String entryCart() {
 
 		return "admin/memberList"; // 장바구니 페이지로 요청

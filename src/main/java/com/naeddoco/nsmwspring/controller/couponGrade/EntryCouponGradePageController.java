@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class EntryCouponGradePageController {
 	
-	@RequestMapping(value = "/entryCouponGrade", method = RequestMethod.GET)
+	@RequestMapping(value = "/couponGrade", method = RequestMethod.GET)
 	public String entryCart() {
 
 		return "admin/couponGrade"; // 장바구니 페이지로 요청

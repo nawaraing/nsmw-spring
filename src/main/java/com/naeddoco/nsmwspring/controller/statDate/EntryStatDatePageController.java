@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class EntryStatDatePageController {
 	
-	@RequestMapping(value = "/entryStatDate", method = RequestMethod.GET)
+	@RequestMapping(value = "/statDate", method = RequestMethod.GET)
 	public String entryCart() {
 
 		return "admin/statDate"; // 장바구니 페이지로 요청
