@@ -29,22 +29,26 @@ public class MemberDAO {
 	// 일치하는 회원아이디와 권한(USER or ADMIN) 전달
 	// 로그인시 MEMBER_STATE가 JOIN이 아닐 경우 로그인 실패
 	private static final String SELECTONE_MEMBER_LOGIN = "SELECT MEMBER_ID, AUTHORITY FROM MEMBER "
-			+ "WHERE MEMBER_ID = ? "
-			+ "AND MEMBER_PASSWORD = ? "
-			+ "AND MEMBER_STATE = 'JOIN'";
+														+ "WHERE MEMBER_ID = ? "
+														+ "AND MEMBER_PASSWORD = ? "
+														+ "AND MEMBER_STATE = 'JOIN'";
 	
 	// 한 멤버의 구체적인 정보를 습득하기 위한 쿼리
-	private static final String SELECTONE_MEMBER_INFO = "SELECT m.MEMBER_NAME, m.PHONE_NUMBER, m.EMAIL, sa.SHIPPING_DEFAULT, sa.SHIPPING_POSTCODE, sa.SHIPPING_ADDRESS, sa.SHIPPING_DETAIL_ADDRESS " +
-													    "FROM MEMBER m " +
-													    "JOIN SHIPPING_ADDRESS sa ON m.MEMBER_ID = sa.MEMBER_ID " +
-													    "WHERE m.MEMBER_ID = ?";
+	private static final String SELECTONE_MEMBER_INFO = "SELECT m.MEMBER_NAME, m.PHONE_NUMBER, m.EMAIL, sa.SHIPPING_DEFAULT, sa.SHIPPING_POSTCODE, sa.SHIPPING_ADDRESS, sa.SHIPPING_DETAIL_ADDRESS " 
+														+ "FROM MEMBER m "
+													    + "JOIN SHIPPING_ADDRESS sa ON m.MEMBER_ID = sa.MEMBER_ID "
+													    + "WHERE m.MEMBER_ID = ?";
 
+	// 아이디 중복검사
+	// 해당 아이디가 일치하는 행이 있다면 해당 행의 MEMBER_ID를 선택
+	private static final String SELECTONE_MEMBER_ID_CHECK = "SELECT MEMBER_ID FROM MEMBER WHERE MEMBER_ID = ?";
+	
 	//현재 미지원 기능
 	//회원 탈퇴시 해당하는 MEMBER_ID의 MEMBER_STATE를 'LEAVE'로 변경
 	//해당 회원의 ID 삭제시 구매내역 등 여러 정보가 불일치될 수 있기때문에 회원 상태만 변경함
 	private static final String UPDATE_MEMBER_STATE = "UPDATE MEMBER "
-			+ "SET MEMBER_STATE = 'LEAVE' "
-			+ "WHERE MEMBER_ID = ? ";
+													+ "SET MEMBER_STATE = 'LEAVE' "
+													+ "WHERE MEMBER_ID = ? ";
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -96,11 +100,11 @@ public class MemberDAO {
 
 	public MemberDTO selectOne(MemberDTO memberDTO) {
 		
-		log.debug("selectOne 진입");
+		log.trace("selectOne 진입");
 		
 		if (memberDTO.getSearchCondition().equals("memberLogin")) {
 			
-			log.debug("memberLogin 진입");
+			log.trace("memberLogin 진입");
 			
 			Object[] args = {memberDTO.getMemberID(), memberDTO.getMemberPassword()};
 
@@ -110,30 +114,50 @@ public class MemberDAO {
 
 			} catch (Exception e) {
 				
-				log.debug("memberLogin 실패");
+				log.error("memberLogin 실패");
 
 				return null;
 			}
 			
 		} else if(memberDTO.getSearchCondition().equals("selectMemberInfo")) {
 			
-			log.debug("selectMemberInfo 진입");
+			log.trace("selectMemberInfo 진입");
 			
 			Object[] args = {memberDTO.getMemberID()};
 			
 			try {
 
-				return jdbcTemplate.queryForObject(SELECTONE_MEMBER_INFO, args, new selectMemberInfoRowMapper());
+				return jdbcTemplate.queryForObject(SELECTONE_MEMBER_INFO, args, new SelectMemberInfoRowMapper());
 
 			} catch (Exception e) {
 				
-				log.debug("selectMemberInfo 실패");
+				log.error("selectMemberInfo 예외/실패");
+
+				return null;
+			}
+			
+		} else if (memberDTO.getSearchCondition().equals("idDuplicationCheck")) {
+			
+			log.trace("idDuplicationCheck 진입");
+			
+			Object[] args = { memberDTO.getMemberID() };
+			
+			log.debug("오브젝트에 들어간 아이디 : " + args[0]);
+			
+			try {
+
+				return jdbcTemplate.queryForObject(SELECTONE_MEMBER_ID_CHECK, args, new IdDuplicationCheckRowMapper());
+
+			} catch (Exception e) {
+
+				log.error("selectMemberInfo 에러/실패");
 
 				return null;
 			}
 			
 		}
 		
+		log.error("selectone 실패");
 		return null;
 		
 	}
@@ -151,22 +175,23 @@ public class MemberDAO {
 	//현재 미지원 기능
 	public boolean update(MemberDTO memberDTO) {
 		
-		log.debug("update start");
+		log.trace("update 진입");
 		
 		if (memberDTO.getSearchCondition().equals("memberleave")) {
 			
+			log.trace("memberleave 진입");
+			
 			int result = jdbcTemplate.update(UPDATE_MEMBER_STATE, memberDTO.getMemberState());
 			
-
 			if (result <= 0) {
 				
-				log.debug("update 실패");
+				log.trace("memberleave update 실패");
 				
 				return false;
 				
 			}
 			
-			log.debug("update 성공");
+			log.debug("memberleave update 성공");
 			
 			return true;
 			
@@ -192,13 +217,14 @@ class MemberRowMapper implements RowMapper<MemberDTO> {
 
 	@Override
 	public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-
+		log.trace("MemberRowMapper 진입");
+		
 		MemberDTO data = new MemberDTO();
 
 		data.setMemberID(rs.getString("MEMBER_ID"));
 		data.setMemberPassword(rs.getString("MEMBER_PASSWORD"));
 		data.setMemberName(rs.getString("MEMBER_NAME"));
-		data.setDayOfBirth(rs.getString("DAY_OF_BIRTH"));
+		data.setDayOfBirth(rs.getDate("DAY_OF_BIRTH"));
 		data.setGender(rs.getString("GENDER"));
 		data.setPhoneNumber(rs.getString("PHONE_NUMBER"));
 		data.setEmail(rs.getString("EMAIL"));
@@ -226,6 +252,7 @@ class MemberLoginRowMapper implements RowMapper<MemberDTO> {
 
 	@Override
 	public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		log.trace("MemberLoginRowMapper 진입");
 
 		MemberDTO data = new MemberDTO();
 
@@ -242,23 +269,43 @@ class MemberLoginRowMapper implements RowMapper<MemberDTO> {
 }
 
 @Slf4j
-class selectMemberInfoRowMapper implements RowMapper<MemberDTO> {
+class SelectMemberInfoRowMapper implements RowMapper<MemberDTO> {
 
 	@Override
 	public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		log.trace("selectMemberInfoRowMapper 진입");
 
-		MemberDTO memberDTO = new MemberDTO();
+		MemberDTO data = new MemberDTO();
 
-		memberDTO.setMemberName(rs.getString("m.MEMBER_NAME"));
-		memberDTO.setPhoneNumber(rs.getString("m.PHONE_NUMBER"));
-		memberDTO.setEmail(rs.getString("m.EMAIL"));
-		memberDTO.setAncShippingDefault(rs.getInt("sa.SHIPPING_DEFAULT"));
-		memberDTO.setAncShippingPostCode(rs.getInt("sa.SHIPPING_POSTCODE"));
-		memberDTO.setAncShippingAddress(rs.getString("sa.SHIPPING_ADDRESS"));
-		memberDTO.setAncShippingAddressDetail(rs.getString("sa.SHIPPING_DETAIL_ADDRESS"));
+		data.setMemberName(rs.getString("m.MEMBER_NAME"));
+		data.setPhoneNumber(rs.getString("m.PHONE_NUMBER"));
+		data.setEmail(rs.getString("m.EMAIL"));
+		data.setAncShippingDefault(rs.getInt("sa.SHIPPING_DEFAULT"));
+		data.setAncShippingPostCode(rs.getInt("sa.SHIPPING_POSTCODE"));
+		data.setAncShippingAddress(rs.getString("sa.SHIPPING_ADDRESS"));
+		data.setAncShippingAddressDetail(rs.getString("sa.SHIPPING_DETAIL_ADDRESS"));
 
-		return memberDTO;
+		return data;
 
 	}
 
 }
+
+@Slf4j
+class IdDuplicationCheckRowMapper implements RowMapper<MemberDTO> {
+
+	@Override
+	public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+		log.trace("IdDuplicationCheckRowMapper 진입");
+
+		MemberDTO data = new MemberDTO();
+
+		data.setMemberID(rs.getString("MEMBER_ID"));
+
+		return data;
+
+	}
+
+}
+
