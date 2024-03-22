@@ -6,10 +6,10 @@
 	
 		<!-- 로고 버튼 -->
 		<a href="/" class="navbar-brand">
-  			<img src="commonImages/favicon.png" width="70" alt="대체 텍스트">
+  			<img src="/resources/commonImages/favicon.png" width="70" alt="대체 텍스트">
 		</a>
 		<a href="/" class="navbar-brand">
-  			<img src="commonImages/logo.png" width="250" alt="대체 텍스트">
+  			<img src="/resources/commonImages/logo.png" width="250" alt="대체 텍스트">
 		</a>
 		<!-- 로고 버튼 -->
 		

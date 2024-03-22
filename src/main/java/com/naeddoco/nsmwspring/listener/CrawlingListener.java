@@ -127,7 +127,7 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 
 		log.debug(path + " : 작업 완료");
 
-		return "productImages/" + productName + ".jpg";
+		return "/resources/productImages/" + productName + ".jpg";
 
 	}
 

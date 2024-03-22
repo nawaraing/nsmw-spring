@@ -5,7 +5,7 @@
 			<div class="row g-4">
 				<div class="col-lg-3">
 					<a href="/" class="navbar-brand">
-  						<img src="commonImages/logo.png" width="250" alt="대체 텍스트">
+  						<img src="/resources/commonImages/logo.png" width="250" alt="대체 텍스트">
 					</a>
 				</div>
 				<div class="col-lg-6"></div>
@@ -55,7 +55,7 @@
 					<p>Email: NAEDDOCO@gmail.com</p>
 					<p>Phone: +0123 4567 8910</p>
 					<p>Payment Accepted</p>
-					<img src="user/img/payment.png" class="img-fluid" alt="">
+					<img src="/resources/user/img/payment.png" class="img-fluid" alt="">
 				</div>
 			</div>
 		</div>

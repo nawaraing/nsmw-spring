@@ -5,7 +5,7 @@
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
-    <img src="commonImages/favicon.png" height="35" />
+    <img src="/resources/commonImages/favicon.png" height="35" />
     <a href="/dashboard" class="app-brand-link">
       <span class="app-brand-text demo menu-text fw-bolder ms-2">NAEDDOCO</span>
     </a>

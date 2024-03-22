@@ -29,16 +29,16 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <%-- Libraries Stylesheet --%>
-<link href="user/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-<link href="user/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="/resources/user/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+<link href="/resources/user/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 <%-- Customized Bootstrap Stylesheet --%>
-<link href="user/css/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/user/css/bootstrap.min.css" rel="stylesheet">
 
 <%-- Template Stylesheet --%>
-<link href="user/css/style.css" rel="stylesheet">
-<link href="user/css/div.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="user/css/star-rating+.css" />
+<link href="/resources/user/css/style.css" rel="stylesheet">
+<link href="/resources/user/css/div.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/resources/user/css/star-rating+.css" />
 
 <%-- 파비콘 --%>
 <custom:favicon/>
@@ -251,7 +251,7 @@
 													<div class="col-md-6 col-lg-4 col-xl-3">
 														<div class="p-4 border border-secondary rounded position-relative fruite-item">
 															<div class="fruite-img" onclick='location.href="/productDetail?productID=${data.productID}";'>
-																<img src=${data.ancImagePath } class="img-fluid w-100 rounded-top" alt="">
+																<img src="${data.ancImagePath}" class="img-fluid w-100 rounded-top" alt="">
 															</div>
 															<div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;" onclick='location.href="/productDetail?productID=${data.productID}";'>${data.ancCategoryName}</div>
 															<div>
@@ -309,14 +309,14 @@
 	<!-- JavaScript Libraries -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="user/lib/easing/easing.min.js"></script>
-	<script src="user/lib/waypoints/waypoints.min.js"></script>
-	<script src="user/lib/lightbox/js/lightbox.min.js"></script>
-	<script src="user/lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="/resources/user/lib/easing/easing.min.js"></script>
+	<script src="/resources/user/lib/waypoints/waypoints.min.js"></script>
+	<script src="/resources/user/lib/lightbox/js/lightbox.min.js"></script>
+	<script src="/resources/user/lib/owlcarousel/owl.carousel.min.js"></script>
 
 
 	<!-- Template Javascript -->
-	<script src="user/js/main.js"></script>
+	<script src="/resources/user/js/main.js"></script>
 
 </body>
 
