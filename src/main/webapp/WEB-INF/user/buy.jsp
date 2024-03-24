@@ -105,15 +105,15 @@
 				function() {
 					var couponName = $(this).closest("tr").find("td:eq(1)").text();
 					var discount = $(this).closest("tr").find("td:eq(2)").text();
-					var period = $(this).closest("tr").find("td:eq(3)").text();
-					var category = $(this).closest("tr").find("td:eq(4)").text();
+					var expirationDate = $(this).closest("tr").find("td:eq(3)").text();
+					var ancCategory = $(this).closest("tr").find("td:eq(4)").text();
 					var CPID = $(this).closest("tr").find("#hiddenCPID").val();
 					console.log("[로그] CPID:" + CPID);
 					selectedCoupons.push({
 						couponName : couponName, 
 						discount : discount, 
-						period : period,
-						category : category,
+						expirationDate : expirationDate,
+						ancCategory : ancCategory,
 						CPID : CPID
 					});
 				});
@@ -142,7 +142,7 @@
 			  						coupon.discount + 
 			  					"</td>" +
 			   					"<td id='couponCategory'>" + 
-			   						coupon.category + 
+			   						coupon.ancCategory + 
 			   					"</td>";
 			   	couponHTML += "<td>" +
 			   					"<input type='hidden' id='selectedHiddenCPID' value='" + coupon.CPID + "'>" + 
@@ -162,7 +162,7 @@
 				// 수집된 상품 정보를 객체로 생성하여 배열에 추가
 				var product = {
 			 		price: productPrice,
-			 		category : productCategory
+			 		ancCategory : productCategory
 				};	
 				products.push(product);
 			});
@@ -170,7 +170,7 @@
 			var index = 0;
 	        products.forEach(function(product) {
 	            selectedCoupons.forEach(function(coupon) {
-	                if (product.category == coupon.category.trim()) {
+	                if (product.ancCategory == coupon.ancCategory.trim()) {
 	                    // 해당 상품의 카테고리와 일치하는 쿠폰이 있으면 할인 적용
 	                    product.price -= (product.price * parseFloat(coupon.discount)) / 100;
 	                   	$("#productPrice_" + index).text(product.price.toLocaleString('ko-KR') + "" + "원");
@@ -202,8 +202,8 @@
 			var productRows = document.querySelectorAll('tr[id^="product_"]');
 			productRows.forEach(function(row) {
 				<!-- 상품 정보 수집 -->
-				PID.push(row.querySelector('#hiddenPID').value);
-            	qty.push(row.querySelector('#pQty').innerText);
+				PID.push(row.querySelector('#hiddenProductID').value);
+            	qty.push(row.querySelector('#productQuantity').innerText);
 			});
 			console.log('PID[] : ' + PID);
 			console.log('qty[] : ' + qty);
@@ -249,11 +249,11 @@
 			var productRows = document.querySelectorAll('tr[id^="product_"]');
 			productRows.forEach(function(row) {
 				<!-- 상품 정보 수집 -->
-				form.innerHTML += '<input type="hidden" name="PID[]" value="' + row.querySelector('#hiddenPID').value + '">';
-				form.innerHTML += '<input type="hidden" name="CID[]" value="' + row.querySelector('#hiddenCID').value + '">';
-				form.innerHTML += '<input type="hidden" name="sellingPrice[]" value="' + row.querySelector('#hiddenPrice').value + '">';
+				form.innerHTML += '<input type="hidden" name="PID[]" value="' + row.querySelector('#hiddenProductID').value + '">';
+				form.innerHTML += '<input type="hidden" name="CID[]" value="' + row.querySelector('#hiddenCartID').value + '">';
+				form.innerHTML += '<input type="hidden" name="ancSalePrice[]" value="' + row.querySelector('#hiddenPrice').value + '">';
             	form.innerHTML += '<input type="hidden" name="productCategory[]" value="' + row.querySelector('#hiddenCategory').value + '">';
-            	form.innerHTML += '<input type="hidden" name="qty[]" value="' + row.querySelector('#pQty').innerText + '">';
+            	form.innerHTML += '<input type="hidden" name="qty[]" value="' + row.querySelector('#productQuantity').innerText + '">';
 			});
 			var couponRows = document.querySelectorAll('tr[id^="coupon_"]');
 			couponRows.forEach(function(row) {
@@ -307,22 +307,22 @@
 							<tbody>
 								<c:forEach var="coupon" items="${couponList}">
 									<c:forEach var="product" items="${selectedProductsList}">
-										<c:if test="${coupon.category eq product.category}">
+										<c:if test="${coupon.ancCategory eq product.ancCategory}">
 											<tr>
 												<td>
 													<p class="mb-3 mt-4"><input type="checkbox"></p>
 												</td>
 												<td>
-													<p class="mb-0 mt-4">${coupon.cpName}</p>
+													<p class="mb-0 mt-4">${coupon.couponName}</p>
 												</td>
 												<td>
-													<p class="mb-0 mt-4">${coupon.discount}%</p>
+													<p class="mb-0 mt-4">${33}%</p>
 												</td>
 												<td>
-													<p class="mb-0 mt-4">${coupon.period}</p>
+													<p class="mb-0 mt-4">${33}</p>
 												</td>
 												<td>
-													<p class="mb-0 mt-4">${coupon.category}</p>
+													<p class="mb-0 mt-4">${coupon.ancCategory}</p>
 												</td>
 												<td><input type="hidden" id="hiddenCPID" value="${coupon.CPID}"></td>
 											</tr>
@@ -360,7 +360,7 @@
 						<div class="row">
 							<div class="col-md-12 col-lg-12">
 								<div class="form-item w-100">
-									<label class="form-label my-3"></label> <input class="form-control p-3" type="text" id="name" value="${memberInfo.mName}">
+									<label class="form-label my-3"></label> <input class="form-control p-3" type="text" id="name" value="${memberInfo.memberName}">
 								</div>
 							</div>
 						</div>
@@ -373,7 +373,7 @@
 						<div class="row">
 							<label class="form-label my-3"></label>
 							<div class="col-lg-8">
-								<input class="form-control p-3 border-secondary" type="number" id="zipNo" name="zipNo" value="${memberInfo.mPostCode}" readonly required />
+								<input class="form-control p-3 border-secondary" type="number" id="zipNo" name="zipNo" value="${memberInfo.ancShippingPostCode}" readonly required />
 							</div>
 							<div class="col-lg-4">
 								<input class="btn border border-secondary text-primary rounded-pill px-4 py-3" type="button" onClick="goPopup()" value="우편번호 찾기" />
@@ -382,10 +382,10 @@
 						<div class="row">
 							<label class="form-label my-3"></label>
 							<div class="col-lg-6">
-								<input class="form-control p-3" type="text" id="roadAddrPart1" name="roadAddrPart1" value="${memberInfo.mAddress}" readonly required />
+								<input class="form-control p-3" type="text" id="roadAddrPart1" name="roadAddrPart1" value="${memberInfo.ancShippingAddress}" readonly required />
 							</div>
 							<div class="col-lg-6">
-								<input class="form-control p-3" type="text" id="addrDetail" name="addrDetail" value="${memberInfo.mDetailedAddress}" readonly required />
+								<input class="form-control p-3" type="text" id="addrDetail" name="addrDetail" value="${memberInfo.ancShippingAddressDetail}" readonly required />
 							</div>
 						</div>
 						<div class="col-lg-4 my-3">
@@ -406,22 +406,22 @@
 								</thead>
 								<tbody>
 									<c:set var="total" value="0" />
-									<c:forEach var="product" items="${selectedProductsList}" varStatus="status">
+									<c:forEach var="product" items="${buyProducts}" varStatus="status">
 										<tr class="border-bottom" id="product_${status.index}">
 											<th scope="row">
 												<div class="d-flex align-items-center mt-2">
-													<img src="${product.imagePath}" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
+													<img src="${product.ancImagePath}" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
 												</div>
 											</th>
-											<td class="py-5">${product.pName}</td>
-											<td class="py-5" id="pQty">${product.pQty}</td>
-											<td class="py-5"><fmt:formatNumber value="${product.sellingPrice*product.pQty}" currencyCode="KRW" />원</td>
-											<td class="py-5" id="productPrice_${status.index}"><fmt:formatNumber value="${product.sellingPrice*product.pQty}" currencyCode="KRW" />원</td>
-											<td><input type="hidden" id="hiddenPrice" value="${product.sellingPrice*product.pQty}"></td>
-											<td><input type="hidden" id="hiddenCategory" value="${product.category}"></td>
-											<td><input type="hidden" id="hiddenPID" value="${product.PID}"></td>
-											<td><input type="hidden" id="hiddenCID" value="${product.ancCID}"></td>
-											<c:set var="total" value="${total +(product.sellingPrice*product.pQty)}" />
+											<td class="py-5">${product.ancProductName}</td>
+											<td class="py-5" id="productQuantity">${product.productQuantity}</td>
+											<td class="py-5"><fmt:formatNumber value="${product.ancSalePrice*product.productQuantity}" currencyCode="KRW" />원</td>
+											<td class="py-5" id="productPrice_${status.index}"><fmt:formatNumber value="${product.ancSalePrice*product.productQuantity}" currencyCode="KRW" />원</td>
+											<td><input type="hidden" id="hiddenPrice" value="${product.ancSalePrice*product.productQuantity}"></td>
+											<td><input type="hidden" id="hiddenCategory" value="${product.ancCategory}"></td>
+											<td><input type="hidden" id="hiddenProductID" value="${product.productID}"></td>
+											<td><input type="hidden" id="hiddenCartID" value="${product.cartID}"></td>
+											<c:set var="total" value="${total +(product.ancSalePrice*product.productQuantity)}" />
 										</tr>
 									</c:forEach>
 									<tr>

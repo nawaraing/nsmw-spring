@@ -2,11 +2,13 @@ package com.naeddoco.nsmwspring.model.couponModel;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("couponService")
 public class CouponServiceImpl implements CouponService{
 
+	@Autowired
 	private CouponDAO couponDAO;
 
 	@Override
