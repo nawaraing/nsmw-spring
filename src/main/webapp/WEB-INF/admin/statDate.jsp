@@ -63,18 +63,69 @@
                 "endDate" : endDate
             },
             success : function(datas) {
-                // 테이블 바디 채우기
-                let tbody = $('#table-body'); // 테이블 바디 요소 가져오기
-                tbody.empty(); // 테이블 바디 내용 비우기
+                // 엘레먼트 불러오기
+                let cardHeader = $('#table-card-header');
+                let tbody = $('#table-body');
+                let tfooter = $('#table-footer');
+                // 테이블 내용 비우기
+                cardHeader.empty();
+                tbody.empty();
+                tfooter.empty();
 
-                $.each(datas, function(index, data) {
-                    // 새로운 행 생성
+                cardHeader.append("일별 통계");
+                
+                if (datas.length <= 0) {
                     let row = $('<tr>');
-                    // 각 데이터를 셀로 만들어 행에 추가
+                    row.append($('<td>').text("표시할 데이터가 없습니다.."));
+                    tfooter.append(row);
+                    return ;
+                }
+                
+                $.each(datas, function(index, data) {
+                    let row = $('<tr>');
                     row.append($('<td>').text(data.dailyTotalCalculateDate));
                     row.append($('<td>').text(data.dailyTotalGrossMargine));
                     row.append($('<td>').text(data.dailyTotalNetProfit));
-                    // 생성한 행을 테이블 바디에 추가
+                    tbody.append(row);
+                });
+            }
+        });
+    }
+    function searchMonth() {
+        let startMonth = $('#start-month-input').val(); // 시작일 입력 필드의 값 가져오기
+        let endMonth = $('#end-month-input').val(); // 종료일 입력 필드의 값 가져오기
+        $.ajax({
+            type : "GET",
+            dataType : "json",
+            url : "/statDate/searchMonth",
+            data : {
+                "startMonth" : startMonth,
+                "endMonth" : endMonth
+            },
+            success : function(datas) {
+                // 엘레먼트 불러오기
+                let cardHeader = $('#table-card-header');
+                let tbody = $('#table-body');
+                let tfooter = $('#table-footer');
+                // 테이블 내용 비우기
+                cardHeader.empty();
+                tbody.empty();
+                tfooter.empty();
+
+                cardHeader.append("월별 통계");
+                
+                if (datas.length <= 0) {
+                    let row = $('<tr>');
+                    row.append($('<td>').text("표시할 데이터가 없습니다.."));
+                    tfooter.append(row);
+                    return ;
+                }
+                
+                $.each(datas, function(index, data) {
+                    let row = $('<tr>');
+                    row.append($('<td>').text(data.monthlyTotalCalculateDate.split("-")[0] + "-" + data.monthlyTotalCalculateDate.split("-")[1]));
+                    row.append($('<td>').text(data.monthlyTotalGrossMargine));
+                    row.append($('<td>').text(data.monthlyTotalNetProfit));
                     tbody.append(row);
                 });
             }
@@ -158,7 +209,7 @@
                                         <input class="form-control" type="month" name="endMonth" value="2021-06" id="end-month-input" />
                                       </div>
                                       <!-- / End Date -->
-                                      <button type="submit" class="btn rounded-pill btn-primary col-2 mb-4" onclick="searchMonth()">검색</button>
+                                      <button type="button" class="btn rounded-pill btn-primary col-2 mb-4" onclick="searchMonth()">검색</button>
                                     </div>
                                   </form>
                                 </div>  
@@ -176,15 +227,10 @@
               <!-- Striped Table -->
               <div class="mb-4">
                 <div class="card">
-                  <c:if test="${(empty dailySalesStats && empty monthlySalesStats) || not empty dailySalesStats}"> <!-- daily is default -->
-                    <h5 class="card-header">일별 통계</h5>
-                  </c:if>
-                  <c:if test="${empty dailySalesStats && not empty monthlySalesStats}">
-                    <h5 class="card-header">월별 통계</h5>
-                  </c:if>
+                  <h5 class="card-header" id="table-card-header">일별 통계</h5>
                   <div class="table-responsive text-nowrap">
                     <table class="table table-striped">
-                      <thead id="table-header">
+                      <thead>
                         <tr>
                           <th>날짜</th>
                           <th>매출(₩)</th>
@@ -192,19 +238,23 @@
                         </tr>
                       </thead>
                       <tbody class="table-border-bottom-0" id="table-body">
+                      <c:if test="${not empty dailySalesStats}">
+						<c:forEach var="dailySalesStat" items="${dailySalesStats}">
                         <tr>
                           <td><i class="fab fa-angular fa-lg me-3"></i> <strong>${dailySalesStat.dailyTotalCalculateDate}</strong></td>
                           <td>${dailySalesStat.dailyTotalGrossMargine}</td>
                           <td>${dailySalesStat.dailyTotalNetProfit}</td>
                         </tr>
+                        </c:forEach>
+                      </c:if>
                       </tbody>
-                      <c:if test="${empty dailySalesStats && empty monthlySalesStats}">
-                        <tfoot class="table-border-bottom-0">
+                        <tfoot class="table-border-bottom-0" id="table-footer">
+                      <c:if test="${empty dailySalesStats}">
                           <tr>
                             <td>표시할 데이터가 없습니다..</td>
                           </tr>
-                        </tfoot>
                       </c:if>
+                        </tfoot>
                     </table>
                   </div>
                 </div>
