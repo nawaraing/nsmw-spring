@@ -74,6 +74,7 @@
                 "endDate" : endDate
             },
             success : function(datas) {
+            	curPage = 1;
             	drawPage(datas, "date");
             	// 페이지네이션을 위한 저장
             }
@@ -91,6 +92,7 @@
                 "endMonth" : endMonth
             },
             success : function(datas) {
+            	curPage = 1;
             	drawPage(datas, "month");
             	// 페이지네이션을 위한 저장
             }
