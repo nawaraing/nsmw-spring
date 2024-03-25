@@ -19,14 +19,14 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <!-- Libraries Stylesheet -->
-<link href="user/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-<link href="user/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="/resources/user/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+<link href="/resources/user/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 <!-- Customized Bootstrap Stylesheet -->
-<link href="user/css/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/user/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Template Stylesheet -->
-<link href="user/css/style.css" rel="stylesheet">
+<link href="/resources/user/css/style.css" rel="stylesheet">
 
 <!-- kakao -->
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
@@ -175,13 +175,13 @@
 	<!-- JavaScript Libraries -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="user/lib/easing/easing.min.js"></script>
-	<script src="user/lib/waypoints/waypoints.min.js"></script>
-	<script src="user/lib/lightbox/js/lightbox.min.js"></script>
-	<script src="user/lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="/resources/user/lib/easing/easing.min.js"></script>
+	<script src="/resources/user/lib/waypoints/waypoints.min.js"></script>
+	<script src="/resources/user/lib/lightbox/js/lightbox.min.js"></script>
+	<script src="/resources/user/lib/owlcarousel/owl.carousel.min.js"></script>
 
 	<!-- Template Javascript -->
-	<script src="user/js/main.js"></script>
+	<script src="/resources/user/js/main.js"></script>
 	
 </body>
 
