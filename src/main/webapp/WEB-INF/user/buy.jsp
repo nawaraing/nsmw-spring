@@ -92,6 +92,27 @@
 		});
 	</script>
 	<!--  쿠폰 모달  -->
+	
+	
+	<!-- 상품 별 사용가능한 쿠폰 출력 -->
+	<script>
+		function printCouponList(){
+			var couponDisplay = $("#couponDisplay");
+			couponDisplay.empty();
+			couponDisplay.prepend('<thead>' + 
+									'<tr>' + 
+										'<th>' + '쿠폰명' + '</th>' + 
+										'<th>' + '할인율(액)' + '</th>' + 
+										'<th>' + '만료기간' + '</th>' + 
+										'<th>' + '카테고리' + '</th>' + 
+									'</tr>' + 
+								'</thead>');
+			
+		
+			
+		}
+	</script>
+	<!-- 상품 별 사용가능한 쿠폰 출력 -->
 
 
 	<!-- 할인 금액 계산 -->
@@ -122,36 +143,17 @@
             usedCouponList.empty();
             usedCouponList.prepend('<thead>' +
             							'<tr>' +
-            								'<th>' +
-            									'쿠폰명' +
-            								'</th>' +
-            								'<th>' +
-            									'할인율' +
-            								'</th>' +
-            								'<th>' +
-            									'카테고리' +
-            								'</th>' +
+            								'<th>' + '쿠폰명' + '</th>' +
+            								'<th>' + '할인율(액)' + '</th>' +
+            								'<th>' + '카테고리' + '</th>' +
             							'</tr>' +
             						'</thead>');
             selectedCoupons.forEach(function(coupon) {
-			    var couponHTML = 
-			    				"<td>" + 
-			    					coupon.couponName + 
-			    				"</td>" +
-			  					"<td id='couponDiscount'>" + 
-			  						coupon.discount + 
-			  					"</td>" +
-			   					"<td id='couponCategory'>" + 
-			   						coupon.ancCategory + 
-			   					"</td>";
-			   	couponHTML += "<td>" +
-			   					"<input type='hidden' id='selectedHiddenCPID' value='" + coupon.CPID + "'>" + 
-			   				  "</td>";
-			   	usedCouponList.append('<tbody>' + 
-			   							'<tr id="coupon_">' + 
-			   								couponHTML + 
-			   							'</tr>' + 
-			   						  '</tbody>');
+			    var usedCouponHTML = "<td>" + coupon.couponName + "</td>" +
+			  						 "<td id='couponDiscount'>" + coupon.discount + "</td>" +
+			   						 "<td id='couponCategory'>" + coupon.ancCategory + "</td>";
+			   	   usedCouponHTML += "<td>" + "<input type='hidden' id='selectedHiddenCPID' value='" + coupon.CPID + "'>" + "</td>";
+				   usedCouponList.append('<tbody>' + '<tr id="coupon_">' + usedCouponHTML + '</tr>' + '</tbody>');
 			});
 			
 			// 각 상품 행을 순회하면서 상품 정보 수집
@@ -236,6 +238,7 @@
 	</script>
 	<!-- 구매 버튼 -->
 
+
 	<!-- 구매 확정 -->
 	<script>
 		function goToPurchase(){
@@ -294,18 +297,9 @@
 				</div>
 				<div class="modal-body d-flex align-items-center">
 					<div class="input-group w-75 mx-auto d-flex">
-						<table class="table">
-							<thead>
-								<tr>
-									<th scope="col"></th>
-									<th scope="col">쿠폰이름</th>
-									<th scope="col">할인율(액)</th>
-									<th scope="col">만료기간</th>
-									<th scope="col">카테고리</th>
-								</tr>
-							</thead>
+						<table class="table" id="couponDisplay">
 							<tbody>
-								<c:forEach var="coupon" items="${couponList}">	
+								<c:forEach var="coupon" items="${coupons}">	
 									<tr>
 										<td>
 											<p class="mb-3 mt-4"><input type="checkbox"></p>
@@ -317,7 +311,7 @@
 											<c:if test="${not empty coupon.ancDiscountAmount}">
 												<p class="mb-0 mt-4">${coupon.ancDiscountAmount}원</p>
 											</c:if>
-											<c:if test="${coupon.ancDiscountRate ne 0}">
+											<c:if test="${coupon.ancDiscountRate ne  0}">
 												<p class="mb-0 mt-4">${coupon.ancDiscountRate}%</p>
 											</c:if>
 										</td>
@@ -391,9 +385,6 @@
 								<input class="form-control p-3" type="text" id="addrDetail" name="addrDetail" value="${memberInfo.ancShippingAddressDetail}" readonly required />
 							</div>
 						</div>
-						<div class="col-lg-4 my-3">
-							<button class="btn border border-secondary text-primary rounded-pill px-4 py-3" type="button" data-bs-toggle="modal" data-bs-target="#couponModal" value="쿠폰 적용">쿠폰적용</button>
-						</div>
 					</div>
 					<div class="col-md-12 col-lg-6 col-xl-7">
 						<div class="table-responsive">
@@ -405,6 +396,7 @@
 										<th scope="col">수량</th>
 										<th scope="col">판매 금액</th>
 										<th scope="col">결제 금액</th>
+										<th scope="col">쿠폰 적용</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -420,6 +412,9 @@
 											<td class="py-5" id="productQuantity">${product.productQuantity}</td>
 											<td class="py-5"><fmt:formatNumber value="${product.ancSalePrice*product.productQuantity}" currencyCode="KRW" />원</td>
 											<td class="py-5" id="productPrice_${status.index}"><fmt:formatNumber value="${product.ancSalePrice*product.productQuantity}" currencyCode="KRW" />원</td>
+											<td>
+												<button class="btn border border-secondary text-primary rounded-pill px-4 py-3" type="button" data-bs-toggle="modal" data-bs-target="#couponModal" id="couponButton_${status.index}" value="쿠폰 적용" onclick="printCouponList()">쿠폰 적용</button>											
+											</td>
 											<td><input type="hidden" id="hiddenPrice" value="${product.ancSalePrice*product.productQuantity}"></td>
 											<td><input type="hidden" id="hiddenCategory" value="${product.ancCategory}"></td>
 											<td><input type="hidden" id="hiddenProductID" value="${product.productID}"></td>
