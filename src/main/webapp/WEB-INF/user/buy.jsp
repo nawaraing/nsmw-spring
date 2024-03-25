@@ -299,35 +299,38 @@
 								<tr>
 									<th scope="col"></th>
 									<th scope="col">쿠폰이름</th>
-									<th scope="col">할인율</th>
+									<th scope="col">할인율(액)</th>
 									<th scope="col">만료기간</th>
 									<th scope="col">카테고리</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="coupon" items="${couponList}">
-									<c:forEach var="product" items="${selectedProductsList}">
-										<c:if test="${coupon.ancCategory eq product.ancCategory}">
-											<tr>
-												<td>
-													<p class="mb-3 mt-4"><input type="checkbox"></p>
-												</td>
-												<td>
-													<p class="mb-0 mt-4">${coupon.couponName}</p>
-												</td>
-												<td>
-													<p class="mb-0 mt-4">${33}%</p>
-												</td>
-												<td>
-													<p class="mb-0 mt-4">${33}</p>
-												</td>
-												<td>
-													<p class="mb-0 mt-4">${coupon.ancCategory}</p>
-												</td>
-												<td><input type="hidden" id="hiddenCPID" value="${coupon.CPID}"></td>
-											</tr>
-										</c:if>
-									</c:forEach>
+								<c:forEach var="coupon" items="${couponList}">	
+									<tr>
+										<td>
+											<p class="mb-3 mt-4"><input type="checkbox"></p>
+										</td>
+										<td>
+											<p class="mb-0 mt-4">${coupon.couponName}</p>
+										</td>
+										<td>
+											<c:if test="${not empty coupon.ancDiscountAmount}">
+												<p class="mb-0 mt-4">${coupon.ancDiscountAmount}원</p>
+											</c:if>
+											<c:if test="${coupon.ancDiscountRate ne 0}">
+												<p class="mb-0 mt-4">${coupon.ancDiscountRate}%</p>
+											</c:if>
+										</td>
+										<td>
+											<p class="mb-0 mt-4">${coupon.expirationDate}</p>
+										</td>
+										<td>
+											<p class="mb-0 mt-4">${coupon.ancCategoryName}</p>
+										</td>
+										<td>
+											<input type="hidden" id="hiddenCPID" value="${coupon.couponID}">
+										</td>
+									</tr>
 								</c:forEach>
 							</tbody>
 						</table>

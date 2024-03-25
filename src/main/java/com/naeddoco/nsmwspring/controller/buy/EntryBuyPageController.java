@@ -95,6 +95,8 @@ public class EntryBuyPageController {
         	couponList = couponService.selectAll(couponDTO);
         	
         }
+        
+        model.addAttribute("couponList", couponList);
 		
 		return "user/buy";
 
