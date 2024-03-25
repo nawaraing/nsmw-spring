@@ -55,7 +55,7 @@
 					<p>Email: NAEDDOCO@gmail.com</p>
 					<p>Phone: +0123 4567 8910</p>
 					<p>Payment Accepted</p>
-					<img src="/resources/user/img/payment.png" class="img-fluid" alt="">
+					<img src="/resources/commonImages/payment.png" class="img-fluid" alt="">
 				</div>
 			</div>
 		</div>
