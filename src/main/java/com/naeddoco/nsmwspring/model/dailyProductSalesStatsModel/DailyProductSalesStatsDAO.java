@@ -43,7 +43,7 @@ public class DailyProductSalesStatsDAO {
 	private static final String SELECTONE = "";
 	
 	//각 제품의 일별 판매 통계 - 일정 시간에 자동 추가
-	//추후 이벤트 트리거 등을 사용할 예정
+	//추후 이벤트 스케쥴러를 사용할 예정
 	private static final String INSERT = "INSERT INTO DAILY_PRODUCT_SALES_STATS ("
 											+ "PRODUCT_ID,"
 											+ "DAILY_TOTAL_CALCULATE_DATE, "

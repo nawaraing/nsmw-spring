@@ -41,15 +41,36 @@ public class MonthlyProductSalesStatsDAO {
 
 	private static final String SELECTONE = "";
 	
-	private static final String INSERT = "";
+	
+	//각 제품의 월별 판매 통계 - 일정 시간에 자동 추가
+	//매월 초 전월의 판매 통계를 전월의 1일자로 저장함 
+	//추후 이벤트 스케쥴러를 사용할 예정
+	private static final String INSERT = "INSERT INTO MONTHLY_PRODUCT_SALES_STATS "
+											+ "(PRODUCT_ID, "
+											+ "MONTHLY_TOTAL_CALCULATE_DATE, "
+											+ "MONTHLY_TOTAL_QUANTITY, "
+											+ "MONTHLY_TOTAL_GROSS_MARGINE, "
+											+ "MONTHLY_TOTAL_NET_PROFIT)"
+										+ "SELECT "
+											+ "PRODUCT_ID, "
+											+ "DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01') AS MONTHLY_TOTAL_CALCULATE_DATE, "
+											+ "SUM(DAILY_TOTAL_QUANTITY) AS MONTHLY_TOTAL_QUANTITY, "
+											+ "SUM(DAILY_TOTAL_GROSS_MARGINE) AS MONTHLY_TOTAL_GROSS_MARGINE, "
+											+ "SUM(DAILY_TOTAL_NET_PROFIT) AS MONTHLY_TOTAL_NET_PROFIT "
+										+ "FROM "
+											+ "DAILY_PRODUCT_SALES_STATS "
+										+ "WHERE "
+											+ "DAILY_TOTAL_CALCULATE_DATE BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01') AND LAST_DAY(DATE_SUB(CURDATE(), INTERVAL 1 MONTH)) "
+										+ "GROUP BY PRODUCT_ID ";
 	
 	private static final String UPDATE = "";
 	
 	private static final String DELETE = "";
 	
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------
 	public List<MonthlyProductSalesStatsDTO> selectAll(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
 		
-		log.debug("selectAll 진입");
+		log.trace("selectAll 진입");
 		
 		if(monthlyProductSalesStatsDTO.getSearchCondition().equals("selectAdminStatProductDatas")) {
 			
@@ -74,12 +95,12 @@ public class MonthlyProductSalesStatsDAO {
 	public MonthlyProductSalesStatsDTO selectOne(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
 
 //		Object[] args = { monthlyProductSalesStatsDTO.getMonthlyProductSalesStatsID() };
-//		log.debug("selectOne start");
+//		log.trace("selectOne start");
 //	
 //		try {
 //			return jdbcTemplate.queryForObject(SELECTONE, args, new MonthlyProductSalesStatsRowMapper());
 //		} catch (Exception e) {
-//			log.debug("selectOne 예외처리");
+//			log.error("selectOne 예외처리");
 			return null;
 //		}
 	}
@@ -89,7 +110,7 @@ public class MonthlyProductSalesStatsDAO {
 	
 //		int result = jdbcTemplate.update(INSERT);
 //		if(result <= 0) {
-//			log.debug("insert 실패");
+//			log.error("insert 실패");
 			return false;
 //		}
 //		log.debug("insert 성공");
@@ -101,7 +122,7 @@ public class MonthlyProductSalesStatsDAO {
 
 //		int result = jdbcTemplate.update(UPDATE);
 //		if(result <= 0) {
-//			log.debug("update 실패");
+//			log.error("update 실패");
 			return false;
 //		}
 //		log.debug("update 성공");
@@ -113,7 +134,7 @@ public class MonthlyProductSalesStatsDAO {
 		
 //		int result = jdbcTemplate.update(DELETE);
 //		if(result <= 0) {
-//			log.debug("delete 성공");
+//			log.error("delete 실패");
 			return false;
 //		}
 //		log.debug("delete 성공");
