@@ -96,7 +96,7 @@ public class EntryBuyPageController {
         	
         }
         
-        model.addAttribute("couponList", couponList);
+        model.addAttribute("coupons", couponList);
 		
 		return "user/buy";
 

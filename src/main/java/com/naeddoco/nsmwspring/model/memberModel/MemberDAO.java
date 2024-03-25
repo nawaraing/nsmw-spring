@@ -75,9 +75,10 @@ public class MemberDAO {
 //
 //	// 회원가입
 //	// 회원가입에 필요한 데이터를 받아 DB에 추가한다
-//	private static final String INSERT_MEMBER = "INSERT INTO "
-//			+ "MEMBER (M_ID, M_NAME, M_PASSWORD, DOB, GENDER, PHONE_NUMBER, EMAIL, M_POSTCODE, M_ADDRESS, M_DETAILED_ADDRESS, GRADE, HEALTH, LOGIN_TYPE, KAKAO_ID) "
-//			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'USER', ?, ?, ?)";
+	private static final String INSERT_MEMBER = "INSERT INTO "
+								+ "MEMBER (MEMBER_ID, MEMBER_NAME, MEMBER_PASSWORD, DAY_OF_BIRTH, GENDER, PHONE_NUMBER, EMAIL) "
+								+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
 //
 //	// 개인정보변경(이름, 생년월일, 성별, 전화번호, 이메일, 주소)
 //	// 해당 회원의 개인정보를 변경한다
@@ -165,10 +166,34 @@ public class MemberDAO {
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
 	
 	public boolean insert(MemberDTO memberDTO) {
+		log.trace("insert 진입");
 
-		return false;
-		
+		int result = 0;
+
+		if (memberDTO.getSearchCondition().equals("join")) {
+
+			log.trace("join 처리 진입");
+
+			result = jdbcTemplate.update(INSERT_MEMBER, memberDTO.getMemberID(), memberDTO.getMemberName(),
+										memberDTO.getMemberPassword(), memberDTO.getDayOfBirth(),
+										memberDTO.getGender(), memberDTO.getPhoneNumber(),
+										memberDTO.getEmail());
+
+		}
+
+		if (result <= 0) {
+
+			log.error("join 처리 실패/에러");
+			return false;
+
+		}
+
+		log.error("insert 성공");
+		return true;
+
 	}
+
+		
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
 	
@@ -185,18 +210,19 @@ public class MemberDAO {
 			
 			if (result <= 0) {
 				
-				log.trace("memberleave update 실패");
+				log.error("memberleave update 실패");
 				
 				return false;
 				
 			}
 			
-			log.debug("memberleave update 성공");
+			log.trace("memberleave update 성공");
 			
 			return true;
 			
 		}
 		
+		log.error("update 실패");
 		return false;
 		
 	}
