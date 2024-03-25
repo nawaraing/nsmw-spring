@@ -398,18 +398,21 @@ function fillTable(datas, type) {
             let row = $('<tr>');
             if (type === "date") {
                 row.append($('<td>').text(data.dailyTotalCalculateDate));
-                row.append($('<td>').text(data.dailyTotalGrossMargine));
-                row.append($('<td>').text(data.dailyTotalNetProfit));
+                row.append($('<td>').text(formatPrice(data.dailyTotalGrossMargine)));
+                row.append($('<td>').text(formatPrice(data.dailyTotalNetProfit)));
             } else if (type == "month") {
                 row.append($('<td>').text(data.monthlyTotalCalculateDate.split("-")[0] + "-" + data.monthlyTotalCalculateDate.split("-")[1]));
-                row.append($('<td>').text(data.monthlyTotalGrossMargine));
-                row.append($('<td>').text(data.monthlyTotalNetProfit));
+                row.append($('<td>').text(formatPrice(data.monthlyTotalGrossMargine)));
+                row.append($('<td>').text(formatPrice(data.monthlyTotalNetProfit)));
             } else {
                 // TODO: error
             }
             tbody.append(row);
         }
     });
+}
+function formatPrice(price) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 /*
