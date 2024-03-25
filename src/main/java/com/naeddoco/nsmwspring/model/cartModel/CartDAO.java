@@ -30,7 +30,7 @@ public class CartDAO {
 												 "INNER JOIN IMAGE I ON PI.IMAGE_ID = I.IMAGE_ID " +
 												 "INNER JOIN PRODUCT_CATEGORY PC ON PC.PRODUCT_ID = P.PRODUCT_ID " +
 												 "INNER JOIN CATEGORY CA ON CA.CATEGORY_ID = PC.CATEGORY_ID " +
-												 "WHERE P.SALE_STATE = '판매중' AND C.MEMBER_ID = ?";
+												 "WHERE P.SALE_STATE = 'SALES' AND C.MEMBER_ID = ?";
 												
 	//장바구니에 해당 상품 추가시 장바구니에 중복 상품이 있는지 확인
 	//결과가 반환되면 중복상품 존재 -> update
@@ -98,7 +98,7 @@ public class CartDAO {
 				
 			} catch (Exception e) {
 				
-				log.debug("selectOne:checkCartProductData 예외 발생");
+				log.debug("checkCartProductData 예외 발생");
 				
 				return null;
 				
