@@ -2,8 +2,6 @@
  * Dashboard Analytics Injection
  */
 
-'use strict';
-
 import {renderCharts} from '/resources/admin/assets/js/dashboards-analytics.js';
 
 window.onload = function renderDatas() {
