@@ -13,7 +13,7 @@ public class SubscriptionPolicyDTO {
 	@Override
 	public String toString() {
 		
-		return "SubscriptionDTO [" + 
+		return "SubscriptionPolicyDTO [" + 
 			   "subscriptionPolicyID = " + subscriptionPolicyID + ", " + 
 			   "lowerLimitMonth = " + lowerLimitMonth + ", " +
 			   "upperLimitMonth = " + upperLimitMonth + ", " +
