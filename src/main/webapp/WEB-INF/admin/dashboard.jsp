@@ -100,8 +100,8 @@
                             <c:forEach var="dailySalesStat" items="${dashboardDailySalesStats}">
                               <tr>
                                 <td><i class="fab fa-angular fa-lg me-3"></i> <strong>${dailySalesStat.dailyTotalCalculateDate}</strong></td>
-                                <td>${dailySalesStat.dailyTotalGrossMargine}</td>
-                                <td>${dailySalesStat.dailyTotalNetProfit}</td>
+                                <td><fmt:formatNumber value="${dailySalesStat.dailyTotalGrossMargine}" currencyCode="KRW" /></td>
+                                <td><fmt:formatNumber value="${dailySalesStat.dailyTotalNetProfit}" currencyCode="KRW" /></td>
                               </tr>
                             </c:forEach>
                           </c:if>
