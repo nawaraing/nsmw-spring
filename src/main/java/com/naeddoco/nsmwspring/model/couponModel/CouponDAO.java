@@ -38,7 +38,11 @@ public class CouponDAO {
 	private static final String INSERT = "INSERT INTO COUPON (COUPON_NAME, DISTRIBUTE_DATE, EXPIRATION_DATE, COUPON_TYPE) "
 											+ "VALUES (?, ?, CONCAT(?, ' 23:59:59'),?)";
 
-	private static final String UPDATE = "";
+	private static final String UPDATE = "UPDATE COUPON "
+										+ "SET COUPON_NAME = ?,"
+											+ "EXPIRATION_DATE = ?,"
+											+ "COUPON_TYPE = ?"
+										+ "WHERE COUPON_ID = ?";
 
 	private static final String DELETE = "";
 	
@@ -127,6 +131,7 @@ public class CouponDAO {
 
 		}
 
+		log.error("insert 실패");
 		return false;
 	}
 
@@ -134,8 +139,27 @@ public class CouponDAO {
 
 	public boolean update(CouponDTO couponDTO) {
 
-		return false;
+		log.trace("update 진입");
+		if(couponDTO.getSearchCondition().equals("updateAdminCouponGradeData")) {
+			
+			log.trace("updateAdminCouponGradeData 진입");
+			int result = jdbcTemplate.update(UPDATE, couponDTO.getCouponName(), 
+													couponDTO.getExpirationDate(), 
+													couponDTO.getCouponType(),
+													couponDTO.getCouponID());
 
+			if(result <= 0) {
+				log.error("updateAdminCouponGradeData 실패");
+				return false;
+			}
+
+			log.trace("updateAdminCouponGradeData 성공");
+			return true;
+
+		}
+		
+		log.error("update 실패");
+		return false;
 	}
 	
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/

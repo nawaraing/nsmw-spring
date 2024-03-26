@@ -25,12 +25,17 @@ public class CouponCategoryDAO {
 	
 	// COUPON insert시 COUPON_CATEGORY에도 함께 insert
 	private static final String INSERT = "INSERT INTO COUPON_CATEGORY "
-									+ "(COUPON_ID, CATEGORY_ID) "
-									+ "VALUES (?,?)";
+											+ "(COUPON_ID, CATEGORY_ID) "
+											+ "VALUES (?,?)";
 	
 	private static final String UPDATE = "";
 	
-	private static final String DELETE = "";
+	//COUPON_ID로 해당 쿠폰 카테고리 삭제
+	//카테고리ID UPDATE시 사용(DELETE 후 INSERT)
+	private static final String DELETE = "DELETE FROM COUPON_CATEGORY "
+										+ "WHERE COUPON_ID = ?";
+	
+	//----------------------------------------------------------------------------------------------
 	
 	public List<CouponCategoryDTO> selectAll(CouponCategoryDTO couponCategoryDTO) {
 		log.debug("selectAll start");
@@ -90,15 +95,28 @@ public class CouponCategoryDAO {
 
 	
 	public boolean delete(CouponCategoryDTO couponCategoryDTO) {
+
+		log.trace("delete 진입");
 		
-//		int result = jdbcTemplate.update(DELETE);
-//		if(result <= 0) {
-//			log.debug("delete 성공");
-			return false;
-//		}
-//		log.debug("delete 성공");
-//		return true;
-	}	
+		if (couponCategoryDTO.getSearchCondition().equals("deleteAdminCouponGradeData")) {
+
+			log.trace("deleteAdminCouponGradeData 진입");
+			
+			int result = jdbcTemplate.update(DELETE, couponCategoryDTO.getCouponID());
+
+			if(result <= 0) {
+				
+				log.error("deleteAdminCouponGradeData 실패");
+				return false;
+			}
+			
+			log.trace("delete 성공");
+			return true;
+		}
+		
+		log.error("delete 실패");
+		return false;
+	}
 }
 
 //개발자의 편의를 위해 RowMapper 인터페이스를 사용

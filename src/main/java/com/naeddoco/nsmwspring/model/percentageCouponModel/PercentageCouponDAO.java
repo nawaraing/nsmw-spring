@@ -22,12 +22,18 @@ public class PercentageCouponDAO {
 
 	private static final String SELECTONE = "";
 	
+	
+	//관리자페이지에서 쿠폰정보 등록시 사용
 	//COUPON insert시 같이 insert
 	private static final String INSERT = "INSERT INTO PERCENTAGE_COUPON "
 										+ "(COUPON_ID, COUPON_DISCOUNT_RATE, MAX_DISCOUNT_AMOUNT) "
 										+ "VALUES (?,?,?)";
 	
-	private static final String UPDATE = "";
+	//관리자페이지에서 쿠폰정보 변경시 사용
+	private static final String UPDATE = "UPDATE PERCENTAGE_COUPON "
+										+ "SET COUPON_DISCOUNT_RATE = ?, "
+											+ "MAX_DISCOUNT_AMOUNT = ? "
+										+ "WHERE COUPON_ID = ?";
 	
 	private static final String DELETE = "";
 	
@@ -61,8 +67,8 @@ public class PercentageCouponDAO {
 			log.trace("insertAdminCouponGradeData 진입");
 
 			int result = jdbcTemplate.update(INSERT, percentageCouponDTO.getCouponID(), 
-					percentageCouponDTO.getCouponDiscountRate(), 
-					percentageCouponDTO.getMaxDiscountAmount());
+													percentageCouponDTO.getCouponDiscountRate(), 
+													percentageCouponDTO.getMaxDiscountAmount());
 		
 			if(result <= 0) {
 				log.error("insertAdminCouponGradeData 실패");
@@ -83,13 +89,29 @@ public class PercentageCouponDAO {
 	
 	public boolean update(PercentageCouponDTO percentageCouponDTO) {
 
-//		int result = jdbcTemplate.update(UPDATE);
-//		if(result <= 0) {
-//			log.debug("update 실패");
-			return false;
-//		}
-//		log.debug("update 성공");
-//		return true;
+		log.trace("update 진입");
+
+		if (percentageCouponDTO.getSearchCondition().equals("updateAdminCouponGradeData")) {
+
+			log.trace("updateAdminCouponGradeData 진입");
+
+			int result = jdbcTemplate.update(UPDATE, percentageCouponDTO.getCouponDiscountRate(), 
+													percentageCouponDTO.getMaxDiscountAmount(),
+													percentageCouponDTO.getCouponID());
+		
+			if(result <= 0) {
+				log.error("updateAdminCouponGradeData 실패");
+				return false;
+			
+			}
+			
+			log.trace("updateAdminCouponGradeData 성공");
+			return true;
+		
+		}
+		
+		log.error("update 실패");
+		return false;
 	}
 
 	

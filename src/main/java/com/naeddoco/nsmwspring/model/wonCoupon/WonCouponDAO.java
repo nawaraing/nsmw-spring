@@ -28,7 +28,11 @@ public class WonCouponDAO {
 									+ "(COUPON_ID, COUPON_DISCOUNT_AMOUNT, MIN_ORDER_AMOUNT) "
 									+ "VALUES (?,?,?)";
 	
-	private static final String UPDATE = "";
+	//관리자페이지에서 쿠폰정보 변경시 사용
+	private static final String UPDATE = "UPDATE WON_COUPON "
+										+ "SET COUPON_DISCOUNT_AMOUNT = ?, "
+											+ "MIN_ORDER_AMOUNT = ? "
+										+ "WHERE COUPON_ID = ?";
 	
 	private static final String DELETE = "";
 	
@@ -61,8 +65,8 @@ public class WonCouponDAO {
 			log.trace("insertAdminCouponGradeData 진입");
 
 			int result = jdbcTemplate.update(INSERT, wonCouponDTO.getCouponID(), 
-					wonCouponDTO.getCouponDiscountAmount(), 
-					wonCouponDTO.getMinOrderAmount() );
+													wonCouponDTO.getCouponDiscountAmount(), 
+													wonCouponDTO.getMinOrderAmount() );
 		
 			if(result <= 0) {
 				log.error("insertAdminCouponGradeData 실패");
@@ -80,14 +84,29 @@ public class WonCouponDAO {
 	}
 	
 	public boolean update(WonCouponDTO wonCouponDTO) {
+		log.trace("update 진입");
 
-//		int result = jdbcTemplate.update(UPDATE);
-//		if(result <= 0) {
-//			log.debug("update 실패");
-			return false;
-//		}
-//		log.debug("update 성공");
-//		return true;
+		if ( wonCouponDTO.getSearchCondition().equals("updateAdminCouponGradeData")) {
+
+			log.trace("updateAdminCouponGradeData 진입");
+
+			int result = jdbcTemplate.update(UPDATE, wonCouponDTO.getCouponDiscountAmount(), 
+													wonCouponDTO.getMinOrderAmount(),
+													wonCouponDTO.getCouponID());
+		
+			if(result <= 0) {
+				log.error("updateAdminCouponGradeData 실패");
+				return false;
+			
+			}
+			
+			log.trace("updateAdminCouponGradeData 성공");
+			return true;
+		
+		}
+		
+		log.error("update 실패");
+		return false;
 	}
 
 	

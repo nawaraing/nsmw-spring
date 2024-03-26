@@ -27,7 +27,11 @@ public class ProvisionGradeCouponDAO {
 											+ "(GRADE_ID, COUPON_ID, DEPLOY_CYCLE, DEPLOY_BASE) "
 											+ "VALUES (?,?,?,?)";
 
-		private static final String UPDATE = "";
+		private static final String UPDATE = "UPDATE PROVISION_GRADE_COUPON "
+											+ "SET GRADE_ID = ? ,"
+												+ "DEPLOY_CYCLE = ? "
+												+ "DEPLOY_BASE = ? "
+											+ "WHERE COUPON_ID = ?";
 		
 		private static final String DELETE = "";
 
@@ -127,17 +131,33 @@ public class ProvisionGradeCouponDAO {
 		/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 		public boolean update(ProvisionGradeCouponDTO provisionGradeCouponDTO) {
-//			int result = jdbcTemplate.update(UPDATE);
-//
-//			if (result <= 0) {
 
-				return false;
+			log.trace("update 진입");
 
-//			}
-//
-//			return true;
+			if (provisionGradeCouponDTO.getSearchCondition().equals("updateAdminCouponGradeData")) {
 
+				log.trace("updateAdminCouponGradeData 진입");
+
+				int result = jdbcTemplate.update(UPDATE, provisionGradeCouponDTO.getGradeID(), 
+														provisionGradeCouponDTO.getDeployCycle(),
+														provisionGradeCouponDTO.getDeployBase(),
+														provisionGradeCouponDTO.getCouponID());
+
+				if(result <= 0) {
+					log.error("updateAdminCouponGradeData 실패");
+					return false;
+
+				}
+
+				log.trace("updateAdminCouponGradeData 성공");
+				return true;
+
+			}
+
+			log.error("update 실패");
+			return false;
 		}
+		
 		
 		public boolean delete(ProvisionGradeCouponDTO provisionGradeCouponDTO) {
 //			int result = jdbcTemplate.update(UPDATE);
