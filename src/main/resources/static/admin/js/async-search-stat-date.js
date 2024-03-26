@@ -16,7 +16,9 @@ function searchDate() {
         success : function(datas) {
         	totalPage = calculTotalPage(datas.length);
         	curPage = 1;
-        	composePage(datas, "statDate.jsp", "date");
+        	curDatas = datas;
+        	curType = "date";
+        	composePage(datas, curFile, curType);
         	// 페이지네이션을 위한 저장
         }
     });
@@ -35,7 +37,9 @@ function searchMonth() {
         success : function(datas) {
         	totalPage = calculTotalPage(datas.length);
         	curPage = 1;
-        	composePage(datas, "statDate.jsp", "month");
+        	curDatas = datas;
+        	curType = "month";
+        	composePage(datas, curFile, curType);
         	// 페이지네이션을 위한 저장
         }
     });
