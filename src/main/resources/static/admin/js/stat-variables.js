@@ -10,5 +10,5 @@ let startPage = 1; // 처음 화면 로드, 검색, 페이지 이동
 let endPage = 1; // 처음 화면 로드, 검색, 페이지 이동
     
 let curDatas = []; // 처음 화면 로드, 검색
-let curFile = "statDate.jsp"; // 처음 화면 로드
-let curType = "date"; // 처음 화면 로드, 검색
+let curFile; // 처음 화면 로드
+let curType; // 처음 화면 로드, 검색

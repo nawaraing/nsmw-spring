@@ -5,17 +5,19 @@
  */
 
 function composePage(datas, fileName, type) {
-	console.log("[log] start composePage");
+    console.log("curFile start composePage: " + curFile);
+
 //	console.log("[log] curDatas start composePage(): " + curDatas);
 	
 	if (fileName === "statDate.jsp") {
 		fillStatDateTable(datas, type);
 	} else if (fileName === "statProduct.jsp") {
-		// TODO
+		fillStatProductTable(datas, type);
 	} else {
 		// TODO: error
-		console.log('error: unexpected file name[' + fileName + ']');
+		console.log('[error] unexpected fileName: ' + fileName);
 	}
 //	console.log("[log] curDatas before composePagination(): " + curDatas);
     composePagination();
+    console.log("curFile end composePage: " + curFile);
 }
