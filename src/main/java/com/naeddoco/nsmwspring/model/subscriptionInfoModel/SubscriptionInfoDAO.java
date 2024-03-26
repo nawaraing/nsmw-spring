@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.naeddoco.nsmwspring.model.monthlySalesStatsModel.MonthlySalesStatsDTO;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Repository("subscriptionInfo")
@@ -19,6 +17,8 @@ public class SubscriptionInfoDAO {
 	private static final String UPDATE_ADDRESS = "UPDATE SUBSCRIPTION_INFO " +
 												 "SET SUBSCRIPTION_POSTCODE = ?, SUBSCRIPTION_ADDRESS = ?, SUBSCRIPTION_DETAIL_ADDRESS = ? " +
 												 "WHERE SUBSCRIPTION_INFO_ID = ?";
+	
+	private static final String DELETE = "DELETE FROM SUBSCRIPTION_INFO WHERE SUBSCRIPTION_INFO_ID = ?"; 
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -58,5 +58,35 @@ public class SubscriptionInfoDAO {
 	}
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+	public boolean delete(SubscriptionInfoDTO subscriptionInfoDTO) {
+		
+		log.debug("delete 진입");
+		
+		if(subscriptionInfoDTO.getSearchCondition().equals("deleteSubscriptionData")) {
+			
+			log.debug("deleteSubscriptionData 진입");
+				
+			int result = jdbcTemplate.update(DELETE, subscriptionInfoDTO.getSubscriptionInfoID());
+			
+			if(result <= 0) {
+				
+				log.debug("eleteSubscriptionData 실패");
+				
+				return false;
+				
+			}
+			
+			log.debug("eleteSubscriptionData 성공");
+			
+			return true;
+			
+		}
+		
+		log.debug("delete 실패");
+		
+		return false;
+		
+	}
 	
 }
