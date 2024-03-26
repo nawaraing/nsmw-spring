@@ -20,7 +20,7 @@ import com.naeddoco.nsmwspring.model.memberModel.MemberService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class EntryBuyPageController {
+public class EntryOnceBuyPageController {
 
 	@Autowired
 	private MemberService memberService;
@@ -28,14 +28,14 @@ public class EntryBuyPageController {
 	private CouponService couponService;
 	
 	@RequestMapping(value = "buy/once", method = RequestMethod.POST)
-	public String entryCart(HttpSession session, Model model, MemberDTO memberDTO,
-							@RequestParam(name = "imagePath[]") List<String> imagePath,
-							@RequestParam(name = "productName[]") List<String> productName,
-							@RequestParam(name = "salePrice[]") List<Integer> salePrice,
-							@RequestParam(name = "productQuantity[]") List<Integer> productQuantity,
-							@RequestParam(name = "productID[]") List<Integer> productID,
-							@RequestParam(name = "cartID[]") List<Integer> cartID,
-							@RequestParam(name = "category[]") List<String> category) {
+	public String entryBuy(HttpSession session, Model model, MemberDTO memberDTO,
+						   @RequestParam(name = "imagePath[]") List<String> imagePath,
+						   @RequestParam(name = "productName[]") List<String> productName,
+						   @RequestParam(name = "salePrice[]") List<Integer> salePrice,
+						   @RequestParam(name = "productQuantity[]") List<Integer> productQuantity,
+						   @RequestParam(name = "productID[]") List<Integer> productID,
+						   @RequestParam(name = "cartID[]") List<Integer> cartID,
+						   @RequestParam(name = "category[]") List<String> category) {
 
 		//-----------------------------------------------세션 확인 ↓-----------------------------------------------
 		
@@ -98,7 +98,7 @@ public class EntryBuyPageController {
         
         model.addAttribute("coupons", couponList);
 		
-		return "user/buy";
+		return "user/onceBuy";
 
 	}
 
