@@ -11,6 +11,8 @@ public class SubscriptionInfoProductDTO {
 	private int quantity; // 수량
 	private int purchasePrice; // 구매 금액
 	
+	private String searchCondition;
+	
 	@Override
 	public String toString() {
 		
