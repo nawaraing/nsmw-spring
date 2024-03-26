@@ -20,8 +20,25 @@ public class MemberDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	// 쿼리문
-	private static final String SELECTALL = "SELECT MEMBER_ID, MEMBER_PASSWORD, MEMBER_NAME, "
-			+ "DAY_OF_BIRTH, GENDER, PHONE_NUMBER, EMAIL, AUTHORITY, MEMBER_STATE FROM MEMBER";
+	private static final String SELECTALL = "SELECT MEMBER_ID, MEMBER_PASSWORD, MEMBER_NAME, DAY_OF_BIRTH, GENDER, PHONE_NUMBER, EMAIL, AUTHORITY, MEMBER_STATE FROM MEMBER";
+	
+	// 사용자 아이디로 사용자의 구독 정보를 가져오는 쿼리문
+	private static final String SELECTALL_SUBSCRIPTION_BY_MEMBER = "SELECT" +
+																   "SI.SUBSCRIPTION_INFO_ID, " +
+																   "SI.BEGIN_DATE, " +
+																   "SI.SUBSCRIPTION_TIMES, " +
+																   "SI.NEXT_PAYMENT_DATE, " +
+																   "SI.SUBSCRIPTION_POSTCODE, " +
+																   "SI.SUBSCRIPTION_ADDRESS, " +
+																   "SI.SUBSCRIPTION_DETAIL_ADDRESS, " +
+																   "SI.SUBSCRIPTION_CLOSING_TIMES, " +
+																   "SIP.PRODUCT_ID, " +
+																   "SIP.QUANTITY, " +
+																   "SIP.PURCHASE_PRICE " +
+																   "FROM MEMBER M " +
+																   "JOIN SUBSCRIPTION_INFO SI ON SI.MEMBER_ID = M.MEMBER_ID " +
+																   "JOIN SUBSCRIPTION_INFO_PRODUCT SIP ON SIP.SUBSCRIPTION_INFO_ID = SI.SUBSCRIPTION_INFO_ID " +
+																   "WHERE M.MEMBER_ID = ?";
 	
 	// 로그인(내또코 회원) (+ 마이페이지PW확인)
 	// 아이디와 비밀번호가 같은 행의 MEMBER_ID를 확인
@@ -94,8 +111,46 @@ public class MemberDAO {
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	
 	public List<MemberDTO> selectAll(MemberDTO memberDTO) {
+		
+		log.debug("selectOne 진입");
+		
+		if(memberDTO.getSearchCondition().equals("allMember")) {
+			
+			log.debug("allMember 진입");
+			
+			try {
+			
+				return (List<MemberDTO>) jdbcTemplate.query(SELECTALL, new MemberRowMapper());
+			
+			} catch (Exception e) {
+				
+				log.error("allMember 실패");
 
-		return (List<MemberDTO>) jdbcTemplate.query(SELECTALL, new MemberRowMapper());
+				return null;
+			}
+			
+		} else if(memberDTO.getSearchCondition().equals("selectSubscriptionDatas")) {
+			
+			log.debug("selectSubscriptionDatas 진입");
+			
+			Object[] args = { memberDTO.getMemberID() };
+			
+			try {
+				
+				return (List<MemberDTO>) jdbcTemplate.query(SELECTALL, args, new MemberRowMapper());
+			
+			} catch (Exception e) {
+				
+				log.error("selectSubscriptionDatas 실패");
+
+				return null;
+			}
+			
+		}
+		
+		log.debug("selectOne 실패");
+		
+		return null;
 
 	}
 
@@ -335,3 +390,32 @@ class IdDuplicationCheckRowMapper implements RowMapper<MemberDTO> {
 
 }
 
+@Slf4j
+class selectSubscriptionDatasRowMapper implements RowMapper<MemberDTO> {
+
+	@Override
+	public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+		log.debug("selectSubscriptionDatasRowMapper 진입");
+
+		MemberDTO memberDTO = new MemberDTO();
+		
+		memberDTO.setAncSubcriptionInfoID(rs.getInt("SI.SUBSCRIPTION_INFO_ID"));
+		memberDTO.setAncBeginDate(rs.getTimestamp("SI.BEGIN_DATE"));
+		memberDTO.setAncSubscriptionTimes(rs.getInt("SI.SUBSCRIPTION_TIMES"));
+		memberDTO.setAncNextPaymentDate(rs.getTimestamp("SI.NEXT_PAYMENT_DATE"));
+		memberDTO.setAncSubscriptionPostcode(rs.getInt("SI.SUBSCRIPTION_POSTCODE"));
+		memberDTO.setAncSubscriptionAddress(rs.getString("SI.SUBSCRIPTION_ADDRESS"));
+		memberDTO.setAncSubscriptionDetailAddress(rs.getString("SI.SUBSCRIPTION_DETAIL_ADDRESS"));
+		memberDTO.setAncSubscriptionClosingTimes(rs.getInt("SI.SUBSCRIPTION_CLOSING_TIMES"));
+		memberDTO.setAncProductID(rs.getInt("SIP.PRODUCT_ID"));
+		memberDTO.setAncQuantity(rs.getInt("SIP.QUANTITY"));
+		memberDTO.setAncPurchasePrice(rs.getInt("SIP.PURCHASE_PRICE"));
+		
+		log.debug("selectSubscriptionDatasRowMapper 완료");
+		
+		return memberDTO;
+
+	}
+
+}
