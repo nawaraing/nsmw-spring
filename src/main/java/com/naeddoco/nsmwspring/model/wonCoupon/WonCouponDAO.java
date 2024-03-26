@@ -23,7 +23,10 @@ public class WonCouponDAO {
 
 	private static final String SELECTONE = "";
 	
-	private static final String INSERT = "";
+	//COUPON insert시 같이 insert
+	private static final String INSERT = "INSERT INTO WON_COUPON "
+									+ "(COUPON_ID, COUPON_DISCOUNT_AMOUNT, MIN_ORDER_AMOUNT) "
+									+ "VALUES (?,?,?)";
 	
 	private static final String UPDATE = "";
 	
@@ -51,16 +54,30 @@ public class WonCouponDAO {
 
 	
 	public boolean insert(WonCouponDTO wonCouponDTO) {
-	
-//		int result = jdbcTemplate.update(INSERT);
-//		if(result <= 0) {
-//			log.debug("insert 실패");
-			return false;
-//		}
-//		log.debug("insert 성공");
-//		return true;
-	}
+		log.trace("insert 진입");
 
+		if (wonCouponDTO.getSearchCondition().equals("insertAdminCouponGradeData")) {
+
+			log.trace("insertAdminCouponGradeData 진입");
+
+			int result = jdbcTemplate.update(INSERT, wonCouponDTO.getCouponID(), 
+					wonCouponDTO.getCouponDiscountAmount(), 
+					wonCouponDTO.getMinOrderAmount() );
+		
+			if(result <= 0) {
+				log.error("insertAdminCouponGradeData 실패");
+				return false;
+			
+			}
+			
+			log.trace("insertAdminCouponGradeData 성공");
+			return true;
+		
+		}
+		
+		log.error("insert 실패");
+		return false;
+	}
 	
 	public boolean update(WonCouponDTO wonCouponDTO) {
 

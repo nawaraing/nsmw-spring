@@ -23,7 +23,10 @@ public class CouponCategoryDAO {
 
 	private static final String SELECTONE = "";
 	
-	private static final String INSERT = "";
+	// COUPON insert시 COUPON_CATEGORY에도 함께 insert
+	private static final String INSERT = "INSERT INTO COUPON_CATEGORY "
+									+ "(COUPON_ID, CATEGORY_ID) "
+									+ "VALUES (?,?)";
 	
 	private static final String UPDATE = "";
 	
@@ -51,13 +54,26 @@ public class CouponCategoryDAO {
 	
 	public boolean insert(CouponCategoryDTO couponCategoryDTO) {
 	
-//		int result = jdbcTemplate.update(INSERT);
-//		if(result <= 0) {
-//			log.debug("insert 실패");
-			return false;
-//		}
-//		log.debug("insert 성공");
-//		return true;
+		log.trace("insert 진입");
+		
+		if (couponCategoryDTO.getSearchCondition().equals("insertAdminCouponGradeData")) {
+		
+			log.trace("insertAdminCouponGradeData 진입");
+			
+			int result = jdbcTemplate.update(INSERT, couponCategoryDTO.getCouponID(), couponCategoryDTO.getCategoryID());
+
+			if(result <= 0) {
+
+				log.error("insertAdminCouponGradeData 실패");
+				return false;
+			}
+
+			log.trace("insertAdminCouponGradeData 성공");
+			return true;
+		}
+	
+		log.error("insert 실패");
+		return false;
 	}
 
 	
