@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="com.naeddoco.nsmwspring.model.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -49,6 +49,8 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/resources/admin/assets/js/config.js"></script>
     
+    <script type="module" src="/resources/admin/js/dashboard-analytics-injection.js"></script>
+    
     <%-- 파비콘 --%>
     <custom:favicon/>
     
@@ -95,13 +97,13 @@
                             <th>이익(₩)</th>
                           </tr>
                         </thead>
-                        <tbody class="table-border-bottom-0">
+                        <tbody class="table-border-bottom-0" id="dashboard-daily-sales-stats">
                           <c:if test="${fn:length(dashboardDailySalesStats) > 0}">
-                            <c:forEach var="dailySalesStat" items="${dashboardDailySalesStats}">
+                            <c:forEach var="dailySalesStat" items="${dashboardDailySalesStats}" varStatus="status">
                               <tr>
-                                <td><i class="fab fa-angular fa-lg me-3"></i> <strong>${dailySalesStat.dailyTotalCalculateDate}</strong></td>
-                                <td><fmt:formatNumber value="${dailySalesStat.dailyTotalGrossMargine}" currencyCode="KRW" /></td>
-                                <td><fmt:formatNumber value="${dailySalesStat.dailyTotalNetProfit}" currencyCode="KRW" /></td>
+                                <td><i class="fab fa-angular fa-lg me-3"></i> <strong id="daily-total-calculate-date-${status.index}">${dailySalesStat.dailyTotalCalculateDate}</strong></td>
+                                <td id="daily-total-gross-margine-${status.index}"><fmt:formatNumber value="${dailySalesStat.dailyTotalGrossMargine}" currencyCode="KRW" /></td>
+                                <td id="daily-total-net-profit-${status.index}"><fmt:formatNumber value="${dailySalesStat.dailyTotalNetProfit}" currencyCode="KRW" /></td>
                               </tr>
                             </c:forEach>
                           </c:if>
@@ -151,24 +153,7 @@
     <script src="/resources/admin/assets/js/main.js"></script>
 
     <!-- Render dashboard charts -->
-    <script src="/resources/admin/assets/js/dashboards-analytics.js"></script>
-    <script>
-      let values = [];
-      let dates = [];
-    </script>
-    <c:if test="${fn:length(dashboardDailySalesStats) > 0}">
-      <c:forEach var="dailySalesStat" items="${dashboardDailySalesStats}">
-        <script>
-          values.push(${dailySalesStat.dailyTotalGrossMargine});
-          dates.push(`${dailySalesStat.dailyTotalCalculateDate}`);
-        </script>
-      </c:forEach>
-    </c:if>
-    <script>
-      values.reverse();
-      dates.reverse();
-      renderCharts(values, dates);
-    </script>
+    <script type="module" src="/resources/admin/js/dashboard-analytics-injection.js"></script>
     
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
