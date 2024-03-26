@@ -246,7 +246,8 @@
 							</div>
 							<div class="d-flex justify-content-between"></div>
 						</div>
-						<button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button" onclick="goToBuy()">구매 진행</button>
+						<button class="btn border-secondary rounded-pill px-5 py-3 text-primary text-uppercase mb-4 ms-4" type="button" onclick="goToBuy()">정기 구매</button>
+						<button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button" onclick="goToBuy()">한 번만 구매</button>
 					</div>
 				</div>
 			</div>
