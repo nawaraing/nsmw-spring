@@ -4,7 +4,7 @@
 
 'use strict';
 
-function renderCharts(values, dates) {
+export function renderCharts(values, dates) {
   let axisColor, shadeColor, borderColor;
 
   axisColor = config.colors.axisColor;
