@@ -29,17 +29,42 @@ public class ProductDAO {
 													     "LIMIT 1";
 	
 	// 하나의 상품의 데이터를 가져오는 쿼리문
-	private static final String SELECTONE_GET_PRODUCT_DETAIL = "SELECT p.PRODUCT_ID, p.PRODUCT_NAME, p.PRODUCT_DETAIL, p.COST_PRICE, p.RETAIL_PRICE, p.SALE_PRICE, p.STOCK, p.INGREDIENT, p.DOSAGE, "
-													+ "p.EXPIRATION_DATE, p.REGISTER_DATE, p.MODIFY_DATE, p.SALE_STATE, c.CATEGORY_NAME, i.IMAGE_PATH "
-													+ "FROM PRODUCT p "
-													+ "JOIN PRODUCT_CATEGORY pc ON p.PRODUCT_ID = pc.PRODUCT_ID "
-													+ "JOIN CATEGORY c ON pc.CATEGORY_ID = c.CATEGORY_ID "
-													+ "JOIN PRODUCT_IMAGE pi ON p.PRODUCT_ID = pi.PRODUCT_ID "
-													+ "JOIN IMAGE i ON pi.IMAGE_ID = i.IMAGE_ID "
-													+ "WHERE p.PRODUCT_ID = ?";
+	private static final String SELECTONE_GET_PRODUCT_DETAIL = "SELECT " +
+															   "P.PRODUCT_ID, " +
+															   "P.PRODUCT_NAME, " +
+															   "P.PRODUCT_DETAIL, " +
+															   "P.COST_PRICE, " +
+															   "P.RETAIL_PRICE, " +
+															   "P.SALE_PRICE, " +
+															   "P.STOCK, " +
+															   "P.INGREDIENT, " +
+															   "P.DOSAGE, " +
+															   "P.EXPIRATION_DATE, " +
+															   "P.REGISTER_DATE, " +
+															   "P.MODIFY_DATE, " +
+															   "P.SALE_STATE, " +
+															   "C.CATEGORY_NAME, " +
+															   "I.IMAGE_PATH " +
+															   "FROM PRODUCT P " +
+															   "JOIN PRODUCT_CATEGORY PC ON P.PRODUCT_ID = PC.PRODUCT_ID " +
+															   "JOIN CATEGORY C ON PC.CATEGORY_ID = C.CATEGORY_ID " +
+															   "JOIN PRODUCT_IMAGE PI ON P.PRODUCT_ID = PI.PRODUCT_ID " +
+															   "JOIN IMAGE I ON PI.IMAGE_ID = I.IMAGE_ID " +
+															   "WHERE P.PRODUCT_ID = ?";
 
 	// 크롤링한 상품 데이터를 추가하는 쿼리문
-	private static final String INSERT = "INSERT INTO PRODUCT ( PRODUCT_NAME, PRODUCT_DETAIL, COST_PRICE, RETAIL_PRICE, SALE_PRICE, STOCK, INGREDIENT, DOSAGE, EXPIRATION_DATE, REGISTER_DATE, MODIFY_DATE, SALE_STATE ) " + 
+	private static final String INSERT = "INSERT INTO PRODUCT ( " +
+			 							 "PRODUCT_NAME, " +
+			 							 "PRODUCT_DETAIL, " +
+			 							 "COST_PRICE, " +
+			 							 "RETAIL_PRICE, " +
+			 							 "SALE_PRICE, " +
+			 							 "STOCK, " +
+			 							 "INGREDIENT, " +
+			 							 "DOSAGE, " +
+			 							 "EXPIRATION_DATE, " +
+			 							 "REGISTER_DATE, " +
+			 							 "MODIFY_DATE, SALE_STATE ) " + 
 									     "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ? )";
 
 	private static final String UPDATE = "";
