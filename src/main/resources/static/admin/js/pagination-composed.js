@@ -24,8 +24,7 @@
  
 // Page 버튼 화면 구성
 function composePagination() {
-	console.log("[log] start composePagination");
-//	console.log("[log] curDatas start composePagination(): " + curDatas);
+    console.log("curFile start composePagination: " + curFile);
 
 	let pagination = $('#pagination');
 	pagination.empty();
@@ -66,6 +65,7 @@ function composePagination() {
 //	console.log("[log] startPage: " + startPage);
 //	console.log("[log] endPage: " + endPage);
 //	console.log("[log] curDatas end composePagination(): " + curDatas);
+    console.log("curFile end composePagination: " + curFile);
 }
 
 function getPrevBtn() {

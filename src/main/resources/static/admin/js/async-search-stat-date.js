@@ -14,12 +14,7 @@ function searchDate() {
             "endDate" : endDate
         },
         success : function(datas) {
-        	totalPage = calculTotalPage(datas.length);
-        	curPage = 1;
-        	curDatas = datas;
-        	curType = "date";
-        	composePage(datas, curFile, curType);
-        	// 페이지네이션을 위한 저장
+			doSearchSucc(datas, "date");
         }
     });
 }
@@ -35,12 +30,20 @@ function searchMonth() {
             "endMonth" : endMonth
         },
         success : function(datas) {
-        	totalPage = calculTotalPage(datas.length);
-        	curPage = 1;
-        	curDatas = datas;
-        	curType = "month";
-        	composePage(datas, curFile, curType);
-        	// 페이지네이션을 위한 저장
+			doSearchSucc(datas, "month");
         }
     });
+}
+
+function doSearchSucc(datas, type) {
+	if (datas === null || datas === undefined) {
+		// TODO: 입력이 잘못된 상황, 에러 모달로 안내
+	}
+	
+	totalPage = calculTotalPage(datas.length);
+	curPage = 1;
+	curDatas = datas;
+	curFile = "statDate.jsp";
+	curType = type;
+	composePage(datas, curFile, curType);
 }

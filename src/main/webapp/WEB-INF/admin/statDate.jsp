@@ -91,41 +91,37 @@
                               <div class="tab-pane fade show active" id="list-date">
                                 <div class="row">
                                   <label for="start-date-input" class="col-md-2 col-form-label">검색 기간</label>
-                                  <form id="dateForm" action="/statDate/searchDate" method="GET">
-                                    <div class="row">
-                                      <!-- Start Date -->
-                                      <div class="col-md-5 mb-4">
-                                        <input class="form-control" type="date" name="startDate" value="2021-06-18" id="start-date-input" />
-                                      </div>
-                                      <!-- / Start Date -->
-                                      <!-- End Date -->
-                                      <div class="col-md-5 mb-4">
-                                        <input class="form-control" type="date" name="endDate" value="2021-06-18" id="end-date-input" />
-                                      </div>
-                                      <!-- / End Date -->
-                                      <button type="button" class="btn rounded-pill btn-primary col-2 mb-4" onclick="searchDate()">검색</button>
+                                  <div class="row">
+                                    <!-- Start Date -->
+                                    <div class="col-md-5 mb-4">
+                                      <input class="form-control" type="date" name="startDate" value="2021-06-18" id="start-date-input" />
                                     </div>
-                                  </form>
+                                    <!-- / Start Date -->
+                                    <!-- End Date -->
+                                    <div class="col-md-5 mb-4">
+                                      <input class="form-control" type="date" name="endDate" value="2021-06-18" id="end-date-input" />
+                                    </div>
+                                    <!-- / End Date -->
+                                    <button type="button" class="btn rounded-pill btn-primary col-2 mb-4" onclick="searchDate()">검색</button>
+                                  </div>
                                 </div>  
                               </div>
                               <div class="tab-pane fade show" id="list-month">
                                 <div class="row">
                                   <label for="start-month-input" class="col-md-2 col-form-label">검색 기간</label>
-                                  <form id="dateForm" action="/statDate/searchMonth" method="GET">
-                                    <div class="row">
-                                      <!-- Start Date -->
-                                      <div class="col-md-5 mb-4">
-                                        <input class="form-control" type="month" name="startMonth" value="2021-06" id="start-month-input" />
-                                      </div>
-                                      <!-- / Start Date -->
-                                      <!-- End Date -->
-                                      <div class="col-md-5 mb-4">
-                                        <input class="form-control" type="month" name="endMonth" value="2021-06" id="end-month-input" />
-                                      </div>
-                                      <!-- / End Date -->
-                                      <button type="button" class="btn rounded-pill btn-primary col-2 mb-4" onclick="searchMonth()">검색</button>
+                                  <div class="row">
+                                    <!-- Start Date -->
+                                    <div class="col-md-5 mb-4">
+                                      <input class="form-control" type="month" name="startMonth" value="2021-06" id="start-month-input" />
                                     </div>
-                                  </form>
+                                    <!-- / Start Date -->
+                                    <!-- End Date -->
+                                    <div class="col-md-5 mb-4">
+                                      <input class="form-control" type="month" name="endMonth" value="2021-06" id="end-month-input" />
+                                    </div>
+                                    <!-- / End Date -->
+                                    <button type="button" class="btn rounded-pill btn-primary col-2 mb-4" onclick="searchMonth()">검색</button>
+                                  </div>
                                 </div>  
                               </div>
                             </div>

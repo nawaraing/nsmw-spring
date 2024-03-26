@@ -27,7 +27,7 @@
 	curFile = "statDate.jsp";
 	curType = "date";
   
-	composePage(curDatas, "statDate.jsp", curType);
+	composePage(curDatas, curFile, curType);
 })();
 
 // 전체 페이지 수와 현재 페이지 수 갱신

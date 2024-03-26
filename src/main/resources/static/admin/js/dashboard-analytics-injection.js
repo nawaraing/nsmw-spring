@@ -20,7 +20,7 @@ window.onload = function renderDatas() {
     // 최신 데이터부터 우측 정렬
     values.reverse();
     dates.reverse();
-//    console.log("values: " + values);
-//    console.log("dates: " + dates);
+    console.log("values: " + values);
+    console.log("dates: " + dates);
     renderCharts(values, dates);
 }
