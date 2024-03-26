@@ -7,15 +7,17 @@ import lombok.Data;
 @Data
 public class SubscriptionInfoDTO {
 	
-	private int subscriptionInfoID; // 인조 식별자
-	private String memberID; // 유저 아이디
-	private Timestamp beginDate; // 구독 시작일
-	private int subscriptionTimes; // 구독 회차
-	private Timestamp nextPaymentDate; // 다음 결제일
-	private int subscriptionPostCode; // 배송지 우편번호
-	private String subscriptionAddress; // 배송지 주소
+	private int subscriptionInfoID;           // 인조 식별자
+	private String memberID;                  // 유저 아이디
+	private Timestamp beginDate;              // 구독 시작일
+	private int subscriptionTimes;            // 구독 회차
+	private Timestamp nextPaymentDate;        // 다음 결제일
+	private int subscriptionPostCode;         // 배송지 우편번호
+	private String subscriptionAddress;       // 배송지 주소
 	private String subscriptionDetailAddress; // 배송지 주소 상세
-	private int subscriptionClosingTimes; // 구독 마감 회차
+	private int subscriptionClosingTimes;     // 구독 마감 회차
+	
+	private String searchCondition;
 	
 	@Override
 	public String toString() {
