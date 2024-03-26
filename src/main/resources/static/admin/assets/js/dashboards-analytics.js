@@ -102,8 +102,8 @@ export function renderCharts(values, dates) {
         labels: {
           show: false
         },
-        min: Math.min(...values),
-        max: Math.max(...values),
+        min: Math.min(...values) - 10,
+        max: Math.max(...values) + 10,
         tickAmount: 4
       }
     };
