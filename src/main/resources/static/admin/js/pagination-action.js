@@ -26,7 +26,10 @@
 function movePage(param) {
 //	console.log("param: " + param);
 	curPage = parseInt(param);
-	composePage(curDatas, curType);
+//	console.log("[log] curDatas: " + curDatas);
+//	console.log("[log] curFile: " + curFile);
+//	console.log("[log] curType: " + curType);
+	composePage(curDatas, curFile, curType);
 }
 function movePrevPage() {
 	if (curPage === 1) {
@@ -37,7 +40,7 @@ function movePrevPage() {
 	} else {
 		curPage = 1;
 	}
-	composePage(curDatas, curType);
+	composePage(curDatas, curFile, curType);
 }
 function moveNextPage() {
 //	console.log("[log] start moveNextPage");
@@ -51,5 +54,5 @@ function moveNextPage() {
 		curPage = totalPage;
 	}
 //	console.log("[log] curPage : " + curPage);
-	composePage(curDatas, curType);
+	composePage(curDatas, curFile, curType);
 }

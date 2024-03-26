@@ -35,13 +35,13 @@ function fillStatDateTable(datas, type) {
         if (Math.floor(index / 10) + 1 === curPage) {
             let row = $('<tr>');
             if (type === "date") {
-                row.append($('<td>').text(data.dailyTotalCalculateDate));
-                row.append($('<td>').text(formatPrice(data.dailyTotalGrossMargine)));
-                row.append($('<td>').text(formatPrice(data.dailyTotalNetProfit)));
+                row.append($('<td>').append($('<i class="fab fa-angular fa-lg me-3">').append($('<strong id="total-calculate-date-' + index + '">').text(data.dailyTotalCalculateDate))));
+                row.append($('<td id="total-gross-margine-' + index + '">').text(formatPrice(data.dailyTotalGrossMargine)));
+                row.append($('<td id="total-net-profit-' + index + '">').text(formatPrice(data.dailyTotalNetProfit)));
             } else if (type === "month") {
-                row.append($('<td>').text(data.monthlyTotalCalculateDate.split("-")[0] + "-" + data.monthlyTotalCalculateDate.split("-")[1]));
-                row.append($('<td>').text(formatPrice(data.monthlyTotalGrossMargine)));
-                row.append($('<td>').text(formatPrice(data.monthlyTotalNetProfit)));
+                row.append($('<td>').append($('<i class="fab fa-angular fa-lg me-3">').append($('<strong id="total-calculate-date-' + index + '">').text(data.monthlyTotalCalculateDate.split("-")[0] + "-" + data.monthlyTotalCalculateDate.split("-")[1]))));
+                row.append($('<td id="total-gross-margine-' + index + '">').text(formatPrice(data.monthlyTotalGrossMargine)));
+                row.append($('<td id="total-net-profit-' + index + '">').text(formatPrice(data.monthlyTotalNetProfit)));
             } else {
                 // TODO: error
             }

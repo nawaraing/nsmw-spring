@@ -24,6 +24,7 @@
 	startPage = 1;
 	endPage = 1;
 
+	curFile = "statDate.jsp";
 	curType = "date";
   
 	composePage(curDatas, "statDate.jsp", curType);

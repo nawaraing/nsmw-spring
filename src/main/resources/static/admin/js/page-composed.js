@@ -4,16 +4,18 @@
  * - 페이지네이션
  */
 
-function composePage(datas, pageName, type) {
+function composePage(datas, fileName, type) {
 	console.log("[log] start composePage");
+//	console.log("[log] curDatas start composePage(): " + curDatas);
 	
-	if (pageName === "statDate.jsp") {
+	if (fileName === "statDate.jsp") {
 		fillStatDateTable(datas, type);
-	} else if (pageName === "statProduct.jsp") {
+	} else if (fileName === "statProduct.jsp") {
 		// TODO
 	} else {
 		// TODO: error
+		console.log('error: unexpected file name[' + fileName + ']');
 	}
-	
+//	console.log("[log] curDatas before composePagination(): " + curDatas);
     composePagination();
 }
