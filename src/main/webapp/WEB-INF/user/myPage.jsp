@@ -75,7 +75,7 @@
 						</td>
 						<td scope="row">
 							<div class="d-flex align-items-center">
-								<p class="mb-3 mt-4">${memberInfo.mName}</p>
+								<p class="mb-3 mt-4">${memberInfo.memberName}</p>
 							</div>
 						</td>
 					</tr>
@@ -99,7 +99,7 @@
 						</td>
 						<td scope="row">
 							<div class="d-flex align-items-center">
-								<p class="mb-3 mt-4">${memberInfo.dob}</p>
+								<p class="mb-3 mt-4">${memberInfo.dayOfBirth}</p>
 							</div>
 						</td>
 					</tr>
@@ -135,7 +135,7 @@
 						</td>
 						<td scope="row">
 							<div class="d-flex align-items-center">
-								<p class="mb-3 mt-4">${memberInfo.health}</p>
+								<p class="mb-3 mt-4">${memberInfo.ancMemberCategoryName}</p>
 							</div>
 						</td>
 					</tr>
@@ -147,7 +147,7 @@
 						</td>
 						<td scope="row">
 							<div class="d-flex align-items-center">
-								<p class="mb-3 mt-4">${memberInfo.mAddress}, ${memberInfo.mDetailedAddress}</p>
+								<p class="mb-3 mt-4">${memberInfo.ancShippingAddress}, ${memberInfo.ancShippingAddressDetail}</p>
 							</div>
 						</td>
 					</tr>
