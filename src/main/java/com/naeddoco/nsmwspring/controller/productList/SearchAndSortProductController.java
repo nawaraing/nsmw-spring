@@ -15,7 +15,7 @@ import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class SearchAndSortProductListController {
+public class SearchAndSortProductController {
 
 	@Autowired
 	private ProductDAO productDAO;
