@@ -44,7 +44,11 @@ public class CouponDAO {
 											+ "COUPON_TYPE = ?"
 										+ "WHERE COUPON_ID = ?";
 
-	private static final String DELETE = "";
+	// COUPON삭제 기능
+	// 등급쿠폰과 연관된 테이블에 FK ON DELETE CASCADE 설정이 되어있어
+	// COUPON테이블 데이터 삭제시 함께 삭제됨
+	private static final String DELETE = "DELETE FROM COUPON"
+										+ "WHERE COUPON_ID = ?";
 	
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -165,11 +169,28 @@ public class CouponDAO {
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public boolean delete(CouponDTO couponDTO) {
+		log.trace("delete 진입");
 
+		if (couponDTO.getSearchCondition().equals("deleteAdminCouponGradeData")) {
+
+			log.trace("deleteAdminCouponGradeData 진입");
+
+			int result = jdbcTemplate.update(DELETE, couponDTO.getCouponID());
+
+			if(result <= 0) {
+
+				log.error("deleteAdminCouponGradeData 실패");
+				return false;
+			}
+
+			log.trace("delete 성공");
+			return true;
+		}
+
+		log.error("delete 실패");
 		return false;
-
 	}
-	
+
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
