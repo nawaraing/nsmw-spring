@@ -1,0 +1,62 @@
+package com.naeddoco.nsmwspring.controller.productList;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.naeddoco.nsmwspring.model.productModel.ProductDAO;
+import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class SearchAndSortProductListController {
+
+	@Autowired
+	private ProductDAO productDAO;
+
+	@RequestMapping(value = "/productList/searchAndSort", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProductDTO> searchAndSortProductList(HttpSession session, ProductDTO productDTO,
+										   @RequestParam("searchKeyword") String searchKeyword, 
+										   @RequestParam("sortColumnName") String sortColumnName) {
+		
+		// -----------------------------------------------검색 조건 및 정렬 조건에 맞는 데이터 습득 ↓-----------------------------------------------
+		
+		productDTO.setSearchCondition("selectAdminProductListDatas"); // 쿼리 분기명 set
+		
+		searchKeyword = searchKeyword.trim(); // 검색 키워드의 공백 제거
+		productDTO.setSearchKeyword("%"+searchKeyword+"%"); // 검색 키워드를 set
+		
+		// 정렬 기준이 될 컬럼 결정, 오름차순/내림차순 결정 분기
+		if(sortColumnName == "salePrice") { 
+			
+			sortColumnName = "SALE_PRICE";
+			productDTO.setSortMode("DESC"); // 내림차순 set
+			
+		} else if(sortColumnName == "registerDate") {
+			
+			sortColumnName = "REGISTER_DATE";
+			productDTO.setSortMode("ASC"); // 오름차순 set
+			
+		} else if(sortColumnName == "saleState") {
+			
+			sortColumnName = "SALE_STATE";
+			productDTO.setSortMode("DESC"); // 내림차순 set
+		
+		}
+		
+		productDTO.setSortColumnName(sortColumnName); // 정렬 기준이 될 컬럼 set
+		
+		List<ProductDTO> productDTOList = productDAO.selectAll(productDTO);
+		
+		return productDTOList;
+
+	}
+
+}

@@ -50,8 +50,7 @@ public class ProductDAO {
 														"INNER JOIN CATEGORY CA ON PC.CATEGORY_ID = CA.CATEGORY_ID " +
 														"INNER JOIN PRODUCT_IMAGE PI ON P.PRODUCT_ID = PI.PRODUCT_ID " +
 														"INNER JOIN IMAGE I ON PI.IMAGE_ID = I.IMAGE_ID " +
-														"WHERE P.PRODUCT_NAME LIKE ?" +
-														"ORDER BY ? ?";
+														"WHERE P.PRODUCT_NAME LIKE ?";
 	
 	// 하나의 상품의 데이터를 가져오는 쿼리문
 	private static final String SELECTONE_GET_PRODUCT_DETAIL = "SELECT " +
@@ -106,7 +105,7 @@ public class ProductDAO {
 
 			try {
 
-				return (List<ProductDTO>) jdbcTemplate.query(SELECTALL_GET_LAST_ONE, new getLastOneRowMapper());
+				return jdbcTemplate.query(SELECTALL_GET_LAST_ONE, new getLastOneRowMapper());
 
 			} catch (Exception e) {
 
@@ -120,11 +119,16 @@ public class ProductDAO {
 			
 			log.debug("selectAdminProductListDatas 진입");
 			
-			Object[] args = { productDTO.getSearchKeyword(), productDTO.getSortColumnName(), productDTO.getSortMode() };
+			String sqlQuery = SELECTALL_CHAR_SEARCH;
+			
+			// ORDER BY를 동적으로 사용하기 위해서 ?를 사용하지 않고, 직접 인자를 붙여주기 위한 방법
+			sqlQuery += "ORDER BY " + productDTO.getSortColumnName() + productDTO.getSortMode(); 
+			
+			Object[] args = { productDTO.getSearchKeyword() };
 
 			try {
 
-				return (List<ProductDTO>) jdbcTemplate.query(SELECTALL_CHAR_SEARCH, args, new selectAllCharSearchRowMapper());
+				return jdbcTemplate.query(SELECTALL_CHAR_SEARCH, args, new selectAllCharSearchRowMapper());
 
 			} catch (Exception e) {
 
