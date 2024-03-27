@@ -24,6 +24,10 @@ public class ProductDTO {
 	private String ancImagePath;    // 이미지
 	private String ancCategory;     // 카테고리
 	
+	private String searchKeyword;   // 검색 키워드
+	private String sortColumnName;  // 정렬할 컬럼명
+	private String sortMode;        // 내림차순 or 오름차순인
+	
 	@Override
 	public String toString() {
 		
@@ -42,7 +46,8 @@ public class ProductDTO {
 				+ "modifyDate = " + modifyDate +", "
 				+ "saleState = " + saleState + ", " 
 				+ "ancImagePath = " + ancImagePath + ", "
-				+ "ancCategory = " + ancCategory
+				+ "sortColumnName = " + sortColumnName + ", "
+				+ "sortMode = " + sortMode
 				+ "]";
 		
 	}

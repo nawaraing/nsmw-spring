@@ -20,13 +20,38 @@ public class ProductDAO {
 	// 의존관계 ▶ DI(의존주입)
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
+			
 	// 최근에 추가된 하나의 데이터를 가져오는 쿼리문
 	private static final String SELECTALL_GET_LAST_ONE = "SELECT PRODUCT_ID " + 
 														 "FROM PRODUCT " +
 													     "ORDER BY REGISTER_DATE " +
 													     "DESC " +
 													     "LIMIT 1";
+	
+	// 검색한 문자열에 해당하는 상품의 데이터를 가져오는 쿼리문
+	private static final String SELECTALL_CHAR_SEARCH = "SELECT " +
+														"P.PRODUCT_ID, " +
+														"P.PRODUCT_NAME, " +
+														"P.PRODUCT_DETAIL, " +
+														"P.COST_PRICE, " +
+														"P.RETAIL_PRICE, " +
+														"P.SALE_PRICE, " +
+														"P.STOCK, " +
+														"P.INGREDIENT, " +
+														"P.DOSAGE, " +
+														"P.EXPIRATION_DATE, " +
+														"P.REGISTER_DATE, " +
+														"P.MODIFY_DATE, " +
+														"P.SALE_STATE, " +
+														"CA.CATEGORY_NAME, " +
+														"I.IMAGE_PATH " +
+														"FROM PRODUCT P " +
+														"INNER JOIN PRODUCT_CATEGORY PC ON P.PRODUCT_ID = PC.PRODUCT_ID " +
+														"INNER JOIN CATEGORY CA ON PC.CATEGORY_ID = CA.CATEGORY_ID " +
+														"INNER JOIN PRODUCT_IMAGE PI ON P.PRODUCT_ID = PI.PRODUCT_ID " +
+														"INNER JOIN IMAGE I ON PI.IMAGE_ID = I.IMAGE_ID " +
+														"WHERE P.PRODUCT_NAME LIKE ?" +
+														"ORDER BY ? ?";
 	
 	// 하나의 상품의 데이터를 가져오는 쿼리문
 	private static final String SELECTONE_GET_PRODUCT_DETAIL = "SELECT " +
@@ -43,7 +68,7 @@ public class ProductDAO {
 															   "P.REGISTER_DATE, " +
 															   "P.MODIFY_DATE, " +
 															   "P.SALE_STATE, " +
-															   "C.CATEGORY_NAME, " +
+															   "CA.CATEGORY_NAME, " +
 															   "I.IMAGE_PATH " +
 															   "FROM PRODUCT P " +
 															   "JOIN PRODUCT_CATEGORY PC ON P.PRODUCT_ID = PC.PRODUCT_ID " +
@@ -66,18 +91,18 @@ public class ProductDAO {
 			 							 "REGISTER_DATE, " +
 			 							 "MODIFY_DATE, SALE_STATE ) " + 
 									     "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ? )";
-
+	
 	private static final String UPDATE = "";
 
-	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public List<ProductDTO> selectAll(ProductDTO productDTO) {
 
-		log.debug("[로그] product SELECTALL_GET_LAST_ONE 처리 진입");
+		log.debug("selectAll 진입");
 
 		if (productDTO.getSearchCondition().equals("getLastOne")) {
 
-			log.debug("[로그] product getLastOne 처리 진입");
+			log.debug("getLastOne 진입");
 
 			try {
 
@@ -85,21 +110,39 @@ public class ProductDAO {
 
 			} catch (Exception e) {
 
-				log.debug("[로그] product getLastOne 예외 발생");
+				log.debug("getLastOne 예외 발생");
 
 				return null;
 
 			}
 
+		} else if(productDTO.getSearchCondition().equals("selectAdminProductListDatas")) {
+			
+			log.debug("selectAdminProductListDatas 진입");
+			
+			Object[] args = { productDTO.getSearchKeyword(), productDTO.getSortColumnName(), productDTO.getSortMode() };
+
+			try {
+
+				return (List<ProductDTO>) jdbcTemplate.query(SELECTALL_CHAR_SEARCH, args, new selectAllCharSearchRowMapper());
+
+			} catch (Exception e) {
+
+				log.debug("selectAdminProductListDatas 예외 발생");
+
+				return null;
+
+			}
+			
 		}
 
-		log.debug("[로그] product getLastOne 처리 실패");
+		log.debug("selectAll 실패");
 
 		return null;
 
 	}
 
-	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public ProductDTO selectOne(ProductDTO productDTO) {
 		
@@ -131,7 +174,7 @@ public class ProductDAO {
 
 	}
 
-	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public boolean insert(ProductDTO productDTO) {
 
@@ -163,7 +206,7 @@ public class ProductDAO {
 
 	}
 
-	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public boolean update(ProductDTO productDTO) {
 		int result = jdbcTemplate.update(UPDATE, productDTO.getProductName(), productDTO.getProductDetail(),
@@ -216,23 +259,57 @@ class getProductDetailRowMapper implements RowMapper<ProductDTO> {
 
 		ProductDTO productDTO = new ProductDTO();
 		
-		productDTO.setProductID(rs.getInt("PRODUCT_ID"));
-		productDTO.setProductName(rs.getString("PRODUCT_NAME"));
-		productDTO.setProductDetail(rs.getString("PRODUCT_DETAIL"));
-		productDTO.setCostPrice(rs.getInt("COST_PRICE"));
-		productDTO.setRetailPrice(rs.getInt("RETAIL_PRICE"));
-		productDTO.setSalePrice(rs.getInt("SALE_PRICE"));
-		productDTO.setStock(rs.getInt("STOCK"));
-		productDTO.setIngredient(rs.getString("INGREDIENT"));
-		productDTO.setDosage(rs.getString("DOSAGE"));
-		productDTO.setExpirationDate(rs.getString("EXPIRATION_DATE"));
-		productDTO.setRegisterDate(rs.getString("REGISTER_DATE"));
-		productDTO.setModifyDate(rs.getString("MODIFY_DATE"));
-		productDTO.setSaleState(rs.getString("SALE_STATE"));
-		productDTO.setAncCategory(rs.getString("c.CATEGORY_NAME"));
-		productDTO.setAncImagePath(rs.getString("i.IMAGE_PATH"));
+		productDTO.setProductID(rs.getInt("P.PRODUCT_ID"));
+		productDTO.setProductName(rs.getString("P.PRODUCT_NAME"));
+		productDTO.setProductDetail(rs.getString("P.PRODUCT_DETAIL"));
+		productDTO.setCostPrice(rs.getInt("P.COST_PRICE"));
+		productDTO.setRetailPrice(rs.getInt("P.RETAIL_PRICE"));
+		productDTO.setSalePrice(rs.getInt("P.SALE_PRICE"));
+		productDTO.setStock(rs.getInt("P.STOCK"));
+		productDTO.setIngredient(rs.getString("P.INGREDIENT"));
+		productDTO.setDosage(rs.getString("P.DOSAGE"));
+		productDTO.setExpirationDate(rs.getString("P.EXPIRATION_DATE"));
+		productDTO.setRegisterDate(rs.getString("P.REGISTER_DATE"));
+		productDTO.setModifyDate(rs.getString("P.MODIFY_DATE"));
+		productDTO.setSaleState(rs.getString("P.SALE_STATE"));
+		productDTO.setAncCategory(rs.getString("CA.CATEGORY_NAME"));
+		productDTO.setAncImagePath(rs.getString("I.IMAGE_PATH"));
 		
 		log.debug("[로그] product getProductDetailRowMapper 처리 완료");
+
+		return productDTO;
+
+	}
+
+}
+
+@Slf4j
+class selectAllCharSearchRowMapper implements RowMapper<ProductDTO> {
+
+	@Override
+	public ProductDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		log.debug("selectAllProductRowMapper 진입");
+
+		ProductDTO productDTO = new ProductDTO();
+		
+		productDTO.setProductID(rs.getInt("P.PRODUCT_ID"));
+		productDTO.setProductName(rs.getString("P.PRODUCT_NAME"));
+		productDTO.setProductDetail(rs.getString("P.PRODUCT_DETAIL"));
+		productDTO.setCostPrice(rs.getInt("P.COST_PRICE"));
+		productDTO.setRetailPrice(rs.getInt("P.RETAIL_PRICE"));
+		productDTO.setSalePrice(rs.getInt("P.SALE_PRICE"));
+		productDTO.setStock(rs.getInt("P.STOCK"));
+		productDTO.setIngredient(rs.getString("P.INGREDIENT"));
+		productDTO.setDosage(rs.getString("P.DOSAGE"));
+		productDTO.setExpirationDate(rs.getString("P.EXPIRATION_DATE"));
+		productDTO.setRegisterDate(rs.getString("P.REGISTER_DATE"));
+		productDTO.setModifyDate(rs.getString("P.MODIFY_DATE"));
+		productDTO.setSaleState(rs.getString("P.SALE_STATE"));
+		productDTO.setAncCategory(rs.getString("CA.CATEGORY_NAME"));
+		productDTO.setAncImagePath(rs.getString("I.IMAGE_PATH"));
+		
+		log.debug("selectAllProductRowMapper 완료");
 
 		return productDTO;
 
