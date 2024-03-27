@@ -150,11 +150,11 @@ public class ProductDAO {
 
 	public ProductDTO selectOne(ProductDTO productDTO) {
 		
-		log.debug("[로그] product SELECTONE_GET_PRODUCT_DETAIL 처리 진입");
+		log.debug("selectOne 진입");
 		
 		if(productDTO.getSearchCondition().equals("getProductDetail")) {
 			
-			log.debug("[로그] product getProductDetail 처리 진입");
+			log.debug("getProductDetail 진입");
 			
 			Object[] args = { productDTO.getProductID() };
 
@@ -164,7 +164,7 @@ public class ProductDAO {
 
 			} catch (Exception e) {
 				
-				log.debug("[로그] product getProductDetail 예외 발생");
+				log.debug("getProductDetail 예외 발생");
 
 				return null;
 
@@ -172,7 +172,7 @@ public class ProductDAO {
 			
 		}
 		
-		log.debug("[로그] product SELECTONE_GET_PRODUCT_DETAIL 처리 실패");
+		log.debug("selectOne 실패");
 		
 		return null;
 
@@ -182,13 +182,13 @@ public class ProductDAO {
 
 	public boolean insert(ProductDTO productDTO) {
 
-		log.debug("[로그] product INSERT 처리 진입");
+		log.debug("insert 진입");
 
 		int result = 0;
 
 		if (productDTO.getSearchCondition().equals("crawlProduct")) {
 			
-			log.debug("[로그] product crawlProduct 처리 진입");
+			log.debug("crawlProduct 진입");
 
 			result = jdbcTemplate.update(INSERT, productDTO.getProductName(), productDTO.getProductDetail(),
 												 productDTO.getCostPrice(), productDTO.getRetailPrice(), 
@@ -204,7 +204,7 @@ public class ProductDAO {
 
 		}
 		
-		log.debug("[로그] product INSERT 처리 실패");
+		log.debug("insert 처리 실패");
 
 		return true;
 
@@ -239,13 +239,13 @@ class getLastOneRowMapper implements RowMapper<ProductDTO> {
 	@Override
 	public ProductDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-		log.debug("[로그] product getLastOneRowMapper 처리 진입");
+		log.debug("getLastOneRowMapper 진입");
 
 		ProductDTO productDTO = new ProductDTO();
 
 		productDTO.setProductID(rs.getInt("PRODUCT_ID"));
 
-		log.debug("[로그] product getLastOneRowMapper 처리 완료");
+		log.debug("getLastOneRowMapper 완료");
 
 		return productDTO;
 
@@ -259,7 +259,7 @@ class getProductDetailRowMapper implements RowMapper<ProductDTO> {
 	@Override
 	public ProductDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
-		log.debug("[로그] product getProductDetailRowMapper 처리 진입");
+		log.debug("getProductDetailRowMapper 진입");
 
 		ProductDTO productDTO = new ProductDTO();
 		
@@ -279,7 +279,7 @@ class getProductDetailRowMapper implements RowMapper<ProductDTO> {
 		productDTO.setAncCategory(rs.getString("CA.CATEGORY_NAME"));
 		productDTO.setAncImagePath(rs.getString("I.IMAGE_PATH"));
 		
-		log.debug("[로그] product getProductDetailRowMapper 처리 완료");
+		log.debug("getProductDetailRowMapper 완료");
 
 		return productDTO;
 
