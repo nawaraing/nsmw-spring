@@ -49,9 +49,7 @@ public class CategoryDAO {
 
 	public CategoryDTO selectOne(CategoryDTO categoryDTO) {
 		
-		System.out.println("[로그] category selectOne 처리 진입");
-		
-		System.out.println("[로그] categoryName = " + categoryDTO.getCategoryName());
+		log.debug("selectOne 진입");
 
 		Object[] args = { categoryDTO.getCategoryName() };
 
