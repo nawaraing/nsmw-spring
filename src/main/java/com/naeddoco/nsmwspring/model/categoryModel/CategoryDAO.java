@@ -9,9 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.naeddoco.nsmwspring.model.imageModel.ImageDAO;
-import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Repository("categoryDAO")
@@ -23,46 +20,65 @@ public class CategoryDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	// 쿼리문
+	// CATEGORY 테이블의 모든 정보 조회
 	private static final String SELECTALL = "SELECT CATEGORY_ID, CATEGORY_NAME FROM CATEGORY";
 
 	private static final String SELECTONE = "SELECT CATEGORY_ID, CATEGORY_NAME FROM CATEGORY WHERE CATEGORY_NAME = ?";
+	
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public List<CategoryDTO> selectAll(CategoryDTO categoryDTO) {
 		
-		log.debug("selectAll 진입");
-		
-		try {
+		log.trace("selectAll 진입");
 
-			return jdbcTemplate.query(SELECTALL, new categoryRowMapper());
-		
-		} catch (Exception e) {
-			
-			log.debug("selectAll 예외 발생");
+		if (categoryDTO.getSearchCondition().equals("selectAllCategory")) {
 
-			return null;
+			log.trace("selectAllCategory 진입");
+
+			try {
+				return (List<CategoryDTO>) jdbcTemplate.query(SELECTALL, new categoryRowMapper());
+
+			} catch (Exception e) {
+
+				log.error("selectAllCategory 예외/실패");
+
+				return null;
+
+			}
 
 		}
 
+		log.error("selectAll 실패");
+
+		return null;
 	}
+
+	
 
 	public CategoryDTO selectOne(CategoryDTO categoryDTO) {
 		
-		log.debug("selectOne 진입");
-
-		Object[] args = { categoryDTO.getCategoryName() };
-
-		try {
+		log.trace("selectOne 처리 진입");
+		log.debug("categoryName = " + categoryDTO.getCategoryName());
 		
-			return jdbcTemplate.queryForObject(SELECTONE, args, new categoryRowMapper());
-			
-		} catch (Exception e) {
+		if (categoryDTO.getSearchCondition().equals("selectOneCategory")) {
 
-			return null;
+			log.trace("selectOneCategory 처리 진입");
+			Object[] args = { categoryDTO.getCategoryName() };
 
+			try {
+
+				return jdbcTemplate.queryForObject(SELECTONE, args, new categoryRowMapper());
+
+			} catch (Exception e) {
+				log.error("selectOneCategory 예외/실패");
+				return null;
+
+			}
 		}
 
+		log.error("selectOne 실패");
+		return null;
 	}
 
 }
@@ -74,7 +90,7 @@ class categoryRowMapper implements RowMapper<CategoryDTO> {
 	@Override
 	public CategoryDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
-		log.debug("categoryRowMapper 진입");
+		log.trace("categoryRowMapper 처리 진입");
 
 		CategoryDTO categoryDTO = new CategoryDTO();
 
