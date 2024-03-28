@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.naeddoco.nsmwspring.model.categoryModel.CategoryDAO;
+import com.naeddoco.nsmwspring.model.categoryModel.CategoryDTO;
 import com.naeddoco.nsmwspring.model.productModel.ProductDAO;
 import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
 
@@ -18,9 +20,11 @@ public class EntryProductListPageController {
 	
 	@Autowired
 	private ProductDAO productDAO;
+	@Autowired
+	private CategoryDAO categoryDAO;
 	
 	@RequestMapping(value = "/productList", method = RequestMethod.GET)
-	public String entryProductList(HttpSession session, Model model, ProductDTO productDTO) {
+	public String entryProductList(HttpSession session, Model model, ProductDTO productDTO, CategoryDTO categoryDTO) {
 		
 		//-----------------------------------------------세션 확인 ↓-----------------------------------------------
 
@@ -42,6 +46,12 @@ public class EntryProductListPageController {
 		List<ProductDTO> productDTOList = productDAO.selectAll(productDTO);
 		
 		model.addAttribute("productList", productDTOList);
+		
+		//-----------------------------------------------모든 카테고리 정보를 습득-----------------------------------------------
+		
+		List<CategoryDTO> categoryDTOList = categoryDAO.selectAll(categoryDTO);
+		
+		model.addAttribute("categoryList", categoryDTOList);
 		
 		return "admin/productList"; // 장바구니 페이지로 요청
 
