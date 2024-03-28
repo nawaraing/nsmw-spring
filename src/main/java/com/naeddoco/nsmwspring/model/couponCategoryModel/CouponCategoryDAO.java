@@ -38,8 +38,23 @@ public class CouponCategoryDAO {
 	//----------------------------------------------------------------------------------------------
 	
 	public List<CouponCategoryDTO> selectAll(CouponCategoryDTO couponCategoryDTO) {
-		log.debug("selectAll start");
-		return (List<CouponCategoryDTO>)jdbcTemplate.query(SELECTALL, new CouponCategoryRowMapper());
+		
+		log.trace("selectAll 진입");
+		
+		if (couponCategoryDTO.getSearchCondition().equals("selectAllCouponCategory")) {
+			log.trace("selectAllCouponCategory 진입");
+
+			try {
+				return (List<CouponCategoryDTO>)jdbcTemplate.query(SELECTALL, new CouponCategoryRowMapper());
+			}
+			catch (Exception e){
+				log.error("selectAllCouponCategory 예외/실패");
+
+			}
+		}
+		
+		log.error("selectAll 실패");
+		return null;
 	}
 
 	

@@ -18,23 +18,48 @@ public class GradeDAO {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
-	private static final String SELECTALL = "";
+	
+	//GRADE테이블의 모든 정보 조회
+	private static final String SELECTALL = "SELECT GRADE_ID, GRADE_NAME, LOWER_LIMIT, UPPER_LIMIT "
+											+ "FROM GRADE";
 
 	private static final String SELECTONE = "";
 	
+	//등급명, 최솟값, 최댓값은 DB에 미리 넣어놓고 사용 예정
 	private static final String INSERT = "";
 	
 	private static final String UPDATE = "";
 	
 	private static final String DELETE = "";
 	
+	
+// --------------------------------------------------------------------------------------------------------------------------------
 	public List<GradeDTO> selectAll(GradeDTO gradeDTO) {
-		log.debug("selectAll start");
-		return (List<GradeDTO>)jdbcTemplate.query(SELECTALL, new GradeRowMapper());
+		log.trace("selectAll 진입");
+
+		if (gradeDTO.getSearchCondition().equals("selectAllGrade")) {
+
+			log.trace("selectAllGrade 진입");
+
+			try {
+				return (List<GradeDTO>)jdbcTemplate.query(SELECTALL, new GradeRowMapper());
+			
+			} catch (Exception e) {
+
+				log.error("selectAllGrade 예외/실패");
+
+				return null;
+
+			}
+
+		}
+
+		log.error("selectAll 실패");
+
+		return null;
+
 	}
 
-	
 	public GradeDTO selectOne(GradeDTO gradeDTO) {
 
 //		Object[] args = { gradeDTO.getGradeID() };

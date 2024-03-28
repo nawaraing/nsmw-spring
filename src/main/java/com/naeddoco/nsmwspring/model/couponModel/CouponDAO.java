@@ -30,6 +30,48 @@ public class CouponDAO {
 			 												 "LEFT JOIN WON_COUPON WC ON C.COUPON_ID = WC.COUPON_ID " +
 			 												 "LEFT JOIN PERCENTAGE_COUPON PC ON C.COUPON_ID = PC.COUPON_ID " +
 			 												 "WHERE CA.CATEGORY_NAME = ?";
+    // 관리자페이지_등급 쿠폰 조회
+	// 1개의 쿠폰에 카테고리가 여러개라면 CATEGORY_NAME에 ;로 구분되어 조회
+	// ex)뇌;뼈/치아;간;
+	private static final String SELECTALL_COUPON_INFO ="SELECT DISTINCT "
+															+ "C.COUPON_NAME, "
+															+ "C.EXPIRATION_DATE AS COUPON_EXPIRATION_DATE, "
+															+ "CONCAT("
+																+ "(SELECT GROUP_CONCAT(CATEGORY_NAME SEPARATOR ';') "
+																+ "FROM COUPON_CATEGORY CC "
+																+ "JOIN CATEGORY C ON CC.CATEGORY_ID = C.CATEGORY_ID "
+																+ "WHERE CC.COUPON_ID = ?),"
+																+ "';') AS CATEGORY_NAME, "
+															+ "CASE "
+																+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN 'PERCENTAGE' "
+																+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN 'WON' "
+															+ "END AS COUPON_TYPE, "
+															+ "CASE "
+																+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
+																+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
+															+ "END AS DISCOUNT, "
+															+ "CASE "
+																+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
+																+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
+															+ "END AS AMOUNT_LIMIT, "
+															+ "PC.DEPLOY_CYCLE AS DISTRIBUTION_CYCLE, "
+															+ "PC.DEPLOY_BASE AS DISTRIBUTION_CRITERIA, "
+															+ "G.GRADE_NAME "
+														+ "FROM "
+															+ "COUPON C "
+														+ "LEFT JOIN "
+															+ "PERCENTAGE_COUPON P ON C.COUPON_ID = P.COUPON_ID "
+														+ "LEFT JOIN "
+															+ "WON_COUPON W ON C.COUPON_ID = W.COUPON_ID "
+														+ "LEFT JOIN "
+															+ "COUPON_CATEGORY CC ON C.COUPON_ID = CC.COUPON_ID "
+														+ "LEFT JOIN "
+															+ "CATEGORY CAT ON CC.CATEGORY_ID = CAT.CATEGORY_ID "
+														+ "LEFT JOIN "
+															+ "PROVISION_GRADE_COUPON PC ON C.COUPON_ID = PC.COUPON_ID "
+														+ "LEFT JOIN "
+															+ "GRADE G ON PC.GRADE_ID = G.GRADE_ID "
+														+ "WHERE C.COUPON_ID = ?";
 	
 	// 쿠폰 insert 시 생성된 couponID 가져옴
 	private static final String SELECTONE_LAST_ID = "SELECT LAST_INSERT_ID()";
@@ -54,11 +96,11 @@ public class CouponDAO {
 
 	public List<CouponDTO> selectAll(CouponDTO couponDTO) {
 		
-		log.debug("CouponDTO selectAll 진입");
+		log.trace("CouponDTO selectAll 진입");
 		
 		if (couponDTO.getSearchCondition().equals("selectAllCoupon")) {
 			
-			log.debug("selectAllCoupon 진입");
+			log.trace("selectAllCoupon 진입");
 			
 			Object[] args = { couponDTO.getAncCategoryName() };
 			
@@ -68,7 +110,7 @@ public class CouponDAO {
 			
 			} catch (Exception e) {
 				
-				log.debug("selectAllCoupon 예외 발생");
+				log.error("selectAllCoupon 예외/실패");
 				
 				return null;
 				
@@ -76,7 +118,7 @@ public class CouponDAO {
 			
 		}
 		
-		log.debug("CouponDTO selectAll 실패");
+		log.error("CouponDTO selectAll 실패");
 		
 		return null;
 		

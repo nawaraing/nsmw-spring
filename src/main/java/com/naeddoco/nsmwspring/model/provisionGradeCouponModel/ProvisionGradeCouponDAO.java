@@ -18,7 +18,8 @@ public class ProvisionGradeCouponDAO {
 		@Autowired
 		private JdbcTemplate jdbcTemplate;
 
-		private static final String SELECTALL = "";
+		private static final String SELECTALL = "SELECT PROVISION_GRADE_COUPON_ID, GRADE_ID, COUPON_ID, DEPLOY_CYCLE, DEPLOY_BASE "
+												+ "FROM PROVISION_GRADE_COUPON";
 		
 		private static final String SELECTONE = "";
 
@@ -39,27 +40,27 @@ public class ProvisionGradeCouponDAO {
 
 		public List<ProvisionGradeCouponDTO> selectAll(ProvisionGradeCouponDTO provisionGradeCouponDTO) {
 
-//			log.debug("[로그] ");
-//
-//			if (provisionGradeCouponDTO.getSearchCondition().equals("")) {
-//
-//				log.debug("[로그] ");
-//
-//				try {
-//
-//					return (List<ProvisionGradeCouponDTO>) jdbcTemplate.query(SELECTALL, new ProvisionGradeCouponRowMapper());
-//
-//				} catch (Exception e) {
-//
-//					log.debug("[로그] ");
-//
-//					return null;
-//
-//				}
-//
-//			}
-//
-//			log.debug("[로그] 실패");
+			log.trace("selectAll 진입");
+
+			if (provisionGradeCouponDTO.getSearchCondition().equals("selectAllAdminCouponGradeDatas")) {
+
+				log.trace("selectAllAdminCouponGradeDatas 진입 ");
+
+				try {
+
+					return (List<ProvisionGradeCouponDTO>) jdbcTemplate.query(SELECTALL, new ProvisionGradeCouponRowMapper());
+
+				} catch (Exception e) {
+
+					log.error("selectAllAdminCouponGradeDatas 예외/실패 ");
+
+					return null;
+
+				}
+
+			}
+
+			log.error("selectAll 실패");
 
 			return null;
 
