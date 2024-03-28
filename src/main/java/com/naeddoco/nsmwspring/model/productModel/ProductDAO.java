@@ -306,8 +306,8 @@ class selectAllCharSearchRowMapper implements RowMapper<ProductDTO> {
 		productDTO.setRegisterDate(rs.getString("P.REGISTER_DATE"));
 		productDTO.setModifyDate(rs.getString("P.MODIFY_DATE"));
 		productDTO.setSaleState(rs.getString("P.SALE_STATE"));
-		productDTO.setAncCategory(rs.getString("CA.CATEGORY_NAME"));
-		productDTO.setAncImagePath(rs.getString("I.IMAGE_PATH"));
+		productDTO.setAncCategory(rs.getString("CATEGORIES"));
+		productDTO.setAncImagePath(rs.getString("IMAGE_PATHS"));
 		
 		log.debug("selectAllProductRowMapper 완료");
 
