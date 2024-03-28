@@ -8,8 +8,6 @@ public class CategoryDTO {
 	private int categoryID; // 인조 식별자
 	private String categoryName; // 이름
 	
-	private String searchCondition; // 쿼리 분기
-	
 	@Override
 	public String toString() {
 		

@@ -23,62 +23,48 @@ public class CategoryDAO {
 	// CATEGORY 테이블의 모든 정보 조회
 	private static final String SELECTALL = "SELECT CATEGORY_ID, CATEGORY_NAME FROM CATEGORY";
 
+	//상품 크롤링시 CATEGORY_ID를 확인하기위해 사용
 	private static final String SELECTONE = "SELECT CATEGORY_ID, CATEGORY_NAME FROM CATEGORY WHERE CATEGORY_NAME = ?";
 	
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public List<CategoryDTO> selectAll(CategoryDTO categoryDTO) {
-		
+
 		log.trace("selectAll 진입");
 
-		if (categoryDTO.getSearchCondition().equals("selectAllCategory")) {
+		try {
+			return (List<CategoryDTO>) jdbcTemplate.query(SELECTALL, new categoryRowMapper());
 
-			log.trace("selectAllCategory 진입");
+		} catch (Exception e) {
 
-			try {
-				return (List<CategoryDTO>) jdbcTemplate.query(SELECTALL, new categoryRowMapper());
+			log.error("selectAll 예외/실패");
 
-			} catch (Exception e) {
-
-				log.error("selectAllCategory 예외/실패");
-
-				return null;
-
-			}
+			return null;
 
 		}
 
-		log.error("selectAll 실패");
-
-		return null;
 	}
 
 	
 
 	public CategoryDTO selectOne(CategoryDTO categoryDTO) {
-		
+
 		log.trace("selectOne 처리 진입");
 		log.debug("categoryName = " + categoryDTO.getCategoryName());
-		
-		if (categoryDTO.getSearchCondition().equals("selectOneCategory")) {
 
-			log.trace("selectOneCategory 처리 진입");
-			Object[] args = { categoryDTO.getCategoryName() };
+		Object[] args = { categoryDTO.getCategoryName() };
 
-			try {
+		try {
+			return jdbcTemplate.queryForObject(SELECTONE, args, new categoryRowMapper());
 
-				return jdbcTemplate.queryForObject(SELECTONE, args, new categoryRowMapper());
+		} catch (Exception e) {
+			
+			log.error("selectOne 예외/실패");
+			
+			return null;
 
-			} catch (Exception e) {
-				log.error("selectOneCategory 예외/실패");
-				return null;
-
-			}
 		}
-
-		log.error("selectOne 실패");
-		return null;
 	}
 
 }
