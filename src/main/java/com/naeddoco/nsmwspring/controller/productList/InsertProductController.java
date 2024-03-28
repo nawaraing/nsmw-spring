@@ -32,18 +32,18 @@ public class InsertProductController {
 	private ProductCategoryDAO productCategoryDAO;
 
 	@RequestMapping(value = "/productList/insert", method = RequestMethod.GET)
-	public String searchAndSortProductList(HttpSession session, 
-										   @RequestParam("productName") String productName, 
-										   @RequestParam("productDetail") String productDetail,
-										   @RequestParam("costPrice") int costPrice,
-										   @RequestParam("retailPrice") int retailPrice,
-										   @RequestParam("salePrice") int salePrice,
-										   @RequestParam("stock") int stock,
-										   @RequestParam("ingredient") String ingredient,
-										   @RequestParam("dosage") String dosage,
-										   @RequestParam("expirationDate") String expirationDate,
-										   @RequestParam("imagePaths") List<String> imagePaths,
-										   @RequestParam("categoryIDs") List<Integer> categoryIDs) {
+	public String insertProduct(HttpSession session, 
+								@RequestParam("productName") String productName, 
+								@RequestParam("productDetail") String productDetail,
+								@RequestParam("costPrice") int costPrice,
+								@RequestParam("retailPrice") int retailPrice,
+								@RequestParam("salePrice") int salePrice,
+								@RequestParam("stock") int stock,
+								@RequestParam("ingredient") String ingredient,
+								@RequestParam("dosage") String dosage,
+								@RequestParam("expirationDate") String expirationDate,
+								@RequestParam("imagePaths") List<String> imagePaths,
+								@RequestParam("categoryIDs") List<Integer> categoryIDs) {
 		
 		// -----------------------------------------------상품 테이블에 데이터 추가 ↓-----------------------------------------------
 		

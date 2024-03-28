@@ -24,18 +24,18 @@ public class UpdateProductController {
 	private ProductCategoryDAO productCategoryDAO;
 
 	@RequestMapping(value = "/productList/update", method = RequestMethod.GET)
-	public String searchAndSortProductList(HttpSession session, 
-										  @RequestParam("productID") int productID,
-										  @RequestParam("productName") String productName, 
-										  @RequestParam("productDetail") String productDetail,
-										  @RequestParam("costPrice") int costPrice, 
-										  @RequestParam("retailPrice") int retailPrice,
-										  @RequestParam("salePrice") int salePrice, 
-										  @RequestParam("stock") int stock,
-										  @RequestParam("ingredient") String ingredient, 
-										  @RequestParam("dosage") String dosage,
-										  @RequestParam("expirationDate") String expirationDate,
-										  @RequestParam("categoryIDs") List<Integer> categoryIDs) {
+	public String updateProduct(HttpSession session, 
+								@RequestParam("productID") int productID,
+								@RequestParam("productName") String productName, 
+								@RequestParam("productDetail") String productDetail,
+								@RequestParam("costPrice") int costPrice, 
+								@RequestParam("retailPrice") int retailPrice,
+								@RequestParam("salePrice") int salePrice, 
+								@RequestParam("stock") int stock,
+								@RequestParam("ingredient") String ingredient, 
+								@RequestParam("dosage") String dosage,
+								@RequestParam("expirationDate") String expirationDate,
+								@RequestParam("categoryIDs") List<Integer> categoryIDs) {
 
 		// -----------------------------------------------세션 확인 ↓-----------------------------------------------
 
