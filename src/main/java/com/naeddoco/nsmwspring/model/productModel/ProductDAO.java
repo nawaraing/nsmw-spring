@@ -84,10 +84,24 @@ public class ProductDAO {
 			 							 "DOSAGE, " +
 			 							 "EXPIRATION_DATE, " +
 			 							 "REGISTER_DATE, " +
-			 							 "MODIFY_DATE, SALE_STATE ) " + 
+			 							 "MODIFY_DATE, " +
+			 							 "SALE_STATE ) " + 
 									     "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ? )";
 	
-	private static final String UPDATE = "";
+	
+	private static final String UPDATE = "UPDATE PRODUCT " +
+										 "SET PRODUCT_NAME = ?" +
+										 "SET PRODUCT_DETAIL = ?" +
+										 "SET COST_PRICE = ?" + 
+										 "SET RETAIL_PRICE = ?" +
+										 "SET SALE_PRICE = ?" +
+										 "SET STOCK = ? " +
+										 "SET INGREDIENT = ? " +
+										 "SET DOSAGE = ? " +
+										 "SET EXPIRATION_DATE = ? " +
+										 "SET MODIFY_DATE = CURRENT_TIMESTAMP " +
+										 "SET SALE_STATE = ? " +
+										 "WHERE PRODUCT_ID = ?";
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -186,12 +200,28 @@ public class ProductDAO {
 			
 			log.debug("crawlProduct 진입");
 
-			result = jdbcTemplate.update(INSERT, productDTO.getProductName(), productDTO.getProductDetail(),
-												 productDTO.getCostPrice(), productDTO.getRetailPrice(), 
-												 productDTO.getSalePrice(), productDTO.getStock(), 
-												 productDTO.getIngredient(), productDTO.getDosage(),
-												 productDTO.getExpirationDate(), productDTO.getSaleState());
+			try {
+			
+				result = jdbcTemplate.update(INSERT, 
+										     productDTO.getProductName(), 
+										     productDTO.getProductDetail(),
+										     productDTO.getCostPrice(), 
+										     productDTO.getRetailPrice(), 
+										     productDTO.getSalePrice(), 
+										 	 productDTO.getStock(), 
+										 	 productDTO.getIngredient(), 
+										 	 productDTO.getDosage(),
+										 	 productDTO.getExpirationDate(), 
+										 	 productDTO.getSaleState());
 
+			} catch (Exception e) {
+			
+				log.debug("crawlProduct 예외 발생");
+
+				return false;
+
+			}
+			
 		}
 
 		if (result <= 0) {
@@ -209,20 +239,52 @@ public class ProductDAO {
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public boolean update(ProductDTO productDTO) {
-		int result = jdbcTemplate.update(UPDATE, productDTO.getProductName(), productDTO.getProductDetail(),
-				productDTO.getCostPrice(), productDTO.getRetailPrice(), productDTO.getSalePrice(),
-				productDTO.getStock(), productDTO.getIngredient(), productDTO.getDosage(),
-				productDTO.getExpirationDate(), productDTO.getRegisterDate(), productDTO.getModifyDate(),
-				productDTO.getSaleState());
+		
+		log.debug("update 진입");
+		
+		int result = 0;
+		
+		if (productDTO.getSearchCondition().equals("updateAdminProductListData")) {
+			
+			log.debug("updateAdminProductListData 진입");
+		
+			try {
+		
+				result = jdbcTemplate.update(UPDATE, 
+										     productDTO.getProductName(), 
+										     productDTO.getProductDetail(),
+										     productDTO.getCostPrice(), 
+										     productDTO.getRetailPrice(), 
+										     productDTO.getSalePrice(),	
+										     productDTO.getStock(), 
+										     productDTO.getIngredient(), 
+										     productDTO.getDosage(),
+										     productDTO.getExpirationDate(), 
+										     productDTO.getRegisterDate(), 
+										     productDTO.getModifyDate(),
+										     productDTO.getSaleState(),
+										     productDTO.getProductID());
+		
+			} catch (Exception e) {
+			
+				log.debug("updateAdminProductListData 예외 발생");
 
-		if (result <= 0) {
+				return false;
 
-			return false;
+			}
+
+			if (result <= 0) {
+
+				return false;
+
+			}
 
 		}
-
-		return true;
-
+		
+		log.debug("update 실패");
+		
+		return false;
+		
 	}
 
 }
