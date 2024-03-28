@@ -23,8 +23,7 @@ public class SearchAndSortProductController {
 
 	@RequestMapping(value = "/productList/searchAndSort", method = RequestMethod.GET)
 	@ResponseBody
-	public String searchAndSortProductList(HttpSession session,
-										   Model model,
+	public List<ProductDTO> searchAndSortProductList(HttpSession session,
 										   @RequestParam("searchKeyword") String searchKeyword, 
 										   @RequestParam("sortColumnName") String sortColumnName) {
 		
@@ -59,9 +58,7 @@ public class SearchAndSortProductController {
 		
 		List<ProductDTO> productDTOList = productDAO.selectAll(productDTO);
 		
-		model.addAttribute("productList", productDTOList);
-		
-		return "admin/productList";
+		return productDTOList;
 
 	}
 
