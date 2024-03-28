@@ -19,6 +19,12 @@ public class MemberCategoryDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	private static final String SELECTALL = "";
+	
+	//해당 회원이 가지고 있는 카테고리 이름 모두 확인
+	private static final String SELECTALL_MEMBER_CATEGORY = "SELECT C.CATEGORY_NAME "
+														+ "FROM CATEGORY C "
+														+ "JOIN MEMBER_CATEGORY MC ON C.CATEGORY_ID = MC.CATEGORY_ID "
+														+ "WHERE MC.MEMBER_ID = ?";
 
 	private static final String SELECTONE = "";
 	
@@ -30,8 +36,37 @@ public class MemberCategoryDAO {
 
 
 	public List<MemberCategoryDTO> selectAll(MemberCategoryDTO memberCategoryDTO) {
-		log.debug("selectAll start");
-		return (List<MemberCategoryDTO>)jdbcTemplate.query(SELECTALL, new MemberCategoryRowMapper());
+
+		log.trace("selectAll 처리 진입");
+
+		if(memberCategoryDTO.getSearchCondition().equals("selectAll")) {
+
+				return (List<MemberCategoryDTO>)jdbcTemplate.query(SELECTALL, new MemberCategoryRowMapper());
+
+		} else if (memberCategoryDTO.getSearchCondition().equals("memberCategory")) {
+
+			log.trace("memberCategory 처리 진입");
+
+			Object args[] = { memberCategoryDTO.getMemberID() };
+
+			log.debug("[Object[0]의 값 : " + args[0]);
+
+			try {
+
+				return jdbcTemplate.query(SELECTALL_MEMBER_CATEGORY, args, new SelectAllMemberCategoryRowMapper());
+
+			} catch (Exception e) {
+
+				log.error("memberCategory 예외/실패");
+
+				return null;
+
+			}
+
+		}
+
+		return null;
+
 	}
 
 	
@@ -110,3 +145,18 @@ class MemberCategoryRowMapper implements RowMapper<MemberCategoryDTO> {
 	}
 	
 }
+
+@Slf4j
+class SelectAllMemberCategoryRowMapper implements RowMapper<MemberCategoryDTO> {
+   @Override
+   public MemberCategoryDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+      MemberCategoryDTO data = new MemberCategoryDTO();
+      
+      data.setAncCategoryName(rs.getString("C.CATEGORY_NAME"));
+      
+      return data;
+   }
+   
+}
+
+

@@ -67,6 +67,21 @@ public class MemberDAO {
 													+ "SET MEMBER_STATE = 'LEAVE' "
 													+ "WHERE MEMBER_ID = ? ";
 
+	// 마이페이지의 회원정보 조회
+	// SHIPPING_ADDRESS에서 기본값이 가장 큰 정보(기본배송지)를 조회
+	private static final String SELECTONE_MEMBER_MYPAGE = "SELECT M.MEMBER_ID, M.MEMBER_NAME, M.GENDER, M.DAY_OF_BIRTH, M.PHONE_NUMBER, M.EMAIL, MAX_SA.SHIPPING_ADDRESS, MAX_SA.SHIPPING_DETAIL_ADDRESS "
+												    	    + "FROM MEMBER M "
+												    	    + "JOIN ("
+												    	    + " SELECT SA.MEMBER_ID, SA.SHIPPING_POSTCODE, SA.SHIPPING_ADDRESS, SA.SHIPPING_DETAIL_ADDRESS "
+												    	    + " FROM SHIPPING_ADDRESS SA "
+												    	    + "JOIN ("
+												    	        + "SELECT MAX(SHIPPING_DEFAULT) AS MAX_SHIPPING_DEFAULT "
+												    	       	+ "FROM SHIPPING_ADDRESS "
+												    	      	+ "WHERE MEMBER_ID = ? "
+												    	        + ") AS M_SA ON SA.SHIPPING_DEFAULT = M_SA.MAX_SHIPPING_DEFAULT "
+												    	        + "WHERE SA.MEMBER_ID = ?"
+												    	        + ") MAX_SA "
+												    	     + "ON M.MEMBER_ID = MAX_SA.MEMBER_ID";
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 //	// 개인정보(정보 및 비밀번호)변경 진입 시 비밀번호 확인
@@ -112,11 +127,11 @@ public class MemberDAO {
 	
 	public List<MemberDTO> selectAll(MemberDTO memberDTO) {
 		
-		log.debug("selectOne 진입");
+		log.trace("selectAll 진입");
 		
 		if(memberDTO.getSearchCondition().equals("allMember")) {
 			
-			log.debug("allMember 진입");
+			log.trace("allMember 진입");
 			
 			try {
 			
@@ -124,14 +139,14 @@ public class MemberDAO {
 			
 			} catch (Exception e) {
 				
-				log.error("allMember 실패");
+				log.error("allMember 에러/실패");
 
 				return null;
 			}
 			
 		} else if(memberDTO.getSearchCondition().equals("selectSubscriptionDatas")) {
 			
-			log.debug("selectSubscriptionDatas 진입");
+			log.trace("selectSubscriptionDatas 진입");
 			
 			Object[] args = { memberDTO.getMemberID() };
 			
@@ -146,22 +161,21 @@ public class MemberDAO {
 				return null;
 			}
 			
-		}
-		
-		log.debug("selectOne 실패");
+		}		
+		log.error("selectAll 실패");
 		
 		return null;
 
 	}
 
 	public MemberDTO selectOne(MemberDTO memberDTO) {
-		
+
 		log.trace("selectOne 진입");
-		
+
 		if (memberDTO.getSearchCondition().equals("memberLogin")) {
-			
+
 			log.trace("memberLogin 진입");
-			
+
 			Object[] args = {memberDTO.getMemberID(), memberDTO.getMemberPassword()};
 
 			try {
@@ -169,37 +183,37 @@ public class MemberDAO {
 				return jdbcTemplate.queryForObject(SELECTONE_MEMBER_LOGIN, args, new MemberLoginRowMapper());
 
 			} catch (Exception e) {
-				
+
 				log.error("memberLogin 실패");
 
 				return null;
 			}
-			
+
 		} else if(memberDTO.getSearchCondition().equals("selectMemberInfo")) {
-			
+
 			log.trace("selectMemberInfo 진입");
-			
+
 			Object[] args = {memberDTO.getMemberID()};
-			
+
 			try {
 
 				return jdbcTemplate.queryForObject(SELECTONE_MEMBER_INFO, args, new SelectMemberInfoRowMapper());
 
 			} catch (Exception e) {
-				
+
 				log.error("selectMemberInfo 예외/실패");
 
 				return null;
 			}
-			
+
 		} else if (memberDTO.getSearchCondition().equals("idDuplicationCheck")) {
-			
+
 			log.trace("idDuplicationCheck 진입");
-			
+
 			Object[] args = { memberDTO.getMemberID() };
-			
+
 			log.debug("오브젝트에 들어간 아이디 : " + args[0]);
-			
+
 			try {
 
 				return jdbcTemplate.queryForObject(SELECTONE_MEMBER_ID_CHECK, args, new IdDuplicationCheckRowMapper());
@@ -210,12 +224,33 @@ public class MemberDAO {
 
 				return null;
 			}
-			
+
+		} else if (memberDTO.getSearchCondition().equals("myPageMain")) {
+
+			log.trace("myPageMain 진입");
+
+			Object[] args = { memberDTO.getMemberID(), memberDTO.getMemberID() };
+
+			log.debug("[Object[0]의 값] " + args[0]);
+			log.debug("[Object[1]의 값] " + args[1]);
+
+			try {
+
+				return jdbcTemplate.queryForObject(SELECTONE_MEMBER_MYPAGE, args, new MyPageMainRowMapper());
+
+			} catch (Exception e) {
+
+				log.error("selectMemberInfo 에러/실패");
+
+				return null;
+
+			}
+
 		}
-		
+
 		log.error("selectone 실패");
 		return null;
-		
+
 	}
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
@@ -396,7 +431,7 @@ class selectSubscriptionDatasRowMapper implements RowMapper<MemberDTO> {
 	@Override
 	public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-		log.debug("selectSubscriptionDatasRowMapper 진입");
+		log.trace("selectSubscriptionDatasRowMapper 진입");
 
 		MemberDTO memberDTO = new MemberDTO();
 		
@@ -412,10 +447,37 @@ class selectSubscriptionDatasRowMapper implements RowMapper<MemberDTO> {
 		memberDTO.setAncQuantity(rs.getInt("SIP.QUANTITY"));
 		memberDTO.setAncPurchasePrice(rs.getInt("SIP.PURCHASE_PRICE"));
 		
-		log.debug("selectSubscriptionDatasRowMapper 완료");
+		log.trace("selectSubscriptionDatasRowMapper 완료");
 		
 		return memberDTO;
 
 	}
+
+}
+
+
+@Slf4j
+class MyPageMainRowMapper implements RowMapper<MemberDTO> {
+
+   @Override
+   public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+      log.trace("myPageMainRowMapper 진입");
+
+      MemberDTO memberDTO = new MemberDTO();
+      
+      memberDTO.setMemberName(rs.getString("M.MEMBER_NAME"));
+      memberDTO.setGender(rs.getString("M.GENDER"));
+      memberDTO.setDayOfBirth(rs.getDate("M.DAY_OF_BIRTH"));
+      memberDTO.setPhoneNumber(rs.getString("M.PHONE_NUMBER"));
+      memberDTO.setEmail(rs.getString("M.EMAIL"));
+      memberDTO.setAncShippingAddress(rs.getString("MAX_SA.SHIPPING_ADDRESS"));
+      memberDTO.setAncShippingAddressDetail(rs.getString("MAX_SA.SHIPPING_DETAIL_ADDRESS"));
+      
+      log.trace("myPageMainRowMapper 완료");
+      
+      return memberDTO;
+
+   }
 
 }

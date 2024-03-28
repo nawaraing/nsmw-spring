@@ -9,6 +9,9 @@ public class MemberCategoryDTO {
 	private String memberID; 		// 회원 아이디
 	
     private String searchCondition; // 쿼리 분기
+    								
+    								// FK
+    private String ancCategoryName; // 카테고리 이름(카테고리테이블)
 
 	
 }
