@@ -45,6 +45,16 @@ public class InsertProductController {
 								@RequestParam("imagePaths") List<String> imagePaths,
 								@RequestParam("categoryIDs") List<Integer> categoryIDs) {
 		
+		// -----------------------------------------------세션 확인 ↓-----------------------------------------------
+
+		String memberID = (String) session.getAttribute("memberID"); // 세션에서 유저 아이디 습득
+
+		if (memberID == null) { // 세션에 유저 아이디가 없을 시
+
+			return "redirect:/"; // 메인 페이지로 강제 이동
+
+		}
+		
 		// -----------------------------------------------상품 테이블에 데이터 추가 ↓-----------------------------------------------
 		
 		ProductDTO productDTO = new ProductDTO();
