@@ -19,7 +19,8 @@ public class UpdateSubscriptionInfoController {
 	private SubscriptionInfoDAO subscriptionInfoDAO;
 	
 	@RequestMapping(value = "subscriptionDetail/updateAddress", method = RequestMethod.GET)
-	public String updateSubscriptionInfo(HttpSession session, Model model, SubscriptionInfoDTO subscriptionInfoDTO,
+	public String updateSubscriptionInfo(HttpSession session, 
+										 Model model,
 										 @RequestParam("subscriptionInfoID") int subscriptionInfoID) {
 		
 		// -----------------------------------------------세션 확인 ↓-----------------------------------------------
@@ -31,6 +32,8 @@ public class UpdateSubscriptionInfoController {
 			return "redirect:/"; // 메인 페이지로 강제 이동
 
 		}
+		
+		SubscriptionInfoDTO subscriptionInfoDTO = new SubscriptionInfoDTO();
 		
 		subscriptionInfoDTO.setSearchCondition("updateSubscriptionShippingData");
 		subscriptionInfoDTO.setSubscriptionInfoID(subscriptionInfoID);

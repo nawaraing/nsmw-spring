@@ -24,7 +24,7 @@ public class EntryProductListPageController {
 	private CategoryDAO categoryDAO;
 	
 	@RequestMapping(value = "/productList", method = RequestMethod.GET)
-	public String entryProductList(HttpSession session, Model model, ProductDTO productDTO, CategoryDTO categoryDTO) {
+	public String entryProductList(HttpSession session, Model model) {
 		
 		//-----------------------------------------------세션 확인 ↓-----------------------------------------------
 
@@ -38,6 +38,8 @@ public class EntryProductListPageController {
 		
 		//-----------------------------------------------모든 상품 정보를 습득-----------------------------------------------
 		
+		 ProductDTO productDTO = new ProductDTO();
+		
 		productDTO.setSearchCondition("selectAdminProductListDatas"); // 쿼리 분기명 set
 		productDTO.setSearchKeyword("%%"); // 검색 키워드 set
 		productDTO.setSortColumnName("PRODUCT_NAME"); // 정렬할 컬럼명 set
@@ -48,6 +50,8 @@ public class EntryProductListPageController {
 		model.addAttribute("productList", productDTOList);
 		
 		//-----------------------------------------------모든 카테고리 정보를 습득-----------------------------------------------
+		
+		CategoryDTO categoryDTO = new CategoryDTO();
 		
 		List<CategoryDTO> categoryDTOList = categoryDAO.selectAll(categoryDTO);
 		

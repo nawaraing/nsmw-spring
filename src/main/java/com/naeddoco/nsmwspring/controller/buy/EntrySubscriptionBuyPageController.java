@@ -23,7 +23,8 @@ public class EntrySubscriptionBuyPageController {
 	private MemberService memberService;
 
 	@RequestMapping(value = "buy/subscription", method = RequestMethod.POST)
-	public String entryBuy(HttpSession session, Model model, MemberDTO memberDTO,
+	public String entryBuy(HttpSession session, 
+			               Model model,
 						   @RequestParam(name = "imagePath[]") List<String> imagePath,
 						   @RequestParam(name = "productName[]") List<String> productName,
 						   @RequestParam(name = "salePrice[]") List<Integer> salePrice,
@@ -43,6 +44,8 @@ public class EntrySubscriptionBuyPageController {
 		}
 
 		//-----------------------------------------------멤버 정보 습득 ↓-----------------------------------------------
+		
+		MemberDTO memberDTO = new MemberDTO();
 		
 		memberDTO.setSearchCondition("selectMemberInfo"); // 검색 조건 set
 		

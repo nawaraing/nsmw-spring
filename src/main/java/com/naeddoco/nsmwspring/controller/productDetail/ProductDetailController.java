@@ -16,8 +16,10 @@ public class ProductDetailController {
 	private ProductService productService;
 	
 	@GetMapping("/productDetail")
-    public String getProductDetail(@RequestParam("productID") int productID, Model model, ProductDTO productDTO) {
+    public String getProductDetail(@RequestParam("productID") int productID, Model model) {
 	
+		ProductDTO productDTO = new ProductDTO();
+		
 		productDTO.setSearchCondition("getProductDetail");
 		productDTO.setProductID(productID);
 		

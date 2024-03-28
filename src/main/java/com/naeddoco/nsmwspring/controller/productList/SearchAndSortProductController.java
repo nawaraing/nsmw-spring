@@ -22,11 +22,13 @@ public class SearchAndSortProductController {
 
 	@RequestMapping(value = "/productList/searchAndSort", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ProductDTO> searchAndSortProductList(HttpSession session, ProductDTO productDTO,
+	public List<ProductDTO> searchAndSortProductList(HttpSession session,
 										   @RequestParam("searchKeyword") String searchKeyword, 
 										   @RequestParam("sortColumnName") String sortColumnName) {
 		
 		// -----------------------------------------------검색 조건 및 정렬 조건에 맞는 데이터 습득 ↓-----------------------------------------------
+		
+		ProductDTO productDTO = new ProductDTO();
 		
 		productDTO.setSearchCondition("selectAdminProductListDatas"); // 쿼리 분기명 set
 		

@@ -23,8 +23,8 @@ public class DeleteSubscriptionInfoController {
 	private SubscriptionInfoProductDAO subscriptionInfoProductDAO;
 	
 	@RequestMapping(value = "subscriptionDetail/delete", method = RequestMethod.GET)
-	public String updateSubscriptionInfo(HttpSession session, Model model, SubscriptionInfoDTO subscriptionInfoDTO,
-										 SubscriptionInfoProductDTO subscriptionInfoProductDTO,
+	public String updateSubscriptionInfo(HttpSession session, 
+										 Model model,
 										 @RequestParam("subscriptionInfoID") int subscriptionInfoID) {
 		
 		// -----------------------------------------------세션 확인 ↓-----------------------------------------------
@@ -39,12 +39,16 @@ public class DeleteSubscriptionInfoController {
 		
 		// -----------------------------------------------구독 정보 데이터 삭제 ↓-----------------------------------------------
 		
+		SubscriptionInfoDTO subscriptionInfoDTO = new SubscriptionInfoDTO();
+		
 		subscriptionInfoDTO.setSearchCondition("deleteSubscriptionData");
 		subscriptionInfoDTO.setSubscriptionInfoID(subscriptionInfoID);
 		
 		subscriptionInfoDAO.delete(subscriptionInfoDTO);
 		
 		// -----------------------------------------------구독 상품 데이터 삭제 ↓-----------------------------------------------
+		
+		SubscriptionInfoProductDTO subscriptionInfoProductDTO = new SubscriptionInfoProductDTO();
 		
 		subscriptionInfoProductDTO.setSearchCondition("deleteSubscriptionData");
 		subscriptionInfoProductDTO.setSubscriptionInfoID(subscriptionInfoID);
