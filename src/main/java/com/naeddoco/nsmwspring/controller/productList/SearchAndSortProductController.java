@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +23,8 @@ public class SearchAndSortProductController {
 
 	@RequestMapping(value = "/productList/searchAndSort", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ProductDTO> searchAndSortProductList(HttpSession session,
+	public String searchAndSortProductList(HttpSession session,
+										   Model model,
 										   @RequestParam("searchKeyword") String searchKeyword, 
 										   @RequestParam("sortColumnName") String sortColumnName) {
 		
@@ -57,7 +59,9 @@ public class SearchAndSortProductController {
 		
 		List<ProductDTO> productDTOList = productDAO.selectAll(productDTO);
 		
-		return productDTOList;
+		model.addAttribute("productList", productDTOList);
+		
+		return "admin/productList";
 
 	}
 
