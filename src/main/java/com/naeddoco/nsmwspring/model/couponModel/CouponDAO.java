@@ -33,29 +33,31 @@ public class CouponDAO {
     // 관리자페이지_등급 쿠폰 조회
 	// 1개의 쿠폰에 카테고리가 여러개라면 CATEGORY_NAME에 ;로 구분되어 조회
 	// ex)뇌;뼈/치아;간;
+	// 기본정렬은 등록일-오름차순
 	private static final String SELECTALL_COUPON_INFO ="SELECT DISTINCT "
+															+ "C.CREATE_DATE"
 															+ "C.COUPON_NAME, "
-															+ "C.EXPIRATION_DATE AS COUPON_EXPIRATION_DATE, "
-															+ "CONCAT("
-																+ "(SELECT GROUP_CONCAT(CATEGORY_NAME SEPARATOR ';') "
-																+ "FROM COUPON_CATEGORY CC "
-																+ "JOIN CATEGORY C ON CC.CATEGORY_ID = C.CATEGORY_ID "
-																+ "WHERE CC.COUPON_ID = ?),"
-																+ "';') AS CATEGORY_NAME, "
-															+ "CASE "
-																+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN 'PERCENTAGE' "
-																+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN 'WON' "
-															+ "END AS COUPON_TYPE, "
-															+ "CASE "
-																+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
-																+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
-															+ "END AS DISCOUNT, "
-															+ "CASE "
-																+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
-																+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
-															+ "END AS AMOUNT_LIMIT, "
-															+ "PC.DEPLOY_CYCLE AS DISTRIBUTION_CYCLE, "
-															+ "PC.DEPLOY_BASE AS DISTRIBUTION_CRITERIA, "
+															+ "C.EXPIRATION_DATE, "
+															+ "CONCAT((SELECT GROUP_CONCAT(CA.CATEGORY_NAME SEPARATOR ';') "
+																+ "FROM CATEGORY CA "
+																+ "JOIN COUPON_CATEGORY CC "
+																+ "ON CA.CATEGORY_ID = CC.CATEGORY_ID "
+																+ "WHERE C.COUPON_ID = CC.COUPON_ID)"
+																+ ") AS CATEGORY_NAME, "
+														+ "CASE"
+															+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN 'PERCENTAGE' "
+															+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN 'WON'"
+														+ "END AS COUPON_TYPE,"
+														+ "CASE "
+															+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
+															+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
+														+ "END AS DISCOUNT, "
+														+ "CASE "
+															+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
+															+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
+														+ "END AS AMOUNT_LIMIT, "
+															+ "PC.DEPLOY_CYCLE, "
+															+ "PC.DEPLOY_BASE,"
 															+ "G.GRADE_NAME "
 														+ "FROM "
 															+ "COUPON C "
@@ -69,9 +71,52 @@ public class CouponDAO {
 															+ "CATEGORY CAT ON CC.CATEGORY_ID = CAT.CATEGORY_ID "
 														+ "LEFT JOIN "
 															+ "PROVISION_GRADE_COUPON PC ON C.COUPON_ID = PC.COUPON_ID "
-														+ "LEFT JOIN "
+														+ "LEFT JOIN"
 															+ "GRADE G ON PC.GRADE_ID = G.GRADE_ID "
-														+ "WHERE C.COUPON_ID = ?";
+														+ "ORDER BY C.CREATE_DATE ASC";
+
+	//문자열 검색 또는 정렬
+	private static final String SELECTALL_SEARCH_AND_SORT = "SELECT DISTINCT C.COUPON_TYPE, "
+															+ "C.CREATE_DATE, "
+															+ "C.COUPON_NAME, "
+															+ "C.EXPIRATION_DATE, "
+															+ "CONCAT((SELECT GROUP_CONCAT(CATEGORY_NAME SEPARATOR ';') "
+																	+ "FROM COUPON_CATEGORY CC\r\n"
+																	+ "JOIN CATEGORY C ON CC.CATEGORY_ID = C.CATEGORY_ID "
+																	+ "WHERE CC.COUPON_ID = C.COUPON_ID), ';') AS CATEGORY_NAME,"
+																+ "CASE "
+																	+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN 'PERCENTAGE' "
+																	+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN 'WON' "
+																+ "END AS COUPON_TYPE, "
+																+ "CASE "
+																	+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
+																	+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
+																+ "END AS DISCOUNT, "
+																+ "CASE "
+																	+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
+																	+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
+																+ "END AS AMOUNT_LIMIT, "
+																	+ "PC.DEPLOY_CYCLE, "
+																	+ "PC.DEPLOY_BASE, "
+																	+ "G.GRADE_NAME "
+																+ "FROM "
+																	+ "COUPON C "
+																+ "LEFT JOIN "
+																	+ "PERCENTAGE_COUPON P ON C.COUPON_ID = P.COUPON_ID "
+																+ "LEFT JOIN "
+																	+ "WON_COUPON W ON C.COUPON_ID = W.COUPON_ID "
+																+ "LEFT JOIN "
+																	+ "COUPON_CATEGORY CC ON C.COUPON_ID = CC.COUPON_ID "
+																+ "LEFT JOIN "
+																	+ "CATEGORY CAT ON CC.CATEGORY_ID = CAT.CATEGORY_ID "
+																+ "LEFT JOIN "
+																	+ "PROVISION_GRADE_COUPON PC ON C.COUPON_ID = PC.COUPON_ID "
+																+ "LEFT JOIN "
+																	+ "GRADE G ON PC.GRADE_ID = G.GRADE_ID "
+																+ "WHERE "
+																	+ "1=1 "
+																	+ "AND IF(? IS NOT NULL, C.COUPON_NAME LIKE CONCAT('%', ?, '%'), 1) "
+																+ "ORDER BY ";	
 	
 	// 쿠폰 insert 시 생성된 couponID 가져옴
 	private static final String SELECTONE_LAST_ID = "SELECT LAST_INSERT_ID()";
@@ -95,35 +140,101 @@ public class CouponDAO {
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public List<CouponDTO> selectAll(CouponDTO couponDTO) {
-		
+
 		log.trace("CouponDTO selectAll 진입");
-		
+
 		if (couponDTO.getSearchCondition().equals("selectAllCoupon")) {
-			
+
 			log.trace("selectAllCoupon 진입");
-			
+
 			Object[] args = { couponDTO.getAncCategoryName() };
-			
+
 			try {
-		
-				return jdbcTemplate.query(SELECTALL_BY_CATEGORY_NAME, args, new selectOneCouponRowMapper());
-			
+
+				return jdbcTemplate.query(SELECTALL_BY_CATEGORY_NAME, args, new selectCategoryNameCouponRowMapper());
+
 			} catch (Exception e) {
-				
+
 				log.error("selectAllCoupon 예외/실패");
-				
+
 				return null;
-				
+
 			}
-			
+
 		}
-		
-		log.error("CouponDTO selectAll 실패");
-		
+		else if (couponDTO.getSearchCondition().equals("selectAllCouponInfo")) {
+
+			log.trace("selectAllCouponInfo 진입");
+
+			try {
+
+				return jdbcTemplate.query(SELECTALL_COUPON_INFO, new selectAllCouponInfoRowMapper());
+
+			} catch (Exception e) {
+
+				log.error("selectAllCouponInfo 예외/실패");
+
+				return null;
+
+			}
+
+		}
+		else if (couponDTO.getSearchCondition().equals("selectAllSearchAndSort")) {
+
+			log.trace("selectAllSearchAndSort 진입");
+
+			Object[] args = {couponDTO.getAncSearchKeyword(),
+							 couponDTO.getAncSearchKeyword()};
+
+			// 쿠폰명 검색은 기본 적용
+			// 검색 키워드가 없더라도 정상작동되는 쿼리문
+			String query = SELECTALL_SEARCH_AND_SORT;
+
+			String sqlQuery = null;
+
+			// 만료일순 정렬시
+			if(couponDTO.getAncSortColumnName() == "expirationDate") {  
+				
+				log.trace("expirationDate 진입");
+				sqlQuery = query + " C.EXPIRATION_DATE";
+
+			}
+			// 할인순 정렬시
+			else if (couponDTO.getAncSortColumnName() == "discount") {
+
+				log.trace("discount 진입");
+				sqlQuery = query + " COUPON_TYPE, DISCOUNT DESC";
+
+			}
+			// 정렬값 없을시 기본 쿠폰생성일로 정렬
+			else {
+
+				log.trace("createDate 진입");
+				sqlQuery = query + " C.CREATE_DATE";
+
+			}
+
+
+			try {
+
+				return jdbcTemplate.query(sqlQuery, args, new selectAllSearchAndSortRowMapper());
+
+			} catch (Exception e) {
+
+				log.error("selectAllSearchAndSort 예외/실패");
+
+				return null;
+
+			}
+
+		}
+
+		log.error("selectAll 실패");
+
 		return null;
-		
+
 	}
-	
+
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public CouponDTO selectOne(CouponDTO couponDTO) {
@@ -252,40 +363,88 @@ class CouponRowMapper implements RowMapper<CouponDTO> {
 
 //개발자의 편의를 위해 RowMapper 인터페이스를 사용
 @Slf4j
-class selectOneCouponRowMapper implements RowMapper<CouponDTO> {
+class selectCategoryNameCouponRowMapper implements RowMapper<CouponDTO> {
 	
 	@Override
 	public CouponDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
-		CouponDTO couponDTO = new CouponDTO();
+		CouponDTO data = new CouponDTO();
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		data.setCouponID(rs.getInt("C.COUPON_ID"));
+		data.setCouponName(rs.getString("C.COUPON_NAME"));
+		data.setExpirationDate(rs.getTimestamp("EXPIRATION_DATE"));
+		data.setCouponType(rs.getString("C.COUPON_TYPE"));
+		data.setAncCategoryName(rs.getString("CA.CATEGORY_NAME"));
+		data.setAncDiscountAmount(rs.getInt("DISCOUNT_AMOUNT"));
+		data.setAncMinOrderAmount(rs.getInt("MIN_ORDER_AMOUNT"));
+		data.setAncDiscountRate(rs.getInt("DISCOUNT_RATE"));
+		data.setAncMaxDiscountAmount(rs.getInt("MAX_DISCOUNT_AMOUNT"));
 
-		couponDTO.setCouponID(rs.getInt("C.COUPON_ID"));
-		couponDTO.setCouponName(rs.getString("C.COUPON_NAME"));
-		couponDTO.setExpirationDate(rs.getTimestamp("EXPIRATION_DATE"));
-		couponDTO.setCouponType(rs.getString("C.COUPON_TYPE"));
-		couponDTO.setAncCategoryName(rs.getString("CA.CATEGORY_NAME"));
-		couponDTO.setAncDiscountAmount(rs.getInt("DISCOUNT_AMOUNT"));
-		couponDTO.setAncMinOrderAmount(rs.getInt("MIN_ORDER_AMOUNT"));
-		couponDTO.setAncDiscountRate(rs.getInt("DISCOUNT_RATE"));
-		couponDTO.setAncMaxDiscountAmount(rs.getInt("MAX_DISCOUNT_AMOUNT"));
-
-		return couponDTO;
+		return data;
 	}
 
 }
+
 @Slf4j
 class selectOneCouponIdRowMapper implements RowMapper<CouponDTO> {
 	
 	@Override
 	public CouponDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
-		CouponDTO couponDTO = new CouponDTO();
+		CouponDTO data = new CouponDTO();
 
-		couponDTO.setCouponID(rs.getInt("COUPON_ID"));
+		data.setCouponID(rs.getInt("COUPON_ID"));
 
-		return couponDTO;
+		return data;
+	}
+
+}
+
+@Slf4j
+class selectAllCouponInfoRowMapper implements RowMapper<CouponDTO> {
+	
+	@Override
+	public CouponDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		CouponDTO data = new CouponDTO();
+
+		data.setCreateDate(rs.getTimestamp("C.CREATE_DATE"));
+		data.setCouponName(rs.getString("C.COUPON_NAME"));
+		data.setExpirationDate(rs.getTimestamp("C.EXPIRATION_DATE"));
+		data.setAncCategoryName(rs.getString("CATEGORY_NAME"));
+		data.setCouponType(rs.getString("COUPON_TYPE"));
+		data.setAncDiscount(rs.getInt("DISCOUNT"));
+		data.setAncAmount(rs.getInt("AMOUNT_LIMIT"));
+		data.setAncDeployCycle(rs.getString("PC.DEPLOY_CYCLE"));
+		data.setAncDeployBase(rs.getString("PC.DEPLOY_BASE"));
+		data.setAncCategoryName(rs.getString("G.GRADE_NAME"));
+		
+		return data;
+	}
+
+}
+
+@Slf4j
+class selectAllSearchAndSortRowMapper implements RowMapper<CouponDTO> {
+	
+	@Override
+	public CouponDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		CouponDTO data = new CouponDTO();
+
+		data.setCouponType(rs.getString("C.COUPON_TYPE"));
+		data.setCreateDate(rs.getTimestamp("C.CREATE_DATE"));
+		data.setCouponName(rs.getString("C.COUPON_NAME"));
+		data.setExpirationDate(rs.getTimestamp("C.EXPIRATION_DATE"));
+		data.setAncCategoryName(rs.getString("CATEGORY_NAME"));
+		data.setCouponType(rs.getString("COUPON_TYPE"));
+		data.setAncDiscount(rs.getInt("DISCOUNT"));
+		data.setAncAmount(rs.getInt("AMOUNT_LIMIT"));
+		data.setAncDeployCycle(rs.getString("PC.DEPLOY_CYCLE"));
+		data.setAncDeployBase(rs.getString("PC.DEPLOY_BASE"));
+		data.setAncGradeName(rs.getString("G.GRADE_NAME"));
+		
+		return data;
 	}
 
 }

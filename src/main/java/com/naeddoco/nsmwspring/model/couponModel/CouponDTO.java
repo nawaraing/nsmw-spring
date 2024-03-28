@@ -16,12 +16,25 @@ public class CouponDTO {
 	
     private String searchCondition; 	// 쿼리 분기 지정
     
+    									// FK
     private String ancCategoryName;     // 쿠폰 카테고리 
     private int ancDiscountAmount;      // 원쿠폰 할인액
     private int ancMinOrderAmount;      // 원쿠폰 최소 구매 금액
     private int ancDiscountRate;        // 퍼센트쿠폰 할인율
     private int ancMaxDiscountAmount;   // 퍼센트쿠폰 최대 할인 금액
     
+	private String ancDeployCycle;		// 지급 주기
+	private String ancDeployBase;		// 지급 기준
+	
+	private int ancDiscount;			// 할인액 or 할인율 
+	private int ancAmount;				// 최소 구매 금액 or 최대 할인 금액
+	
+	private String ancGradeName;		// 등급 이름
+	
+	private String ancSearchKeyword;	// 검색 키워드
+	private String ancSortColumnName;	// 정렬 키워드
+	
+	
     @Override
    	public String toString() {
    		
