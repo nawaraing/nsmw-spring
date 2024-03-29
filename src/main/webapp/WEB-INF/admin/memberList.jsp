@@ -101,8 +101,7 @@
                               <td id="member-id-${status.index}">${member.memberID}</td>
                               <!-- / 회원 ID -->
                               <!-- 생년월일 -->
-                              <fmt:parseDate var="strDayOfBirth" value="${member.dayOfBirth}" pattern="yyyy-MM-dd HH:mm:ss" />
-                              <td id="register-date-${status.index}"><fmt:formatDate pattern="yyyy-MM-dd" value="${strDayOfBirth}" /></td>
+                              <td id="register-date-${status.index}">${member.dayOfBirth}</td>
                               <!-- / 생년월일 -->
                               <!-- 성별 -->
                               <td id="gender-${status.index}">${member.gender}</td>
@@ -114,13 +113,13 @@
                               <td id="email-${status.index}">${member.email}</td>
                               <!-- / 이메일 -->
                               <!-- 우편번호 -->
-                              <td id="postcode-${status.index}">${member.ancShippingPostcode}</td>
+                              <td id="postcode-${status.index}">${member.ancShippingPostCode}</td>
                               <!-- / 우편번호 -->
                               <!-- 도로명주소 -->
                               <td id="postcode-${status.index}">${member.ancShippingAddress}</td>
                               <!-- / 도로명주소 -->
                               <!-- 상세주소 -->
-                              <td id="postcode-${status.index}">${member.ancShppingAddressDetail}</td>
+                              <td id="postcode-${status.index}">${member.ancShippingAddressDetail}</td>
                               <!-- / 상세주소 -->
                               <!-- 회원등급 -->
                               <td id="grade-${status.index}">${member.ancGradeName}</td>
@@ -187,11 +186,12 @@
     
     
     <!-- Pagination & Load Page JS -->
-    <script src="/resources/admin/js/fill-product-list-table.js"></script>
+    <!-- <script src="/resources/admin/js/fill-member-list-table.js"></script> -->
     <script src="/resources/admin/js/page-composed.js"></script>
     <script src="/resources/admin/js/page-variables.js"></script>
     <script src="/resources/admin/js/pagination-action.js"></script>
     <script src="/resources/admin/js/pagination-composed.js"></script>
+    <!-- <script src="/resources/admin/js/member-list.js"></script> -->
     
   </body>
 </html>

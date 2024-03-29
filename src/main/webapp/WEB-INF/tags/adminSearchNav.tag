@@ -14,7 +14,7 @@
 </c:if>
 <c:if test='${pageName eq "memberList"}'>
   <c:set var="sortDisplayList" value='${fn:split("회원 ID 오름차순,회원 ID 내림차순", ",")}' />
-  <c:set var="sortCodeList" value='${fn:split("ASC,DSC", ",")}' />
+  <c:set var="sortCodeList" value='${fn:split("ASC,DESC", ",")}' />
   <c:set var="placeholder" value="회원 ID 검색" />
   <c:set var="asyncUrl" value="/memberList/searchAndSort" />
 </c:if>
