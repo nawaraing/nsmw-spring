@@ -18,8 +18,6 @@ public class MonthlyProductSalesStatsDTO {
 	
 												// FK
 	private String ancProductName;				// 상품명
-	private Date ancStartDate;					// 검색 기간 시작일
-	private Date ancEndDate;					// 검색 기간 종료일
-	private int ancStartRow;					// 통계 시작 행 번호
-	private int ancSelectMax;					// 페이지별 출력할 row 수
+	private Date ancStartMonth;					// 검색 기간 시작월
+	private Date ancEndMonth;					// 검색 기간 종료월
 }

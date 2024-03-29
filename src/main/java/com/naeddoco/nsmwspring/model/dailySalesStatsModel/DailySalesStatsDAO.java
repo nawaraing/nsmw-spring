@@ -40,8 +40,7 @@ public class DailySalesStatsDAO {
 														+ "WHERE "
 															+ "DAILY_TOTAL_CALCULATE_DATE BETWEEN ? AND ? "
 														+ "ORDER BY "
-															+ "DAILY_TOTAL_CALCULATE_DATE "
-														+ "LIMIT ?, ?";
+															+ "DAILY_TOTAL_CALCULATE_DATE ";
 
 	private static final String SELECTONE = "";
 
@@ -85,7 +84,7 @@ public class DailySalesStatsDAO {
 		}
 		else if(dailySalesStatsDTO.getSearchCondition().equals("selectAdminStatDateDatas")) {
 			
-			Object[] args = { dailySalesStatsDTO.getAncStartDate(), dailySalesStatsDTO.getAncEndDate(), dailySalesStatsDTO.getAncStartRow(), dailySalesStatsDTO.getAncSelectMax() };
+			Object[] args = { dailySalesStatsDTO.getAncStartDate(), dailySalesStatsDTO.getAncEndDate()};
 
 			log.trace("selectAdminStatDateDatas 진입");
 			

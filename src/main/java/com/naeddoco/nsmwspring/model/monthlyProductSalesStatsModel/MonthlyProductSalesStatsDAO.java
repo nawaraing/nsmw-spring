@@ -34,8 +34,7 @@ public class MonthlyProductSalesStatsDAO {
 											            	+ "JOIN "
 											            		+ "PRODUCT P ON MPS.PRODUCT_ID = P.PRODUCT_ID "
 											            	+ "WHERE "
-											            		+ "MPS.MONTHLY_TOTAL_CALCULATE_DATE BETWEEN DATE_FORMAT( ?, '%Y-%m-01') AND LAST_DAY(?)"
-											            		+ "LIMIT ?, ?";
+											            		+ "MPS.MONTHLY_TOTAL_CALCULATE_DATE BETWEEN DATE_FORMAT( ?, '%Y-%m-01') AND LAST_DAY(?)";
                                                         
 	private static final String SELECTALL = "";
 
@@ -69,13 +68,13 @@ public class MonthlyProductSalesStatsDAO {
 	
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------
 	public List<MonthlyProductSalesStatsDTO> selectAll(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
-		
+
 		log.trace("selectAll 진입");
-		
+
 		if(monthlyProductSalesStatsDTO.getSearchCondition().equals("selectAdminStatProductDatas")) {
-			
-			Object[] args = { monthlyProductSalesStatsDTO.getAncStartDate(), monthlyProductSalesStatsDTO.getAncEndDate(), monthlyProductSalesStatsDTO.getAncStartRow(), monthlyProductSalesStatsDTO.getAncSelectMax() };
-			
+
+			Object[] args = { monthlyProductSalesStatsDTO.getAncStartMonth(), monthlyProductSalesStatsDTO.getAncEndMonth(), monthlyProductSalesStatsDTO.getAncStartRow(), monthlyProductSalesStatsDTO.getAncSelectMax() };
+
 			log.trace("selectAdminStatProductDatas 진입");
 			try {
 				return (List<MonthlyProductSalesStatsDTO>)jdbcTemplate.query(SELECTALL_ADMIN_STAT_DATA, args, new SelectAdminMonthlyProductSalesStatsRowMapper());

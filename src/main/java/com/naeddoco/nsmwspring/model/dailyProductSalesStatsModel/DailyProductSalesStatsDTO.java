@@ -20,7 +20,6 @@ public class DailyProductSalesStatsDTO {
     private String ancProductName;				// 상품명
     private Date ancStartDate;					// 검색 기간 시작일
     private Date ancEndDate;					// 검색 기간 종료일
-    private int ancStartRow;					// 통계 시작 행 번호
-    private int ancSelectMax;					// 페이지별 출력할 row 수
+
     
 }

@@ -27,8 +27,7 @@ public class MonthlySalesStatsDAO {
 											+ "WHERE "
 												+ "MONTHLY_TOTAL_CALCULATE_DATE BETWEEN DATE_FORMAT( ?, '%Y-%m-01') AND LAST_DAY(?)"
 											+ "ORDER BY "
-												+ "MONTHLY_TOTAL_CALCULATE_DATE "
-											+ "LIMIT ?, ?";
+												+ "MONTHLY_TOTAL_CALCULATE_DATE";
 
 	private static final String SELECTONE = "";
 	
@@ -56,15 +55,19 @@ public class MonthlySalesStatsDAO {
 		if(monthlySalesStatsDTO.getSearchCondition().equals("selectAdminStatDateDatas")) {
 			log.trace("selectAdminStatDateDatas 진입");
 			
+			Object[] args = { monthlySalesStatsDTO.getAncStartMonth(), monthlySalesStatsDTO.getAncEndMonth()};
+			
 			try {
-				return (List<MonthlySalesStatsDTO>)jdbcTemplate.query(SELECTALL, new MonthlySalesStatsRowMapper());
+				return (List<MonthlySalesStatsDTO>)jdbcTemplate.query(SELECTALL, args, new MonthlySalesStatsRowMapper());
 			} 
 			catch (Exception e){
+				
 				log.error("selectAdminStatDateDatas 예외/실패");
 
 				return null;
 			}
 		}
+		
 		log.error("selectAll 실패");
 		return null;
 	}
@@ -86,23 +89,21 @@ public class MonthlySalesStatsDAO {
 	
 	public boolean insert(MonthlySalesStatsDTO monthlySalesStatsDTO) {
 		
-		log.trace("insert 진입");
-		if(monthlySalesStatsDTO.getSearchCondition().equals("insertAdminStatDateDatas")) {
-			
-			log.trace("insertAdminStatDateDatas 진입");
-			int result = jdbcTemplate.update(INSERT, monthlySalesStatsDTO.getMonthlyTotalCalculateDate(), 
-													monthlySalesStatsDTO.getMonthlyTotalGrossMargine(), 
-													monthlySalesStatsDTO.getMonthlyTotalNetProfit());
-			if(result <= 0) {
-				log.error("insertAdminStatDateDatas 실패");
-				return false;
-			}
-			log.trace("insertAdminStatDateDatas 성공");
-			return true;
-		}
-		
-		log.error("insert 실패");
-	return false;
+//		log.trace("insert 진입");
+//		if(monthlySalesStatsDTO.getSearchCondition().equals("insertAdminStatDateDatas")) {
+//
+//			log.trace("insertAdminStatDateDatas 진입");
+//			int result = jdbcTemplate.update(INSERT);
+//			if(result <= 0) {
+//				log.error("insertAdminStatDateDatas 실패");
+//				return false;
+//			}
+//			log.trace("insertAdminStatDateDatas 성공");
+//			return true;
+//		}
+//
+//		log.error("insert 실패");
+		return false;
 }
 
 	

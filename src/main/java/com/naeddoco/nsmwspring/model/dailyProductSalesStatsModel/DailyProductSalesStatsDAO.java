@@ -35,8 +35,7 @@ public class DailyProductSalesStatsDAO {
 															+ "JOIN "
 																+ "PRODUCT P ON DPS.PRODUCT_ID = P.PRODUCT_ID "
 															+ "WHERE "
-																+ "DPS.DAILY_TOTAL_CALCULATE_DATE BETWEEN ? AND ? "
-																+ "LIMIT ?, ?";
+																+ "DPS.DAILY_TOTAL_CALCULATE_DATE BETWEEN ? AND ? ";
 
 		
 
@@ -72,11 +71,12 @@ public class DailyProductSalesStatsDAO {
 		log.trace("selectAll 진입");
 		if(dailyProductSalesStatsDTO.getSearchCondition().equals("selectAdminStatProductDatas")) {
 
-			Object[] args = { dailyProductSalesStatsDTO.getAncStartDate(), dailyProductSalesStatsDTO.getAncEndDate(), dailyProductSalesStatsDTO.getAncStartRow(), dailyProductSalesStatsDTO.getAncSelectMax() };
+			Object[] args = { dailyProductSalesStatsDTO.getAncStartDate(), 
+								dailyProductSalesStatsDTO.getAncEndDate()};
 
 			log.trace("selectAdminStatProductDatas 진입");
 			try {
-				return (List<DailyProductSalesStatsDTO>)jdbcTemplate.query(SELECTALL_ADMIN_STAT_DATA,  args, new SelectAdminDailyProductSalesStatsRowMapper());
+				return (List<DailyProductSalesStatsDTO>)jdbcTemplate.query(SELECTALL_ADMIN_STAT_DATA, args, new SelectAdminDailyProductSalesStatsRowMapper());
 			}
 			catch (Exception e) {
 
