@@ -20,7 +20,7 @@ public class EntryStatDatePageController {
 	private DailySalesStatsService dailySalesStatsService;
 	
 	@RequestMapping(value = "/statDate", method = RequestMethod.GET)
-	public String entryCart(DailySalesStatsDTO dailySalesStatsDTO, Model model) {	
+	public String entryStatDatePageController(DailySalesStatsDTO dailySalesStatsDTO, Model model) {	
 		
 		System.out.println("[log] 기간별 매출통계 페이지 요청");
 		
@@ -40,8 +40,6 @@ public class EntryStatDatePageController {
     	dailySalesStatsDTO.setSearchCondition("selectAdminStatDateDatas");
     	dailySalesStatsDTO.setAncStartDate(thirtyDaysBeforeSQL);
     	dailySalesStatsDTO.setAncEndDate(todaySQL);
-    	dailySalesStatsDTO.setAncStartRow(0);
-    	dailySalesStatsDTO.setAncSelectMax(10);
     	
     	System.out.println("todaySQL 자료형 : " + todaySQL.getClass());
     	System.out.println("thirtyDaysBeforeSQL 자료형 : " + todaySQL.getClass());

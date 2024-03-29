@@ -217,7 +217,7 @@
     <script src="/resources/admin/js/page-variables.js"></script>
     <script src="/resources/admin/js/pagination-action.js"></script>
     <script src="/resources/admin/js/pagination-composed.js"></script>
-    <script src="/resources/admin/js/stat-product.js"></script>
+<!--    <script src="/resources/admin/js/stat-product.js"></script> -->
     
     <!-- Search Stat Product JS -->
     <script src="/resources/admin/js/async-search-stat-product.js"></script>

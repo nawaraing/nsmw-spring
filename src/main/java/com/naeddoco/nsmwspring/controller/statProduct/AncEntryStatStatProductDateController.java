@@ -1,4 +1,4 @@
-package com.naeddoco.nsmwspring.controller.statDate;
+package com.naeddoco.nsmwspring.controller.statProduct;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -12,22 +12,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.naeddoco.nsmwspring.model.dailyProductSalesStatsModel.DailyProductSalesStatsDTO;
+import com.naeddoco.nsmwspring.model.dailyProductSalesStatsModel.DailyProductSalesStatsService;
 import com.naeddoco.nsmwspring.model.dailySalesStatsModel.DailySalesStatsDTO;
 import com.naeddoco.nsmwspring.model.dailySalesStatsModel.DailySalesStatsService;
 
 // 일별 매출 통계
 @Controller
-public class AncEntryStatDateController {
+public class AncEntryStatStatProductDateController {
 	
 	@Autowired
-	private DailySalesStatsService dailySalesStatsService;
+	private DailyProductSalesStatsService dailyProductSalesStatsService;
 	
-	@RequestMapping(value = "/statDate/searchDate", method = RequestMethod.GET)
-	public @ResponseBody List<DailySalesStatsDTO> ancEntryStatDateController(DailySalesStatsDTO dailySalesStatsDTO,
+	@RequestMapping(value = "/statProduct/searchDate", method = RequestMethod.GET)
+	public @ResponseBody List<DailyProductSalesStatsDTO> ancEntryStatDateController(DailyProductSalesStatsDTO dailyProductSalesStatsDTO,
 											@RequestParam("startDate") Date ancStartDate,
 											@RequestParam("endDate") Date ancEndDate) {	
 		
-		System.out.println("[log] 일별 매출통계 요청");
+		System.out.println("[log] 일별 상품 매출통계 요청");
 		
         System.out.println("입력된 검색 시작일 : " + ancStartDate);
         System.out.println("입력된 검색 종료일 : " + ancEndDate);
@@ -51,23 +53,23 @@ public class AncEntryStatDateController {
         	
         }
         
-    	dailySalesStatsDTO.setSearchCondition("selectAdminStatDateDatas");
-    	dailySalesStatsDTO.setAncStartDate(ancStartDate);
-    	dailySalesStatsDTO.setAncEndDate(ancEndDate);
+        dailyProductSalesStatsDTO.setSearchCondition("selectAdminStatProductDatas");
+        dailyProductSalesStatsDTO.setAncStartDate(ancStartDate);
+        dailyProductSalesStatsDTO.setAncEndDate(ancEndDate);
     	
-    	List<DailySalesStatsDTO> dailySalesStats = dailySalesStatsService.selectAll(dailySalesStatsDTO);
+    	List<DailyProductSalesStatsDTO> dailyProductSalesStats = dailyProductSalesStatsService.selectAll(dailyProductSalesStatsDTO);
     	
-    	if(dailySalesStats.size() < 1) {
+    	if(dailyProductSalesStats.size() < 1) {
     		
     		System.out.println("[log] 매출 불러오기 실패");
-    		System.out.println("[log] 리스트에 담긴 index : " + dailySalesStats.size());
+    		System.out.println("[log] 리스트에 담긴 index : " + dailyProductSalesStats.size());
     		
     		return null;
     	}
     	
     	System.out.println("[log] 매출 불러오기 성공");
-    	System.out.println("[log] 리스트에 담긴 index : " + dailySalesStats.size());
+    	System.out.println("[log] 리스트에 담긴 index : " + dailyProductSalesStats.size());
 
-		return dailySalesStats;
+		return dailyProductSalesStats;
 	}
 }

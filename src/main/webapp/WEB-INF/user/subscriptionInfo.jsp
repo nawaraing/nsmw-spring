@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="custom" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>쿠폰 관리</title>
+<title>구매내역</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -35,6 +36,10 @@
 </head>
 <body>
 
+<script>
+	var  = ${subscriptionInfo.ancBeginDate}
+</script>
+
 	<%-- 세션 확인 후 없으면 메인으로 --%>
 	<custom:emthySessionAndGoToMain/>
 
@@ -56,7 +61,7 @@
 
 	<!-- Single Page Header start -->
 	<div class="container-fluid page-header py-5">
-		<h1 class="text-center text-white display-6">쿠폰 관리</h1>
+		<h1 class="text-center text-white display-6">구독내역</h1>
 	</div>
 	<!-- Single Page Header End -->
 
@@ -68,32 +73,40 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col">쿠폰이름</th>
-							<th scope="col">할인율</th>
-							<th scope="col">만료일</th>
-							<th scope="col">카테고리</th>
-							<th scope="col">사용여부</th>
+							<th scope="col">구독 시작일</th>
+							<th scope="col">다음 결제일</th>
+							<th scope="col">결제 예정 금액</th>
+							<th scope="col">결제 예정일</th>
+							<th scope="col">구독 종료 예정일</th>
+							<th scope="col">배송지</th>
+							<th scope="col">구독 취소</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="coupon" items="${couponList}">
-							<tr>
-								<td>
-									<p class="mb-0 mt-0">${coupon.cpName}</p>
-								</td>
-								<td>
-									<p class="mb-0 mt-0">${coupon.discount}%</p>
-								</td>
-								<td>
-									<p class="mb-0 mt-0">${coupon.period}</p>
-								</td>
-								<td>
-									<p class="mb-0 mt-0">${coupon.category}</p>
-								</td>
-								<td>
-									<p class="mb-0 mt-0">${coupon.used}</p>
-								</td>
-							</tr>
+						<c:forEach var="subscriptionInfo" items="${subscriptionInfos}">
+						<tr>
+							<td>
+								<p class="mb-0 mt-4">${subscriptionInfo.ancBeginDate}</p>
+							</td>
+							<td>
+								<p class="mb-0 mt-4">${subscriptionInfo.ancNextPaymentDate}</p>
+							</td>
+							<td>
+								<p class="mb-0 mt-4"><fmt:formatNumber value="${subscriptionInfo.결제예정금액}" currencyCode="KRW" />원</p>
+							</td>
+							<td>
+								<p class="mb-0 mt-4">${subscriptionInfo.결제예정일}</p>
+							</td>
+							<td>
+								<p class="mb-0 mt-4">${subscriptionInfo.구독종료예정일}</p>
+							</td>
+							<td>
+								<p class="mb-0 mt-4">${subscriptionInfo.배송지}</p>
+							</td>
+							<td>
+								<a class="btn border-secondary text-primary rounded-pill mb-0 mt-3" onclick='location.href="/user/구독상세Controller요청?BID=${subscriptionInfo.구독PK}";'>구독 취소</a>
+							</td>
+						</tr>
 						</c:forEach>
 					</tbody>
 				</table>
@@ -106,7 +119,7 @@
 	<!-- 풋터 시작 -->
 	<custom:commonFooter/>
 	<!-- 풋터 끝 -->
-	
+
 
 	<!-- 카피라이트 시작 -->
 	<custom:commonCopyright/>
