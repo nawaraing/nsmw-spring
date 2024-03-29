@@ -33,7 +33,7 @@ function fillProductListTable(datas) {
             // 체크 박스
             td = $('<td>');
             div = $('<div class="form-check">');
-            input = $('<input class="form-check-input" type="checkbox" value="" id="checkbox-id-' + rowNum + '" onclick="handleCheckbox(' + rowNum + ', 10)" />');
+            input = $('<input class="form-check-input" type="checkbox" value="" id="checkbox-id-' + rowNum + '" onclick="handleListCheckbox(' + rowNum + ', 10)" />');
             tr.append(td.append(div.append(input)));
             
             // 상품명
@@ -80,6 +80,27 @@ function fillProductListTable(datas) {
             
 			// 카테고리
             td = $('<td>');
+			// 전체 카테고리 목록 표시
+			ul = $('<ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="checkbox-categories-' + rowNum + '">');
+            $.each(categoryList, function(allCategoryIdx, allCategory) {
+				li = $('<li>');
+				div = $('<div class="form-check">');
+				label = $('<label class="dropdown-item" for="checkbox-product-' + rowNum + '-category-' + allCategory + '" id="dropdown-item-coupon-' + rowNum + '-category-' + allCategory + '">');
+				input = $('<input class="form-check-input" type="checkbox" onclick="handleCategoryCheckbox(' + rowNum + ', \'' + allCategory + '\')" value="' + allCategory + '" id="checkbox-product-' + rowNum + '-category-' + allCategory + '">');
+				
+//				console.log("allCategory: " + allCategory);
+	            $.each(data.categories, function(productCategoryIdx, productCategory) {
+//					console.log("productCategory: " + productCategory);
+					if (allCategory === productCategory) {
+						input.prop("checked", true);
+					}
+				});
+				
+				label.append(input);
+				label.append(allCategory);
+				ul.append(li.append(div.append(label)));
+			});
+            // 상품별 카테고리 표시
 			aTag = $(`<a
                       class="dropdown-toggle"
 		              href="javascript:void(0)"
@@ -88,22 +109,10 @@ function fillProductListTable(datas) {
 		              data-bs-toggle="dropdown"
 		              aria-expanded="false"
 		            >`);
-            $.each(data.categories, function(categoryIdx, category) {
-				console.log(category.categoryName);
-			    span = $('<span class="badge bg-label-info me-1" id="product-' + rowNum + '-category-' + categoryIdx + '">').text(category);
+            $.each(data.categories, function(productCategoryIdx, productCategory) {
+//				console.log("productCategory: " + productCategory);
+			    span = $('<span class="badge bg-label-info me-1" id="product-' + rowNum + '-category-' + productCategory + '">').text(productCategory);
 			    aTag.append(span);
-			});
-			
-			ul = $('<ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="checkbox-categories-' + rowNum + '">');
-            $.each(categoryList, function(categoryIdx, category) {
-				li = $('<li>');
-				div = $('<div class="form-check">');
-				label = $('<label class="dropdown-item" for="checkbox-product-' + rowNum + '-category-' + categoryIdx + '" id="dropdown-item-coupon-' + rowNum + '-category-' + categoryIdx + '">');
-				input = $('<input class="form-check-input" type="checkbox" value="' + category + '" id="checkbox-product-' + rowNum + '-category-' + categoryIdx + '">');
-				label.append(input);
-				label.append(category);
-				
-				ul.append(li.append(div.append(label)));
 			});
 			td.append(aTag);
 			td.append(ul);

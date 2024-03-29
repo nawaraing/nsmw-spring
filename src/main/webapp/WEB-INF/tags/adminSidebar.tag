@@ -3,6 +3,8 @@
 
 <%@ attribute name="pageName" %>
 
+<script src="/resources/admin/assets/vendor/libs/jquery/jquery.js"></script>
+
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
     <img src="/resources/commonImages/favicon.png" height="35" />
@@ -90,6 +92,6 @@
 
 <script>
   // JavaScript 코드
-  var element = document.getElementById('${pageName}');
-  element.classList.add("active");
+  var element = $('#${pageName}');
+  element.addClass("active");
 </script>
