@@ -98,101 +98,42 @@
                               <td><i class="fab fa-angular fa-lg me-3"><strong id="member-name-${status.index}">${member.memberName}</strong></i></td>
                               <!-- / 회원 이름 -->
                               <!-- 회원 ID -->
-                              <td>
-                                <div style="width: 150px;" class="text-truncate" id="member-detail-${status.index}">${member.memberID}</div>
-                              </td>
+                              <td id="member-id-${status.index}">${member.memberID}</td>
                               <!-- / 회원 ID -->
                               <!-- 생년월일 -->
-                              <fmt:parseDate var="strRegDate" value="${member.dayOfBirth}" pattern="yyyy-MM-dd HH:mm:ss" />
-                              <td id="register-date-${status.index}"><fmt:formatDate pattern="yyyy-MM-dd" value="${member.dayOfBirth}" /></td>
+                              <fmt:parseDate var="strDayOfBirth" value="${member.dayOfBirth}" pattern="yyyy-MM-dd HH:mm:ss" />
+                              <td id="register-date-${status.index}"><fmt:formatDate pattern="yyyy-MM-dd" value="${strDayOfBirth}" /></td>
                               <!-- / 생년월일 -->
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              <!-- 정가 -->
-                              <td id="retail-price-${status.index}"><fmt:formatNumber value="${product.retailPrice}" currencyCode="KRW" /></td>
-                              <!-- / 정가 -->
-                              <!-- 판매가 -->
-                              <td id="sale-price-${status.index}"><fmt:formatNumber value="${product.salePrice}" currencyCode="KRW" /></td>
-                              <!-- / 판매가 -->
-                              <!-- 재고 -->
-                              <td id="stock-${status.index}">${product.stock}</td>
-                              <!-- / 재고 -->
-                              <!-- 성분 -->
-                              <td>
-                                <div style="width: 150px;" class="text-truncate" id="ingredient-${status.index}">${product.ingredient}</div>
-                              </td>
-                              <!-- / 성분 -->
-                              <!-- 용법 -->
-                              <td>
-                                <div style="width: 150px;" class="text-truncate" id="dosage-${status.index}">${product.dosage}</div>
-                              </td>
-                              <!-- / 용법 -->
-                              <!-- 소비기한 -->
-                              <td>
-                                <div style="width: 150px;" class="text-truncate" id="expiration-date-${status.index}">${product.expirationDate}</div>
-                              </td>
-                              <!-- / 소비기한 -->
-                              <!-- 카테고리 -->
-                              <td>
-                                <a
-                                  class="dropdown-toggle"
-                                  href="javascript:void(0)"
-                                  id="product-categories-${status.index}"
-                                  role="button"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                >
-                                <c:set var="categories" value="${fn:split(product.ancCategory, ';')}" />
-                                <c:forEach var="category" items="${categories}" varStatus="categoryStatus">
-                                  <span class="badge bg-label-info me-1" id="product-${status.index}-category-${categoryStatus.index}">${category}</span>
-                                </c:forEach>
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="checkbox-categories-${status.index}">
-                                  <c:forEach var="category" items="${categoryList}" varStatus="categoryStatus">
-                                    <li>
-                                      <div class="form-check">
-                                        <label class="dropdown-item" for="checkbox-product-${status.index}-category-${categoryStatus.index}" id="dropdown-item-coupon-${status.index}-category-${categoryStatus.index}">
-                                          <input class="form-check-input" type="checkbox" value="${category.categoryName}" id="checkbox-product-${status.index}-category-${categoryStatus.index}" />${category.categoryName}
-                                        </label>
-                                      </div>
-                                    </li>
-                                  </c:forEach>
-                                </ul>
-                              </td>
-                              <!-- / 카테고리 -->
-                              <!-- 등록일 -->
-                              <fmt:parseDate var="strRegDate" value="${product.registerDate}" pattern="yyyy-MM-dd HH:mm:ss" />
-                              <td id="register-date-${status.index}"><fmt:formatDate pattern="yyyy-MM-dd" value="${strRegDate}" /></td>
-                              <!-- / 등록일 -->
-                              <!-- 마지막 수정일 -->
-                              <fmt:parseDate var="sttModDate" value="${product.modifyDate}" pattern="yyyy-MM-dd HH:mm:ss" />
-                              <td id="modify-date-${status.index}"><fmt:formatDate pattern="yyyy-MM-dd" value="${sttModDate}" /></td>
-                              <!-- / 마지막 수정일 -->
-                              <!-- 판매 상태 -->
-                              <c:if test='${product.saleState eq "SALES"}'>
-                                <td id="sale-state-${status.index}">판매중</td>
-                              </c:if>
-                              <c:if test='${product.saleState eq "DISCONTINED"}'>
-                                <td id="sale-state-${status.index}">단종</td>
-                              </c:if>
-                              <c:if test='${(product.saleState ne "SALES") && (product.saleState ne "DISCONTINED")}'>
-                                <td id="sale-state-${status.index}"></td>
-                              </c:if>
-                              <!-- / 판매 상태 -->
-                              <!-- 상품 이미지 -->
-                              <td id="image-${status.index}">이미지 확인</td>
-                              <!-- / 상품 이미지 -->
+                              <!-- 성별 -->
+                              <td id="gender-${status.index}">${member.gender}</td>
+                              <!-- / 성별 -->
+                              <!-- 전화번호 -->
+                              <td id="phone-number-${status.index}">${member.phoneNumber}</td>
+                              <!-- / 전화번호 -->
+                              <!-- 이메일 -->
+                              <td id="email-${status.index}">${member.email}</td>
+                              <!-- / 이메일 -->
+                              <!-- 우편번호 -->
+                              <td id="postcode-${status.index}">${member.ancShippingPostcode}</td>
+                              <!-- / 우편번호 -->
+                              <!-- 도로명주소 -->
+                              <td id="postcode-${status.index}">${member.ancShippingAddress}</td>
+                              <!-- / 도로명주소 -->
+                              <!-- 상세주소 -->
+                              <td id="postcode-${status.index}">${member.ancShppingAddressDetail}</td>
+                              <!-- / 상세주소 -->
+                              <!-- 회원등급 -->
+                              <td id="grade-${status.index}">${member.ancGradeName}</td>
+                              <!-- / 회원등급 -->
+                              <!-- 건강상태 -->
+                              <td id="grade-${status.index}">${member.ancCategoryName}</td>
+                              <!-- / 건강상태 -->
                             </tr>
                           </c:forEach>
                         </c:if>
                       </tbody>
                         <tfoot class="table-border-bottom-0" id="table-footer">
-                          <c:if test="${empty productList}">
+                          <c:if test="${empty memberList}">
                             <tr>
                               <td>표시할 데이터가 없습니다..</td>
                             </tr>
@@ -251,7 +192,6 @@
     <script src="/resources/admin/js/page-variables.js"></script>
     <script src="/resources/admin/js/pagination-action.js"></script>
     <script src="/resources/admin/js/pagination-composed.js"></script>
-    <script src="/resources/admin/js/product-list.js"></script>
     
   </body>
 </html>

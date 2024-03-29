@@ -9,8 +9,14 @@
 <c:if test='${pageName eq "productList"}'>
   <c:set var="sortDisplayList" value='${fn:split("등록일순,판매 가격순,판매 상태순", ",")}' />
   <c:set var="sortCodeList" value='${fn:split("registerDate,salePrice,saleState", ",")}' />
-  
   <c:set var="placeholder" value="상품명 검색" />
+  <c:set var="asyncUrl" value="/productList/searchAndSort" />
+</c:if>
+<c:if test='${pageName eq "memberList"}'>
+  <c:set var="sortDisplayList" value='${fn:split("회원 ID 오름차순,회원 ID 내림차순", ",")}' />
+  <c:set var="sortCodeList" value='${fn:split("ASC,DSC", ",")}' />
+  <c:set var="placeholder" value="회원 ID 검색" />
+  <c:set var="asyncUrl" value="/memberList/searchAndSort" />
 </c:if>
 <!-- / 페이지별 변수 설정 -->
 
@@ -39,7 +45,7 @@
         <ul class="dropdown-menu">
           <c:forEach var="sortDisplay" items="${sortDisplayList}" varStatus="status">
             <li>
-              <button type="submit" class="dropdown-item" onclick="handleSort('${sortDisplay}', '${sortCodeList[status.index]}')" id="dropdown-sort-item-${status.index}">${sortDisplay}</button>
+              <button type="submit" class="dropdown-item" onclick="handleSort('${sortDisplay}', '${sortCodeList[status.index]}', '${ayncUrl}')" id="dropdown-sort-item-${status.index}">${sortDisplay}</button>
             </li>
           </c:forEach>
         </ul>
@@ -49,7 +55,7 @@
 </nav>
 
 <script>
-function handleSort(sortDisplay, sortCode) {
+function handleSort(sortDisplay, sortCode, asyncUrl) {
 	// Dropdown btn에 보이는 문자 수정
 	let btn = $('#dropdown-sort-btn');
 	btn.empty();
@@ -70,7 +76,7 @@ function asyncSubmit() {
 	$.ajax({
 		type : "GET",
 		dataType : "json",
-		url : "/productList/searchAndSort",
+		url : asyncUrl,
 		data : {
 			"searchKeyword" : searchKeyword.val(),
 			"sortColumnName" : sortColumnName.val()
