@@ -52,6 +52,11 @@ public class SearchAndSortProductController {
 			productDTO.setSortColumnName("SALE_STATE");
 			productDTO.setSortMode("DESC"); // 내림차순 set
 		
+		} else {
+			
+			productDTO.setSortColumnName("REGISTER_DATE");
+			productDTO.setSortMode("ASC");
+			
 		}
 		
 		List<ProductDTO> productDTOList = productDAO.selectAll(productDTO);
