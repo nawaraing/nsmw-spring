@@ -78,28 +78,47 @@ public class MemberDAO {
 	// 해당 아이디가 일치하는 행이 있다면 해당 행의 MEMBER_ID를 선택
 	private static final String SELECTONE_MEMBER_ID_CHECK = "SELECT MEMBER_ID FROM MEMBER WHERE MEMBER_ID = ?";
 	
-	//현재 미지원 기능
-	//회원 탈퇴시 해당하는 MEMBER_ID의 MEMBER_STATE를 'LEAVE'로 변경
-	//해당 회원의 ID 삭제시 구매내역 등 여러 정보가 불일치될 수 있기때문에 회원 상태만 변경함
+
+	   
+	// 마이페이지의 회원정보 조회
+	// SHIPPING_ADDRESS에서 기본값이 가장 큰 정보(기본배송지)를 조회
+	private static final String SELECTONE_MEMBER_MYPAGE = "SELECT M.MEMBER_ID, M.MEMBER_NAME, M.GENDER, M.DAY_OF_BIRTH, M.PHONE_NUMBER, M.EMAIL, MAX_SA.SHIPPING_ADDRESS_ID, MAX_SA.SHIPPING_POSTCODE, MAX_SA.SHIPPING_ADDRESS, MAX_SA.SHIPPING_DETAIL_ADDRESS "
+												        + "FROM MEMBER M "
+												        + "JOIN ("
+												        	+ "SELECT SA.MEMBER_ID, SA.SHIPPING_ADDRESS_ID, SA.SHIPPING_POSTCODE, SA.SHIPPING_ADDRESS, SA.SHIPPING_DETAIL_ADDRESS "
+												        	+ "FROM SHIPPING_ADDRESS SA "
+												        	+ "JOIN ("
+												        		+ "SELECT MAX(SHIPPING_DEFAULT) AS MAX_SHIPPING_DEFAULT "
+												        		+ "FROM SHIPPING_ADDRESS "
+												        		+ "WHERE MEMBER_ID = ?) AS M_SA ON SA.SHIPPING_DEFAULT = M_SA.MAX_SHIPPING_DEFAULT "
+												         + "WHERE SA.MEMBER_ID = ?) MAX_SA "
+												         + "ON M.MEMBER_ID = MAX_SA.MEMBER_ID";
+
+	
+	// 회원가입
+	// 회원가입에 필요한 데이터를 받아 DB에 추가한다
+	private static final String INSERT_MEMBER = "INSERT INTO "
+												+ "MEMBER (MEMBER_ID, MEMBER_NAME, MEMBER_PASSWORD, DAY_OF_BIRTH, GENDER, PHONE_NUMBER, EMAIL) "
+												+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+	
+	// 현재 미지원 기능
+	// 회원 탈퇴시 해당하는 MEMBER_ID의 MEMBER_STATE를 'LEAVE'로 변경
+	// 해당 회원의 ID 삭제시 구매내역 등 여러 정보가 불일치될 수 있기때문에 회원 상태만 변경함
 	private static final String UPDATE_MEMBER_STATE = "UPDATE MEMBER "
 													+ "SET MEMBER_STATE = 'LEAVE' "
 													+ "WHERE MEMBER_ID = ? ";
-
-	// 마이페이지의 회원정보 조회
-	// SHIPPING_ADDRESS에서 기본값이 가장 큰 정보(기본배송지)를 조회
-	private static final String SELECTONE_MEMBER_MYPAGE = "SELECT M.MEMBER_ID, M.MEMBER_NAME, M.GENDER, M.DAY_OF_BIRTH, M.PHONE_NUMBER, M.EMAIL, MAX_SA.SHIPPING_ADDRESS, MAX_SA.SHIPPING_DETAIL_ADDRESS "
-												    	    + "FROM MEMBER M "
-												    	    + "JOIN ("
-												    	    + " SELECT SA.MEMBER_ID, SA.SHIPPING_POSTCODE, SA.SHIPPING_ADDRESS, SA.SHIPPING_DETAIL_ADDRESS "
-												    	    + " FROM SHIPPING_ADDRESS SA "
-												    	    + "JOIN ("
-												    	        + "SELECT MAX(SHIPPING_DEFAULT) AS MAX_SHIPPING_DEFAULT "
-												    	       	+ "FROM SHIPPING_ADDRESS "
-												    	      	+ "WHERE MEMBER_ID = ? "
-												    	        + ") AS M_SA ON SA.SHIPPING_DEFAULT = M_SA.MAX_SHIPPING_DEFAULT "
-												    	        + "WHERE SA.MEMBER_ID = ?"
-												    	        + ") MAX_SA "
-												    	     + "ON M.MEMBER_ID = MAX_SA.MEMBER_ID";
+	
+	
+	// 개인정보 변경(이름, 전화번호, 이메일)
+	// 해당 회원의 개인정보를 변경
+	private static final String UPDATE_MEMBER_INFO = "UPDATE MEMBER SET MEMBER_NAME = ?, PHONE_NUMBER = ?, EMAIL = ? WHERE MEMBER_ID = ?";
+	
+	
+	// 개인정보 변경(비밀번호)
+	// 해당 회원의 개인정보를 변경
+	private static final String UPDATE_MEMBER_PASSWORD = "UPDATE MEMBER SET MEMBER_PASSWORD = ? WHERE MEMBER_ID = ?";
+	
+	
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 //	// 개인정보(정보 및 비밀번호)변경 진입 시 비밀번호 확인
@@ -123,12 +142,6 @@ public class MemberDAO {
 //	// 해당 회원의 건강상태를 선택
 //	private static final String SELECTONE_MEMBER_HEALTH = "SELECT HEALTH FROM MEMBER WHERE M_ID=?";
 //
-//	// 회원가입
-//	// 회원가입에 필요한 데이터를 받아 DB에 추가한다
-	private static final String INSERT_MEMBER = "INSERT INTO "
-								+ "MEMBER (MEMBER_ID, MEMBER_NAME, MEMBER_PASSWORD, DAY_OF_BIRTH, GENDER, PHONE_NUMBER, EMAIL) "
-								+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
 //
 //	// 개인정보변경(이름, 생년월일, 성별, 전화번호, 이메일, 주소)
 //	// 해당 회원의 개인정보를 변경한다
@@ -324,34 +337,71 @@ public class MemberDAO {
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
 	
-	//현재 미지원 기능
+
 	public boolean update(MemberDTO memberDTO) {
 		
 		log.trace("update 진입");
-		
+
 		if (memberDTO.getSearchCondition().equals("memberleave")) {
-			
+
 			log.trace("memberleave 진입");
-			
+
 			int result = jdbcTemplate.update(UPDATE_MEMBER_STATE, memberDTO.getMemberState());
-			
+
 			if (result <= 0) {
-				
+
 				log.error("memberleave update 실패");
-				
+
 				return false;
-				
+
 			}
-			
+
 			log.trace("memberleave update 성공");
+
+			return true;
+
+		} else if (memberDTO.getSearchCondition().equals("memberInfoUpdate")) {
+
+			log.trace("memberInfoUpdate 진입");
+			log.debug("[UPDATE] memberDTO 정보 : " + memberDTO.toString());
+
+			int result = jdbcTemplate.update(UPDATE_MEMBER_INFO, memberDTO.getMemberName(), memberDTO.getPhoneNumber(), memberDTO.getEmail(), memberDTO.getMemberID());
+
+			if (result <= 0) {
+
+				log.error("UPDATE_MEMBER_INFO 실패");
+
+				return false;
+
+			}
+
+			log.trace("UPDATE_MEMBER_INFO 성공");
 			
 			return true;
 			
+		} else if (memberDTO.getSearchCondition().equals("memberPasswordUpdate")) {
+
+			log.trace("memberInfoUpdate 진입");
+			log.debug("[UPDATE] memberDTO 정보 : " + memberDTO.toString());
+			
+			int result = jdbcTemplate.update(UPDATE_MEMBER_PASSWORD, memberDTO.getMemberPassword(), memberDTO.getMemberID());
+
+			if (result <= 0) {
+
+				log.error("UPDATE_MEMBER_INFO 실패");
+				
+				return false;
+
+			}
+
+			log.trace("UPDATE_MEMBER_INFO 성공");
+			
+			return true;
 		}
-		
+
 		log.error("update 실패");
 		return false;
-		
+
 	}
 	
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -508,9 +558,13 @@ class MyPageMainRowMapper implements RowMapper<MemberDTO> {
       memberDTO.setDayOfBirth(rs.getDate("M.DAY_OF_BIRTH"));
       memberDTO.setPhoneNumber(rs.getString("M.PHONE_NUMBER"));
       memberDTO.setEmail(rs.getString("M.EMAIL"));
+      memberDTO.setAncShippingAddressID(rs.getInt("MAX_SA.SHIPPING_ADDRESS_ID"));
+      memberDTO.setAncShippingPostCode(rs.getInt("MAX_SA.SHIPPING_POSTCODE"));
       memberDTO.setAncShippingAddress(rs.getString("MAX_SA.SHIPPING_ADDRESS"));
       memberDTO.setAncShippingAddressDetail(rs.getString("MAX_SA.SHIPPING_DETAIL_ADDRESS"));
       
+      log.debug("[MyPageMainRowMapper] memberDTO 정보 : " + memberDTO.getPhoneNumber());
+
       log.trace("myPageMainRowMapper 완료");
       
       return memberDTO;

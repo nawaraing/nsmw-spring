@@ -23,6 +23,7 @@ public class MemberDTO {
 			
 	private int ancShippingDefault;          	 // 배송지 출력 우선순위
 	private int ancShippingPostCode;      	 	 // 배송지 우편번호
+	private int ancShippingAddressID;       	 // 배송지 아이디
 	private String ancShippingAddress;       	 // 배송지 주소
 	private String ancShippingAddressDetail; 	 // 배송지 상세
 	
