@@ -38,6 +38,8 @@ public class UpdateSubscriptionInfoController {
 		subscriptionInfoDTO.setSearchCondition("updateSubscriptionShippingData");
 		subscriptionInfoDTO.setSubscriptionInfoID(subscriptionInfoID);
 		
+		subscriptionInfoDAO.update(subscriptionInfoDTO);
+		
 		return "subscriptionDetail";
 		
 	}
