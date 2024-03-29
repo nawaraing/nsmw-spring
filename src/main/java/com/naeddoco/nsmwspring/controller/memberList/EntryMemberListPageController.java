@@ -38,7 +38,7 @@ public class EntryMemberListPageController {
 		
 		memberDTO.setSearchCondition("selectAdminMemberListDatas"); // 쿼리 분기명 set
 		memberDTO.setSearchKeyword("%%"); // 검색 키워드 set
-		memberDTO.setSortColumnName("MEMBER_ID"); // 정렬할 컬럼명 set
+		memberDTO.setSortColumnName("M.MEMBER_ID"); // 정렬할 컬럼명 set
 		memberDTO.setSortMode("ASC"); // 정렬 방식 set
 		
 		List<MemberDTO> memberDTOList = memberDAO.selectAll(memberDTO);
