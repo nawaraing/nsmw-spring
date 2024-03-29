@@ -206,9 +206,11 @@ public class MemberDAO {
 			
 			sqlQuery += " ORDER BY " + memberDTO.getSortColumnName() + " " + memberDTO.getSortMode();
 			
+			Object[] args = { memberDTO.getSearchKeyword() };
+			
 			try {
 				
-				return jdbcTemplate.query(sqlQuery, new joinMemberInfoRowMapper());
+				return jdbcTemplate.query(sqlQuery, args, new joinMemberInfoRowMapper());
 				
 			} catch (Exception e) {
 				
