@@ -33,6 +33,8 @@ public class CouponDTO {
 	
 	private String ancSearchKeyword;	// 검색 키워드
 	private String ancSortColumnName;	// 정렬 키워드
+	private String ancDeployStatus;		// 배포 상태
+	
 	
 	
     @Override
