@@ -11,7 +11,7 @@
 		// TODO
 		data = {
 			productID: $('#product-id-' + i).html(),
-			ansProductName: parseInt($('#product-name-' + i).html()),
+			ancProductName: $('#product-name-' + i).html(),
 			dailyTotalGrossMargine: parseInt($('#total-gross-margine-' + i).html()),
 			dailyTotalNetProfit: parseInt($('#total-net-profit-' + i).html()),
 			dailyTotalQuantity: parseInt($('#total-quantity-' + i).html())
