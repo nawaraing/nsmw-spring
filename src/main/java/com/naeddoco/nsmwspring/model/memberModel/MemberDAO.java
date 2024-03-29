@@ -206,6 +206,8 @@ public class MemberDAO {
 			
 			sqlQuery += " ORDER BY " + memberDTO.getSortColumnName() + " " + memberDTO.getSortMode();
 			
+			System.out.println(sqlQuery);
+			
 			Object[] args = { memberDTO.getSearchKeyword() };
 			
 			try {
