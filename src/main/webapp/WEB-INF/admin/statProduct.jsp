@@ -177,51 +177,7 @@
               </div>
               <!--/ Striped Table -->
               
-              <!-- Pagination -->
-              <div class="row justify-content-center mb-4">
-                <div class="col-md-4">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col">
-                          <div class="demo-inline-spacing">
-                            <nav aria-label="Page navigation">
-                              <ul class="pagination justify-content-center" id="pagination">
-                                <li class="page-item prev">
-                                  <a class="page-link" href="javascript:void(0);"
-                                    ><i class="tf-icon bx bx-chevron-left"></i
-                                  ></a>
-                                </li>
-                                <li class="page-item">
-                                  <a class="page-link" href="javascript:void(0);">1</a>
-                                </li>
-                                <li class="page-item">
-                                  <a class="page-link" href="javascript:void(0);">2</a>
-                                </li>
-                                <li class="page-item active">
-                                  <a class="page-link" href="javascript:void(0);">3</a>
-                                </li>
-                                <li class="page-item">
-                                  <a class="page-link" href="javascript:void(0);">4</a>
-                                </li>
-                                <li class="page-item">
-                                  <a class="page-link" href="javascript:void(0);">5</a>
-                                </li>
-                                <li class="page-item next">
-                                  <a class="page-link" href="javascript:void(0);"
-                                    ><i class="tf-icon bx bx-chevron-right"></i
-                                  ></a>
-                                </li>
-                              </ul>
-                            </nav>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- Pagination -->
+              <custom:adminPagination/>
             </div>
 
             <custom:adminFooter/>
@@ -255,15 +211,22 @@
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
    
-    <!-- CUSTOM JS -->
-    <script src="/resources/admin/js/fill-table.js"></script>
+    <!-- Pagination & Load Page JS -->
+    <script src="/resources/admin/js/fill-stat-table.js"></script>
     <script src="/resources/admin/js/page-composed.js"></script>
+    <script src="/resources/admin/js/page-variables.js"></script>
     <script src="/resources/admin/js/pagination-action.js"></script>
     <script src="/resources/admin/js/pagination-composed.js"></script>
     <script src="/resources/admin/js/stat-product.js"></script>
-    <script src="/resources/admin/js/stat-variables.js"></script>
+    
+    <!-- Search Stat Product JS -->
     <script src="/resources/admin/js/async-search-stat-product.js"></script>
+    
+    <!-- Set Default Date JS -->
     <script src="/resources/admin/js/set-default-date.js"></script>
+    
+    <!-- Utils -->
+    <script src="/resources/admin/js/utils.js"></script>
     
   </body>
   
