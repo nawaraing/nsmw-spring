@@ -23,9 +23,9 @@ let categoryList = [];
 		data = {
 			productName: $('#product-name-' + i).html(),
 			productDetail: $('#product-detail-' + i).html(),
-			costPrice: $('#cost-price-' + i).html(),
-			retailPrice: $('#retail-price-' + i).html(),
-			salePrice: $('#sale-price-' + i).html(),
+			costPrice: parseInt($('#cost-price-' + i).html().replace(/,/g, '')),
+			retailPrice: parseInt($('#retail-price-' + i).html().replace(/,/g, '')),
+			salePrice: parseInt($('#sale-price-' + i).html().replace(/,/g, '')),
 			stock: $('#stock-' + i).html(),
 			ingredient: $('#ingredient-' + i).html(),
 			dosage: $('#dosage-' + i).html(),

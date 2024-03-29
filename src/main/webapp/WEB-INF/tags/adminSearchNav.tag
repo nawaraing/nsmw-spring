@@ -77,6 +77,13 @@ function asyncSubmit() {
 		},
 		success : function(datas) {
 			console.log("curFile after ajax: " + curFile);
+			
+			curDatas = datas;
+			totalPage = calculTotalPage(curDatas.length);
+			curPage = 1;
+			startPage = 1;
+			endPage = 1;
+			console.log('curFile' + curFile);
 			composePage(datas, curFile, "");
 		}
 	});

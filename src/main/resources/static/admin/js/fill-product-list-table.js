@@ -48,15 +48,15 @@ function fillProductListTable(datas) {
             tr.append(td.append(div));
          
 			// 원가
-			td = $('<td id="cost-price-' + rowNum + '">').text(data.costPrice);
+			td = $('<td id="cost-price-' + rowNum + '">').text(data.costPrice.toLocaleString());
 			tr.append(td);
 			
 			// 정가
-			td = $('<td id="retail-price-' + rowNum + '">').text(data.retailPrice);
+			td = $('<td id="retail-price-' + rowNum + '">').text(data.retailPrice.toLocaleString());
 			tr.append(td);
 			
 			// 판매가
-			td = $('<td id="sale-price-' + rowNum + '">').text(data.salePrice);
+			td = $('<td id="sale-price-' + rowNum + '">').text(data.salePrice.toLocaleString());
 			tr.append(td);
 			
 			// 재고
@@ -102,13 +102,13 @@ function fillProductListTable(datas) {
 			});
             // 상품별 카테고리 표시
 			aTag = $(`<a
-                      class="dropdown-toggle"
-		              href="javascript:void(0)"
-		              id="product-categories-` + rowNum + `"
-		              role="button"
-		              data-bs-toggle="dropdown"
-		              aria-expanded="false"
-		            >`);
+                        class="dropdown-toggle"
+		                href="javascript:void(0)"
+		                id="product-categories-` + rowNum + `"
+		                role="button"
+		                data-bs-toggle="dropdown"
+		                aria-expanded="false"
+		              >`);
             $.each(data.categories, function(productCategoryIdx, productCategory) {
 //				console.log("productCategory: " + productCategory);
 			    span = $('<span class="badge bg-label-info me-1" id="product-' + rowNum + '-category-' + productCategory + '">').text(productCategory);
@@ -119,11 +119,11 @@ function fillProductListTable(datas) {
 			tr.append(td);
 			
 			// 등록일
-			td = $('<td id="register-date-' + rowNum + '">').text(data.registerDate);
+			td = $('<td id="register-date-' + rowNum + '">').text(moment(data.registerDate).format('YYYY-MM-DD'));
 			tr.append(td);
 			
 			// 마지막 수정일
-			td = $('<td id="modify-date-' + rowNum + '">').text(data.modifyDate);
+			td = $('<td id="modify-date-' + rowNum + '">').text(moment(data.modifyDate).format('YYYY-MM-DD'));
 			tr.append(td);
 			
 			// 판매 상태

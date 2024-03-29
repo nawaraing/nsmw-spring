@@ -255,6 +255,8 @@
     <!-- Utils -->
     <script src="/resources/admin/js/utils.js"></script>
     <script src="/resources/admin/js/checkbox.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    
     
     <!-- Pagination & Load Page JS -->
     <script src="/resources/admin/js/fill-product-list-table.js"></script>
