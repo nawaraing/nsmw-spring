@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.naeddoco.nsmwspring.model.imageModel.ImageDTO;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Repository("productImageDAO")
@@ -19,6 +21,8 @@ public class ProductImageDAO {
 	private JdbcTemplate jdbcTemplate;
 	
 	private static final String INSERT = "INSERT INTO PRODUCT_IMAGE (IMAGE_ID, PRODUCT_ID) VALUES (?, ?)";
+	
+	private static final String DELETE = "DELETE FROM PRODUCT_IMAGE WHERE IMAGE_ID = ?";
 	
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/		
 		
@@ -41,6 +45,42 @@ public class ProductImageDAO {
 		return true;
 		
 	}
+	
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+
+	public boolean delete(ProductImageDTO productImageDTO) {
+		
+		int result = 0;
+		
+		if(productImageDTO.getSearchCondition().equals("deleteAdminProductImageDatas")) {
+			
+			try {
+				
+				result = jdbcTemplate.update(DELETE, productImageDTO.getImageID());
+				
+				if(result <= 0) {
+					
+					log.debug("deleteAdminProductImageDatas 실패");
+			
+					return false;
+				
+				}
+			
+			} catch (Exception e) {
+				
+				log.debug("deleteAdminProductImageDatas 예외 발생");
+				
+				return false;
+				
+			}
+			
+		}	
+			
+		log.debug("delete 성공");
+			
+		return true;
+			
+	}	
 		
 }
 

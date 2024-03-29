@@ -9,6 +9,8 @@ public class ProductImageDTO {
 	private int imageID; // 이미지 아이디
 	private int productID; // 상품 아이디
 	
+	private String searchCondition;
+	
 	@Override
 	public String toString() {
 		
