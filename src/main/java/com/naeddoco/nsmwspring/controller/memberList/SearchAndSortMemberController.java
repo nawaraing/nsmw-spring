@@ -42,7 +42,13 @@ public class SearchAndSortMemberController {
 			
 			memberDTO.setSortMode("DESC");
 			
+		} else {
+			
+			memberDTO.setSortMode("ASC");
+			
 		}
+		
+		System.out.println(memberDTO);
 		
 		List<MemberDTO> memberDTOList = memberDAO.selectAll(memberDTO);
 		

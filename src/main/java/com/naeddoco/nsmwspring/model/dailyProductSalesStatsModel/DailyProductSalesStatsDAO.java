@@ -26,16 +26,16 @@ public class DailyProductSalesStatsDAO {
 	private static final String SELECTALL_ADMIN_STAT_DATA = "SELECT "
 																+ "DPS.PRODUCT_ID, "
 																+ "P.PRODUCT_NAME ,"
-																+ "DPS.DAILY_TOTAL_CALCULATE_DATE, "
-																+ "DPS.DAILY_TOTAL_QUANTITY, "
-																+ "DPS.DAILY_TOTAL_GROSS_MARGINE, "
-																+ "DPS.DAILY_TOTAL_NET_PROFIT "
+																+ "SUM(DPS.DAILY_TOTAL_QUANTITY) AS DAILY_TOTAL_QUANTITY, "
+																+ "SUM(DPS.DAILY_TOTAL_GROSS_MARGINE) AS DAILY_TOTAL_GROSS_MARGINE, "
+																+ "SUM(DPS.DAILY_TOTAL_NET_PROFIT) AS DAILY_TOTAL_NET_PROFIT "
 															+ "FROM "
 																+ "DAILY_PRODUCT_SALES_STATS DPS "
 															+ "JOIN "
 																+ "PRODUCT P ON DPS.PRODUCT_ID = P.PRODUCT_ID "
 															+ "WHERE "
-																+ "DPS.DAILY_TOTAL_CALCULATE_DATE BETWEEN ? AND ? ";
+																+ "DPS.DAILY_TOTAL_CALCULATE_DATE BETWEEN ? AND ? "
+																+ "GROUP BY DPS.PRODUCT_ID, P.PRODUCT_NAME";
 
 		
 
@@ -178,17 +178,15 @@ class SelectAdminDailyProductSalesStatsRowMapper implements RowMapper<DailyProdu
 		
 		data.setProductID(rs.getInt("DPS.PRODUCT_ID"));
 		data.setAncProductName(rs.getString("P.PRODUCT_NAME"));
-		data.setDailyTotalCalculateDate(rs.getDate("DPS.DAILY_TOTAL_CALCULATE_DATE"));
-		data.setDailyTotalQuantity(rs.getInt("DPS.DAILY_TOTAL_QUANTITY"));
-		data.setDailyTotalGrossMargine(rs.getInt("DPS.DAILY_TOTAL_GROSS_MARGINE"));
-		data.setDailyTotalNetProfit(rs.getInt("DPS.DAILY_TOTAL_NET_PROFIT"));
+		data.setDailyTotalQuantity(rs.getInt("DAILY_TOTAL_QUANTITY"));
+		data.setDailyTotalGrossMargine(rs.getInt("DAILY_TOTAL_GROSS_MARGINE"));
+		data.setDailyTotalNetProfit(rs.getInt("DAILY_TOTAL_NET_PROFIT"));
 			
 		log.debug("DPS.PRODUCT_ID : " + Integer.toString(rs.getInt("DPS.PRODUCT_ID")));
 		log.debug("PRODUCT_NAME : " + rs.getString("P.PRODUCT_NAME"));
-		log.debug("DAILY_TOTAL_CALCULATE_DATE : " + sdf.format(rs.getDate("DPS.DAILY_TOTAL_CALCULATE_DATE")));
-		log.debug("DAILY_TOTAL_QUANTITY : " + Integer.toString(rs.getInt("DPS.DAILY_TOTAL_QUANTITY")));
-		log.debug("DAILY_TOTAL_GROSS_MARGINE : " + Integer.toString(rs.getInt("DPS.DAILY_TOTAL_GROSS_MARGINE")));
-		log.debug("DAILY_TOTAL_NET_PROFIT : " + Integer.toString(rs.getInt("DPS.DAILY_TOTAL_NET_PROFIT")));
+		log.debug("DAILY_TOTAL_QUANTITY : " + Integer.toString(rs.getInt("DAILY_TOTAL_QUANTITY")));
+		log.debug("DAILY_TOTAL_GROSS_MARGINE : " + Integer.toString(rs.getInt("DAILY_TOTAL_GROSS_MARGINE")));
+		log.debug("DAILY_TOTAL_NET_PROFIT : " + Integer.toString(rs.getInt("DAILY_TOTAL_NET_PROFIT")));
 		
 		return data;
 	}
