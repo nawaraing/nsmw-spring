@@ -16,7 +16,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light mb-3">
   <div class="container-fluid">
-    <form class="collapse navbar-collapse" action="/${pageName}/searchAndSort" method="GET" id="search-sort-form">
+    <form class="collapse navbar-collapse" onsubmit="asyncSubmit(); return false;" action="/${pageName}/searchAndSort" method="GET" id="search-sort-form">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <div class="d-flex">
@@ -39,7 +39,7 @@
         <ul class="dropdown-menu">
           <c:forEach var="sortDisplay" items="${sortDisplayList}" varStatus="status">
             <li>
-              <button type="button" class="dropdown-item" onclick="handleSort('${sortDisplay}', '${sortCodeList[status.index]}')" id="dropdown-sort-item-${status.index}">${sortDisplay}</button>
+              <button type="submit" class="dropdown-item" onclick="handleSort('${sortDisplay}', '${sortCodeList[status.index]}')" id="dropdown-sort-item-${status.index}">${sortDisplay}</button>
             </li>
           </c:forEach>
         </ul>
@@ -50,18 +50,22 @@
 
 <script>
 function handleSort(sortDisplay, sortCode) {
-	let searchKeyword = $("#search-keyword");
-	let sortColumnName = $("#sort-column-name");
- 
 	// Dropdown btn에 보이는 문자 수정
 	let btn = $('#dropdown-sort-btn');
 	btn.empty();
 	btn.text(sortDisplay);
 	
 	// Controller에 submit할 value 추가
+	let sortColumnName = $("#sort-column-name");
 	sortColumnName.val(sortCode);
-	console.log("searchKeyword.val() : " + searchKeyword.val());
-	console.log("sortColumnName.val() : " + sortColumnName.val());
+//	asyncSubmit();
+}
+
+function asyncSubmit() {
+	let searchKeyword = $("#search-keyword");
+	let sortColumnName = $("#sort-column-name");
+	console.log("search-keyword: " + searchKeyword.val());
+	console.log("sort-column-name: " + sortColumnName.val());
 	
 	$.ajax({
 		type : "GET",
