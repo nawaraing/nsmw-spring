@@ -37,24 +37,22 @@ public class SearchAndSortProductController {
 		productDTO.setSearchKeyword("%"+searchKeyword+"%"); // 검색 키워드를 set
 		
 		// 정렬 기준이 될 컬럼 결정, 오름차순/내림차순 결정 분기
-		if(sortColumnName == "salePrice") { 
+		if(sortColumnName.equals("salePrice")) { 
 			
-			sortColumnName = "SALE_PRICE";
+			productDTO.setSortColumnName("SALE_PRICE");
 			productDTO.setSortMode("DESC"); // 내림차순 set
 			
-		} else if(sortColumnName == "registerDate") {
+		} else if(sortColumnName.equals("registerDate")) {
 			
-			sortColumnName = "REGISTER_DATE";
+			productDTO.setSortColumnName("REGISTER_DATE");
 			productDTO.setSortMode("ASC"); // 오름차순 set
 			
-		} else if(sortColumnName == "saleState") {
+		} else if(sortColumnName.equals("saleState")) {
 			
-			sortColumnName = "SALE_STATE";
+			productDTO.setSortColumnName("SALE_STATE");
 			productDTO.setSortMode("DESC"); // 내림차순 set
 		
 		}
-		
-		productDTO.setSortColumnName(sortColumnName); // 정렬 기준이 될 컬럼 set
 		
 		List<ProductDTO> productDTOList = productDAO.selectAll(productDTO);
 		

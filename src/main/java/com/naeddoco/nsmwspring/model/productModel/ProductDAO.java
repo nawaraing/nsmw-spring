@@ -132,13 +132,15 @@ public class ProductDAO {
 			String sqlQuery = SELECTALL_CHAR_SEARCH;
 			
 			// ORDER BY를 동적으로 사용하기 위해서 ?를 사용하지 않고, 직접 인자를 붙여주기 위한 방법
-			sqlQuery += "ORDER BY " + productDTO.getSortColumnName() + productDTO.getSortMode(); 
+			sqlQuery += " ORDER BY " + productDTO.getSortColumnName() + " " + productDTO.getSortMode();
+			
+			log.debug(sqlQuery);
 			
 			Object[] args = { productDTO.getSearchKeyword() };
 
 			try {
 
-				return jdbcTemplate.query(SELECTALL_CHAR_SEARCH, args, new selectAllCharSearchRowMapper());
+				return jdbcTemplate.query(sqlQuery, args, new selectAllCharSearchRowMapper());
 
 			} catch (Exception e) {
 
