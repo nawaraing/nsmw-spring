@@ -40,6 +40,24 @@ public class MemberDAO {
 																   "JOIN SUBSCRIPTION_INFO_PRODUCT SIP ON SIP.SUBSCRIPTION_INFO_ID = SI.SUBSCRIPTION_INFO_ID " +
 																   "WHERE M.MEMBER_ID = ?";
 	
+	// 탈퇴여부가 JOIN 상태인 모든 사용자의 데이터를 가져오는 쿼리문
+	private static final String SELECTALL_JOIN_MEMBER_INFO = "SELECT " +
+															 "M.MEMBER_ID, " +
+															 "M.MEMBER_NAME, " +
+															 "M.DAY_OF_BIRTH, " +
+															 "M.GENDER, " +
+															 "M.PHONE_NUMBER, " +
+															 "M.EMAIL, " +
+															 "SA.SHIPPING_POSTCODE, " +
+															 "SA.SHIPPING_ADDRESS, " +
+															 "SA.SHIPPING_DETAIL_ADDRESS, " +
+															 "G.GRADE_NAME, " +
+															 "(SELECT GROUP_CONCAT(C.CATEGORY_NAME SEPARATOR ';') FROM CATEGORY C INNER JOIN MEMBER_CATEGORY MC ON C.CATEGORY_ID = MC.CATEGORY_ID WHERE MC.MEMBER_ID = M.MEMBER_ID) AS CATEGORIES " +
+															 "FROM MEMBER M " +
+															 "INNER JOIN SHIPPING_ADDRESS SA ON SA.MEMBER_ID = M.MEMBER_ID " +
+															 "INNER JOIN GRADE G ON G.GRADE_ID = M.GRADE_ID " +
+															 "WHERE SA.SHIPPING_DEFAULT = 1 AND M.MEMBER_STATE = 'JOIN'";
+	
 	// 로그인(내또코 회원) (+ 마이페이지PW확인)
 	// 아이디와 비밀번호가 같은 행의 MEMBER_ID를 확인
 	// MEMBER_STATE가 JOIN인지도 함께 확인
@@ -127,47 +145,67 @@ public class MemberDAO {
 	
 	public List<MemberDTO> selectAll(MemberDTO memberDTO) {
 		
-		log.trace("selectAll 진입");
+		log.debug("selectAll 진입");
 		
 		if(memberDTO.getSearchCondition().equals("allMember")) {
 			
-			log.trace("allMember 진입");
+			log.debug("allMember 진입");
 			
 			try {
 			
-				return (List<MemberDTO>) jdbcTemplate.query(SELECTALL, new MemberRowMapper());
+				return jdbcTemplate.query(SELECTALL, new MemberRowMapper());
 			
 			} catch (Exception e) {
 				
-				log.error("allMember 에러/실패");
+				log.error("allMember 예외 발생");
 
 				return null;
 			}
 			
 		} else if(memberDTO.getSearchCondition().equals("selectSubscriptionDatas")) {
 			
-			log.trace("selectSubscriptionDatas 진입");
+			log.debug("selectSubscriptionDatas 진입");
 			
 			Object[] args = { memberDTO.getMemberID() };
 			
 			try {
 				
-				return (List<MemberDTO>) jdbcTemplate.query(SELECTALL, args, new MemberRowMapper());
+				return jdbcTemplate.query(SELECTALL_SUBSCRIPTION_BY_MEMBER, args, new selectSubscriptionDatasRowMapper());
 			
 			} catch (Exception e) {
 				
-				log.error("selectSubscriptionDatas 실패");
+				log.error("selectSubscriptionDatas 예외 발생");
 
 				return null;
+				
 			}
 			
-		}		
+		} else if(memberDTO.getSearchCondition().equals("selectAdminMemberListDatas")) {
+			
+			log.debug("selectAdminMemberListDatas 진입");
+			
+			try {
+				
+				return jdbcTemplate.query(SELECTALL_JOIN_MEMBER_INFO, new MemberRowMapper());
+				
+			} catch (Exception e) {
+				
+				log.error("selectAdminMemberListDatas 예외 발생");
+
+				return null;
+				
+			}
+			
+		}
+		
 		log.error("selectAll 실패");
 		
 		return null;
 
 	}
 
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+	
 	public MemberDTO selectOne(MemberDTO memberDTO) {
 
 		log.trace("selectOne 진입");
@@ -283,7 +321,6 @@ public class MemberDAO {
 
 	}
 
-		
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
 	
