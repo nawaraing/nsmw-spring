@@ -43,7 +43,7 @@
 				
 				<!-- 프로필 버튼 -->
 				<c:if test="${not empty memberID}">
-					<a href="/myPage" class="my-auto"> <i class="fas fa-user fa-2x"></i>
+					<a href="/user/myPage" class="my-auto"> <i class="fas fa-user fa-2x"></i>
 					</a>
 				</c:if>
 				<!-- 프로필 버튼 -->

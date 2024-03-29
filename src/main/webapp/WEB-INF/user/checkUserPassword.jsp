@@ -46,7 +46,7 @@
 	<%-- 세션 확인 후 없으면 메인으로 --%>
 	<custom:emthySessionAndGoToMain/>
 	
-		<!-- 로그인 실패 모달 -->
+		<!-- 로그인 실패 모달?????????????????? -->
 	<c:if test="${checkResult != null}">
 		<c:if test="${checkResult == false}">
 			<script type="text/javascript">
@@ -69,8 +69,11 @@
 	<script type="text/javascript">
 		function checkPw() {
 			// 사용자가 입력한 아이디 가져오기
-			var mPassword = $("#mPassword").val();
-			if (mPassword === "") {
+			var memberPassword = $("#memberPassword").val();
+			
+			console.log("비번 : " + memberPassword);
+			
+			if (memberPassword === "") {
 				Swal.fire({
 					icon : 'error',
 					title : '비밀번호 검사',
@@ -81,18 +84,18 @@
 			// AJAX 요청 보내기
 			$.ajax({
 				type : "POST", // 또는 "GET"
-				url : "checkPw", // 서버에서 아이디 중복 확인을 처리할 PHP 파일 경로
+				url : "/checkPw", // 서버에서 아이디 중복 확인을 처리할 PHP 파일 경로
 				data : {
-					'mPassword' : mPassword
+					'memberPassword' : memberPassword
 				},
 				success : function(data) {
-					if (data === "diffPw") {
+					if (data == "fail") {
 						Swal.fire({
 							icon : 'error',
 							title : '비밀번호 검사',
 							text : '잘못된 비밀번호 입니다.',
 						})
-					} else {
+					} else if (data == "suc") {
 						var joinForm = document.getElementById("joinForm");
 						joinForm.submit();
 					}
@@ -123,22 +126,21 @@
 	</div>
 	<!-- Single Page Header End -->
 
-
 	<!-- 404 Start -->
 	<div class="container-fluid py-5">
 		<div class="container py-5 text-center">
 			<div class="row justify-content-center">
 				<div class="col-lg-6">
-					<form action="checkUserPassword.do" method="POST" name="joinForm" id="joinForm">
+					<form action="/user/updateUserInfo" method="POST" name="joinForm" id="joinForm">
 						<div class="row g-4">
 							<div class="col-lg-12">
-								<input class="form-control p-3  border-secondary" type="password" name="mPassword" id="mPassword" placeholder="비밀번호 확인" required>
+								<input class="form-control p-3  border-secondary" type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호 확인" required>
 							</div>
 							<div class="col-lg-6">
 								<input class="btn border-secondary text-primary rounded-pill py-3 px-5" type="button" value="확인" onclick="checkPw()">
 							</div>
 							<div class="col-lg-6">
-								<a class="btn border border-secondary text-primary rounded-pill px-5 py-3" href="mypage.do">취소</a>
+								<a class="btn border border-secondary text-primary rounded-pill px-5 py-3" href="/user/myPage">취소</a>
 							</div>
 							<c:set var="where" value="${param.where}" />
 							<input type="hidden" id="where" name="where" value="${where}">
@@ -176,7 +178,7 @@
 	<!-- JavaScript Libraries -->
 	
 	<!-- Template Javascript -->
-	<script src="js/main.js"></script>
+	<script src="/resources/user/js/main.js"></script>
 	<!-- Template Javascript -->
 	
 	

@@ -23,7 +23,7 @@ public class MyPageController {
 	@Autowired
 	private MemberCategoryService memberCategoryService;
 
-	@RequestMapping(value = "/myPage", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/myPage", method = RequestMethod.GET)
 	public String myPage(MemberDTO memberDTO, MemberCategoryDTO memberCategoryDTO, HttpSession session, Model model) {
 
 		System.out.println("[log] MyPageController 진입");
@@ -39,12 +39,15 @@ public class MyPageController {
 		memberDTO.setSearchCondition("myPageMain");
 		memberDTO.setMemberID(memberID);
 		memberDTO = memberService.selectOne(memberDTO);
+		
+		System.out.println("[myPage] memberDTO 정보 : " + memberDTO.getPhoneNumber());
+		System.out.println("[myPage] memberDTO 정보 : " + memberDTO.getAncShippingAddressID());
 
 		if (memberCategoryList.size() < 1) {
 			
 			System.out.println("[MyPageController] 회원 카테고리 없음");
 
-			memberDTO.setAncMemberCategoryName("");
+			memberDTO.setAncCategoryName("");
 			
 		} else {
 			
@@ -58,15 +61,15 @@ public class MyPageController {
 				
 			}
 			
-			memberDTO.setAncMemberCategoryName(memberCategory);
+			memberDTO.setAncCategoryName(memberCategory);
 			
-			System.out.println("회원 카테고리 : " + memberDTO.getAncMemberCategoryName());
+			System.out.println("회원 카테고리 : " + memberDTO.getAncCategoryName());
 			
 		}
 
 		model.addAttribute("memberInfo", memberDTO);
 
-		return "user/myPage";
+		return "/user/myPage";
 	}
 
 }

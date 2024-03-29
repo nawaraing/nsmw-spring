@@ -47,43 +47,12 @@
 	<!-- Spinner End -->
 
 
-	<!-- Navbar start -->
+	<!-- 로고가 포홤된 헤더 시작 -->
 	<div class="container-fluid fixed-top">
-		<custom:commonHeader/>
-		<div class="container px-0">
-			<nav class="navbar navbar-light bg-white navbar-expand-xl">
-				<!-- 로고 버튼 -->
-				<a href="mainPage.do" class="navbar-brand">
-  					<img src="img/favicon.png" width="70" alt="대체 텍스트">
-				</a>
-				<a href="mainPage.do" class="navbar-brand">
-  					<img src="img/logo.png" width="250" alt="대체 텍스트">
-				</a>
-				<!-- 로고 버튼 -->
-				<button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-					<span class="fa fa-bars text-primary"></span>
-				</button>
-				<div class="collapse navbar-collapse bg-white" id="navbarCollapse">
-					<div class="navbar-nav mx-auto">
-						<a href="checkUserPasswordPage.do?where=modifyUserInfo" class="nav-item nav-link">개인정보수정</a>
-						<a href="checkUserPasswordPage.do?where=modifyUserPassword" class="nav-item nav-link">비밀번호변경</a> 
-						<a class="btn text-primary mb-0 mt-1" href="buyInfoPage.do" class="nav-item nav-link">구매내역</a> 
-						<a href="reviewInfoPage.do" class="nav-item nav-link">리뷰내역</a> 
-						<a href="couponInfoPage.do" class="nav-item nav-link">쿠폰관리</a></div>
-					<div class="d-flex m-3 me-0">
-						<a class="btn border border-secondary text-primary rounded-pill position-relative my-auto me-4" href="logout.do">로그아웃</a>
-						<a href="cartPage.do" class="position-relative me-4 my-auto"> 
-							<i class="fa fa-shopping-bag fa-2x"></i> 
-						</a> 
-						<a href="mypage.do" class="my-auto"> 
-							<i class="fas fa-user fa-2x"></i>
-						</a>
-					</div>
-				</div>
-			</nav>
-		</div>
+			<custom:commonHeader />		
+			<custom:myPageHeaderWithLogo />		
 	</div>
-	<!-- Navbar End -->
+	<!-- 로고가 포홤된 헤더 끝 -->
 
 
 	<!-- Single Page Header start -->

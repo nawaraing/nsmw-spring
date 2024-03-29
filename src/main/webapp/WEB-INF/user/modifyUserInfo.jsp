@@ -44,6 +44,34 @@
 
 <body>
 
+	<!-- 필수 항목 누락 검사 -->
+	<script>
+		function checkRequirement() {
+			var joinForm = document.getElementById("joinForm");
+			console.log('phoneNumber1 : ' + phoneNumber1);
+			console.log('phoneNumber2 : ' + phoneNumber2);
+			console.log('phoneNumber3 : ' + phoneNumber3);
+			console.log('#phoneNumber1 : ' + document.getElementById("phoneNumber1").value);
+			console.log('#phoneNumber2 : ' + document.getElementById("phoneNumber2").value);
+			console.log('#phoneNumber3 : ' + document.getElementById("phoneNumber3").value);
+			// 기존이랑 text칸 값이랑 같으면 걍 커밋
+			if (phoneNumber1 == document.getElementById("phoneNumber1").value && phoneNumber2 == document.getElementById("phoneNumber2").value && phoneNumber3 == document.getElementById("phoneNumber3").value) {
+				
+				joinForm.submit();
+				// 기존이랑 text칸 값이랑 다르면 인증했을 때 변수에 true가 들어가야 커밋
+			} else if ((phoneNumber1 != document.getElementById("phoneNumber1").value || phoneNumber2 != document.getElementById("phoneNumber2").value) || phoneNumber3 != document.getElementById("phoneNumber3").value && authNumResult == true) {
+				joinForm.submit();
+			} else {
+				Swal.fire({
+					icon : 'error',
+					title : '필수 항목 검사',
+					text : '번호 인증을 진행해주세요.',
+				})
+			}
+		}
+	</script>
+	<!-- 필수 항목 누락 검사 -->
+
 	<%-- 세션 확인 후 없으면 메인으로 --%>
 	<custom:emthySessionAndGoToMain/>
 
@@ -51,20 +79,20 @@
 	<script type="text/javascript">
 		var telResult;
 		function checkTel() {
-			var phoneNum1 = $("#phoneNum1").val();
-			var phoneNum2 = $("#phoneNum2").val();
-			var phoneNum3 = $("#phoneNum3").val();
+			var phoneNumber1 = $("#phoneNumber1").val();
+			var phoneNumber2 = $("#phoneNumber2").val();
+			var phoneNumber3 = $("#phoneNumber3").val();
 			$.ajax({
 				type : "POST",
-				url : "checkTel",
+				url : "/checkTel",
 				data : {
-					'phoneNum1' : phoneNum1,
-					'phoneNum2' : phoneNum2,
-					'phoneNum3' : phoneNum3
+					'phoneNum1' : phoneNumber1,
+					'phoneNum2' : phoneNumber2,
+					'phoneNum3' : phoneNumber3
 				},
 				success : function(data) {
 					telResult = data;
-					var authNum = document.getElementById("authNum");
+					console.log("인증번호 요청값 : " + telResult);
 					authNum.readOnly = false
 				}
 			});
@@ -72,12 +100,15 @@
 	</script>
 	<!-- 휴대폰 인증 요청 -->
 	
+	
+	
 	<!-- 휴대폰 인증번호 확인 -->
 	<script type="text/javascript">
 		var authNumResult = false;
 		function checkAuthNum() {
-			var authNum = $("#authNum").val();
-			if (telResult === authNum) {
+			var authNum = document.getElementById("authNum").value;
+			console.log("사용자가 입력한 인증번호 : " + authNum);
+			if (telResult == authNum) {
 				Swal.fire({
 					icon : 'success',
 					title : '휴대폰 인증',
@@ -104,45 +135,12 @@
 	<!-- Spinner End -->
 
 
-	<!-- Navbar start -->
+	<!-- 로고가 포홤된 헤더 시작 -->
 	<div class="container-fluid fixed-top">
-		<custom:commonHeader/>
-		<div class="container px-0">
-			<nav class="navbar navbar-light bg-white navbar-expand-xl">
-				<!-- 로고 버튼 -->
-				<a href="mainPage.do" class="navbar-brand">
-  					<img src="img/favicon.png" width="70" alt="대체 텍스트">
-				</a>
-				<a href="mainPage.do" class="navbar-brand">
-  					<img src="img/logo.png" width="250" alt="대체 텍스트">
-				</a>
-				<!-- 로고 버튼 -->
-				<button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-					<span class="fa fa-bars text-primary"></span>
-				</button>
-				<div class="collapse navbar-collapse bg-white" id="navbarCollapse">
-					<div class="navbar-nav mx-auto">
-						<a class="btn text-primary mb-0 mt-1" class="btn text-primary mb-0 mt-1" href="checkUserPasswordPage.do?where=modifyUserInfo" class="nav-item nav-link">개인정보수정</a>
-						<a href="checkUserPasswordPage.do?where=modifyUserPassword" class="nav-item nav-link">비밀번호변경</a> 
-						<a href="buyInfoPage.do" class="nav-item nav-link">구매내역</a> 
-						<a href="reviewInfoPage.do" class="nav-item nav-link">리뷰내역</a> 
-						<a href="couponInfoPage.do" class="nav-item nav-link">쿠폰관리</a>
-					</div>
-					<div class="d-flex m-3 me-0">
-						<a class="btn border border-secondary text-primary rounded-pill position-relative my-auto me-4" href="logout.do">로그아웃</a>
-						<button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal">
-							<i class="fas fa-search text-primary"></i>
-						</button>
-						<a href="cartPage.do" class="position-relative me-4 my-auto"> <i class="fa fa-shopping-bag fa-2x"></i>
-						</a> <a href="mypage.do" class="my-auto"> <i class="fas fa-user fa-2x"></i>
-						
-						</a>
-					</div>
-				</div>
-			</nav>
-		</div>
+			<custom:commonHeader />		
+			<custom:myPageHeaderWithLogo />		
 	</div>
-	<!-- Navbar End -->
+	<!-- 로고가 포홤된 헤더 끝 -->
 
 
 	<!-- Single Page Header start -->
@@ -157,57 +155,58 @@
 		<div class="container py-5 text-center">
 			<div class="row justify-content-center">
 				<div class="col-lg-6">
-					<form action="modifyUserInfo.do" method="POST" name="joinForm" id="joinForm" onsubmit="return checkField()">
+					<form action="/user/modifyUserInfo" method="POST" name="joinForm" id="joinForm" >
 						<div class="row g-4">
 							<div class="col-lg-12">
-								<input class="form-control p-3  border-secondary" type="text" value="${memberInfo.mName}" name="mName" placeholder="이름" required>
+								<input class="form-control p-3  border-secondary" type="text" value="${memberInfo.memberName}" name="memberName" placeholder="이름" required>
 							</div>
-							<input class="form-control p-3 border-secondary" type="hidden" id="originPhoneNum" value="${memberInfo.phoneNumber}" readonly required>
+							<input class="form-control p-3 border-secondary" type="hidden" id="phoneNumber" name="phoneNumber" value="${memberInfo.phoneNumber}" readonly required>
 							<div class="col-lg-2">
-								<input class="form-control p-3 border-secondary" type="text" id="phoneNum1" name="phoneNum1" value="010" readonly required>
+								<input class="form-control p-3 border-secondary" type="text" id="phoneNumber1" name="phoneNumber1" value="${phoneNumber1}" required>
 							</div>
 							<div class="col-lg-3">
-								<input class="form-control p-3 border-secondary" type="text" id="phoneNum2" name="phoneNum2" placeholder="0000" required>
+								<input class="form-control p-3 border-secondary" type="text" id="phoneNumber2" name="phoneNumber2" value="${phoneNumber2}" required>
 							</div>
 							<div class="col-lg-3">
-								<input class="form-control p-3 border-secondary" type="text" id="phoneNum3" name="phoneNum3" placeholder="0000" required>
+								<input class="form-control p-3 border-secondary" type="text" id="phoneNumber3" name="phoneNumber3" value="${phoneNumber3}" required>
 							</div>
 							<div class="col-lg-4">
 								<button class="btn border border-secondary text-primary rounded-pill px-4 py-3" type="button" onclick="checkTel()">인증번호 발송</button>
 							</div>
 							<div class="col-lg-8">
-								<input class="form-control p-3 border-secondary" type="text" name="authNum" placeholder="인증번호">
+								<input class="form-control p-3 border-secondary" type="text" name="authNum" id="authNum" placeholder="인증번호">
 							</div>
 							<div class="col-lg-4">
 								<button class="btn border border-secondary text-primary rounded-pill px-4 py-3" type="button" onclick="checkAuthNum()">인증번호 확인</button>
 							</div>
-							<input class="form-control p-3 border-secondary" type="hidden" id="email" placeholder="이메일 아이디"  value="${memberInfo.email}" required>
+							<input class="form-control p-3 border-secondary" type="hidden" id="email" name="email" placeholder="이메일 아이디"  value="${memberInfo.email}" required>
 							<div class="col-lg-4">
-								<input class="form-control p-3 border-secondary" type="text" id="email1" name="email1" placeholder="이메일 아이디" required>
+								<input class="form-control p-3 border-secondary" type="text" id="email1" name="email1" value="${email1}" required>
 							</div>
 							<div class="col-lg-1">
 								<P class="mt-3">@</P>
 							</div>
 							<div class="col-lg-6">
-								<input class="form-control p-3 border-secondary" type="text" id="email2" name="email2" placeholder="이메일 주소" required>
+								<input class="form-control p-3 border-secondary" type="text" id="email2" name="email2" value="${email2}" required>
 							</div>
+							<input class="form-control p-3 border-secondary" type="hidden" id="ancShippingAddressID" name="ancShippingAddressID" value="${memberInfo.ancShippingAddressID}" readonly required>
 							<div class="col-lg-8">
-								<input class="form-control p-3 border-secondary" type="text" value="${memberInfo.mPostCode}" name="zipcode" placeholder="우편번호" readonly required>
+								<input class="form-control p-3 border-secondary" type="text" name="ancShippingPostCode" value="${memberInfo.ancShippingPostCode}"  readonly required>
 							</div>
 							<div class="col-lg-4">
-								<button class="btn border border-secondary text-primary rounded-pill px-4 py-3" type="button" onclick="">우편번호 찾기</button>
+								<button class="btn border border-secondary text-primary rounded-pill px-4 py-3" type="button" onclick="goPopup()">우편번호 찾기</button>
 							</div>
 							<div class="col-lg-6">
-								<input class="form-control p-3 border-secondary " type="text" value="${memberInfo.mAddress}" name="address1" placeholder="도로명 주소" readonly required>
+								<input class="form-control p-3 border-secondary " type="text" name="ancShippingAddress" value="${memberInfo.ancShippingAddress}"  readonly required>
 							</div>
 							<div class="col-lg-6">
-								<input class="form-control p-3 border-secondary" type="text" value="${memberInfo.mDetailedAddress}" name="address2" placeholder="지번 주소" readonly required>
+								<input class="form-control p-3 border-secondary" type="text"  name="ancShippingAddressDetail" value="${memberInfo.ancShippingAddressDetail}" readonly required>
 							</div>
 							<div class="col-lg-6">
 								<button class="btn border border-secondary text-primary rounded-pill px-4 py-3" type="button" onclick="checkRequirement()">수정</button>
 							</div>
 							<div class="col-lg-6">
-								<a class="btn border border-secondary text-primary rounded-pill px-5 py-3" href="mypage.do">취소</a>
+								<a class="btn border border-secondary text-primary rounded-pill px-5 py-3" href="/user/myPage">취소</a>
 							</div>
 						</div>
 					</form>
@@ -242,10 +241,40 @@
 	<script src="/resources/user/lib/owlcarousel/owl.carousel.min.js"></script>
 
 	<!-- Template Javascript -->
-	<script src="js/main.js"></script>
+	<script src="/resources/user/js/main.js"></script>
+	
+		<!-- 주소 api 자바스크립트 -->
+	<script language="javascript">
+		// opener관련 오류가 발생하는 경우 아래 주석을 해지하고, 사용자의 도메인정보를 입력합니다. 
+		// (＂팝업 API 호출 소스"도 동일하게 적용시켜야 합니다.)
+		//document.domain = "abc.go.kr";
+		function goPopup() {
+
+			//경로는 시스템에 맞게 수정하여 사용
+			//호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://business.juso.go.kr/addrlink/addrLinkUrl.do)를
+			//호출하게 됩니다.
+			var pop = window.open("/jusoPopup.jsp", "pop",
+					"width=570,height=420, scrollbars=yes, resizable=yes");
+
+			//** 2017년 5월 모바일용 팝업 API 기능 추가제공 **/
+			// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서
+			// 실제 주소검색 URL(https://business.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
+			// var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
+		}
+
+		function jusoCallBack(zipNo, roadAddrPart1, addrDetail) {
+
+			// 2017년 2월 제공항목이 추가되었습니다. 원하시는 항목을 추가하여 사용하시면 됩니다.
+			document.joinForm.ancShippingPostCode.value = zipNo;
+			document.joinForm.ancShippingAddress.value = roadAddrPart1;
+			document.joinForm.ancShippingAddressDetail.value = addrDetail;
+
+		}
+	</script>
+	<!-- 주소 api 자바스크립트 -->
 
 	<script>
-		function checkField() {
+/* 		function checkField() {
 
 			if (!document.joinForm.MID.value) {
 
@@ -257,55 +286,36 @@
 
 			}
 
-		}
+		} */
 	</script>
-	
-		<!-- 필수 항목 누락 검사 -->
-	<script>
-		function checkRequirement() {
-			var joinForm = document.getElementById("joinForm");
-			console.log('phoneNum1 : ' + phoneNum1);
-			console.log('phoneNum2 : ' + phoneNum2);
-			console.log('#phoneNum1 : ' + document.getElementById("phoneNum2").value);
-			console.log('#phoneNum2 : ' + document.getElementById("phoneNum3").value);
-			if (phoneNum1 == document.getElementById("phoneNum2").value && phoneNum2 == document.getElementById("phoneNum3").value) {
-				joinForm.submit();
-			} else if ((phoneNum1 != document.getElementById("phoneNum2").value || phoneNum2 != document.getElementById("phoneNum3").value) && authNumResult == true) {
-				joinForm.submit();
-			} else {
-				Swal.fire({
-					icon : 'error',
-					title : '필수 항목 검사',
-					text : '번호 인증을 진행해주세요.',
-				})
-			}
-		}
-	</script>
-	<!-- 필수 항목 누락 검사 -->
 	
 
+	
 	<!-- phoneNumber 파싱 -->
-	<script type="text/javascript">
-	    var originPhoneNum = $("#originPhoneNum").val();
-	    console.log('originPhoneNum : ' + originPhoneNum);
-	    var phoneNums = originPhoneNum.split('-');
+ 	<script type="text/javascript">
+/* 	    var phoneNumber = $("#phoneNumber").val();
+	    console.log('phoneNumber : ' + phoneNumber);
+	    var phoneNums = phoneNumber.split('-');
 	    console.log('phoneNums : ' + phoneNums);
-	    var phoneNum0 = phoneNums[0];
-	    var phoneNum1 = phoneNums[1];
-	    var phoneNum2 = phoneNums[2];
+	    var phoneNumber1 = phoneNums[0];
+	    var phoneNumber2 = phoneNums[1];
+	    var phoneNumber3 = phoneNums[2];
+		console.log('phoneNumber1 : ' + phoneNumber1);
+		console.log('phoneNumber2 : ' + phoneNumber2);
+		console.log('phoneNumber3 : ' + phoneNumber3);
 	    document.getElementById("phoneNum1").value = phoneNum0;
 	    document.getElementById("phoneNum2").value = phoneNum1;
-	    document.getElementById("phoneNum3").value = phoneNum2;
+	    document.getElementById("phoneNum3").value = phoneNum2; */
 	</script>
 	
 	<!-- email 파싱 -->
-	<script type="text/javascript">
-	    var originEmail = $("#email").val();
-	    console.log('originEmail : ' + originEmail);
-	    var emails = originEmail.split('@');
-	    console.log('emails : ' + emails);
+ 	<script type="text/javascript">
+/* 	    var tempEmail = $("#email").val();
+	    console.log('email : ' + email);
+	    var email = tempEmail.split('@');
+	    console.log('email : ' + email);
 	    document.getElementById("email1").value = emails[0];
-	    document.getElementById("email2").value = emails[1];
+	    document.getElementById("email2").value = emails[1]; */
 	</script>
 
 

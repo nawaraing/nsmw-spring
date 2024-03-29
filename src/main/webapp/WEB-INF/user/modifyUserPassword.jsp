@@ -48,7 +48,7 @@
 	<script type="text/javascript">
 		var pwSame = false;
 		function pwSameCheck() {
-			if ($('#password').val() == $('#confirmPassword').val()) {
+			if ($('#memberPassword').val() == $('#confirmPassword').val()) {
 				pwSame = true
 				Swal.fire({
 					icon : 'success',
@@ -75,7 +75,7 @@
 
 			var reg = new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
 
-			if (!reg.test($('#password').val())) {
+			if (!reg.test($('#memberPassword').val())) {
 				pwFormat = false
 				Swal.fire({
 					icon : 'error',
@@ -92,7 +92,7 @@
 	<!-- 필수 항목 누락 검사 -->
 	<script>
 		function checkRequirement() {
-			if ($("#password").val() == "") {
+			if ($("#memberPassword").val() == "") {
 				Swal.fire({
 					icon : 'error',
 					title : '필수 항목 검사',
@@ -111,17 +111,17 @@
 					text : '영어 대소문자, 숫자, 특수문자를 포함해야합니다.',
 				})
 			} else {
-				var mPassword = $("#password").val();
+				var memberPassword = $("#memberPassword").val();
 
 				// AJAX 요청 보내기
 				$.ajax({
 					type : "POST", // 또는 "GET"
-					url : "checkPw", // 서버에서 아이디 중복 확인을 처리할 PHP 파일 경로
+					url : "/checkPw", // 서버에서 아이디 중복 확인을 처리할 PHP 파일 경로
 					data : {
-						'mPassword' : mPassword
+						'memberPassword' : memberPassword
 					},
 					success : function(data) {
-						if (data === "samePw") {
+						if (data == "suc") {
 							Swal.fire({
 								icon : 'error',
 								title : '비밀번호 검사',
@@ -145,44 +145,12 @@
 	<!-- Spinner End -->
 
 
-	<!-- Navbar start -->
+	<!-- 로고가 포홤된 헤더 시작 -->
 	<div class="container-fluid fixed-top">
-		<custom:commonHeader/>
-		<div class="container px-0">
-			<nav class="navbar navbar-light bg-white navbar-expand-xl">
-				<!-- 로고 버튼 -->
-				<a href="mainPage.do" class="navbar-brand">
-  					<img src="img/favicon.png" width="70" alt="대체 텍스트">
-				</a>
-				<a href="mainPage.do" class="navbar-brand">
-  					<img src="img/logo.png" width="250" alt="대체 텍스트">
-				</a>
-				<!-- 로고 버튼 -->
-				<button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-					<span class="fa fa-bars text-primary"></span>
-				</button>
-				<div class="collapse navbar-collapse bg-white" id="navbarCollapse">
-					<div class="navbar-nav mx-auto">
-						<a href="checkUserPasswordPage.do?where=modifyUserInfo" class="nav-item nav-link">개인정보수정</a>
-						<a class="btn text-primary mb-0 mt-1" href="checkUserPasswordPage.do?where=modifyUserPassword" class="nav-item nav-link">비밀번호변경</a> 
-						<a href="buyInfoPage.do" class="nav-item nav-link">구매내역</a> 
-						<a href="reviewInfoPage.do" class="nav-item nav-link">리뷰내역</a> 
-						<a href="couponInfoPage.do" class="nav-item nav-link">쿠폰관리</a>
-					</div>
-					<div class="d-flex m-3 me-0">
-						<a class="btn border border-secondary text-primary rounded-pill position-relative my-auto me-4" href="logout.do">로그아웃</a>
-						<button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal">
-							<i class="fas fa-search text-primary"></i>
-						</button>
-						<a href="cartPage.do" class="position-relative me-4 my-auto"> <i class="fa fa-shopping-bag fa-2x"></i>
-						</a> <a href="mypage.do" class="my-auto"> <i class="fas fa-user fa-2x"></i>
-						</a>
-					</div>
-				</div>
-			</nav>
-		</div>
+			<custom:commonHeader />		
+			<custom:myPageHeaderWithLogo />		
 	</div>
-	<!-- Navbar End -->
+	<!-- 로고가 포홤된 헤더 끝 -->
 
 
 	<!-- Single Page Header start -->
@@ -197,10 +165,10 @@
 		<div class="container py-5 text-center">
 			<div class="row justify-content-center">
 				<div class="col-lg-6">
-					<form action="modifyUserPassword.do" method="POST" name="joinForm" id="joinForm">
+					<form action="/user/modifyUserPassword" method="POST" name="joinForm" id="joinForm">
 						<div class="row g-4">
 							<div class="col-lg-12">
-								<input class="form-control p-3 border-secondary " type="password" name="mPassword" id="password" placeholder="비밀번호" maxlength="15" onblur="pwFormatCheck()">
+								<input class="form-control p-3 border-secondary " type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호" maxlength="15" onblur="pwFormatCheck()">
 							</div>
 							<div class="col-lg-12">
 								<input class="form-control p-3 border-secondary" type="password" id="confirmPassword" placeholder="재입력" maxlength="15" onblur="pwSameCheck()">
@@ -209,7 +177,7 @@
 								<input class="btn border-secondary text-primary rounded-pill py-3 px-5" type="button" value="수정" onclick="checkRequirement()">
 							</div>
 							<div class="col-lg-6">
-								<a class="btn border border-secondary text-primary rounded-pill px-5 py-3" href="mypage.do">취소</a>
+								<a class="btn border border-secondary text-primary rounded-pill px-5 py-3" href="/user/myPage">취소</a>
 							</div>
 						</div>
 					</form>

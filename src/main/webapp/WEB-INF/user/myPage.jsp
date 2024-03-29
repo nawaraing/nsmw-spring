@@ -49,16 +49,16 @@
 
 	<!-- 로고가 포홤된 헤더 시작 -->
 	<div class="container-fluid fixed-top">
-		<custom:commonHeader />
-		<custom:commonHeaderWithLogo />
+			<custom:commonHeader />		
+			<custom:myPageHeaderWithLogo />		
 	</div>
 	<!-- 로고가 포홤된 헤더 끝 -->
 
 
 	<!-- Single Page Header start -->
-	<div class="container-fluid page-header py-5">
-		<h1 class="text-center text-white display-6">마이페이지</h1>
-	</div>
+<div class="container-fluid page-header py-5" id="pageHeader">
+    <h1 class="text-center text-white display-6">마이페이지</h1>
+</div>
 	<!-- Single Page Header End -->
 
 
@@ -135,7 +135,7 @@
 						</td>
 						<td scope="row">
 							<div class="d-flex align-items-center">
-								<p class="mb-3 mt-4">${memberInfo.ancMemberCategoryName}</p>
+								<p class="mb-3 mt-4">${memberInfo.ancCategoryName}</p>
 							</div>
 						</td>
 					</tr>
