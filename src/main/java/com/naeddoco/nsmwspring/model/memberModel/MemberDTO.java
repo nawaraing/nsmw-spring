@@ -20,10 +20,12 @@ public class MemberDTO {
 	private String memberState;    				 // 회원 탈퇴 여부(가입, 탈퇴 등)
 	
 	private String searchCondition; 			 // 쿼리 분기 지정
-			
+	
+	private String ancGradeName;                 // 등급 이름
+	
+	private int ancShippingAddressID;       	 // 배송지 아이디
 	private int ancShippingDefault;          	 // 배송지 출력 우선순위
 	private int ancShippingPostCode;      	 	 // 배송지 우편번호
-	private int ancShippingAddressID;       	 // 배송지 아이디
 	private String ancShippingAddress;       	 // 배송지 주소
 	private String ancShippingAddressDetail; 	 // 배송지 상세
 	
@@ -42,7 +44,11 @@ public class MemberDTO {
 	private int ancQuantity;                     // 구독 수량
 	private int ancPurchasePrice;                // 구독 시점 개당 가격
 	
-	private String ancCategoryName;				// 카테고리 이름
+	private String ancCategoryName;				 // 카테고리 이름
+	
+	private String searchKeyword;                // 검색 키워드
+	private String sortColumnName;               // 정렬할 컬럼명
+	private String sortMode;                     // 내림차순 or 오름차순인
 	
 	@Override
 	public String toString() {

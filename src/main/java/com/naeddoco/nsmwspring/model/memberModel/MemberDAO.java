@@ -42,8 +42,11 @@ public class MemberDAO {
 	
 	// 탈퇴여부가 JOIN 상태인 모든 사용자의 데이터를 가져오는 쿼리문
 	private static final String SELECTALL_JOIN_MEMBER_INFO = "SELECT " +
-															 "M.MEMBER_ID, " +
-															 "M.MEMBER_NAME, " +
+														     "M.MEMBER_ID, " +
+															 "CASE " +
+															 "WHEN CHAR_LENGTH(M.MEMBER_NAME) <= 3 THEN REPLACE(M.MEMBER_NAME, SUBSTRING(M.MEMBER_NAME, 2, 1), '*') " +
+															 "WHEN CHAR_LENGTH(M.MEMBER_NAME) > 3 THEN REPLACE(M.MEMBER_NAME, SUBSTRING(M.MEMBER_NAME, 2, CHAR_LENGTH(M.MEMBER_NAME) - 2), REPEAT('*', CHAR_LENGTH(M.MEMBER_NAME) - 2)) " +
+															 "END AS MEMBER_NAME, " +
 															 "M.DAY_OF_BIRTH, " +
 															 "M.GENDER, " +
 															 "M.PHONE_NUMBER, " +
@@ -56,7 +59,9 @@ public class MemberDAO {
 															 "FROM MEMBER M " +
 															 "INNER JOIN SHIPPING_ADDRESS SA ON SA.MEMBER_ID = M.MEMBER_ID " +
 															 "INNER JOIN GRADE G ON G.GRADE_ID = M.GRADE_ID " +
-															 "WHERE SA.SHIPPING_DEFAULT = 1 AND M.MEMBER_STATE = 'JOIN'";
+															 "WHERE SA.SHIPPING_DEFAULT = 1 " +
+															 "AND M.MEMBER_STATE = 'JOIN' " +
+															 "AND M.MEMBER_ID LIKE ?";
 	
 	// 로그인(내또코 회원) (+ 마이페이지PW확인)
 	// 아이디와 비밀번호가 같은 행의 MEMBER_ID를 확인
@@ -197,9 +202,13 @@ public class MemberDAO {
 			
 			log.debug("selectAdminMemberListDatas 진입");
 			
+			String sqlQuery = SELECTALL_JOIN_MEMBER_INFO;
+			
+			sqlQuery += " ORDER BY " + memberDTO.getSortColumnName() + " " + memberDTO.getSortMode();
+			
 			try {
 				
-				return jdbcTemplate.query(SELECTALL_JOIN_MEMBER_INFO, new MemberRowMapper());
+				return jdbcTemplate.query(sqlQuery, new joinMemberInfoRowMapper());
 				
 			} catch (Exception e) {
 				
@@ -566,6 +575,36 @@ class MyPageMainRowMapper implements RowMapper<MemberDTO> {
       log.debug("[MyPageMainRowMapper] memberDTO 정보 : " + memberDTO.getPhoneNumber());
 
       log.trace("myPageMainRowMapper 완료");
+      
+      return memberDTO;
+
+   }
+
+}
+
+@Slf4j
+class joinMemberInfoRowMapper implements RowMapper<MemberDTO> {
+
+   @Override
+   public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+      log.debug("joinMemberInfoRowMapper 진입");
+
+      MemberDTO memberDTO = new MemberDTO();
+      
+      memberDTO.setMemberID(rs.getString("M.MEMBER_ID"));
+      memberDTO.setMemberName(rs.getString("MEMBER_NAME"));
+      memberDTO.setDayOfBirth(rs.getDate("M.DAY_OF_BIRTH"));
+      memberDTO.setGender(rs.getString("M.GENDER"));
+      memberDTO.setPhoneNumber(rs.getString("M.PHONE_NUMBER"));
+      memberDTO.setEmail(rs.getString("M.EMAIL"));
+      memberDTO.setAncShippingPostCode(rs.getInt("SA.SHIPPING_POSTCODE"));
+      memberDTO.setAncShippingAddress(rs.getString("SA.SHIPPING_ADDRESS"));
+      memberDTO.setAncShippingAddressDetail(rs.getString("SA.SHIPPING_DETAIL_ADDRESS"));
+      memberDTO.setAncGradeName(rs.getString("G.GRADE_NAME"));
+      memberDTO.setAncCategoryName(rs.getString("CATEGORIES"));
+      
+      log.debug("joinMemberInfoRowMapper 완료");
       
       return memberDTO;
 
