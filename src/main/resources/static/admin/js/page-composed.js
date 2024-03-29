@@ -13,6 +13,8 @@ function composePage(datas, fileName, type) {
 		fillStatDateTable(datas, type);
 	} else if (fileName === "statProduct.jsp") {
 		fillStatProductTable(datas, type);
+	} else if (fileName === "productList.jsp") {
+		fillProductListTable(datas);
 	} else {
 		// TODO: error
 		console.log('[error] unexpected fileName: ' + fileName);

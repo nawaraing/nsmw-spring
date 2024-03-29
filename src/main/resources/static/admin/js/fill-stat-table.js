@@ -1,5 +1,5 @@
 /*
- * Fill Table
+ * Fill Stat Table
  */
 
 function fillStatDateTable(datas, type) {
