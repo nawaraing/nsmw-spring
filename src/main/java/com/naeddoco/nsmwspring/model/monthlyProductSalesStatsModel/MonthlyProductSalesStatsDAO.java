@@ -73,7 +73,7 @@ public class MonthlyProductSalesStatsDAO {
 
 		if(monthlyProductSalesStatsDTO.getSearchCondition().equals("selectAdminStatProductDatas")) {
 
-			Object[] args = { monthlyProductSalesStatsDTO.getAncStartMonth(), monthlyProductSalesStatsDTO.getAncEndMonth(), monthlyProductSalesStatsDTO.getAncStartRow(), monthlyProductSalesStatsDTO.getAncSelectMax() };
+			Object[] args = { monthlyProductSalesStatsDTO.getAncStartMonth(), monthlyProductSalesStatsDTO.getAncEndMonth()};
 
 			log.trace("selectAdminStatProductDatas 진입");
 			try {
