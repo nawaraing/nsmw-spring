@@ -74,7 +74,8 @@ function fillMemberListTable(datas) {
 			
 			// 카테고리
             td = $('<td id="member-categories-' + rowNum + '">');
-            $.each(data.ancCategoryName, function(productCategoryIdx, productCategory) {
+            console.log("data.categories : " + data.categories);
+            $.each(data.categories, function(productCategoryIdx, productCategory) {
 				div = $('<div class="badge bg-label-info me-1" id="member-' + rowNum + '-category-' + productCategoryIdx + '">').text(productCategory);
 			    td.append(div);
 			});

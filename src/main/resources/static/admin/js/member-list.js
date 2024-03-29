@@ -28,7 +28,7 @@ let categoryList = [];
 			ancShippingAddress: $('#address-' + i).html(),
 			ancShippingAddressDetail: $('#address-detail-' + i).html(),
 			ancGradeName: $('#grade-' + i).html(),
-			ancCategoryName: categories,
+			categories: categories,
 		};
 		
 		curDatas.push(data);
