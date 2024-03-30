@@ -15,6 +15,8 @@ import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
 
 import jakarta.servlet.http.HttpSession;
 
+// 상품을 검색/정렬하는 컨트롤러
+
 @Controller
 public class SearchAndSortProductController {
 

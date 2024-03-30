@@ -13,6 +13,8 @@ import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
 
 import jakarta.servlet.http.HttpSession;
 
+// 회원목록에 진입하는 컨트롤러
+
 @Controller
 public class EntryMemberListPageController {
 	

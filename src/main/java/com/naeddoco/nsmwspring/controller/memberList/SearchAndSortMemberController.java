@@ -8,13 +8,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.naeddoco.nsmwspring.model.memberModel.MemberDAO;
 import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
 
 import jakarta.servlet.http.HttpSession;
 
+// 회원 목록 페이지 검색/정렬 컨트롤러
+
 @Controller
+@ResponseBody
 public class SearchAndSortMemberController {
 	
 	@Autowired

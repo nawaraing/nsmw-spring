@@ -20,6 +20,8 @@ import com.naeddoco.nsmwspring.model.productImageModel.ProductImageDTO;
 
 import jakarta.servlet.http.HttpSession;
 
+// 관리자 페이지에서 상품의 이미지를 변경하는 컨트롤러
+
 @Controller
 public class UpdateProductImageController {
 	

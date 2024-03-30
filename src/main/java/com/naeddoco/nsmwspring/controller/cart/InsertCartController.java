@@ -15,6 +15,8 @@ import com.naeddoco.nsmwspring.model.productModel.ProductService;
 
 import jakarta.servlet.http.HttpSession;
 
+// 장바구니에 상품을 추가하는 컨트롤러
+
 @Controller
 public class InsertCartController {
 	

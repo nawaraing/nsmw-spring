@@ -14,6 +14,8 @@ import com.naeddoco.nsmwspring.model.subscriptionInfoProductModel.SubscriptionIn
 
 import jakarta.servlet.http.HttpSession;
 
+// 사용자가 구독을 삭제하는 컨트롤러
+
 @Controller
 public class DeleteSubscriptionInfoController {
 	

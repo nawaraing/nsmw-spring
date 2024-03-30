@@ -13,6 +13,8 @@ import com.naeddoco.nsmwspring.model.cartModel.CartService;
 
 import jakarta.servlet.http.HttpSession;
 
+// 장바구니 페이지에 진입하는 컨트롤러
+
 @Controller
 public class EntryCartPageController {
 

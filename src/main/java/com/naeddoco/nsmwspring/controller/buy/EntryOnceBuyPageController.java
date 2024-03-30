@@ -19,6 +19,8 @@ import com.naeddoco.nsmwspring.model.memberModel.MemberService;
 
 import jakarta.servlet.http.HttpSession;
 
+// 바로구매, 한번만 구매 버튼을 누를시, 구매 페이지로 넘어가는 컨트롤러
+
 @Controller
 public class EntryOnceBuyPageController {
 

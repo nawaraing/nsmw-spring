@@ -15,6 +15,8 @@ import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
 
 import jakarta.servlet.http.HttpSession;
 
+// 상품 목록 페이지에 진입하는 컨트롤러
+
 @Controller
 public class EntryProductListPageController {
 	

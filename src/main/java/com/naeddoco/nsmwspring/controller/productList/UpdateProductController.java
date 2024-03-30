@@ -15,6 +15,8 @@ import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
 
 import jakarta.servlet.http.HttpSession;
 
+// 관리자 페이지에서 상품 정보를 변경하는 컨트롤러
+
 @Controller
 public class UpdateProductController {
 

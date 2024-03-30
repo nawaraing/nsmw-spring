@@ -12,6 +12,8 @@ import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDTO;
 
 import jakarta.servlet.http.HttpSession;
 
+// 구독 정보를 업데이트 컨트롤러
+
 @Controller
 public class UpdateSubscriptionInfoController {
 	

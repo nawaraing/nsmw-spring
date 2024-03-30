@@ -13,6 +13,8 @@ import com.naeddoco.nsmwspring.model.memberModel.MemberService;
 
 import jakarta.servlet.http.HttpSession;
 
+// 사용자의 구독 정보 페이지에 이동하는 컨트롤러
+
 @Controller
 public class EntrySubscriptionDetailPageController {
 
