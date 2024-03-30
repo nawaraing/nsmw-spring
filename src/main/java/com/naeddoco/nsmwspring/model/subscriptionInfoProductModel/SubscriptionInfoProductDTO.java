@@ -6,12 +6,14 @@ import lombok.Data;
 public class SubscriptionInfoProductDTO {
 	
 	private int subscriptionInfoProductID; // 인조 식별자
-	private int subscriptionInfoID; // 구독 정보 PK
-	private int productID; // 상품 PK
-	private int quantity; // 수량
-	private int purchasePrice; // 구매 금액
+	private int subscriptionInfoID;        // 구독 정보 PK
+	private int productID; 				   // 상품 PK
+	private int quantity;                  // 수량
+	private int purchasePrice;             // 구매 금액
 	
 	private String searchCondition;
+	
+	private String ancProductName;         // 상품 이름
 	
 	@Override
 	public String toString() {
@@ -21,7 +23,8 @@ public class SubscriptionInfoProductDTO {
 			   "subscriptionInfoID = " + subscriptionInfoID + ", " +
 			   "productID = " + productID + ", " +
 			   "quantity = " + quantity + ", " +
-			   "purchasePrice = " + purchasePrice +
+			   "purchasePrice = " + purchasePrice + ", " +
+			   "ancProductName = " + ancProductName +
 			   "]";
 				
 	}
