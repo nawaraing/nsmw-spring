@@ -19,6 +19,9 @@ public class SubscriptionInfoDTO {
 	
 	private String searchCondition;
 	
+	private int ancTotalPrice;                // 결제 총 금액
+	private Timestamp ancLastPaymentDate;     // 결제 종료일
+	
 	@Override
 	public String toString() {
 		

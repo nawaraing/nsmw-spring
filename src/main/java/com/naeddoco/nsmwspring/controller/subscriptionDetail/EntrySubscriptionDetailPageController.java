@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
-import com.naeddoco.nsmwspring.model.memberModel.MemberService;
+import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDAO;
+import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDTO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -19,10 +20,10 @@ import jakarta.servlet.http.HttpSession;
 public class EntrySubscriptionDetailPageController {
 
 	@Autowired
-	private MemberService memberService;
+	private SubscriptionInfoDAO subscriptionDAO;
 
 	@RequestMapping(value = "subscriptionDetail", method = RequestMethod.GET)
-	public String entrySubscriptionDetail(HttpSession session, Model model, MemberDTO memberDTO) {
+	public String entrySubscriptionDetail(HttpSession session, Model model) {
 
 		// -----------------------------------------------세션 확인 ↓-----------------------------------------------
 
@@ -36,14 +37,15 @@ public class EntrySubscriptionDetailPageController {
 		
 		// -----------------------------------------------구독 정보 습득-----------------------------------------------
 		
-		memberDTO.setSearchCondition("selectSubscriptionDatas");
-		memberDTO.setMemberID(memberID);
+		SubscriptionInfoDTO subscriptionDTO = new SubscriptionInfoDTO();
 		
-		List<MemberDTO> memberDTOList = memberService.selectAll(memberDTO);
+		subscriptionDTO.setSearchCondition("selectSubscriptionDatas");
+		subscriptionDTO.setMemberID(memberID);
 		
-		model.addAttribute("subscriptionInfos", memberDTOList);
+		List<SubscriptionInfoDTO> subscriptionDTOList = subscriptionDAO.selectAll(subscriptionDTO);
 		
-
+		model.addAttribute("subscriptionInfos", subscriptionDTOList);
+		
 		return "subscriptionDetail";
 
 	}

@@ -1,8 +1,15 @@
 package com.naeddoco.nsmwspring.model.subscriptionInfoModel;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,6 +19,19 @@ public class SubscriptionInfoDAO {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	// 사용자의 구독 정보를 불러오는 쿼리
+	private static final String SELECTALL_SUBSCRIPTION_INFO = "SELECT " +
+															  "SI.BEGIN_DATE, " +
+															  "TOTAL_PRICE, " +
+															  "SI.NEXT_PAYMENT_DATE, " +
+															  "DATE_ADD(SI.BEGIN_DATE, INTERVAL (SI.SUBSCRIPTION_CLOSING_TIMES - 1) MONTH) AS LAST_PAYMENT_DATE, " +
+															  "SI.SUBSCRIPTION_POSTCODE, " +
+															  "SI.SUBSCRIPTION_ADDRESS, " +
+															  "SI.SUBSCRIPTION_DETAIL_ADDRESS " +
+															  "FROM SUBSCRIPTION_INFO SI " +
+															  "LEFT JOIN (SELECT SIP.SUBSCRIPTION_INFO_ID, SUM(SIP.PURCHASE_PRICE) * SUM(SIP.QUANTITY) AS TOTAL_PRICE FROM SUBSCRIPTION_INFO_PRODUCT SIP GROUP BY SIP.SUBSCRIPTION_INFO_ID) AS TOTAL_PRICE_TABLE ON SI.SUBSCRIPTION_INFO_ID = TOTAL_PRICE_TABLE.SUBSCRIPTION_INFO_ID " +
+															  "WHERE MEMBER_ID = ?";
 
 	// PK값으로 배송 주소를 수정하는 쿼리
 	private static final String UPDATE_ADDRESS = "UPDATE SUBSCRIPTION_INFO " +
@@ -22,6 +42,39 @@ public class SubscriptionInfoDAO {
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
+	public List<SubscriptionInfoDTO> selectAll(SubscriptionInfoDTO subscriptionInfoDTO) {
+
+		log.debug("selectAll 진입");
+
+		if (subscriptionInfoDTO.getSearchCondition().equals("selectSubscriptionDatas")) {
+
+			log.debug("selectSubscriptionDatas 진입");
+			
+			Object[] args = { subscriptionInfoDTO.getMemberID() };
+
+			try {
+
+				return jdbcTemplate.query(SELECTALL_SUBSCRIPTION_INFO, args, new selectAllSubscriptionInfoRowMapper());
+
+			} catch (Exception e) {
+
+				log.debug("selectSubscriptionDatas 예외 발생");
+
+				return null;
+
+			}
+
+		} 
+
+		log.debug("selectAll 실패");
+
+		return null;
+
+	}
+	
+	
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+	
 	public boolean update(SubscriptionInfoDTO subscriptionInfoDTO) {
 
 		log.debug("update 진입");
@@ -89,4 +142,30 @@ public class SubscriptionInfoDAO {
 		
 	}
 	
+}
+
+@Slf4j
+class selectAllSubscriptionInfoRowMapper implements RowMapper<SubscriptionInfoDTO> {
+
+	@Override
+	public SubscriptionInfoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		log.debug("selectAllSubscriptionInfoRowMapper 진입");
+
+		SubscriptionInfoDTO subscriptionInfoDTO = new SubscriptionInfoDTO();
+
+		subscriptionInfoDTO.setBeginDate(rs.getTimestamp("SI.BEGIN_DATE"));
+		subscriptionInfoDTO.setAncTotalPrice(rs.getInt("TOTAL_PRICE"));
+		subscriptionInfoDTO.setNextPaymentDate(rs.getTimestamp("SI.NEXT_PAYMENT_DATE"));
+		subscriptionInfoDTO.setAncLastPaymentDate(rs.getTimestamp("LAST_PAYMENT_DATE"));
+		subscriptionInfoDTO.setSubscriptionPostCode(rs.getInt("SI.SUBSCRIPTION_POSTCODE"));
+		subscriptionInfoDTO.setSubscriptionAddress(rs.getString("SI.SUBSCRIPTION_ADDRESS"));
+		subscriptionInfoDTO.setSubscriptionAddress(rs.getString("SI.SUBSCRIPTION_DETAIL_ADDRESS"));
+		
+		log.debug("getProductDetailRowMapper 완료");
+
+		return subscriptionInfoDTO;
+
+	}
+
 }

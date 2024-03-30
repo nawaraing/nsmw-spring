@@ -1,5 +1,7 @@
 package com.naeddoco.nsmwspring.model.subscriptionInfoModel;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,13 @@ public class SubscriptionInfoServiceImpl implements SubscriptionInfoService {
 	
 	@Autowired
 	private SubscriptionInfoDAO subscriptionInfoDAO;
+	
+	@Override
+	public List<SubscriptionInfoDTO> selectAll(SubscriptionInfoDTO subscriptionInfoDTO){
+		
+		return subscriptionInfoDAO.selectAll(subscriptionInfoDTO);
+		
+	}
 	
 	@Override
 	public boolean update(SubscriptionInfoDTO subscriptionInfoDTO) {
