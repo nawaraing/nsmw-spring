@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @ResponseBody
-public class SearchAndSortMemberController {
+public class AsyncSearchAndSortMemberController {
 	
 	@Autowired
 	MemberDAO memberDAO = new MemberDAO();

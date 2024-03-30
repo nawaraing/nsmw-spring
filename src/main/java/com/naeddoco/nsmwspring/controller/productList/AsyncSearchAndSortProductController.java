@@ -18,13 +18,13 @@ import jakarta.servlet.http.HttpSession;
 // 상품을 검색/정렬하는 컨트롤러
 
 @Controller
-public class SearchAndSortProductController {
+@ResponseBody
+public class AsyncSearchAndSortProductController {
 
 	@Autowired
 	private ProductDAO productDAO;
 
 	@RequestMapping(value = "/productList/searchAndSort", method = RequestMethod.GET)
-	@ResponseBody
 	public List<ProductDTO> searchAndSortProductList(HttpSession session,
 										   @RequestParam("searchKeyword") String searchKeyword, 
 										   @RequestParam("sortColumnName") String sortColumnName) {
