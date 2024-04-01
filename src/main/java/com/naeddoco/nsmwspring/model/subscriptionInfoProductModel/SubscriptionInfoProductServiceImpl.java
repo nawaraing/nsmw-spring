@@ -18,6 +18,13 @@ public class SubscriptionInfoProductServiceImpl implements SubscriptionInfoProdu
 	}
 	
 	@Override
+	public boolean insert(SubscriptionInfoProductDTO subscriptionInfoProductDTO) {
+		
+		return subscriptionInfoProductDAO.insert(subscriptionInfoProductDTO);
+		
+	}
+	
+	@Override
 	public boolean delete(SubscriptionInfoProductDTO subscriptionInfoProductDTO) {
 		
 		return subscriptionInfoProductDAO.delete(subscriptionInfoProductDTO);

@@ -9,6 +9,7 @@ public class BuyInfoDTO {
 	
 	private int buyInfoID; 					// 구매 내역 아이디
 	private String memberID; 				// 회원 아이디
+	private int subscriptionInfoID;         // 구독 정보 아이디
 	private Timestamp buyDate; 				// 구매일
 	private int deliveryPostcode; 			// 배송지 우편번호
 	private String deliveryAddress; 		// 배송지 주소
@@ -20,15 +21,16 @@ public class BuyInfoDTO {
     @Override
 	public String toString() {
 		
-		return "BuyInfoDTO ["
-			    + "buyInfoID = " + buyInfoID + ", "
-				+ "memberID = " + memberID + ", "
-				+ "buyDate = " + buyDate + ", " 
-				+ "deliveryPostcode = " + deliveryPostcode + ", " 
-				+ "deliveryAddress = " + deliveryAddress + ", "
-				+ "deliveryDetailAddress = " + deliveryDetailAddress + ", " 
-				+ "orderState = " + orderState
-				+ "]";
+		return "BuyInfoDTO [" +
+			   "buyInfoID = " + buyInfoID + ", " +
+			   "memberID = " + memberID + ", " +
+			   "subscriptionInfoID = " + subscriptionInfoID + ", " +
+			   "buyDate = " + buyDate + ", " +
+			   "deliveryPostcode = " + deliveryPostcode + ", " +
+			   "deliveryAddress = " + deliveryAddress + ", " +
+			   "deliveryDetailAddress = " + deliveryDetailAddress + ", " +
+			   "orderState = " + orderState +
+			   "]";
 		
 	}
     

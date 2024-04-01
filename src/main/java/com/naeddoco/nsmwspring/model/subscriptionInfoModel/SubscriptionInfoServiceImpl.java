@@ -21,6 +21,13 @@ public class SubscriptionInfoServiceImpl implements SubscriptionInfoService {
 	}
 	
 	@Override
+	public boolean insert(SubscriptionInfoDTO subscriptionInfoDTO) {
+		
+		return subscriptionInfoDAO.insert(subscriptionInfoDTO);
+		
+	}
+	
+	@Override
 	public boolean update(SubscriptionInfoDTO subscriptionInfoDTO) {
 		
 		return subscriptionInfoDAO.update(subscriptionInfoDTO);

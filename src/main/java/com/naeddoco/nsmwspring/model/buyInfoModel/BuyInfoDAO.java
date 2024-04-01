@@ -21,13 +21,16 @@ public class BuyInfoDAO {
 
 	private static final String SELECTALL_GET_NOT_BUY_PRODUCT = "";
 
-	private static final String SELECTONE = "";
-
-	private static final String INSERT = "";
-
-	private static final String UPDATE = "";
-
-	private static final String DELETE = "";
+	// 구매내역을 추가하는 쿼리
+	private static final String INSERT_BUY_INFO = "INSERT INTO BUY_INFO (" +
+												 "MEMBER_ID, " +
+												 "SUBSCRIPTION_INFO_ID, " +
+												 "BUY_DATE, " +
+												 "DELIVERY_POSTCODE, " +
+												 "DELIVERY_ADDRESS, " +
+												 "DELIVERY_DETAIL_ADDRESS, " +
+												 "ORDER_STATE" +
+												 ") VALUES (?, ?, current_date(), ?, ?, ?,'PAY')";
 
 	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -59,35 +62,46 @@ public class BuyInfoDAO {
 
 	}
 
-	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-	public BuyInfoDTO selectOne(BuyInfoDTO buyInfoDTO) {
-
-		return null;
-
-	}
-
-	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public boolean insert(BuyInfoDTO buyInfoDTO) {
 
-		return false;
+		log.debug("insert 진입");
 
-	}
+		int result = 0;
 
-	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+		if (buyInfoDTO.getSearchCondition().equals("selectSubscriptionDatas")) {
+			
+			log.debug("selectSubscriptionDatas 진입");
 
-	public boolean update(BuyInfoDTO buyInfoDTO) {
+			try {
+			
+				result = jdbcTemplate.update(INSERT_BUY_INFO, 
+										     buyInfoDTO.getMemberID(),
+										     buyInfoDTO.getBuyInfoID(),
+										     buyInfoDTO.getDeliveryPostcode(),
+										     buyInfoDTO.getDeliveryAddress(),
+										     buyInfoDTO.getDeliveryDetailAddress());
 
-		return false;
+			} catch (Exception e) {
+			
+				log.debug("selectSubscriptionDatas 예외 발생");
 
-	}
+				return false;
 
-	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+			}
+			
+		}
 
-	public boolean delete(BuyInfoDTO buyInfoDTO) {
+		if (result <= 0) {
 
-		return false;
+			return false;
+
+		}
+		
+		log.debug("insert 처리 실패");
+
+		return true;
 
 	}
 

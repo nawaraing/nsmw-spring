@@ -33,6 +33,18 @@ public class SubscriptionInfoDAO {
 															  "LEFT JOIN (SELECT SIP.SUBSCRIPTION_INFO_ID, SUM(SIP.PURCHASE_PRICE) * SUM(SIP.QUANTITY) AS TOTAL_PRICE FROM SUBSCRIPTION_INFO_PRODUCT SIP GROUP BY SIP.SUBSCRIPTION_INFO_ID) AS TOTAL_PRICE_TABLE ON SI.SUBSCRIPTION_INFO_ID = TOTAL_PRICE_TABLE.SUBSCRIPTION_INFO_ID " +
 															  "WHERE MEMBER_ID = ?";
 
+	// 사용자의 구독 정보를 추가하는 쿼리
+	private static final String INSERT_SUBSCRIPTION_INFO = "INSERT INTO SUBSCRIPTION_INFO (" +
+														   "MEMBER_ID, " +
+														   "BEGIN_DATE, " +
+														   "SUBSCRIPTION_TIMES, " +
+														   "NEXT_PAYMENT_DATE, " +
+														   "SUBSCRIPTION_POSTCODE, " +
+														   "SUBSCRIPTION_ADDRESS, " +
+														   "SUBSCRIPTION_DETAIL_ADDRESS, " +
+														   "SUBSCRIPTION_CLOSING_TIMES" +
+														   ") VALUES (?, ?, 1, DATE_ADD(BEGIN_DATE, INTERVAL (1) MONTH), ?, ?, ?, ?)";
+	
 	// PK값으로 배송 주소를 수정하는 쿼리
 	private static final String UPDATE_ADDRESS = "UPDATE SUBSCRIPTION_INFO " +
 												 "SET SUBSCRIPTION_POSTCODE = ?, SUBSCRIPTION_ADDRESS = ?, SUBSCRIPTION_DETAIL_ADDRESS = ? " +
@@ -69,6 +81,49 @@ public class SubscriptionInfoDAO {
 		log.debug("selectAll 실패");
 
 		return null;
+
+	}
+	
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+	
+	public boolean insert(SubscriptionInfoDTO subscriptionInfoDTO) {
+
+		log.debug("insert 진입");
+
+		int result = 0;
+
+		if (subscriptionInfoDTO.getSearchCondition().equals("insertSubscriptionData")) {
+			
+			log.debug("insertSubscriptionData 진입");
+
+			try {
+			
+				result = jdbcTemplate.update(INSERT_SUBSCRIPTION_INFO, 
+											 subscriptionInfoDTO.getMemberID(),
+											 subscriptionInfoDTO.getBeginDate(),
+											 subscriptionInfoDTO.getSubscriptionPostCode(),
+											 subscriptionInfoDTO.getSubscriptionAddress(),
+											 subscriptionInfoDTO.getSubscriptionDetailAddress());
+
+			} catch (Exception e) {
+			
+				log.debug("insertSubscriptionData 예외 발생");
+
+				return false;
+
+			}
+			
+		}
+
+		if (result <= 0) {
+
+			return false;
+
+		}
+		
+		log.debug("insert 처리 실패");
+
+		return true;
 
 	}
 	
