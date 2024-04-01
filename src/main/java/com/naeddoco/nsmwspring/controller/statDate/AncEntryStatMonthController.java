@@ -37,6 +37,9 @@ public class AncEntryStatMonthController {
         // 월 차이 계산을 위해 자료형 변경
         LocalDate locakStartMonth = LocalDate.parse(ancStartMonth + "-01");
         LocalDate locakEndMonth = LocalDate.parse(ancEndMonth + "-01");
+        
+        System.out.println("변경된 검색 시작일 : " + locakStartMonth);
+        System.out.println("변경된 검색 종료일 : " + locakEndMonth);
 
         // 월차이 계산
         long months = ChronoUnit.MONTHS.between(locakStartMonth, locakEndMonth);

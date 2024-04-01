@@ -28,7 +28,7 @@ public class InsertCartController {
 	@RequestMapping(value = "/insertCart", method = RequestMethod.POST)
 	public @ResponseBody String insertCart(CartDTO cartDTO, ProductDTO productDTO, Model model, HttpSession session, 
 			 								@RequestParam("productID") int productID,
-			 								@RequestParam("productQuantity") int productQuantity) {	
+			 								@RequestParam("stock") int productQuantity) {	
 		
 		System.out.println("[log] 메인페이지 InsertCart 진입");
 		
@@ -52,9 +52,8 @@ public class InsertCartController {
 		productDTO.setProductID(productID);
 		productDTO = productService.selectOne(productDTO);
 		
-		System.out.println("[log] InsertCart 상품 재고 : " + productDTO.getStock());
-		
-		String productStock = Integer.toString(productDTO.getStock());
+		// 장바구니에 담으려는 상품의 수량 저장
+		String productStock = String.valueOf(productDTO.getStock()); 
 		
 		if(productStock == null || productDTO.getStock() < 1) {
 

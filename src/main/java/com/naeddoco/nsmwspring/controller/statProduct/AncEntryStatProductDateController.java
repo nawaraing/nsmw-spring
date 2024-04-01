@@ -19,7 +19,7 @@ import com.naeddoco.nsmwspring.model.dailySalesStatsModel.DailySalesStatsService
 
 // 일별 매출 통계
 @Controller
-public class AncEntryStatStatProductDateController {
+public class AncEntryStatProductDateController {
 	
 	@Autowired
 	private DailyProductSalesStatsService dailyProductSalesStatsService;
