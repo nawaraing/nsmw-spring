@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class EntryCouponBatchPageController {
+public class EntryCouponBatchController {
 	
 	@RequestMapping(value = "/couponBatch", method = RequestMethod.GET)
 	public String entryCart() {
