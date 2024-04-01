@@ -33,7 +33,7 @@ public class SubscriptionInfoDAO {
 															  "WHERE MEMBER_ID = ?";
 
 	// 가장 높은 PK값을 가져오는 쿼리
-	private static final String SELECTONE_MAX_PK = "SELECT MAX(SUBSCRIPTION_INFO_ID) AS MAX_PK FROM SUBSCRIPTION_INFO;";
+	private static final String SELECTONE_MAX_PK = "SELECT MAX(SUBSCRIPTION_INFO_ID) AS MAX_PK FROM SUBSCRIPTION_INFO";
 	
 	// 사용자의 구독 정보를 추가하는 쿼리
 	private static final String INSERT_SUBSCRIPTION_INFO = "INSERT INTO SUBSCRIPTION_INFO (" +

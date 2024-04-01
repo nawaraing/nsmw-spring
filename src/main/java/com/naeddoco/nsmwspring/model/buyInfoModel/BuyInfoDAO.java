@@ -10,6 +10,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDTO;
+import com.naeddoco.nsmwspring.model.subscriptionInfoModel.selectMaxPKRowMapper;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Repository("buyInfoDAO")
@@ -20,6 +23,9 @@ public class BuyInfoDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	private static final String SELECTALL_GET_NOT_BUY_PRODUCT = "";
+	
+	// 가장 높은 PK값을 가져오는 쿼리
+	private static final String SELECTONE_MAX_PK = "SELECT MAX(SUBSCRIPTION_INFO_ID) AS MAX_PK FROM BUY_INFO";
 
 	// 구매내역을 추가하는 쿼리
 	private static final String INSERT_BUY_INFO = "INSERT INTO BUY_INFO (" +
@@ -62,6 +68,36 @@ public class BuyInfoDAO {
 
 	}
 
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+	public BuyInfoDTO selectOne(BuyInfoDTO buyInfoDTO) {
+		
+		log.debug("selectOne 진입");
+
+		if(buyInfoDTO.getSearchCondition().equals("insertSubscriptionData")) {
+			
+			log.debug("insertSubscriptionData 진입");
+		
+			try {
+				
+				return jdbcTemplate.queryForObject(SELECTONE_MAX_PK, new selectMaxPKRowMapper());
+				
+			} catch (Exception e) {
+				
+				log.debug("insertSubscriptionData 예외처리");
+				
+				return null;
+				
+			}
+			
+		}
+		
+		log.debug("selectOne 실패");
+		
+		return null;
+		
+	}
+	
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public boolean insert(BuyInfoDTO buyInfoDTO) {
@@ -139,6 +175,26 @@ class getNotBuyProductRowMapper implements RowMapper<BuyInfoDTO> {
 		log.debug(rs.getString("ORDER_STATE"));
 
 		return data;
+
+	}
+
+}
+
+@Slf4j
+class selectMaxPKRowMapper implements RowMapper<BuyInfoDTO> {
+
+	@Override
+	public BuyInfoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		log.debug("selectMaxPKRowMapper 진입");
+		
+		BuyInfoDTO buyInfoDTO = new BuyInfoDTO();
+		
+		buyInfoDTO.setMaxPk(rs.getInt("MAX_PK"));
+
+		log.debug("selectMaxPKRowMapper 완료");
+		
+		return buyInfoDTO;
 
 	}
 

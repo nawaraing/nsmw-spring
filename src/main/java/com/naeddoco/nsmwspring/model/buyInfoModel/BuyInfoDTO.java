@@ -18,6 +18,8 @@ public class BuyInfoDTO {
 	
     private String searchCondition; 		// 쿼리 분기 지정
     
+    private int maxPk;                      // 가장 높은 PK 
+    
     @Override
 	public String toString() {
 		
@@ -29,7 +31,8 @@ public class BuyInfoDTO {
 			   "deliveryPostcode = " + deliveryPostcode + ", " +
 			   "deliveryAddress = " + deliveryAddress + ", " +
 			   "deliveryDetailAddress = " + deliveryDetailAddress + ", " +
-			   "orderState = " + orderState +
+			   "orderState = " + orderState + ", " +
+			   "maxPk = " + maxPk +
 			   "]";
 		
 	}
