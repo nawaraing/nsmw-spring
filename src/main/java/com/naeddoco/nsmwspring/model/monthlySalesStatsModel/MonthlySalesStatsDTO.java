@@ -13,7 +13,7 @@ public class MonthlySalesStatsDTO {
 	private String searchCondition; 			// 쿼리 분기
 	
 												// FK
-	private Date ancStartMonth;					// 검색 기간 시작월
+	private Date ancStartMonth;				// 검색 기간 시작월
 	private Date ancEndMonth;					// 검색 기간 마지막월
 	
 }
