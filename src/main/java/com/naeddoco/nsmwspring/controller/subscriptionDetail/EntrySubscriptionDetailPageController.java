@@ -46,7 +46,7 @@ public class EntrySubscriptionDetailPageController {
 		
 		model.addAttribute("subscriptionInfos", subscriptionDTOList);
 		
-		return "subscriptionDetail";
+		return "user/subscriptionInfo";
 
 	}
 
