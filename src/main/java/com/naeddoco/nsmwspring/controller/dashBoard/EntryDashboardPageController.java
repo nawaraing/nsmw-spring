@@ -11,7 +11,7 @@ import com.naeddoco.nsmwspring.model.dailySalesStatsModel.DailySalesStatsDTO;
 import com.naeddoco.nsmwspring.model.dailySalesStatsModel.DailySalesStatsService;
 
 @Controller
-public class DashboardPageController {
+public class EntryDashboardPageController {
 	
 	@Autowired
 	private DailySalesStatsService dailySalesStatsService;
