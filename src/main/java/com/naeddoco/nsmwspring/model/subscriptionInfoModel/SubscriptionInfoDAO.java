@@ -22,6 +22,7 @@ public class SubscriptionInfoDAO {
 	
 	// 사용자의 구독 정보를 불러오는 쿼리
 	private static final String SELECTALL_SUBSCRIPTION_INFO = "SELECT " +
+															  "SI.SUBSCRIPTION_INFO_ID " +
 															  "SI.BEGIN_DATE, " +
 															  "TOTAL_PRICE, " +
 															  "SI.NEXT_PAYMENT_DATE, " +
@@ -209,6 +210,7 @@ class selectAllSubscriptionInfoRowMapper implements RowMapper<SubscriptionInfoDT
 
 		SubscriptionInfoDTO subscriptionInfoDTO = new SubscriptionInfoDTO();
 
+		subscriptionInfoDTO.setSubscriptionInfoID(rs.getInt("SUBSCRIPTION_INFO_ID"));
 		subscriptionInfoDTO.setBeginDate(rs.getTimestamp("SI.BEGIN_DATE"));
 		subscriptionInfoDTO.setAncTotalPrice(rs.getInt("TOTAL_PRICE"));
 		subscriptionInfoDTO.setNextPaymentDate(rs.getTimestamp("SI.NEXT_PAYMENT_DATE"));
