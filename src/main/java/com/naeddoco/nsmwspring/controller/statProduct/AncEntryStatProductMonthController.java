@@ -31,13 +31,12 @@ public class AncEntryStatProductMonthController {
 		
 		System.out.println("[log] 월별 매출통계 요청");
 		
+		// SQL문 양식에 맞춰서 변경(yyyy-mm-dd)
 		ancStartMonth =  ancStartMonth + "-01";
 		ancEndMonth = ancEndMonth + "-01";
 		
         System.out.println("입력된 검색 시작일 : " + ancStartMonth);
         System.out.println("입력된 검색 종료일 : " + ancEndMonth);
-        System.out.println("startMonth 자료형	:" + ancStartMonth.getClass());
-        System.out.println("endMonth 자료형	:" + ancEndMonth.getClass());
         
         // 월 차이 계산을 위해 자료형 변경
         LocalDate locakStartMonth = LocalDate.parse(ancStartMonth);
@@ -56,20 +55,15 @@ public class AncEntryStatProductMonthController {
         	
         }
         
-        // DAO 쿼리문 실행을 위해 sql.Date로 자료형 변경
-        Date sqlStartDate = Date.valueOf(locakStartMonth);
-        Date sqlEndDate = Date.valueOf(locakEndMonth);
-        
         monthlyProductSalesStatsDTO.setSearchCondition("selectAdminStatProductDatas");
-        monthlyProductSalesStatsDTO.setAncStartMonth(sqlStartDate);
-        monthlyProductSalesStatsDTO.setAncEndMonth(sqlEndDate);
+        monthlyProductSalesStatsDTO.setAncStartMonth(ancStartMonth);
+        monthlyProductSalesStatsDTO.setAncEndMonth(ancEndMonth);
     	
     	List<MonthlyProductSalesStatsDTO> monthlyProductSalesStats = monthlyProductSalesStatsService.selectAll(monthlyProductSalesStatsDTO);
     	
     	if(monthlyProductSalesStats == null) {
     		
     		System.out.println("[log] 매출 불러오기 실패");
-    		System.out.println("[log] 리스트에 담긴 index : " + monthlyProductSalesStats.size());
     		
     		return null;
     	}
