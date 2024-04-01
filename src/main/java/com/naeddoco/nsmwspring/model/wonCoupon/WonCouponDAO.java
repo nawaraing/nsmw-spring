@@ -30,9 +30,10 @@ public class WonCouponDAO {
 	
 	//관리자페이지에서 쿠폰정보 변경시 사용
 	private static final String UPDATE = "UPDATE WON_COUPON "
-										+ "SET COUPON_DISCOUNT_AMOUNT = ?, "
+										+ "SET "
+											+ "COUPON_DISCOUNT_AMOUNT = ?, "
 											+ "MIN_ORDER_AMOUNT = ? "
-										+ "WHERE COUPON_ID = ?";
+										+ "WHERE WON_COUPON_ID = ?";
 	
 	private static final String DELETE = "";
 	
@@ -91,8 +92,8 @@ public class WonCouponDAO {
 			log.trace("updateAdminCouponGradeData 진입");
 
 			int result = jdbcTemplate.update(UPDATE, wonCouponDTO.getCouponDiscountAmount(), 
-													wonCouponDTO.getMinOrderAmount(),
-													wonCouponDTO.getCouponID());
+													 wonCouponDTO.getMinOrderAmount(),
+													 wonCouponDTO.getWonCouponID());
 		
 			if(result <= 0) {
 				log.error("updateAdminCouponGradeData 실패");

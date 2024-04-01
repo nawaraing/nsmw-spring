@@ -31,9 +31,11 @@ public class PercentageCouponDAO {
 	
 	//관리자페이지에서 쿠폰정보 변경시 사용
 	private static final String UPDATE = "UPDATE PERCENTAGE_COUPON "
-										+ "SET COUPON_DISCOUNT_RATE = ?, "
+										+ "SET "
+											+ "COUPON_ID = ?, "
+											+ "COUPON_DISCOUNT_RATE = ?, "
 											+ "MAX_DISCOUNT_AMOUNT = ? "
-										+ "WHERE COUPON_ID = ?";
+										+ "WHERE PERCENTAGE_COUPON_ID = ?";
 	
 	private static final String DELETE = "";
 	
@@ -95,9 +97,10 @@ public class PercentageCouponDAO {
 
 			log.trace("updateAdminCouponGradeData 진입");
 
-			int result = jdbcTemplate.update(UPDATE, percentageCouponDTO.getCouponDiscountRate(), 
+			int result = jdbcTemplate.update(UPDATE, percentageCouponDTO.getCouponID(),
+													percentageCouponDTO.getCouponDiscountRate(), 
 													percentageCouponDTO.getMaxDiscountAmount(),
-													percentageCouponDTO.getCouponID());
+													percentageCouponDTO.getPercentageCouponID());
 		
 			if(result <= 0) {
 				log.error("updateAdminCouponGradeData 실패");
@@ -117,13 +120,8 @@ public class PercentageCouponDAO {
 	
 	public boolean delete(PercentageCouponDTO percentageCouponDTO) {
 		
-//		int result = jdbcTemplate.update(DELETE);
-//		if(result <= 0) {
-//			log.debug("delete 성공");
 			return false;
-//		}
-//		log.debug("delete 성공");
-//		return true;
+
 	}	
 }
 

@@ -18,20 +18,45 @@ public class ProvisionBatchCouponDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	private static final String SELECTALL = "";
-
+//	private static final String SELECTALL = "";
+	
 	private static final String SELECTONE = "";
 	
-	private static final String INSERT = "";
+	private static final String INSERT = "INSERT INTO PROVISION_BATCH_COUPON (COUPON_ID, DEPLOY_STATUS) "
+										+ "VALUES (?,?)";
 	
-	private static final String UPDATE = "";
 	
-	private static final String DELETE = "";
+	//전체발송쿠폰 정보 변경
+	private static final String UPDATE = "UPDATE PROVISION_BATCH_COUPON "
+										+ "SET "
+											+ "	DEPLOY_STATUS = ? "
+										+ "WHERE PROVISION_BATCH_COUPON_ID = ? ";
 	
+
+	//전체 발송쿠폰 배포상태 = 중단으로 변경
+	private static final String UPDATE_DEPLOY_STATUS = "UPDATE PROVISION_BATCH_COUPON "
+													 + "SET DEPLOY_STATUS = 'STOP' "
+													 + "WHERE PROVISION_BATCH_COUPON_ID = ?";
+	
+
 //------------------------------------------------------------------------------------------------
 	public List<ProvisionBatchCouponDTO> selectAll(ProvisionBatchCouponDTO provisionBatchCouponDTO) {
-		log.debug("selectAll start");
-		return (List<ProvisionBatchCouponDTO>)jdbcTemplate.query(SELECTALL, new ProvisionBatchCouponRowMapper());
+//		log.trace("selectAll 진입");
+//
+//			log.trace("selectAllCouponInfo 진입");
+//
+//			try {
+//
+//				return (List<ProvisionBatchCouponDTO>)jdbcTemplate.query(SELECTALL, new ProvisionBatchCouponRowMapper());
+//
+//			} catch (Exception e) {
+//
+//				log.error("selectAllCoupon 예외/실패");
+
+				return null;
+
+//			}
+
 	}
 
 	
@@ -50,39 +75,70 @@ public class ProvisionBatchCouponDAO {
 
 	
 	public boolean insert(ProvisionBatchCouponDTO provisionBatchCouponDTO) {
-	
-//		int result = jdbcTemplate.update(INSERT);
-//		if(result <= 0) {
-//			log.debug("insert 실패");
-			return false;
-//		}
-//		log.debug("insert 성공");
-//		return true;
-	}
 
+		log.trace("insert 진입");
+
+		if (provisionBatchCouponDTO.getSearchCondition().equals("insertAdminCouponBatchDatas")) {
+			
+			log.trace("insertAdminCouponBatchDatas 처리 진입");
+			
+			int result = jdbcTemplate.update(INSERT,provisionBatchCouponDTO.getCouponID(),
+													provisionBatchCouponDTO.getDeployStatus());
+			
+			if(result <= 0) {
+				
+				log.error("insertAdminCouponBatchDatas 실패");
+				return false;
+			
+			}
+			
+			log.trace("insertAdminCouponBatchDatas 성공");
+			return true;
+		}
+		
+		log.error("insert 실패");
+		return false;
+	}
+	
 	
 	public boolean update(ProvisionBatchCouponDTO provisionBatchCouponDTO) {
-
-//		int result = jdbcTemplate.update(UPDATE);
-//		if(result <= 0) {
-//			log.debug("update 실패");
-			return false;
-//		}
-//		log.debug("update 성공");
-//		return true;
-	}
-
 	
-	public boolean delete(ProvisionBatchCouponDTO provisionBatchCouponDTO) {
+		log.trace("update 진입");
 		
-//		int result = jdbcTemplate.update(DELETE);
-//		if(result <= 0) {
-//			log.debug("delete 성공");
-			return false;
-//		}
-//		log.debug("delete 성공");
-//		return true;
-	}	
+		if (provisionBatchCouponDTO.getSearchCondition().equals("updateAdminCouponBatchDatas")) {
+			
+			int result = jdbcTemplate.update(UPDATE, provisionBatchCouponDTO.getDeployStatus(),
+												     provisionBatchCouponDTO.getProvisionBatchCouponID());
+
+			if(result <= 0) {
+				log.error("updateAdminCouponBatchDatas 실패");
+				return false;
+
+			}
+
+			log.trace("updateAdminCouponBatchDatas 성공");
+			return true;
+		} 
+		else if (provisionBatchCouponDTO.getSearchCondition().equals("stopAdminCouponBatchDatas")) {
+			
+			int result = jdbcTemplate.update(UPDATE_DEPLOY_STATUS, provisionBatchCouponDTO.getProvisionBatchCouponID());
+
+			if(result <= 0) {
+				
+				log.error("stopAdminCouponBatchDatas 실패");
+				return false;
+
+			}
+
+			log.trace("stopAdminCouponBatchDatas 성공");
+			return true;
+			
+		}
+		
+		log.error("update 실패");
+		return false;
+	}
+	
 }
 
 //개발자의 편의를 위해 RowMapper 인터페이스를 사용

@@ -29,9 +29,5 @@ public class ProvisionBatchCouponServiceImpl implements ProvisionBatchCouponServ
 		return provisionBatchCouponDAO.update(provisionBatchCouponDTO);
 	}
 
-	@Override
-	public boolean delete(ProvisionBatchCouponDTO provisionBatchCouponDTO) {
-		return provisionBatchCouponDAO.delete(provisionBatchCouponDTO);
-	}
 
 }

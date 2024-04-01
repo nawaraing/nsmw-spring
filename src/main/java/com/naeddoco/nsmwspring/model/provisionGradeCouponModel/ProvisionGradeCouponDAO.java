@@ -29,10 +29,11 @@ public class ProvisionGradeCouponDAO {
 											+ "VALUES (?,?,?,?)";
 
 		private static final String UPDATE = "UPDATE PROVISION_GRADE_COUPON "
-											+ "SET GRADE_ID = ? ,"
-												+ "DEPLOY_CYCLE = ? "
+											+ "SET "
+												+ "GRADE_ID = ? ,"
+												+ "DEPLOY_CYCLE = ? ,"
 												+ "DEPLOY_BASE = ? "
-											+ "WHERE COUPON_ID = ?";
+											+ "WHERE PROVISION_GRADE_COUPON_ID = ?";
 		
 		private static final String DELETE = "";
 
@@ -109,10 +110,10 @@ public class ProvisionGradeCouponDAO {
 			if (provisionGradeCouponDTO.getSearchCondition().equals("insertAdminCouponGradeData")) {
 				log.trace("insertAdminCouponGradeData 처리 진입");
 
-				result = jdbcTemplate.update(INSERT,provisionGradeCouponDTO.getGradeID(),
-													provisionGradeCouponDTO.getCouponID(),
-													provisionGradeCouponDTO.getDeployCycle(),
-													provisionGradeCouponDTO.getDeployBase());
+				result = jdbcTemplate.update(INSERT, provisionGradeCouponDTO.getGradeID(),
+													 provisionGradeCouponDTO.getCouponID(),
+													 provisionGradeCouponDTO.getDeployCycle(),
+													 provisionGradeCouponDTO.getDeployBase());
 
 				if (result <= 0) {
 
@@ -140,9 +141,9 @@ public class ProvisionGradeCouponDAO {
 				log.trace("updateAdminCouponGradeData 진입");
 
 				int result = jdbcTemplate.update(UPDATE, provisionGradeCouponDTO.getGradeID(), 
-														provisionGradeCouponDTO.getDeployCycle(),
-														provisionGradeCouponDTO.getDeployBase(),
-														provisionGradeCouponDTO.getCouponID());
+														 provisionGradeCouponDTO.getDeployCycle(),
+													     provisionGradeCouponDTO.getDeployBase(),
+													 	 provisionGradeCouponDTO.getProvisionGradeCouponID());
 
 				if(result <= 0) {
 					log.error("updateAdminCouponGradeData 실패");

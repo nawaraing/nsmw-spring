@@ -7,6 +7,5 @@ public interface ProvisionBatchCouponService {
 	public ProvisionBatchCouponDTO selectOne(ProvisionBatchCouponDTO provisionBatchCouponDTO);
 	public boolean insert(ProvisionBatchCouponDTO provisionBatchCouponDTO);
 	public boolean update(ProvisionBatchCouponDTO provisionBatchCouponDTO);
-	public boolean delete(ProvisionBatchCouponDTO provisionBatchCouponDTO);
 
 }
