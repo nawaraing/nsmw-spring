@@ -97,7 +97,7 @@ public class EntryOnceBuyPageController {
         	couponDTO.setSearchCondition("selectAllCoupon");
         	couponDTO.setAncCategoryName(str);
         	
-        	couponList = couponService.selectAll(couponDTO);
+        	couponList.addAll(couponService.selectAll(couponDTO));
         	
         }
         
