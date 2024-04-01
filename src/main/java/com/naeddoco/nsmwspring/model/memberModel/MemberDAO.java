@@ -74,10 +74,17 @@ public class MemberDAO {
 														+ "AND MEMBER_STATE = 'JOIN'";
 	
 	// 한 멤버의 구체적인 정보를 습득하기 위한 쿼리
-	private static final String SELECTONE_MEMBER_INFO = "SELECT m.MEMBER_NAME, m.PHONE_NUMBER, m.EMAIL, sa.SHIPPING_DEFAULT, sa.SHIPPING_POSTCODE, sa.SHIPPING_ADDRESS, sa.SHIPPING_DETAIL_ADDRESS " 
-														+ "FROM MEMBER m "
-													    + "JOIN SHIPPING_ADDRESS sa ON m.MEMBER_ID = sa.MEMBER_ID "
-													    + "WHERE m.MEMBER_ID = ?";
+	private static final String SELECTONE_MEMBER_INFO = "SELECT " +
+														"M.MEMBER_NAME, " +
+														"M.PHONE_NUMBER, " +
+														"M.EMAIL, " +
+														"SA.SHIPPING_POSTCODE, " +
+														"SA.SHIPPING_ADDRESS, " +
+														"SA.SHIPPING_DETAIL_ADDRESS " +
+														"FROM MEMBER M " +
+														"JOIN SHIPPING_ADDRESS SA ON M.MEMBER_ID = SA.MEMBER_ID " +
+														"WHERE M.MEMBER_ID = ?" +
+														"AND SA.SHIPPING_DEFAULT = 1";
 
 	// 아이디 중복검사
 	// 해당 아이디가 일치하는 행이 있다면 해당 행의 MEMBER_ID를 선택
@@ -491,17 +498,16 @@ class SelectMemberInfoRowMapper implements RowMapper<MemberDTO> {
 	public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		log.trace("selectMemberInfoRowMapper 진입");
 
-		MemberDTO data = new MemberDTO();
+		MemberDTO memberDTO = new MemberDTO();
 
-		data.setMemberName(rs.getString("m.MEMBER_NAME"));
-		data.setPhoneNumber(rs.getString("m.PHONE_NUMBER"));
-		data.setEmail(rs.getString("m.EMAIL"));
-		data.setAncShippingDefault(rs.getInt("sa.SHIPPING_DEFAULT"));
-		data.setAncShippingPostCode(rs.getInt("sa.SHIPPING_POSTCODE"));
-		data.setAncShippingAddress(rs.getString("sa.SHIPPING_ADDRESS"));
-		data.setAncShippingAddressDetail(rs.getString("sa.SHIPPING_DETAIL_ADDRESS"));
+		memberDTO.setMemberName(rs.getString("M.MEMBER_NAME"));
+		memberDTO.setPhoneNumber(rs.getString("M.PHONE_NUMBER"));
+		memberDTO.setEmail(rs.getString("M.EMAIL"));
+		memberDTO.setAncShippingPostCode(rs.getInt("SA.SHIPPING_POSTCODE"));
+		memberDTO.setAncShippingAddress(rs.getString("SA.SHIPPING_ADDRESS"));
+		memberDTO.setAncShippingAddressDetail(rs.getString("SA.SHIPPING_DETAIL_ADDRESS"));
 
-		return data;
+		return memberDTO;
 
 	}
 

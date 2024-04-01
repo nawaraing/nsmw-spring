@@ -29,7 +29,7 @@ public class EntryOnceBuyPageController {
 	@Autowired
 	private CouponService couponService;
 	
-	@RequestMapping(value = "buy/once", method = RequestMethod.POST)
+	@RequestMapping(value = "/buy/once", method = RequestMethod.POST)
 	public String entryBuy(HttpSession session,
 						   Model model,
 						   @RequestParam(name = "imagePath[]") List<String> imagePath,
@@ -103,7 +103,7 @@ public class EntryOnceBuyPageController {
         
         model.addAttribute("coupons", couponList);
 		
-		return "user/onceBuy";
+		return "user/buy";
 
 	}
 
