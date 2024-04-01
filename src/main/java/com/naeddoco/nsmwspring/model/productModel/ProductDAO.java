@@ -67,7 +67,7 @@ public class ProductDAO {
 															   "I.IMAGE_PATH " +
 															   "FROM PRODUCT P " +
 															   "JOIN PRODUCT_CATEGORY PC ON P.PRODUCT_ID = PC.PRODUCT_ID " +
-															   "JOIN CATEGORY C ON PC.CATEGORY_ID = C.CATEGORY_ID " +
+															   "JOIN CATEGORY CA ON PC.CATEGORY_ID = CA.CATEGORY_ID " +
 															   "JOIN PRODUCT_IMAGE PI ON P.PRODUCT_ID = PI.PRODUCT_ID " +
 															   "JOIN IMAGE I ON PI.IMAGE_ID = I.IMAGE_ID " +
 															   "WHERE P.PRODUCT_ID = ?";
