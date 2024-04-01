@@ -70,9 +70,9 @@ public class BuyInfoDAO {
 
 		int result = 0;
 
-		if (buyInfoDTO.getSearchCondition().equals("selectSubscriptionDatas")) {
+		if (buyInfoDTO.getSearchCondition().equals("insertSubscriptionData")) {
 			
-			log.debug("selectSubscriptionDatas 진입");
+			log.debug("insertSubscriptionData 진입");
 
 			try {
 			
@@ -85,7 +85,7 @@ public class BuyInfoDAO {
 
 			} catch (Exception e) {
 			
-				log.debug("selectSubscriptionDatas 예외 발생");
+				log.debug("insertSubscriptionData 예외 발생");
 
 				return false;
 

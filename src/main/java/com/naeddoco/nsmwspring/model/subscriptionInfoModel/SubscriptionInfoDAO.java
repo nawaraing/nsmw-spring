@@ -9,8 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Repository("subscriptionInfo")
@@ -34,6 +32,9 @@ public class SubscriptionInfoDAO {
 															  "LEFT JOIN (SELECT SIP.SUBSCRIPTION_INFO_ID, SUM(SIP.PURCHASE_PRICE) * SUM(SIP.QUANTITY) AS TOTAL_PRICE FROM SUBSCRIPTION_INFO_PRODUCT SIP GROUP BY SIP.SUBSCRIPTION_INFO_ID) AS TOTAL_PRICE_TABLE ON SI.SUBSCRIPTION_INFO_ID = TOTAL_PRICE_TABLE.SUBSCRIPTION_INFO_ID " +
 															  "WHERE MEMBER_ID = ?";
 
+	// 가장 높은 PK값을 가져오는 쿼리
+	private static final String SELECTONE_MAX_PK = "SELECT MAX(SUBSCRIPTION_INFO_ID) AS MAX_PK FROM SUBSCRIPTION_INFO;";
+	
 	// 사용자의 구독 정보를 추가하는 쿼리
 	private static final String INSERT_SUBSCRIPTION_INFO = "INSERT INTO SUBSCRIPTION_INFO (" +
 														   "MEMBER_ID, " +
@@ -83,6 +84,36 @@ public class SubscriptionInfoDAO {
 
 		return null;
 
+	}
+	
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+	
+	public SubscriptionInfoDTO selectOne(SubscriptionInfoDTO subscriptionInfoDTO) {
+		
+		log.debug("selectOne 진입");
+
+		if(subscriptionInfoDTO.getSearchCondition().equals("insertSubscriptionData")) {
+			
+			log.debug("insertSubscriptionData 진입");
+		
+			try {
+				
+				return jdbcTemplate.queryForObject(SELECTONE_MAX_PK, new selectMaxPKRowMapper());
+				
+			} catch (Exception e) {
+				
+				log.debug("insertSubscriptionData 예외처리");
+				
+				return null;
+				
+			}
+			
+		}
+		
+		log.debug("selectOne 실패");
+		
+		return null;
+		
 	}
 	
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
@@ -220,6 +251,26 @@ class selectAllSubscriptionInfoRowMapper implements RowMapper<SubscriptionInfoDT
 		subscriptionInfoDTO.setSubscriptionAddress(rs.getString("SI.SUBSCRIPTION_DETAIL_ADDRESS"));
 		
 		log.debug("getProductDetailRowMapper 완료");
+
+		return subscriptionInfoDTO;
+
+	}
+
+}
+
+@Slf4j
+class selectMaxPKRowMapper implements RowMapper<SubscriptionInfoDTO> {
+
+	@Override
+	public SubscriptionInfoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		log.debug("selectMaxPKRowMapper 진입");
+
+		SubscriptionInfoDTO subscriptionInfoDTO = new SubscriptionInfoDTO();
+
+		subscriptionInfoDTO.setMaxPK(rs.getInt("MAX_PK"));
+		
+		log.debug("selectMaxPKRowMapper 완료");
 
 		return subscriptionInfoDTO;
 

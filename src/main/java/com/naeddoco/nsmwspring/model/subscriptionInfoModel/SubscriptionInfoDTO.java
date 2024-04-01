@@ -22,6 +22,8 @@ public class SubscriptionInfoDTO {
 	private int ancTotalPrice;                // 결제 총 금액
 	private Timestamp ancLastPaymentDate;     // 결제 종료일
 	
+	private int maxPK;                        // 가장 높은 PK값
+	
 	@Override
 	public String toString() {
 		
@@ -34,7 +36,8 @@ public class SubscriptionInfoDTO {
 			   "subscriptionPostCode = " + subscriptionPostCode + ", " +
 			   "subscriptionAddress = " + subscriptionAddress + ", " +
 			   "subscriptionDetailAddress = " + subscriptionDetailAddress + ", " +
-			   "subscriptionClosingTimes = " + subscriptionClosingTimes +
+			   "subscriptionClosingTimes = " + subscriptionClosingTimes + ", " +
+			   "maxPK = " + maxPK +
 			   "]";
 				
 	}
