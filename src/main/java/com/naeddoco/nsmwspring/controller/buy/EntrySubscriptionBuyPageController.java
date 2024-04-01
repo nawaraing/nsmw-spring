@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.naeddoco.nsmwspring.model.cartModel.CartDTO;
 import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
 import com.naeddoco.nsmwspring.model.memberModel.MemberService;
+import com.naeddoco.nsmwspring.model.subscriptionPolicyModel.SubscriptionPolicyDTO;
+import com.naeddoco.nsmwspring.model.subscriptionPolicyModel.SubscriptionPolicyService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -23,6 +25,8 @@ public class EntrySubscriptionBuyPageController {
 
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private SubscriptionPolicyService subscriptionPolicyService;
 
 	@RequestMapping(value = "buy/subscription", method = RequestMethod.POST)
 	public String entryBuy(HttpSession session, 
@@ -76,9 +80,16 @@ public class EntrySubscriptionBuyPageController {
 			
 		}
 		
-		//----------------------------------------------- 정보 습득 ↓-----------------------------------------------
-		
 		model.addAttribute("buyProducts", buyProducts); // 모델에 리스트 데이터 저장
+		
+		//----------------------------------------------- 구독 정책 정보 습득 ↓-----------------------------------------------
+		
+		SubscriptionPolicyDTO subscriptionPolicyDTO = new SubscriptionPolicyDTO();
+		
+		List<SubscriptionPolicyDTO> subscriptionPolicyDTOList = subscriptionPolicyService.selectAll(subscriptionPolicyDTO);
+		
+		model.addAttribute("subscriptionPolicy", subscriptionPolicyDTOList);
+		
 
 		return "user/subscriptionBuy";
 
