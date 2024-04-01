@@ -19,4 +19,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 		return orderInfoDAO.selectAll(orderInfoDTO);
 	}
 	
+	@Override
+	public boolean insert(OrderInfoDTO orderInfoDTO) {
+		return orderInfoDAO.insert(orderInfoDTO);
+	}
+	
 }
