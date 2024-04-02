@@ -7,7 +7,7 @@ public class GradeDTO {
 	private int gradeID; 			// 등급 아이디
 	private String gradeName; 		// 등급 이름
 	private int lowerLimit; 		// 등급 산정 최소값
-	private int upperLimit; 			// 등급 산정 최대값
+	private int upperLimit; 		// 등급 산정 최대값
 	
-	private String searchCondition; 	// 쿼리 분기 지정
+	private String searchCondition; // 쿼리 분기 지정
 }

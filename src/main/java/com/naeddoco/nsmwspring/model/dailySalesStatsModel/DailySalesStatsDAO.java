@@ -67,38 +67,39 @@ public class DailySalesStatsDAO {
 
 	public List<DailySalesStatsDTO> selectAll(DailySalesStatsDTO dailySalesStatsDTO) {
 		log.trace("selectAll 진입");
-		
+
 		if(dailySalesStatsDTO.getSearchCondition().equals("selectDashboardDatas")) {
-			
+
 			log.trace("selectDashboardDatas 진입");
-			
+
 			try {
 				return (List<DailySalesStatsDTO>)jdbcTemplate.query(SELECTALL_DASHBOARD_DATA, new DailySalesStatsRowMapper());
-				
+
 			} catch (Exception e) {
 
-				log.error("selectDashboardDatas 예외/실패");
+				log.error("selectDashboardDatas 예외/실패"+ e.getMessage());
 
 				return null;
 			}
 		}
 		else if(dailySalesStatsDTO.getSearchCondition().equals("selectAdminStatDateDatas")) {
-			
+
 			Object[] args = { dailySalesStatsDTO.getAncStartDate(), dailySalesStatsDTO.getAncEndDate()};
 
 			log.trace("selectAdminStatDateDatas 진입");
-			
+
 			try {
-				return (List<DailySalesStatsDTO>)jdbcTemplate.query(SELECTALL_ADMIN_STAT_DATA, args, new DailySalesStatsRowMapper());
+				
+				return(List<DailySalesStatsDTO>)jdbcTemplate.query(SELECTALL_ADMIN_STAT_DATA, args, new DailySalesStatsRowMapper());
 				
 			} catch (Exception e) {
 
-				log.error("selectAdminStatDateDatas 예외/실패");
+				log.error("selectDashboardDatas 예외/실패" + e.getMessage());
 
 				return null;
 			}
 		}
-		
+
 		log.error("selectAll 실패");
 		return null;
 	}

@@ -84,7 +84,7 @@ public class MonthlyProductSalesStatsDAO {
 			}
 			catch (Exception e) {
 				
-				log.error("selectAdminStatProductDatas 예외/실패 " + e.getMessage());
+				log.error("selectAdminStatProductDatas 예외/실패 "+ e.getMessage(), e);
 
 				return null;
 			}
@@ -92,7 +92,6 @@ public class MonthlyProductSalesStatsDAO {
 		log.error("selectAll 실패");
 		return null;
 	}
-
 	
 	public MonthlyProductSalesStatsDTO selectOne(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
 
@@ -178,8 +177,6 @@ class SelectAdminMonthlyProductSalesStatsRowMapper implements RowMapper<MonthlyP
 	@Override
 	public MonthlyProductSalesStatsDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		MonthlyProductSalesStatsDTO data = new MonthlyProductSalesStatsDTO();
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		data.setProductID(rs.getInt("MPS.PRODUCT_ID"));
 		data.setAncProductName(rs.getString("P.PRODUCT_NAME"));

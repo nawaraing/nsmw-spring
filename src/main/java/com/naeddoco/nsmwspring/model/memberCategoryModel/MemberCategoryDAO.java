@@ -28,6 +28,7 @@ public class MemberCategoryDAO {
 
 	private static final String SELECTONE = "";
 	
+	// 회원가입시 멤버카테고리에 추가
 	private static final String INSERT = "INSERT INTO MEMBER_CATEGORY " + "(CATEGORY_ID, MEMBER_ID) " + "VALUES(?, ?)";
 	
 	private static final String UPDATE = "";

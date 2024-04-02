@@ -9,31 +9,31 @@ import org.springframework.stereotype.Service;
 public class MonthlyProductSalesStatsServiceImpl implements MonthlyProductSalesStatsService{
 	
 	@Autowired
-	private MonthlyProductSalesStatsDAO monthlyProductSalesStatsServiceDAO;
+	private MonthlyProductSalesStatsDAO monthlyProductSalesStatsDAO;
 	
 	@Override
 	public List<MonthlyProductSalesStatsDTO> selectAll(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
-		return monthlyProductSalesStatsServiceDAO.selectAll(monthlyProductSalesStatsDTO);
+		return monthlyProductSalesStatsDAO.selectAll(monthlyProductSalesStatsDTO);
 	}
 
 	@Override
 	public MonthlyProductSalesStatsDTO selectOne(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
-		return monthlyProductSalesStatsServiceDAO.selectOne(monthlyProductSalesStatsDTO);
+		return monthlyProductSalesStatsDAO.selectOne(monthlyProductSalesStatsDTO);
 	}
 
 	@Override
 	public boolean insert(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
-		return monthlyProductSalesStatsServiceDAO.insert(monthlyProductSalesStatsDTO);
+		return monthlyProductSalesStatsDAO.insert(monthlyProductSalesStatsDTO);
 	}
 
 	@Override
 	public boolean update(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
-		return monthlyProductSalesStatsServiceDAO.update(monthlyProductSalesStatsDTO);
+		return monthlyProductSalesStatsDAO.update(monthlyProductSalesStatsDTO);
 	}
 
 	@Override
 	public boolean delete(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
-		return monthlyProductSalesStatsServiceDAO.delete(monthlyProductSalesStatsDTO);
+		return monthlyProductSalesStatsDAO.delete(monthlyProductSalesStatsDTO);
 	}
 
 }

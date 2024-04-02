@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class CategoryDTO {
-	
 	private int categoryID; // 인조 식별자
 	private String categoryName; // 이름
 	
