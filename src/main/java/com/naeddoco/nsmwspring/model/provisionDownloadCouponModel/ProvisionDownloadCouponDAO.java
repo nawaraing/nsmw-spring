@@ -18,47 +18,7 @@ public class ProvisionDownloadCouponDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	// 관리자페이지_다운로드 쿠폰 목록 조회
-	// 등록일 오름차순 정렬
-	private static final String SELECTALL = "SELECT DISTINCT "
-											+ "PDC.PROVISION_DOWNLOAD_COUPON_ID, "
-											+ "C.COUPON_NAME, C.CREATE_DATE, "
-											+ "C.DISTRIBUTE_DATE , "
-											+ "C.EXPIRATION_DATE, "
-											+ "CONCAT((SELECT GROUP_CONCAT(CA.CATEGORY_NAME SEPARATOR ';') "
-												+ "FROM CATEGORY CA "
-												+ "JOIN COUPON_CATEGORY CC "
-												+ "ON CA.CATEGORY_ID = CC.CATEGORY_ID "
-												+ "WHERE C.COUPON_ID = CC.COUPON_ID)) AS CATEGORY_NAME, "
-											+ "C.COUPON_TYPE, "
-											+ "CASE "
-												+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
-												+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
-											+ "END AS DISCOUNT, "
-											+ "CASE "
-												+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
-												+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
-											+ "END AS AMOUNT_LIMIT, "
-											+ "PDC.DEPLOY_STATUS, "
-											+ "PDC.DEPLOY_DEADLINE, "
-											+ "I.IMAGE_ID, "
-											+ "I.IMAGE_PATH "
-											+ "FROM "
-												+ "COUPON C "
-											+ "LEFT JOIN "
-												+ "PERCENTAGE_COUPON P ON C.COUPON_ID = P.COUPON_ID "
-											+ "LEFT JOIN "
-												+ "WON_COUPON W ON C.COUPON_ID = W.COUPON_ID "
-											+ "LEFT JOIN "
-												+ "COUPON_CATEGORY CC ON C.COUPON_ID = CC.COUPON_ID "
-											+ "LEFT JOIN "
-												+ "CATEGORY CAT ON CC.CATEGORY_ID = CAT.CATEGORY_ID "
-											+ "JOIN "
-												+ "PROVISION_DOWNLOAD_COUPON PDC ON PDC.COUPON_ID = C.COUPON_ID "
-											+ "LEFT JOIN "
-												+ "IMAGE I ON I.IMAGE_ID = PDC.IMAGE_ID "
-											+ "ORDER BY "
-												+ "C.CREATE_DATE ASC ";
+	private static final String SELECTALL = "";
 	
 	private static final String SELECTONE = "";
 
@@ -76,9 +36,9 @@ public class ProvisionDownloadCouponDAO {
 
 		log.trace("selectAll 진입");
 
-		if (provisionDownloadCouponDTO.getSearchCondition().equals("selectAllAdminCouponDownloadDatas")) {
+		if (provisionDownloadCouponDTO.getSearchCondition().equals("")) {
 
-			log.trace("selectAllAdminCouponDownloadDatas 진입 ");
+			log.trace(" 진입 ");
 
 			try {
 
@@ -86,7 +46,7 @@ public class ProvisionDownloadCouponDAO {
 
 			} catch (Exception e) {
 
-				log.error("selectAllAdminCouponDownloadDatas 예외/실패 ");
+				log.error(" 예외/실패 ");
 
 				return null;
 
