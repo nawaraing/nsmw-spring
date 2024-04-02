@@ -69,6 +69,7 @@ public class EntrySubscriptionBuyPageController {
 
 			CartDTO cartDTO = new CartDTO(); // 카트 DTO 객체 생성
 			
+			cartDTO.setCartID(cartID.get(i));
 			cartDTO.setAncImagePath(imagePath.get(i)); // DTO에 이미지 경로 데이터를 set
 			cartDTO.setAncProductName(productName.get(i)); // DTO에 상품 이름 데이터 set
 			cartDTO.setAncSalePrice(salePrice.get(i)); // DTO에 상품 가격 데이터 set
