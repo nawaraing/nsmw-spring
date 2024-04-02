@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDTO;
-import com.naeddoco.nsmwspring.model.subscriptionInfoModel.selectMaxPKRowMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
