@@ -52,6 +52,13 @@
   <img src="https://img.shields.io/badge/github%20desktop-181717?style=for-the-badge&logo=github&logoColor=white">
 </div>
 
+### API
+
+<img src="https://img.shields.io/badge/카카오%20로그인-FFCD00?style=for-the-badge&logo=kakao&logoColor=white">
+<img src="https://img.shields.io/badge/도로명주소-FF4F00?style=for-the-badge&logoColor=white">
+<img src="https://img.shields.io/badge/coolsms%20문자%20인증-19A974?style=for-the-badge&logoColor=white">
+<img src="https://img.shields.io/badge/카카오%20지도-FFCD00?style=for-the-badge&logo=googlemaps&logoColor=white">
+
 ## 📋설계서
 (사진을 클릭하여 자세히 보기)
 
