@@ -93,11 +93,11 @@
     	}
 	</script>
 	<!-- 총금액 계산 -->
-
-
-	<!-- 구매 진행 -->
+	
+	<!-- 구독 -->
 	<script>
-    	function goToBuy() {
+    	function goToSubscription() {
+    		var actionName = '/buy/subscription';
         	var rows = document.querySelectorAll('tr[id^="row_"]');
         	rows.forEach(function(row) {
             	var form = document.getElementById('cartForm');
@@ -112,6 +112,32 @@
         		}
         	});
         	// 폼을 서버로 제출합니다.
+        	document.getElementById('cartForm').action = actionName;
+        	document.getElementById('cartForm').submit();
+    	}
+	</script>
+	<!-- 구독 -->
+
+
+	<!-- 구매 진행 -->
+	<script>
+    	function goToBuy() {
+    		var actionName = '/buy/once';
+        	var rows = document.querySelectorAll('tr[id^="row_"]');
+        	rows.forEach(function(row) {
+            	var form = document.getElementById('cartForm');
+            	if(row.querySelector('#checkbox').checked){
+            		form.innerHTML += '<input type="hidden" name="imagePath[]" value="' + row.querySelector('img').src + '">';
+                	form.innerHTML += '<input type="hidden" name="productName[]" value="' + row.querySelector('#productName').innerText + '">';
+                	form.innerHTML += '<input type="hidden" name="salePrice[]" value="' + row.querySelector('#hiddenSalePrice').value + '">';
+                	form.innerHTML += '<input type="hidden" name="productQuantity[]" value="' + row.querySelector('input[id^="productQuantity_"]').value + '">';
+                	form.innerHTML += '<input type="hidden" name="productID[]" value="' + row.querySelector('#hiddenProductID').value + '">';
+                	form.innerHTML += '<input type="hidden" name="cartID[]" value="' + row.querySelector('#hiddenCartID').value + '">';
+                	form.innerHTML += '<input type="hidden" name="category[]" value="' + row.querySelector('#hiddenCategory').value + '">';
+        		}
+        	});
+        	// 폼을 서버로 제출합니다.
+        	document.getElementById('cartForm').action = actionName;
         	document.getElementById('cartForm').submit();
     	}
 	</script>
@@ -143,7 +169,7 @@
 	<div class="container-fluid py-5">
 		<div class="container py-5">
 			<div class="table-responsive">
-				<form id="cartForm" action="buy/once" method="post">
+				<form id="cartForm" method="POST">
 					<table class="table">
 						<thead>
 							<tr>
@@ -246,7 +272,7 @@
 							</div>
 							<div class="d-flex justify-content-between"></div>
 						</div>
-						<button class="btn border-secondary rounded-pill px-5 py-3 text-primary text-uppercase mb-4 ms-4" type="button" onclick="goToBuy()">정기 구매</button>
+						<button class="btn border-secondary rounded-pill px-5 py-3 text-primary text-uppercase mb-4 ms-4" type="button" onclick="goToSubscription()">정기 구매</button>
 						<button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button" onclick="goToBuy()">한 번만 구매</button>
 					</div>
 				</div>

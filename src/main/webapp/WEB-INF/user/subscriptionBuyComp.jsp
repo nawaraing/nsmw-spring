@@ -1,12 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="custom" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>구매내역</title>
+<title>구매완료</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -29,11 +27,11 @@
 
 <!-- Template Stylesheet -->
 <link href="/resources/user/css/style.css" rel="stylesheet">
-<link href="/resources/user/css/table.css" rel="stylesheet">
 
 <!-- 파비콘 -->
 <custom:favicon/>
 </head>
+
 <body>
 
 	<%-- 세션 확인 후 없으면 메인으로 --%>
@@ -47,66 +45,35 @@
 	<!-- Spinner End -->
 
 
-	<!-- 로고가 포홤된 헤더 시작 -->
+	<!-- Navbar start -->
 	<div class="container-fluid fixed-top">
-			<custom:commonHeader />		
-			<custom:myPageHeaderWithLogo />		
+		<custom:commonHeader/>
+		<custom:commonHeaderWithLogo/>
 	</div>
-	<!-- 로고가 포홤된 헤더 끝 -->
+	<!-- Navbar End -->
 
 
 	<!-- Single Page Header start -->
 	<div class="container-fluid page-header py-5">
-		<h1 class="text-center text-white display-6">구독내역</h1>
+		<h1 class="text-center text-white display-6">구매완료</h1>
 	</div>
 	<!-- Single Page Header End -->
 
 
-	<!-- Cart Page Start -->
+	<!-- 마이 폼 시작 -->
 	<div class="container-fluid py-5">
-		<div class="container py-5">
-			<div class="table-responsive">
-				<table class="table">
-					<thead>
-						<tr>
-							<th scope="col">구독 시작일</th>
-							<th scope="col">결제 예정 금액</th>
-							<th scope="col">결제 예정일</th>
-							<th scope="col">구독 종료 예정일</th>
-							<th scope="col">배송지</th>
-							<th scope="col">구독 취소</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="subscriptionInfo" items="${subscriptionInfos}">
-						<tr onclick='location.href="subscriptionDetail/delete?BID=${subscriptionInfo.subscriptionInfoID}"' style="cursor: pointer;">
-							<td>
-								<p class="mb-0 mt-4">${subscriptionInfo.beginDate}</p>
-							</td>
-							<td>
-								<p class="mb-0 mt-4"><fmt:formatNumber value="${subscriptionInfo.ancTotalPrice}" currencyCode="KRW" />원</p>
-							</td>
-							<td>
-								<p class="mb-0 mt-4">${subscriptionInfo.nextPaymentDate}</p>
-							</td>
-							<td>
-								<p class="mb-0 mt-4">${subscriptionInfo.ancLastPaymentDate}</p>
-							</td>
-							<td>
-								<p class="mb-0 mt-4">${subscriptionInfo.subscriptionAddress}</p>
-								<p class="mb-0 mt-4">${subscriptionInfo.subscriptionDetailAddress}</p>
-							</td>
-							<td>
-								<a class="btn border-secondary text-primary rounded-pill mb-0 mt-3" onclick='location.href="subscriptionDetail/delete?BID=${subscriptionInfo.subscriptionInfoID}";'>구독 취소</a>
-							</td>
-						</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+		<div class="container py-5 text-center">
+			<div class="row justify-content-center">
+				<div class="col-lg-6">
+					<h1 class="mb-4">구독이 완료되었습니다</h1>
+					<hr>
+					<h2>구독번호 | ${subscriptionID}</h2>
+					<a class="btn border-secondary rounded-pill py-3 px-5" href="redirect:/">쇼핑 계속하기</a>
+				</div>
 			</div>
 		</div>
 	</div>
-	<!-- Cart Page End -->
+	<!-- 마이 폼 끝 -->
 
 
 	<!-- 풋터 시작 -->

@@ -37,7 +37,7 @@
 				<a href="/user/checkUserPasswordPage?where=modifyUserInfo" class="nav-item nav-link">개인정보수정</a> 
 				<a href="/user/checkUserPasswordPage?where=modifyUserPassword" class="nav-item nav-link">비밀번호변경</a> 
 				<a href="/user/buyInfoPage" class="nav-item nav-link">구매내역</a>
-				<a href="/user/buyInfoPage" class="nav-item nav-link">구독내역</a>
+				<a href="/subscriptionDetail" class="nav-item nav-link">구독내역</a>
 				<a href="/user/reviewInfo" class="nav-item nav-link">리뷰내역</a>
 				<a href="/user/couponInfo" class="nav-item nav-link">쿠폰관리</a>
 			</div>
