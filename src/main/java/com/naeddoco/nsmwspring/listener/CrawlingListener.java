@@ -46,13 +46,13 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-//		crawling();
+	//	crawling();
 	}
 
 	public void crawling() {
 		String[] products = {
-				"omega3",
 				"milkthistle",
+				"omega3",
 				"iron-chewable",
 				"calcium-magnesium-vitamind",
 				"vitaminb", // 5
@@ -61,6 +61,17 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 				"lutein",
 				"vitaminc",
 				"hyaluronicacid-spirulina", // 10
+				"coenzymeq10",
+				"press-wellness-shot",
+				"mega-propolis-immune-jelly",
+				"peace-free",
+				"immune-balance", // 15
+				"redginseng-octacosanol",
+				"jarrow-womens-fem-dophilus-capsules-30ea",
+				"jarrow-pantothenic-acid-100-capsules",
+				"natrol-biotin-10000mcg-60ea",
+				"swim-up", // 20
+				"gmpharm-thehemeironfor-woman",
 		};
 
 		int PK = 1001;
@@ -213,13 +224,19 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 			if (cnt == 0) {
 
 				// pName
-				String pName = e.text(); // 필리 오메가3
+				String pName = e.text(); // "필리 오메가3"
 
 				String[] strs = pName.split("\\s+");
 
-				if (strs.length > 1) {
+				if (strs.length > 0) {
 
-					pName = strs[1];
+					pName = "";
+					for (int i = 0; i < strs.length; i++) {
+						if (strs[i].equals("필리") || strs[i].equals(":")) continue;
+						if (strs[i].contains("캡슐") || strs[i].contains("ml")) break;
+						
+						pName += strs[i] + " ";
+					}
 
 				}
 
@@ -271,39 +288,26 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 
 				// category
 				String str = e.text();
+				log.trace("row-7: " + str);
 
 				if (str.contains("눈")) {
-
 					productDTO.setAncCategory("눈");
-
 				} else if (str.contains("간")) {
-
 					productDTO.setAncCategory("간");
-
 				} else if (str.contains("뼈")) {
-
 					productDTO.setAncCategory("뼈/치아");
-
 				} else if (str.contains("에너지")) {
-
 					productDTO.setAncCategory("활력");
-
 				} else if (str.contains("스트레스") || str.contains("면역")) {
-
 					productDTO.setAncCategory("면역");
-
 				} else if (str.contains("기억력")) {
-
 					productDTO.setAncCategory("두뇌");
-
 				} else if (str.contains("피부")) {
-
 					productDTO.setAncCategory("피부");
-
 				} else if (str.contains("유산균")) {
-
 					productDTO.setAncCategory("소화");
-
+				} else if (str.contains("혈압")) {
+					productDTO.setAncCategory("고혈압");
 				}
 
 			}
