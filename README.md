@@ -59,8 +59,8 @@
 
 <div>
 
-<a href="https://www.erdcloud.com/d/oN6zivwyb4z99tkcL" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/7b054918-941a-4774-8e64-7390a2aeb255" height="200"/></a>
-<a href="https://docs.google.com/spreadsheets/d/1h_Fvx8uH1lrRpECSC_S2w6C3rZDQC55S/edit?usp=sharing&ouid=110685108268861888734&rtpof=true&sd=true" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/9f1e9d9d-2ce2-4ddd-95a6-7b63db5261ad" height="200"/></a>
+<a href="https://www.erdcloud.com/d/oN6zivwyb4z99tkcL" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/7b054918-941a-4774-8e64-7390a2aeb255" width="50%"/></a>
+<a href="https://docs.google.com/spreadsheets/d/1h_Fvx8uH1lrRpECSC_S2w6C3rZDQC55S/edit?usp=sharing&ouid=110685108268861888734&rtpof=true&sd=true" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/9f1e9d9d-2ce2-4ddd-95a6-7b63db5261ad" width="50%" /></a>
 
 </div>
   
@@ -68,29 +68,29 @@
 
 <div>
 
-<a href="https://just-coding-room.tistory.com/52" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/ad0c16ab-6f1d-422e-b86c-42ff6f56cf84" height="250"/></a>
-<a href="https://just-coding-room.tistory.com/88" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/7969d049-363a-4234-9275-1b1e58d1e75d" height="250"/></a>
+<a href="https://just-coding-room.tistory.com/52" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/ad0c16ab-6f1d-422e-b86c-42ff6f56cf84" width="50%"/></a>
+<a href="https://just-coding-room.tistory.com/88" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/7969d049-363a-4234-9275-1b1e58d1e75d" width="50%"/></a>
 
 </div>
 
 ### 관리자 기능 순서도
 
-<a href="https://just-coding-room.tistory.com/90" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/315bf541-edbc-4539-8524-a24f8e91283c" height="300"/></a>
+<a href="https://just-coding-room.tistory.com/90" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/315bf541-edbc-4539-8524-a24f8e91283c" width="50%"/></a>
 
 ### 프로젝트 계층
 
-<a href="https://just-coding-room.tistory.com/89" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/2c6342d7-64b1-4e9f-aa3a-00225602cbcc" height="500"/></a>
+<a href="https://just-coding-room.tistory.com/89" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/2c6342d7-64b1-4e9f-aa3a-00225602cbcc" width="50%"/></a>
 
 ### 기능 명세서
 
-<a href="https://docs.google.com/spreadsheets/d/19qOXYUjMZOUxaKUxzInTsCuMbsXts_AQXfbqmDPO2NM/edit?usp=sharing" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/f5672309-cbee-436a-9a59-d0c530ad2814" height="300"/></a>
+<a href="https://docs.google.com/spreadsheets/d/19qOXYUjMZOUxaKUxzInTsCuMbsXts_AQXfbqmDPO2NM/edit?usp=sharing" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/f5672309-cbee-436a-9a59-d0c530ad2814" width="50%" /></a>
 
 ## 🌐사용한 웹 템플릿 (회원 쇼핑몰 & 관리자)
 
 <div>
 
-<a href="https://themewagon.com/themes/fruitables-free/" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/95e31a03-d985-4ebc-9bce-3ad88badd374" height="200"/></a>
-<a href="https://themewagon.com/themes/free-responsive-bootstrap-5-html5-admin-template-sneat/" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/f35743be-02f8-4a4b-b246-4c3a3394c870" height="200"/></a>
+<a href="https://themewagon.com/themes/fruitables-free/" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/95e31a03-d985-4ebc-9bce-3ad88badd374" width="50%" /></a>
+<a href="https://themewagon.com/themes/free-responsive-bootstrap-5-html5-admin-template-sneat/" target="_blank"><img src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/f35743be-02f8-4a4b-b246-4c3a3394c870" width="50%" /></a>
 
 </div>
 </div>
