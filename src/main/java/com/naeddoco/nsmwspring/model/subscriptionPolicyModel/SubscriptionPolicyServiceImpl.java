@@ -17,5 +17,12 @@ public class SubscriptionPolicyServiceImpl implements SubscriptionPolicyService 
 		return subscriptionPolicyDAO.selectAll(subscriptionPolicyDTO);
 		
 	}
+	
+	@Override
+	public SubscriptionPolicyDTO selectOne(SubscriptionPolicyDTO subscriptionPolicyDTO) {
+		
+		return subscriptionPolicyDAO.selectOne(subscriptionPolicyDTO);
+		
+	}
 
 }

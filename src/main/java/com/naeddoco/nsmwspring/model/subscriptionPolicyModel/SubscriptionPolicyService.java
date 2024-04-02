@@ -5,5 +5,6 @@ import java.util.List;
 public interface SubscriptionPolicyService {
 	
 	public List<SubscriptionPolicyDTO> selectAll(SubscriptionPolicyDTO subscriptionPolicyDTO);
+	public SubscriptionPolicyDTO selectOne(SubscriptionPolicyDTO subscriptionPolicyDTO);
 
 }

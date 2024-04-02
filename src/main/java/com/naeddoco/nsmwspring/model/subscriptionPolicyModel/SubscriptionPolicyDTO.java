@@ -10,6 +10,8 @@ public class SubscriptionPolicyDTO {
 	private int upperLimitMonth;      // 최대 개월
 	private int discountRate;         // 할인 비율
 	
+	private String searchCondition;
+	
 	@Override
 	public String toString() {
 		
@@ -17,7 +19,8 @@ public class SubscriptionPolicyDTO {
 			   "subscriptionPolicyID = " + subscriptionPolicyID + ", " + 
 			   "lowerLimitMonth = " + lowerLimitMonth + ", " +
 			   "upperLimitMonth = " + upperLimitMonth + ", " +
-			   "ancCategory = " + discountRate +
+			   "ancCategory = " + discountRate + ", " +
+			   "searchCondition = " + searchCondition + 
 			   "]";
 				
 	}
