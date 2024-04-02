@@ -10,9 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.naeddoco.nsmwspring.model.provisionDownloadCouponModel.ProvisionDownloadCouponDTO;
-import com.naeddoco.nsmwspring.model.provisionDownloadCouponModel.ProvisionDownloadCouponRowMapper;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Repository("couponDAO")
@@ -658,7 +655,7 @@ class selectAllDownloadCouponInfoRowMapper implements RowMapper<CouponDTO> {
 		
 		CouponDTO data = new CouponDTO();
 
-		data.set(rs.getInt("PDC.PROVISION_DOWNLOAD_COUPON_ID"));
+		data.setAncProvisionDownloadCouponID(rs.getInt("PDC.PROVISION_DOWNLOAD_COUPON_ID"));
 		data.setCouponName(rs.getString("C.COUPON_NAME"));
 		data.setCreateDate(rs.getTimestamp("C.CREATE_DATE"));
 		data.setDistributeDate(rs.getTimestamp("C.DISTRIBUTE_DATE"));
@@ -667,7 +664,10 @@ class selectAllDownloadCouponInfoRowMapper implements RowMapper<CouponDTO> {
 		data.setCouponType(rs.getString("C.COUPON_TYPE"));
 		data.setAncDiscount(rs.getInt("DISCOUNT"));
 		data.setAncAmount(rs.getInt("AMOUNT_LIMIT"));
-		data.setAncDeployStatus(rs.getString("PBC.DEPLOY_STATUS"));
+		data.setAncDeployStatus(rs.getString("PDC.DEPLOY_STATUS"));
+		data.setAncDeployDeadline(rs.getTimestamp("PDC.DEPLOY_DEADLINE"));
+		data.setAncImageID(rs.getInt("I.IMAGE_ID"));
+		data.setAncImagePath(rs.getString("I.IMAGE_PATH"));
 		
 		return data;
 	}
