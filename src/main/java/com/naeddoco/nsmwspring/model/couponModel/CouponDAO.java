@@ -190,10 +190,10 @@ public class CouponDAO {
 	// 관리자페이지_사용자 다운로드 쿠폰 조회
 	// 1개의 쿠폰에 카테고리가 여러개라면 CATEGORY_NAME에 ;로 구분되어 조회
 	// ex)뇌;뼈/치아;간;
-	// 기본정렬은 등록일-오름차순
+	// 기본정렬은 배포상태 WILL-DOING-STOP-DONE 순으로 정렬
 	private static final String SELECTALL_COUPON_INFO_DOWNLOAD = "SELECT DISTINCT "
 																	+ "PDC.PROVISION_DOWNLOAD_COUPON_ID, "
-																	+ "C.COUPON_NAME, C.CREATE_DATE, C.DISTRIBUTE_DATE , "
+																	+ "C.COUPON_ID, C.COUPON_NAME, C.CREATE_DATE, C.DISTRIBUTE_DATE , "
 																	+ "C.EXPIRATION_DATE, "
 																	+ "CONCAT((SELECT GROUP_CONCAT(CA.CATEGORY_NAME SEPARATOR ';') "
 																		+ "	FROM CATEGORY CA "
@@ -228,9 +228,49 @@ public class CouponDAO {
 																	+ "LEFT JOIN "
 																		+ "IMAGE I ON I.IMAGE_ID = PDC.IMAGE_ID "
 																	+ "ORDER BY "
-																		+ "C.CREATE_DATE ASC";		
+																		+ "FIELD(PDC.DEPLOY_STATUS, 'WILL', 'DOING', 'STOP', 'DONE') ";		
 	
-	
+	// 다운로드 쿠폰 문자열 검색 또는 정렬
+	private static final String SELECTALL_SEARCH_AND_SORT_BY_DOWNLOAD = "SELECT DISTINCT "
+																	+ "PDC.PROVISION_DOWNLOAD_COUPON_ID, "
+																	+ "C.COUPON_ID, C.COUPON_NAME, C.CREATE_DATE, C.DISTRIBUTE_DATE , "
+																	+ "C.EXPIRATION_DATE, "
+																	+ "CONCAT((SELECT GROUP_CONCAT(CA.CATEGORY_NAME SEPARATOR ';') "
+																		+ "	FROM CATEGORY CA "
+																		+ "	JOIN COUPON_CATEGORY CC "
+																		+ "	ON CA.CATEGORY_ID = CC.CATEGORY_ID "
+																		+ "	WHERE C.COUPON_ID = CC.COUPON_ID)) AS CATEGORY_NAME, "
+																	+ "C.COUPON_TYPE, "
+																	+ "CASE "
+																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
+																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
+																	+ "END AS DISCOUNT, "
+																	+ "CASE "
+																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
+																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
+																	+ "END AS AMOUNT_LIMIT, "
+																	+ "PDC.DEPLOY_STATUS, "
+																	+ "PDC.DEPLOY_DEADLINE, "
+																	+ "I.IMAGE_ID, "
+																	+ "I.IMAGE_PATH "
+																	+ "FROM "
+																		+ "COUPON C "
+																	+ "LEFT JOIN "
+																		+ "PERCENTAGE_COUPON P ON C.COUPON_ID = P.COUPON_ID "
+																	+ "LEFT JOIN "
+																		+ "WON_COUPON W ON C.COUPON_ID = W.COUPON_ID "
+																	+ "LEFT JOIN "
+																		+ "COUPON_CATEGORY CC ON C.COUPON_ID = CC.COUPON_ID "
+																	+ "LEFT JOIN "
+																		+ "CATEGORY CAT ON CC.CATEGORY_ID = CAT.CATEGORY_ID "
+																	+ "JOIN "
+																		+ "PROVISION_DOWNLOAD_COUPON PDC ON PDC.COUPON_ID = C.COUPON_ID "
+																	+ "LEFT JOIN "
+																		+ "IMAGE I ON I.IMAGE_ID = PDC.IMAGE_ID "
+																	+ "WHERE "
+																		+ "1=1 "
+																		+ "AND IF(? IS NOT NULL, C.COUPON_NAME LIKE CONCAT('%', ?, '%'), 1) "
+																	+ "ORDER BY ";
 	
 	// 쿠폰 insert 시 생성된 couponID 가져옴
 	private static final String SELECTONE_LAST_ID = "SELECT LAST_INSERT_ID()";
@@ -306,25 +346,25 @@ public class CouponDAO {
 
 			String sqlQuery = null;
 
-			// 만료일순 정렬시
+			// 만료일순 정렬시(오름차순)
 			if(couponDTO.getAncSortColumnName() == "expirationDate") {  
 				
 				log.trace("expirationDate 진입");
-				sqlQuery = query + " C.EXPIRATION_DATE";
+				sqlQuery = query + " C.EXPIRATION_DATE ASC";
 
 			}
-			// 할인순 정렬시
+			// 할인순 정렬시(쿠폰 타입별로 내림차순)
 			else if (couponDTO.getAncSortColumnName() == "discount") {
 
 				log.trace("discount 진입");
 				sqlQuery = query + " COUPON_TYPE, DISCOUNT DESC";
 
 			}
-			// 정렬값 없을시 기본 쿠폰생성일로 정렬
+			// 정렬값 없을시 기본 쿠폰생성일(오름차순)로 정렬
 			else {
 
 				log.trace("createDate 진입");
-				sqlQuery = query + " C.CREATE_DATE";
+				sqlQuery = query + " C.CREATE_DATE ASC";
 
 			}
 
@@ -379,18 +419,18 @@ public class CouponDAO {
 				sqlQuery = query + " PBC.DEPLOY_STATUS DESC";
 
 			}
-			// 할인순 정렬시
+			// 할인순 정렬시(쿠폰 타입별로 내림차순)
 			else if (couponDTO.getAncSortColumnName() == "discount") {
 
 				log.trace("discount 진입");
 				sqlQuery = query + " COUPON_TYPE, DISCOUNT DESC";
 
 			}
-			// 정렬값 없을시 기본 쿠폰생성일로 정렬
+			// 정렬값 없을시 기본 쿠폰생성일(오름차순)로 정렬
 			else {
 
 				log.trace("createDate 진입");
-				sqlQuery = query + " C.CREATE_DATE";
+				sqlQuery = query + " C.CREATE_DATE ASC";
 
 			}
 
@@ -424,6 +464,64 @@ public class CouponDAO {
 			}
 			
 		}
+		//////////////////////////////////////////
+		else if (couponDTO.getSearchCondition().equals("selectAllSearchAndSortDownload")) {
+
+			log.trace("selectAllSearchAndSortDownload 진입");
+
+			Object[] args = {couponDTO.getAncSearchKeyword(),
+							 couponDTO.getAncSearchKeyword()};
+
+			// 쿠폰명 검색은 기본 적용
+			// 검색 키워드가 없더라도 정상작동되는 쿼리문
+			String query = SELECTALL_SEARCH_AND_SORT_BY_DOWNLOAD;
+
+			String sqlQuery = null;
+
+			// 쿠폰 만료일순 정렬시(오름차순)
+			if(couponDTO.getAncSortColumnName() == "expirationDate") {  
+				
+				log.trace("expirationDate 진입");
+				sqlQuery = query + " C.EXPIRATION_DATE ASC";
+
+			}
+			// 배포 마감일(오름차순)
+			else if (couponDTO.getAncSortColumnName() == "deployDeadline") {
+
+				log.trace("deployDeadline 진입");
+				sqlQuery = query + " PDC.DEPLOY_DEADLINE ASC";
+
+			}
+			// 할인순 정렬시(쿠폰 타입별로 내림차순)
+			else if (couponDTO.getAncSortColumnName() == "discount") {
+
+				log.trace("discount 진입");
+				sqlQuery = query + " COUPON_TYPE, DISCOUNT DESC";
+
+			}
+			// 정렬값 없을시 기본 배포상태순으로 정렬
+			else {
+
+				log.trace("deployStatus 진입");
+				sqlQuery = query + " FIELD(PDC.DEPLOY_STATUS, 'WILL', 'DOING', 'STOP', 'DONE')";
+
+			}
+
+
+			try {
+
+				return (List<CouponDTO>)jdbcTemplate.query(sqlQuery, args, new selectAllGradeCouponInfoRowMapper());
+
+			} catch (Exception e) {
+
+				log.error("selectAllSearchAndSortDownload 예외/실패");
+
+				return null;
+
+			}
+
+		}
+		
 		
 
 		log.error("selectAll 실패");
@@ -656,6 +754,7 @@ class selectAllDownloadCouponInfoRowMapper implements RowMapper<CouponDTO> {
 		CouponDTO data = new CouponDTO();
 
 		data.setAncProvisionDownloadCouponID(rs.getInt("PDC.PROVISION_DOWNLOAD_COUPON_ID"));
+		data.setCouponID(rs.getInt("C.COUPON_ID"));
 		data.setCouponName(rs.getString("C.COUPON_NAME"));
 		data.setCreateDate(rs.getTimestamp("C.CREATE_DATE"));
 		data.setDistributeDate(rs.getTimestamp("C.DISTRIBUTE_DATE"));

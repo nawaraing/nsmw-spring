@@ -25,11 +25,15 @@ public class ImageDAO {
 	// 이미지 데이터를 가져오는 쿼리문
 	private static final String SELECTONE_IMAGE = "SELECT IMAGE_ID, IMAGE_PATH FROM IMAGE WHERE IMAGE_ID = ?";
 	
+	// 쿠폰 이미지 삭제 후 다운로드 쿠폰 UPDATE시 필요
+	private static final String SELECTONE_IMAGE_ID = "SELECT IMAGE_ID FROM IMAGE WHERE IMAGE_PATH  = ? ";
+	
 	// 이미지 경로 데이터를 추가하는 쿼리문
 	private static final String INSERT = "INSERT INTO IMAGE (IMAGE_PATH) VALUES (?)";
 	
 	private static final String UPDATE = "";
 	
+	// 이미지ID로 데이터 삭제
 	private static final String DELETE = "DELETE FROM IMAGE WHERE IMAGE_ID = ?";
 	
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/		
@@ -98,7 +102,7 @@ public class ImageDAO {
 
 	public boolean insert(ImageDTO imageDTO) {
 		
-		log.debug("insert 진입");
+		log.trace("insert 진입");
 		
 		int result = 0;
 		
@@ -108,7 +112,7 @@ public class ImageDAO {
 			
 			if(result <= 0) {
 				
-				log.debug("insert 실패");
+				log.error("insert 실패");
 			
 				return false;
 			
@@ -116,13 +120,13 @@ public class ImageDAO {
 		
 		} catch (Exception e) {
 			
-			log.debug("insert 예외 발생");
+			log.error("insert 예외 발생");
 
 			return false;
 
 		} 	
 		
-		log.debug("insert 성공");
+		log.trace("insert 성공");
 		
 		return true;
 		

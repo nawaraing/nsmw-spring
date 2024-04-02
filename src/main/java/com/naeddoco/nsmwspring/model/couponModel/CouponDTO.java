@@ -33,10 +33,11 @@ public class CouponDTO {
 	
 	private String ancSearchKeyword;			// 검색 키워드
 	private String ancSortColumnName;			// 정렬 키워드
+
 	private String ancDeployStatus;				// 배포 상태
+	private Timestamp ancDeployDeadline;		// 이미지 아이디
 	
 	private int ancProvisionDownloadCouponID;	// 쿠폰 다운로드 아이디
-	private Timestamp ancDeployDeadline;		// 이미지 아이디
 	private int ancImageID;						// 이미지 아이디
 	private String ancImagePath; 				// 이미지 경로
 	
