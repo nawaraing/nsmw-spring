@@ -45,7 +45,7 @@ public class CartDAO {
 	//장바구니 중복상품 수량 갱신
 	private static final String UPDATE_CART_QTY_ADD = "UPDATE CART SET PRODUCT_QUANTITY = PRODUCT_QUANTITY + ? WHERE CART_ID = ?";
 	
-	private static final String DELETE_CART = "";
+	private static final String DELETE_CART = "DELETE FROM CART WHERE CART_ID = ?";
 	
 /*------------------------------------------------------------------------------------------------------------------------------------------------------*/	
 	
@@ -172,7 +172,21 @@ public class CartDAO {
 	
 	public boolean delete(CartDTO cartDTO) {
 		
+		log.debug("delete 진입");
+		
+		int result = jdbcTemplate.update(DELETE_CART,cartDTO.getCartID());
+		
+		if(result <= 0) {
+			
+			log.debug("delete 실패");
+			
 			return false;
+			
+		}
+		
+		log.debug("delete 성공");
+		
+		return true;
 			
 	}	
 	
