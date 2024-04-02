@@ -64,21 +64,21 @@ public class PercentageCouponDAO {
 	
 		log.trace("insert 진입");
 
-		if (percentageCouponDTO.getSearchCondition().equals("insertAdminCouponGradeData")) {
+		if (percentageCouponDTO.getSearchCondition().equals("insertAdminCouponData")) {
 
-			log.trace("insertAdminCouponGradeData 진입");
+			log.trace("insertAdminCouponData 진입");
 
 			int result = jdbcTemplate.update(INSERT, percentageCouponDTO.getCouponID(), 
 													percentageCouponDTO.getCouponDiscountRate(), 
 													percentageCouponDTO.getMaxDiscountAmount());
 		
 			if(result <= 0) {
-				log.error("insertAdminCouponGradeData 실패");
+				log.error("insertAdminCouponData 실패");
 				return false;
 			
 			}
 			
-			log.trace("insertAdminCouponGradeData 성공");
+			log.trace("insertAdminCouponData 성공");
 			return true;
 		
 		}

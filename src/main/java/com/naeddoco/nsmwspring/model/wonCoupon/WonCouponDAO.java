@@ -61,21 +61,21 @@ public class WonCouponDAO {
 	public boolean insert(WonCouponDTO wonCouponDTO) {
 		log.trace("insert 진입");
 
-		if (wonCouponDTO.getSearchCondition().equals("insertAdminCouponGradeData")) {
+		if (wonCouponDTO.getSearchCondition().equals("insertAdminCouponData")) {
 
-			log.trace("insertAdminCouponGradeData 진입");
+			log.trace("insertAdminCouponData 진입");
 
 			int result = jdbcTemplate.update(INSERT, wonCouponDTO.getCouponID(), 
 													wonCouponDTO.getCouponDiscountAmount(), 
 													wonCouponDTO.getMinOrderAmount() );
 		
 			if(result <= 0) {
-				log.error("insertAdminCouponGradeData 실패");
+				log.error("insertAdminCouponData 실패");
 				return false;
 			
 			}
 			
-			log.trace("insertAdminCouponGradeData 성공");
+			log.trace("insertAdminCouponData 성공");
 			return true;
 		
 		}
