@@ -20,7 +20,7 @@ public class SubscriptionInfoDAO {
 	
 	// 사용자의 구독 정보를 불러오는 쿼리
 	private static final String SELECTALL_SUBSCRIPTION_INFO = "SELECT " +
-															  "SI.SUBSCRIPTION_INFO_ID " +
+															  "SI.SUBSCRIPTION_INFO_ID, " +
 															  "SI.BEGIN_DATE, " +
 															  "TOTAL_PRICE, " +
 															  "SI.NEXT_PAYMENT_DATE, " +
