@@ -54,6 +54,7 @@ public class MemberCouponDAO {
 			
 	private static final String SELECTONE = "";
 	
+	// DOWNLOAD쿠폰(팝업), GRADE쿠폰, BATCH쿠폰 INSERT시 사용
 	private static final String INSERT = "INSERT INTO MEMBER_COUPON (MEMBER_ID, COUPON_ID) values (?,?)";
 	
 	private static final String UPDATE = "";

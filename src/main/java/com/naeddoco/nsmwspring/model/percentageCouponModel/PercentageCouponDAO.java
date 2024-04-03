@@ -29,7 +29,7 @@ public class PercentageCouponDAO {
 										+ "(COUPON_ID, COUPON_DISCOUNT_RATE, MAX_DISCOUNT_AMOUNT) "
 										+ "VALUES (?,?,?)";
 	
-	//관리자페이지에서 쿠폰정보 변경시 사용
+	//쿠폰정보 변경
 	private static final String UPDATE = "UPDATE PERCENTAGE_COUPON "
 										+ "SET "
 											+ "COUPON_ID = ?, "

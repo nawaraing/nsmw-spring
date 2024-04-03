@@ -28,7 +28,7 @@ public class WonCouponDAO {
 									+ "(COUPON_ID, COUPON_DISCOUNT_AMOUNT, MIN_ORDER_AMOUNT) "
 									+ "VALUES (?,?,?)";
 	
-	//관리자페이지에서 쿠폰정보 변경시 사용
+	//쿠폰정보 변경시 사용
 	private static final String UPDATE = "UPDATE WON_COUPON "
 										+ "SET "
 											+ "COUPON_DISCOUNT_AMOUNT = ?, "

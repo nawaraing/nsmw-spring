@@ -47,13 +47,10 @@ public class CouponDAO {
 																	+ "WHERE C.COUPON_ID = CC.COUPON_ID)"
 																	+ ") AS CATEGORY_NAME, "
 																+ "C.COUPON_TYPE, "
-																+ "CAT.CATEGORY_ID, "
 																+ "CASE "
 																	+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
 																	+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
 																+ "END AS DISCOUNT, "
-																+ "W.WON_COUPON_ID, "
-																+ "P.PERCENTAGE_COUPON_ID, "
 																+ "CASE "
 																	+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
 																	+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
@@ -91,13 +88,10 @@ public class CouponDAO {
 																			+ "WHERE C.COUPON_ID = CC.COUPON_ID)"
 																			+ ") AS CATEGORY_NAME, "
 																		+ "C.COUPON_TYPE, "
-																		+ "CAT.CATEGORY_ID, "
 																		+ "CASE "
 																			+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
 																			+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
 																		+ "END AS DISCOUNT, "
-																		+ "W.WON_COUPON_ID, "
-																		+ "P.PERCENTAGE_COUPON_ID, "
 																		+ "CASE "
 																			+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
 																			+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
@@ -137,14 +131,10 @@ public class CouponDAO {
 																		+ "WHERE C.COUPON_ID = CC.COUPON_ID)) "
 																		+ "AS CATEGORY_NAME, "
 																	+ "C.COUPON_TYPE, "
-																	+ "CAT.CATEGORY_ID, "
-																	+ "CC.COUPON_CATEGORY_ID, "
 																	+ "CASE "
 																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
 																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
 																	+ "END AS DISCOUNT, "
-																	+ "W.WON_COUPON_ID, "
-																	+ "P.PERCENTAGE_COUPON_ID, "
 																	+ "CASE "
 																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
 																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
@@ -175,14 +165,10 @@ public class CouponDAO {
 																					+ "WHERE C.COUPON_ID = CC.COUPON_ID)) "
 																					+ "AS CATEGORY_NAME, "
 																				+ "C.COUPON_TYPE, "
-																				+ "CAT.CATEGORY_ID, "
-																				+ "CC.COUPON_CATEGORY_ID, "
 																				+ "CASE "
 																					+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
 																					+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
 																				+ "END AS DISCOUNT, "
-																				+ "W.WON_COUPON_ID, "
-																				+ "P.PERCENTAGE_COUPON_ID, "
 																				+ "CASE "
 																					+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
 																					+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
@@ -219,14 +205,10 @@ public class CouponDAO {
 																		+ "	ON CA.CATEGORY_ID = CC.CATEGORY_ID "
 																		+ "	WHERE C.COUPON_ID = CC.COUPON_ID)) AS CATEGORY_NAME, "
 																	+ "C.COUPON_TYPE, "
-																	+ "CAT.CATEGORY_ID, "
-																	+ "CC.COUPON_CATEGORY_ID, "
 																	+ "CASE "
 																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
 																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
 																	+ "END AS DISCOUNT, "
-																	+ "W.WON_COUPON_ID, "
-																	+ "P.PERCENTAGE_COUPON_ID, "
 																	+ "CASE "
 																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
 																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
@@ -263,14 +245,10 @@ public class CouponDAO {
 																		+ "	ON CA.CATEGORY_ID = CC.CATEGORY_ID "
 																		+ "	WHERE C.COUPON_ID = CC.COUPON_ID)) AS CATEGORY_NAME, "
 																	+ "C.COUPON_TYPE, "
-																	+ "CAT.CATEGORY_ID, "
-																	+ "CC.COUPON_CATEGORY_ID, "
 																	+ "CASE "
 																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
 																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
 																	+ "END AS DISCOUNT, "
-																	+ "W.WON_COUPON_ID, "
-																	+ "P.PERCENTAGE_COUPON_ID, "
 																	+ "CASE "
 																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
 																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
@@ -735,10 +713,7 @@ class selectAllGradeCouponInfoRowMapper implements RowMapper<CouponDTO> {
 		data.setExpirationDate(rs.getTimestamp("C.EXPIRATION_DATE"));
 		data.setAncCategoryName(rs.getString("CATEGORY_NAME"));
 		data.setCouponType(rs.getString("C.COUPON_TYPE"));
-		data.setAncCategoryID(rs.getInt("CAT.CATEGORY_ID"));
 		data.setAncDiscount(rs.getInt("DISCOUNT"));
-		data.setAncWonCouponID(rs.getInt("W.WON_COUPON_ID"));
-		data.setAncPercentageCouponID(rs.getInt("P.PERCENTAGE_COUPON_ID"));
 		data.setAncAmount(rs.getInt("AMOUNT_LIMIT"));
 		data.setAncDeployCycle(rs.getString("PC.DEPLOY_CYCLE"));
 		data.setAncDeployBase(rs.getString("PC.DEPLOY_BASE"));
@@ -766,11 +741,7 @@ class selectAllBatchCouponInfoRowMapper implements RowMapper<CouponDTO> {
 		data.setExpirationDate(rs.getTimestamp("C.EXPIRATION_DATE"));
 		data.setAncCategoryName(rs.getString("CATEGORY_NAME"));
 		data.setCouponType(rs.getString("C.COUPON_TYPE"));
-		data.setAncCategoryID(rs.getInt("CAT.CATEGORY_ID"));
-		data.setAncCouponCategoryID(rs.getInt("CC.COUPON_CATEGORY_ID"));
 		data.setAncDiscount(rs.getInt("DISCOUNT"));
-		data.setAncWonCouponID(rs.getInt("W.WON_COUPON_ID"));
-		data.setAncPercentageCouponID(rs.getInt("P.PERCENTAGE_COUPON_ID"));
 		data.setAncAmount(rs.getInt("AMOUNT_LIMIT"));
 		data.setAncDeployStatus(rs.getString("PBC.DEPLOY_STATUS"));
 		
@@ -789,16 +760,12 @@ class selectAllDownloadCouponInfoRowMapper implements RowMapper<CouponDTO> {
 
 		data.setAncProvisionDownloadCouponID(rs.getInt("PDC.PROVISION_DOWNLOAD_COUPON_ID"));
 		data.setCouponID(rs.getInt("C.COUPON_ID")); 
-		data.setAncCouponCategoryID(rs.getInt("CC.COUPON_CATEGORY_ID")); 
-		data.setAncCategoryID(rs.getInt("CAT.CATEGORY_ID")); 
 		data.setCouponName(rs.getString("C.COUPON_NAME"));
 		data.setCreateDate(rs.getTimestamp("C.CREATE_DATE"));
 		data.setDistributeDate(rs.getTimestamp("C.DISTRIBUTE_DATE"));
 		data.setExpirationDate(rs.getTimestamp("C.EXPIRATION_DATE"));
 		data.setAncCategoryName(rs.getString("CATEGORY_NAME"));
 		data.setCouponType(rs.getString("C.COUPON_TYPE"));
-		data.setAncWonCouponID(rs.getInt("W.WON_COUPON_ID")); // 
-		data.setAncPercentageCouponID(rs.getInt("P.PERCENTAGE_COUPON_ID"));
 		data.setAncDiscount(rs.getInt("DISCOUNT"));
 		data.setAncAmount(rs.getInt("AMOUNT_LIMIT"));
 		data.setAncDeployStatus(rs.getString("PDC.DEPLOY_STATUS"));

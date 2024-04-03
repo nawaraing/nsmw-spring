@@ -18,7 +18,23 @@ public class ProvisionDownloadCouponDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	private static final String SELECTALL = "";
+	// 쿠폰 다운로드 팝업시 보여줄 쿠폰 정보 출력
+	// 현재 로그인한 회원의 ID로 회원이 가지고 있지 않은 다운로드 쿠폰, 배포상태가 'DOING'인 쿠폰ID 출력
+	private static final String SELECTALL_POPUP_COUPON = "SELECT "
+															+ "PDC.PROVISION_DOWNLOAD_COUPON_ID, "
+															+ "C.COUPON_ID, "
+															+ "I.IMAGE_PATH "
+															+ "FROM "
+																+ "PROVISION_DOWNLOAD_COUPON PDC "
+															+ "JOIN "
+																+ "COUPON C ON PDC.COUPON_ID = C.COUPON_ID "
+															+ "JOIN "
+																+ "IMAGE I ON PDC.IMAGE_ID = I.IMAGE_ID "
+															+ "LEFT JOIN "
+																+ "MEMBER_COUPON MC ON PDC.COUPON_ID  = MC.COUPON_ID "
+															+ "AND MC.MEMBER_ID = ? "
+															+ "WHERE MC.COUPON_ID IS NULL "
+															+ "AND PDC.DEPLOY_STATUS ='DOING'";
 	
 	private static final String SELECTONE = "";
 
@@ -50,17 +66,19 @@ public class ProvisionDownloadCouponDAO {
 
 		log.trace("selectAll 진입");
 
-		if (provisionDownloadCouponDTO.getSearchCondition().equals("")) {
+		if (provisionDownloadCouponDTO.getSearchCondition().equals("selectPopupCouponDatas")) {
+			
+			Object[] args = { provisionDownloadCouponDTO.getAncMemberID() };
 
-			log.trace(" 진입 ");
+			log.trace("selectPopupCouponDatas 진입");
 
 			try {
 
-				return (List<ProvisionDownloadCouponDTO>) jdbcTemplate.query(SELECTALL, new ProvisionDownloadCouponRowMapper());
+				return (List<ProvisionDownloadCouponDTO>) jdbcTemplate.query(SELECTALL_POPUP_COUPON, args, new ProvisionDownloadCouponRowMapper());
 
 			} catch (Exception e) {
 
-				log.error(" 예외/실패 ");
+				log.error("selectPopupCouponDatas 예외/실패 ");
 
 				return null;
 
@@ -220,17 +238,7 @@ class ProvisionDownloadCouponRowMapper implements RowMapper<ProvisionDownloadCou
 		ProvisionDownloadCouponDTO data = new ProvisionDownloadCouponDTO();
 
 		data.setProvisionDownloadCouponID(rs.getInt("PDC.PROVISION_DOWNLOAD_COUPON_ID"));
-		data.setAncCouponName(rs.getString("C.COUPON_NAME"));
-		data.setAncCreateDate(rs.getTimestamp("C.CREATE_DATE"));
-		data.setAncDistributeDate(rs.getTimestamp("C.DISTRIBUTE_DATE"));
-		data.setAncExpirationDate(rs.getTimestamp("C.EXPIRATION_DATE"));
-		data.setAncCategoryName(rs.getString("CATEGORY_NAME"));
-		data.setAncCouponType(rs.getString("C.COUPON_TYPE"));
-		data.setAncDiscount(rs.getInt("DISCOUNT"));
-		data.setAncAmount(rs.getInt("AMOUNT_LIMIT"));
-		data.setDeployStatus(rs.getString("PDC.DEPLOY_STATUS"));
-		data.setDeployDeadline(rs.getTimestamp("PDC.DEPLOY_DEADLINE"));
-		data.setAncImageID(rs.getInt("I.IMAGE_ID"));
+		data.setCouponID(rs.getInt("C.COUPON_ID"));
 		data.setAncImagePath(rs.getString("I.IMAGE_PATH"));
 
 		log.trace("ProvisionDownloadCouponRowMapper 처리 완료");

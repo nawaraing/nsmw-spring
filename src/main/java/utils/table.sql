@@ -111,7 +111,7 @@ CREATE TABLE `ORDER_INFO` (
   -- 상품 아이디
   `PRODUCT_ID` INT NOT NULL,
   -- 회원 쿠폰 아이디
-  `MEMBER_COUPON_ID` INT NOT NULL,
+  `MEMBER_COUPON_ID` INT,
   -- 구매 수량
   `BUY_QUANTITY` INT NOT NULL,
   -- 결제 금액

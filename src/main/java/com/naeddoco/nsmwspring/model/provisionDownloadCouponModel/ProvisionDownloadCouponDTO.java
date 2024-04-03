@@ -27,4 +27,5 @@ public class ProvisionDownloadCouponDTO {
 	private int ancImageID; 				// 인조 식별자
 	private String ancImagePath; 			// 이미지 경로
 	
+	private String ancMemberID; 	   			// 회원 아이디
 }

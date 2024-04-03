@@ -47,6 +47,7 @@ public class CouponDTO {
 	private int ancImageID;						// 이미지 아이디
 	private String ancImagePath; 				// 이미지 경로
 	
+	
     @Override
    	public String toString() {
    		
