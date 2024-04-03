@@ -168,7 +168,7 @@
                     <li>
                       <div class="form-check">
                         <label class="dropdown-item" for="checkbox-product-add-category-${category}" id="dropdown-item-coupon-add-category-${categoryStatus.index}">
-                          <input class="form-check-input" type="checkbox" onclick="handleCategoryCheckbox('add', '${category}')" value="${category}" id="checkbox-product-add-category-${category}" />${category}
+                          <input class="form-check-input" type="checkbox" onclick="handleCategoryCheckbox('add', '${category}')" value="${category}" name="categoryNames" id="checkbox-product-add-category-${category}" />${category}
                         </label>
                       </div>
                     </li>

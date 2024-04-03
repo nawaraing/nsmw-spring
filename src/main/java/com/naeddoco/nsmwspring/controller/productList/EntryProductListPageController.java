@@ -34,7 +34,7 @@ public class EntryProductListPageController {
 
 		if (memberID == null) { // 세션에 유저 아이디가 없을 시
 
-			return "redirect:/"; // 메인 페이지로 강제 이동
+			//return "redirect:/"; // 메인 페이지로 강제 이동
 
 		}
 		
