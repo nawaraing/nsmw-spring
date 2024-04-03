@@ -114,7 +114,6 @@ public class BuyInfoDAO {
 				result = jdbcTemplate.update(INSERT_BUY_INFO, 
 										     buyInfoDTO.getMemberID(),
 										     buyInfoDTO.getSubscriptionInfoID(),
-										     buyInfoDTO.getBuyInfoID(),
 										     buyInfoDTO.getDeliveryPostcode(),
 										     buyInfoDTO.getDeliveryAddress(),
 										     buyInfoDTO.getDeliveryDetailAddress());
