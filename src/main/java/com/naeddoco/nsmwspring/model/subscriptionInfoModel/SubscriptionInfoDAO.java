@@ -249,7 +249,7 @@ class selectAllSubscriptionInfoRowMapper implements RowMapper<SubscriptionInfoDT
 		subscriptionInfoDTO.setAncLastPaymentDate(rs.getTimestamp("LAST_PAYMENT_DATE"));
 		subscriptionInfoDTO.setSubscriptionPostCode(rs.getInt("SI.SUBSCRIPTION_POSTCODE"));
 		subscriptionInfoDTO.setSubscriptionAddress(rs.getString("SI.SUBSCRIPTION_ADDRESS"));
-		subscriptionInfoDTO.setSubscriptionAddress(rs.getString("SI.SUBSCRIPTION_DETAIL_ADDRESS"));
+		subscriptionInfoDTO.setSubscriptionDetailAddress(rs.getString("SI.SUBSCRIPTION_DETAIL_ADDRESS"));
 		
 		log.debug("getProductDetailRowMapper 완료");
 
