@@ -11,6 +11,10 @@
 <meta content="" name="keywords">
 <meta content="" name="description">
 
+<%-- sweetalert2 --%>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
 <!-- Google Web Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,6 +39,56 @@
 <custom:favicon/>
 </head>
 <body>
+
+	<!-- 구독 상세 모달 비동기 -->
+	<script>
+		function subscriptionDetail(subscriptionInfoID) {
+		    $.ajax({
+		        type: "GET",
+		        url: "subscriptionDetail/detail",
+		        data: { 'subscriptionInfoID': subscriptionInfoID },
+		        success: function (subscriptionInfo) {
+		            if (subscriptionInfo !== "null") {
+		                // 테이블 헤더 생성
+		                var tableHtml = '<table class="table">';
+		                tableHtml += '<thead>';
+		                tableHtml += '<tr>';
+		                tableHtml += '<th>상품명</th>';
+		                tableHtml += '<th>구독 수량</th>';
+		                tableHtml += '<th>상품 단가</th>';
+		                tableHtml += '</tr>';
+		                tableHtml += '</thead>';
+		                tableHtml += '<tbody>';
+	
+		                // 데이터 추가
+		                subscriptionInfo.forEach(function (subscriptionInfo) {
+		                    tableHtml += '<tr>';
+		                    tableHtml += '<td>' + subscriptionInfo.ancProductName + '</td>';
+		                    tableHtml += '<td>' + subscriptionInfo.quantity + '</td>';
+		                    tableHtml += '<td>' + subscriptionInfo.purchasePrice.toLocaleString('ko-KR') + '</td>';
+		                    tableHtml += '</tr>';
+		                });
+	
+		                tableHtml += '</tbody>';
+		                tableHtml += '</table>';
+	
+		                // 모달 창에 테이블 추가
+		                Swal.fire({
+		                    title: '구독 상세 정보',
+		                    html: tableHtml
+		                });
+		            } else {
+		                Swal.fire({
+		                    icon: 'error',
+		                    title: '구독 상세 정보',
+		                    text: '정보를 불러오는 데 실패했습니다.'
+		                });
+		            }
+		        }
+		    });
+		}
+	</script>
+	<!-- 구독 상세 모달 비동기 -->
 
 	<%-- 세션 확인 후 없으면 메인으로 --%>
 	<custom:emthySessionAndGoToMain/>
@@ -79,25 +133,24 @@
 					</thead>
 					<tbody>
 						<c:forEach var="subscriptionInfo" items="${subscriptionInfos}">
-						<tr onclick='location.href="subscriptionDetail/delete?BID=${subscriptionInfo.subscriptionInfoID}"' style="cursor: pointer;">
-							<td>
+						<tr>
+							<td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
 								<p class="mb-0 mt-4">${subscriptionInfo.beginDate}</p>
 							</td>
-							<td>
+							<td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
 								<p class="mb-0 mt-4"><fmt:formatNumber value="${subscriptionInfo.ancTotalPrice}" currencyCode="KRW" />원</p>
 							</td>
-							<td>
+							<td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
 								<p class="mb-0 mt-4">${subscriptionInfo.nextPaymentDate}</p>
 							</td>
-							<td>
+							<td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
 								<p class="mb-0 mt-4">${subscriptionInfo.ancLastPaymentDate}</p>
 							</td>
 							<td>
-								<p class="mb-0 mt-4">${subscriptionInfo.subscriptionAddress}</p>
-								<p class="mb-0 mt-4">${subscriptionInfo.subscriptionDetailAddress}</p>
+								<p class="mb-0 mt-4">${subscriptionInfo.subscriptionAddress} ${subscriptionInfo.subscriptionDetailAddress}</p>
 							</td>
 							<td>
-								<a class="btn border-secondary text-primary rounded-pill mb-0 mt-3" onclick='location.href="subscriptionDetail/delete?BID=${subscriptionInfo.subscriptionInfoID}";'>구독 취소</a>
+								<a class="btn border-secondary text-primary rounded-pill mb-0 mt-3" onclick='location.href="/subscriptionDetail/delete?subscriptionInfoID=${subscriptionInfo.subscriptionInfoID}";'>구독 취소</a>								
 							</td>
 						</tr>
 						</c:forEach>

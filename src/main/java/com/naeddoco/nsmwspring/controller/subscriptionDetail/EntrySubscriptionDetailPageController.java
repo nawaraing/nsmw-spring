@@ -46,6 +46,8 @@ public class EntrySubscriptionDetailPageController {
 		
 		model.addAttribute("subscriptionInfos", subscriptionDTOList);
 		
+		model.addAttribute("pageValue", "구독내역");
+		
 		return "user/subscriptionInfo";
 
 	}

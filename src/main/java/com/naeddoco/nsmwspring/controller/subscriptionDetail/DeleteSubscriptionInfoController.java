@@ -29,6 +29,10 @@ public class DeleteSubscriptionInfoController {
 										 Model model,
 										 @RequestParam("subscriptionInfoID") int subscriptionInfoID) {
 		
+		System.out.println("구독 PK : " + subscriptionInfoID);
+		int tempID = subscriptionInfoID;
+		System.out.println("tempID : " + tempID);
+		
 		// -----------------------------------------------세션 확인 ↓-----------------------------------------------
 
 		String memberID = (String) session.getAttribute("memberID"); // 세션에서 유저 아이디 습득
@@ -44,7 +48,7 @@ public class DeleteSubscriptionInfoController {
 		SubscriptionInfoDTO subscriptionInfoDTO = new SubscriptionInfoDTO();
 		
 		subscriptionInfoDTO.setSearchCondition("deleteSubscriptionData");
-		subscriptionInfoDTO.setSubscriptionInfoID(subscriptionInfoID);
+		subscriptionInfoDTO.setSubscriptionInfoID(tempID);
 		
 		subscriptionInfoService.delete(subscriptionInfoDTO);
 		
@@ -53,11 +57,11 @@ public class DeleteSubscriptionInfoController {
 		SubscriptionInfoProductDTO subscriptionInfoProductDTO = new SubscriptionInfoProductDTO();
 		
 		subscriptionInfoProductDTO.setSearchCondition("deleteSubscriptionData");
-		subscriptionInfoProductDTO.setSubscriptionInfoID(subscriptionInfoID);
+		subscriptionInfoProductDTO.setSubscriptionInfoID(tempID);
 		
 		subscriptionInfoProductService.delete(subscriptionInfoProductDTO);
 		
-		return "subscriptionDetail";
+		return "redirect:/subscriptionDetail";
 		
 	}
 

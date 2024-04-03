@@ -26,15 +26,17 @@ public class AsyncGetSubscriptionInfoDetailController {
 	public List<SubscriptionInfoProductDTO> getSubscriptionInfoDetail(Model model,
 															   	      @RequestParam("subscriptionInfoID") int subscriptionInfoID) {
 		
+		System.out.println("구독 내역 상세 비동기 요청");
+		System.out.println("구독 내역 상세 비동기의 구독 PK : " + subscriptionInfoID);
 		SubscriptionInfoProductDTO subscriptionProductDTO = new SubscriptionInfoProductDTO();
 		
 		subscriptionProductDTO.setSearchCondition("selectSubscriptionDatas");
 		subscriptionProductDTO.setSubscriptionInfoID(subscriptionInfoID);
 		
-		List<SubscriptionInfoProductDTO> subscriptionInfoProductDTO = subscriptionInfoProductDAO.selectAll(subscriptionProductDTO);
+		List<SubscriptionInfoProductDTO> subscriptionInfoProductList = subscriptionInfoProductDAO.selectAll(subscriptionProductDTO);
 		
-		return subscriptionInfoProductDTO;
+		System.out.println("구독 내역 상세 비동기의 반환값 : " + subscriptionInfoProductList);
 		
+		return subscriptionInfoProductList;		
 	}
-
 }
