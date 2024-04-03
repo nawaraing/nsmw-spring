@@ -24,7 +24,7 @@ public class BuyInfoDAO {
 	private static final String SELECTALL_GET_NOT_BUY_PRODUCT = "";
 	
 	// 가장 높은 PK값을 가져오는 쿼리
-	private static final String SELECTONE_MAX_PK = "SELECT MAX(SUBSCRIPTION_INFO_ID) AS MAX_PK FROM BUY_INFO";
+	private static final String SELECTONE_MAX_PK = "SELECT MAX(BUY_INFO_ID) AS MAX_PK FROM BUY_INFO";
 
 	// 구매내역을 추가하는 쿼리
 	private static final String INSERT_BUY_INFO = "INSERT INTO BUY_INFO (" +

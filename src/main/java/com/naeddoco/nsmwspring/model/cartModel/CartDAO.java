@@ -174,19 +174,29 @@ public class CartDAO {
 		
 		log.debug("delete 진입");
 		
-		int result = jdbcTemplate.update(DELETE_CART,cartDTO.getCartID());
-		
-		if(result <= 0) {
+		if(cartDTO.getSearchCondition().equals("deleteCart")) {
 			
-			log.debug("delete 실패");
+			log.debug("deleteCart 진입");
 			
-			return false;
+			int result = jdbcTemplate.update(DELETE_CART,cartDTO.getCartID());
+			
+			if(result <= 0) {
+				
+				log.debug("deleteCart 실패");
+				
+				return false;
+				
+			}
+			
+			log.debug("deleteCart 성공");
+			
+			return true;
 			
 		}
 		
-		log.debug("delete 성공");
+		log.debug("delete 실패");
 		
-		return true;
+		return false;
 			
 	}	
 	
