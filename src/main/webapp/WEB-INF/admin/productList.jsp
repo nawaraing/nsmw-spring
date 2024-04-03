@@ -211,7 +211,13 @@
                   </div>
                   <div class="card-footer text-muted text-end">
                     <button type="button" class="btn btn-danger me-5">판매 중단</button>
-                    <custom:adminProductListAddModal />
+                    <c:forEach var="category" items="${categoryList}">
+                      <script>console.log('category out: ${category.categoryName}');</script>
+                      <c:set var="categoryJoin" value="${categoryJoin},${category.categoryName}" />
+                      <script>console.log('categoryJoin out: ${categoryJoin}');</script>
+                    </c:forEach>
+                    <script>console.log('categoryJoin: ${categoryJoin}');</script>
+                    <custom:adminProductListAddModal categoryNames="${categoryJoin}" />
                     <button type="button" class="btn btn-success me-2">저장</button>
                   </div>
                 </div>

@@ -1,6 +1,12 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="custom"%>
+
+<%@ attribute name="categoryNames" %>
 
 <script src="/resources/admin/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="/resources/admin/js/checkbox.js"></script>
 
 <!-- Button trigger modal -->
 <button
@@ -146,33 +152,28 @@
             <div class="mb-3">
               <label for="defaultFormControlInput" class="form-label">카테고리</label>
               <div>
-              <a
-                class="btn btn-outline-primary dropdown-toggle"
-                href="javascript:void(0)"
-                id="product-categories"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <span class="badge bg-label-info me-1" id="product-0-category-">뇌</span>
-                <span class="badge bg-label-info me-1" id="product-0-category-">간</span>
-                <span class="badge bg-label-info me-1" id="product-0-category-">눈</span>
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="checkbox-categories-${status.index}">
-                <li>
-                  <div class="form-check">
-                    <label class="dropdown-item" for="checkbox-product--category-" id="dropdown-item-coupon--category-">
-                      <input class="form-check-input" name="categoryNames" type="checkbox" value="뇌" id="checkbox-product--category-" />뇌
-                    </label>
-                    <label class="dropdown-item" for="checkbox-product--category-" id="dropdown-item-coupon--category-">
-                      <input class="form-check-input" name="categoryNames" type="checkbox" value="간" id="checkbox-product--category-" />간
-                    </label>
-                    <label class="dropdown-item" for="checkbox-product--category-" id="dropdown-item-coupon--category-">
-                      <input class="form-check-input" name="categoryNames" type="checkbox" value="눈" id="checkbox-product--category-" />눈
-                    </label>
-                  </div>
-                </li>
-              </ul>
+                <a
+                  class="dropdown-toggle"
+                  href="javascript:void(0)"
+                  id="product-categories-add"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                </a>
+                <script>console.log('categoryNames: ${categoryNames}');</script>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="checkbox-categories-${status.index}">
+                  <c:forEach var="category" items="${fn:split(categoryNames, ',')}" varStatus="categoryStatus">
+	                <script>console.log('category: ${category}');</script>
+                    <li>
+                      <div class="form-check">
+                        <label class="dropdown-item" for="checkbox-product-add-category-${category}" id="dropdown-item-coupon-add-category-${categoryStatus.index}">
+                          <input class="form-check-input" type="checkbox" onclick="handleCategoryCheckbox('add', '${category}')" value="${category}" id="checkbox-product-add-category-${category}" />${category}
+                        </label>
+                      </div>
+                    </li>
+                  </c:forEach>
+                </ul>
               </div>
             </div>
             <!-- / 카테고리 -->
@@ -325,7 +326,6 @@ function deleteImage(index) {
 	}
 	imageIndicator.remove();
 
-	
 	// multipart 이미지 삭제
     var files = $('#upload-image')[0].files;
 	console.log('delete files: ' + files);
