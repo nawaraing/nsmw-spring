@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.naeddoco.nsmwspring.model.memberModel.MemberDAO;
+import com.naeddoco.nsmwspring.model.memberModel.MemberService;
 import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
 
 import jakarta.servlet.http.HttpSession;
@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 public class AsyncSearchAndSortMemberController {
 	
 	@Autowired
-	MemberDAO memberDAO = new MemberDAO();
+	MemberService memberService;
 	
 	@RequestMapping(value = "/memberList/searchAndSort", method = RequestMethod.GET)
 	public List<MemberDTO> searchAndSortMember(HttpSession session, 
@@ -54,7 +54,7 @@ public class AsyncSearchAndSortMemberController {
 		
 		System.out.println(memberDTO);
 		
-		List<MemberDTO> memberDTOList = memberDAO.selectAll(memberDTO);
+		List<MemberDTO> memberDTOList = memberService.selectAll(memberDTO);
 		
 		return memberDTOList;
 		

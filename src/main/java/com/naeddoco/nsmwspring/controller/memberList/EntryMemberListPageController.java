@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.naeddoco.nsmwspring.model.memberModel.MemberDAO;
+import com.naeddoco.nsmwspring.model.memberModel.MemberService;
 import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
 
 import jakarta.servlet.http.HttpSession;
@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
 public class EntryMemberListPageController {
 	
 	@Autowired
-	MemberDAO memberDAO = new MemberDAO();
+	MemberService memberService;
 	
 	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
 	public String entryCart(HttpSession session, Model model) {
@@ -43,7 +43,7 @@ public class EntryMemberListPageController {
 		memberDTO.setSortColumnName("M.MEMBER_ID"); // 정렬할 컬럼명 set
 		memberDTO.setSortMode("ASC"); // 정렬 방식 set
 		
-		List<MemberDTO> memberDTOList = memberDAO.selectAll(memberDTO);
+		List<MemberDTO> memberDTOList = memberService.selectAll(memberDTO);
 		
 		model.addAttribute("memberList", memberDTOList);
 		

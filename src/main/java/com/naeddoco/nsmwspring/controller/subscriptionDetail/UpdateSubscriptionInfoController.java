@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDAO;
+import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoService;
 import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDTO;
 
 import jakarta.servlet.http.HttpSession;
@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpSession;
 public class UpdateSubscriptionInfoController {
 	
 	@Autowired
-	private SubscriptionInfoDAO subscriptionInfoDAO;
+	private SubscriptionInfoService subscriptionInfoService;
 	
 	@RequestMapping(value = "subscriptionDetail/updateAddress", method = RequestMethod.GET)
 	public String updateSubscriptionInfo(HttpSession session, 
@@ -40,7 +40,7 @@ public class UpdateSubscriptionInfoController {
 		subscriptionInfoDTO.setSearchCondition("updateSubscriptionShippingData");
 		subscriptionInfoDTO.setSubscriptionInfoID(subscriptionInfoID);
 		
-		subscriptionInfoDAO.update(subscriptionInfoDTO);
+		subscriptionInfoService.update(subscriptionInfoDTO);
 		
 		return "subscriptionDetail";
 		

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
-import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDAO;
+import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoService;
 import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDTO;
 
 import jakarta.servlet.http.HttpSession;
@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpSession;
 public class EntrySubscriptionDetailPageController {
 
 	@Autowired
-	private SubscriptionInfoDAO subscriptionDAO;
+	private SubscriptionInfoService subscriptionService;
 
 	@RequestMapping(value = "subscriptionDetail", method = RequestMethod.GET)
 	public String entrySubscriptionDetail(HttpSession session, Model model) {
@@ -42,7 +42,7 @@ public class EntrySubscriptionDetailPageController {
 		subscriptionDTO.setSearchCondition("selectSubscriptionDatas");
 		subscriptionDTO.setMemberID(memberID);
 		
-		List<SubscriptionInfoDTO> subscriptionDTOList = subscriptionDAO.selectAll(subscriptionDTO);
+		List<SubscriptionInfoDTO> subscriptionDTOList = subscriptionService.selectAll(subscriptionDTO);
 		
 		model.addAttribute("subscriptionInfos", subscriptionDTOList);
 		

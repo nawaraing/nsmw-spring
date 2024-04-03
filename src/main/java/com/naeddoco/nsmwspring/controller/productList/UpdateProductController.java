@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryDAO;
+import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryService;
 import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryDTO;
-import com.naeddoco.nsmwspring.model.productModel.ProductDAO;
+import com.naeddoco.nsmwspring.model.productModel.ProductService;
 import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
 
 import jakarta.servlet.http.HttpSession;
@@ -21,9 +21,9 @@ import jakarta.servlet.http.HttpSession;
 public class UpdateProductController {
 
 	@Autowired
-	private ProductDAO productDAO;
+	private ProductService productService;
 	@Autowired
-	private ProductCategoryDAO productCategoryDAO;
+	private ProductCategoryService productCategoryService;
 
 	@RequestMapping(value = "/productList/update", method = RequestMethod.GET)
 	public String updateProduct(HttpSession session, 
@@ -65,7 +65,7 @@ public class UpdateProductController {
 		productDTO.setDosage(dosage); // 상품 용법 set
 		productDTO.setExpirationDate(expirationDate); // 상품 유통기한 set
 
-		productDAO.update(productDTO); // 상품 정보 갱신
+		productService.update(productDTO); // 상품 정보 갱신
 
 		// -----------------------------------------------기존 카테고리 정보 삭제 ↓-----------------------------------------------
 			
@@ -73,7 +73,7 @@ public class UpdateProductController {
 			
 		productCategoryDTO.setProductID(productID); // 상품 카테고리 카테고리 ID set
 			
-		productCategoryDAO.delete(productCategoryDTO); // 카테고리 삭제
+		productCategoryService.delete(productCategoryDTO); // 카테고리 삭제
 
 		// -----------------------------------------------기존 카테고리 정보 추가-----------------------------------------------
 
@@ -84,7 +84,7 @@ public class UpdateProductController {
 			productCategoryDTO.setProductID(productID); // 상품 아이디 set
 			productCategoryDTO.setCategoryID(categoryIDs.get(i)); // 카테고리 아이디 st
 			
-			productCategoryDAO.insert(productCategoryDTO); // 카테고리 추가
+			productCategoryService.insert(productCategoryDTO); // 카테고리 추가
 			
 		}
 		

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.naeddoco.nsmwspring.model.productModel.ProductDAO;
+import com.naeddoco.nsmwspring.model.productModel.ProductService;
 import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
 
 import jakarta.servlet.http.HttpSession;
@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 public class AsyncSearchAndSortProductController {
 
 	@Autowired
-	private ProductDAO productDAO;
+	private ProductService productService;
 
 	@RequestMapping(value = "/productList/searchAndSort", method = RequestMethod.GET)
 	public List<ProductDTO> searchAndSortProductList(HttpSession session,
@@ -61,7 +61,7 @@ public class AsyncSearchAndSortProductController {
 			
 		}
 		
-		List<ProductDTO> productDTOList = productDAO.selectAll(productDTO);
+		List<ProductDTO> productDTOList = productService.selectAll(productDTO);
 		
 		return productDTOList;
 

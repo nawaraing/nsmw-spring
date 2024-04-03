@@ -224,17 +224,61 @@ public class ProductDAO {
 
 			}
 			
-		}
+			if (result <= 0) {
+				
+				log.debug("crawlProduct 실패");
 
-		if (result <= 0) {
+				return false;
 
-			return false;
+			}
+			
+			log.debug("crawlProduct 성공");
 
+			return true;
+			
+		} else if(productDTO.getSearchCondition().equals("insertProductByAdmin")) {
+			
+			log.debug("insertProductByAdmin 진입");
+
+			try {
+			
+				result = jdbcTemplate.update(INSERT, 
+										     productDTO.getProductName(), 
+										     productDTO.getProductDetail(),
+										     productDTO.getCostPrice(), 
+										     productDTO.getRetailPrice(), 
+										     productDTO.getSalePrice(), 
+										 	 productDTO.getStock(), 
+										 	 productDTO.getIngredient(), 
+										 	 productDTO.getDosage(),
+										 	 productDTO.getExpirationDate(), 
+										 	 productDTO.getSaleState());
+				
+			} catch (Exception e) {
+			
+				log.debug("insertProductByAdmin 예외 발생");
+
+				return false;
+
+			}
+			
+			if (result <= 0) {
+				
+				log.debug("insertProductByAdmin 실패");
+
+				return false;
+
+			}
+			
+			log.debug("insertProductByAdmin 성공");
+
+			return true;
+			
 		}
 		
-		log.debug("insert 처리 실패");
-
-		return true;
+		log.debug("insert 실패");
+		
+		return false;
 
 	}
 

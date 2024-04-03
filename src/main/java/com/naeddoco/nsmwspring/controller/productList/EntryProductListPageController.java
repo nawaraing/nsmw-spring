@@ -8,9 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.naeddoco.nsmwspring.model.categoryModel.CategoryDAO;
+import com.naeddoco.nsmwspring.model.categoryModel.CategoryService;
 import com.naeddoco.nsmwspring.model.categoryModel.CategoryDTO;
-import com.naeddoco.nsmwspring.model.productModel.ProductDAO;
+import com.naeddoco.nsmwspring.model.productModel.ProductService;
 import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
 
 import jakarta.servlet.http.HttpSession;
@@ -21,9 +21,9 @@ import jakarta.servlet.http.HttpSession;
 public class EntryProductListPageController {
 	
 	@Autowired
-	private ProductDAO productDAO;
+	private ProductService productService;
 	@Autowired
-	private CategoryDAO categoryDAO;
+	private CategoryService categoryService;
 	
 	@RequestMapping(value = "/productList", method = RequestMethod.GET)
 	public String entryProductList(HttpSession session, Model model) {
@@ -47,7 +47,7 @@ public class EntryProductListPageController {
 		productDTO.setSortColumnName("REGISTER_DATE"); // 정렬할 컬럼명 set
 		productDTO.setSortMode("ASC"); // 정렬 방식 set
 		
-		List<ProductDTO> productDTOList = productDAO.selectAll(productDTO);
+		List<ProductDTO> productDTOList = productService.selectAll(productDTO);
 		
 		model.addAttribute("productList", productDTOList);
 		
@@ -55,7 +55,7 @@ public class EntryProductListPageController {
 		
 		CategoryDTO categoryDTO = new CategoryDTO();
 		
-		List<CategoryDTO> categoryDTOList = categoryDAO.selectAll(categoryDTO);
+		List<CategoryDTO> categoryDTOList = categoryService.selectAll(categoryDTO);
 		
 		model.addAttribute("categoryList", categoryDTOList);
 		
