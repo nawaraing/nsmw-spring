@@ -211,7 +211,7 @@
                   </div>
                   <div class="card-footer text-muted text-end">
                     <button type="button" class="btn btn-danger me-5">판매 중단</button>
-                    <button type="button" class="btn btn-primary me-2">추가</button>
+                    <custom:adminProductListAddModal />
                     <button type="button" class="btn btn-success me-2">저장</button>
                   </div>
                 </div>
