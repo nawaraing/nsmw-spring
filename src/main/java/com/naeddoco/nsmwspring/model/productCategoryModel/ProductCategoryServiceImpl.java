@@ -12,9 +12,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 	@Override
 	public boolean insert(ProductCategoryDTO productCategoryDTO) {
 		
-		productCategoryDAO.insert(productCategoryDTO); // 성공
-		
-		return productCategoryDAO.insert(productCategoryDTO); // 실패
+		return productCategoryDAO.insert(productCategoryDTO);
 		
 	}
 

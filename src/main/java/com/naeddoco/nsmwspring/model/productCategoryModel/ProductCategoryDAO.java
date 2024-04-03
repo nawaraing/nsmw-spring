@@ -26,19 +26,29 @@ public class ProductCategoryDAO {
 		
 		log.debug("insert 진입");
 		
-		int result = jdbcTemplate.update(INSERT, productCategoryDTO.getProductID(), productCategoryDTO.getCategoryID());
-	
-		if (result <= 0) {
+		if(productCategoryDTO.getSearchCondition().equals("insertProductByAdmin")) {
 			
-			log.debug("insert 실패");
+			log.debug("insertProductByAdmin 진입");
 			
-			return false;
+			int result = jdbcTemplate.update(INSERT, productCategoryDTO.getProductID(), productCategoryDTO.getCategoryID());
+			
+			if (result <= 0) {
+				
+				log.debug("insertProductByAdmin 실패");
+				
+				return false;
+				
+			}
+			
+			log.debug("insertProductByAdmin 성공");
+			
+			return true;
 			
 		}
 		
-		log.debug("insert 성공");
+		log.debug("insert 실패");
 		
-		return true;
+		return false;
 		
 	}
 	

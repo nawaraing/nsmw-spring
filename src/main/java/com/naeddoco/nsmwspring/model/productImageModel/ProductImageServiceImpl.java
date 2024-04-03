@@ -16,9 +16,7 @@ public class ProductImageServiceImpl implements ProductImageService {
 	@Override
 	public boolean insert(ProductImageDTO productImageDTO) {
 		
-		productImageDAO.insert(productImageDTO); // 성공
-		
-		return productImageDAO.insert(productImageDTO); // 실패
+		return productImageDAO.insert(productImageDTO);
 		
 	}
 	

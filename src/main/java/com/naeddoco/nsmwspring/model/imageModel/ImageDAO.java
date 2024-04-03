@@ -106,29 +106,40 @@ public class ImageDAO {
 		
 		int result = 0;
 		
-		try {
-	
-			result = jdbcTemplate.update(INSERT, imageDTO.getImagePath());
+		if(imageDTO.getSearchCondition().equals("insertProductByAdmin")) {
 			
-			if(result <= 0) {
+			log.trace("insertProductByAdmin 진입");
+			
+			try {
 				
-				log.error("insert 실패");
+				result = jdbcTemplate.update(INSERT, imageDTO.getImagePath());
+				
+				if(result <= 0) {
+					
+					log.trace("insertProductByAdmin 실패");
+				
+					return false;
+				
+				}
 			
+			} catch (Exception e) {
+				
+				log.trace("insertProductByAdmin 예외발생");
+
 				return false;
-			
-			}
-		
-		} catch (Exception e) {
-			
-			log.error("insert 예외 발생");
 
-			return false;
-
-		} 	
+			} 	
+			
+			log.trace("insertProductByAdmin 성공");
+			
+			return true;
+			
+			
+		}
 		
 		log.trace("insert 성공");
 		
-		return true;
+		return false;
 		
 	}
 	

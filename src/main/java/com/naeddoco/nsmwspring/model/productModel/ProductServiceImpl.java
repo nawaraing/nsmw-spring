@@ -23,8 +23,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public boolean insert(ProductDTO productDTO) {
-		productDAO.insert(productDTO); // 성공
-		return productDAO.insert(productDTO); // 실패
+		return productDAO.insert(productDTO); 
 	}
 
 	@Override

@@ -28,21 +28,31 @@ public class ProductImageDAO {
 		
 	public boolean insert(ProductImageDTO productImageDTO) {
 		
-		log.debug("insert 처리 진입");
-	
-		int result = jdbcTemplate.update(INSERT, productImageDTO.getImageID(), productImageDTO.getProductID());
+		log.debug("insert 진입");
 		
-		if(result <= 0) {
+		if(productImageDTO.getSearchCondition().equals("insertProductByAdmin")) {
 			
-			log.debug("insert 실패");
+			log.debug("insertProductByAdmin 진입");
 			
-			return false;
+			int result = jdbcTemplate.update(INSERT, productImageDTO.getImageID(), productImageDTO.getProductID());
+			
+			if(result <= 0) {
+				
+				log.debug("insertProductByAdmin 실패");
+				
+				return false;
+				
+			}
+			
+			log.debug("insertProductByAdmin 성공");
+			
+			return true;
 			
 		}
 		
-		log.debug("insert 성공");
+		log.debug("insert 실패");
 		
-		return true;
+		return false;
 		
 	}
 	
