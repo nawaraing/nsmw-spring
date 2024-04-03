@@ -135,7 +135,8 @@ public class SubscriptionInfoDAO {
 											 subscriptionInfoDTO.getBeginDate(),
 											 subscriptionInfoDTO.getSubscriptionPostCode(),
 											 subscriptionInfoDTO.getSubscriptionAddress(),
-											 subscriptionInfoDTO.getSubscriptionDetailAddress());
+											 subscriptionInfoDTO.getSubscriptionDetailAddress(),
+											 subscriptionInfoDTO.getSubscriptionClosingTimes());
 
 			} catch (Exception e) {
 			
