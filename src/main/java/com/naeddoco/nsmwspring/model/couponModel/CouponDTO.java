@@ -41,6 +41,11 @@ public class CouponDTO {
 	private int ancImageID;						// 이미지 아이디
 	private String ancImagePath; 				// 이미지 경로
 	
+	private int ancCouponCategoryID; 			// 쿠폰 카테고리 아이디
+	private int ancCategoryID; 					// 카테고리 아이디
+	private int ancPercentageCouponID; 			// 퍼센트 쿠폰 타입 아이디
+	private int ancWonCouponID;					// 원화 쿠폰 타입 아이디
+	
 	
 	
     @Override

@@ -30,6 +30,12 @@ public class ProvisionDownloadCouponDAO {
 										+ "SET IMAGE_ID = ? "
 										+ "WHERE PROVISION_DOWNLOAD_COUPON_ID = ?";
 	
+	// 다운로드쿠폰 정보 변경
+	private static final String UPDATE = "UPDATE PROVISION_DOWNLOAD_COUPON "
+										+ "SET DEPLOY_DEADLINE = ?, "
+										+ "DEPLOY_STATUS = ? "
+										+ "WHERE PROVISION_DOWNLOAD_COUPON_ID = ? ";
+	
 	private static final String DELETE = "";
 
 	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -136,7 +142,7 @@ public class ProvisionDownloadCouponDAO {
 			log.trace("updateAdminCouponDownloadImageID 진입");
 
 			int result = jdbcTemplate.update(UPDATE_IMAGE_ID, provisionDownloadCouponDTO.getImageID(),
-													 provisionDownloadCouponDTO.getProvisionDownloadCouponID());
+															  provisionDownloadCouponDTO.getProvisionDownloadCouponID());
 
 			if(result <= 0) {
 				log.error("updateAdminCouponDownloadImageID 실패");
@@ -145,6 +151,24 @@ public class ProvisionDownloadCouponDAO {
 			}
 
 			log.trace("updateAdminCouponDownloadImageID 성공");
+			return true;
+
+		}
+		else if (provisionDownloadCouponDTO.getSearchCondition().equals("updateAdminCouponDownloadData")) {
+
+			log.trace("updateAdminCouponDownloadData 진입");
+
+			int result = jdbcTemplate.update(UPDATE, provisionDownloadCouponDTO.getDeployDeadline(),
+													 provisionDownloadCouponDTO.getDeployStatus(),
+													 provisionDownloadCouponDTO.getProvisionDownloadCouponID());
+
+			if(result <= 0) {
+				log.error("updateAdminCouponDownloadData 실패");
+				return false;
+
+			}
+
+			log.trace("updateAdminCouponDownloadData 성공");
 			return true;
 
 		}
