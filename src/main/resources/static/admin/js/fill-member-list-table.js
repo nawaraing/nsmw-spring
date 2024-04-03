@@ -44,31 +44,36 @@ function fillMemberListTable(datas) {
 			td = $('<td id="day-of-birth-' + rowNum + '">').text(data.dayOfBirth);
 			tr.append(td);
 			
-			// 회원 ID
-			td = $('<td id="gender-' + rowNum + '">').text(data.gender);
+			// 성별
+			if (data.gender === "MALE") {
+				td = $('<td id="gender-' + rowNum + '">').text("남");
+			} else if (data.gender === "FEMALE") {
+				td = $('<td id="gender-' + rowNum + '">').text("여");
+			}
+//			td = $('<td id="gender-' + rowNum + '">').text(data.gender);
 			tr.append(td);
 			
-			// 회원 ID
+			// 전화번호
 			td = $('<td id="phone-number-' + rowNum + '">').text(data.phoneNumber);
 			tr.append(td);
 			
-			// 회원 ID
+			// 이메일
 			td = $('<td id="email' + rowNum + '">').text(data.email);
 			tr.append(td);
 			
-			// 회원 ID
+			// 우편번호
 			td = $('<td id="postcode-' + rowNum + '">').text(data.ancShippingPostCode);
 			tr.append(td);
 			
-			// 회원 ID
+			// 도로명주소
 			td = $('<td id="address-' + rowNum + '">').text(data.ancShippingAddress);
 			tr.append(td);
 			
-			// 회원 ID
+			// 상세주소
 			td = $('<td id="adress-detail-' + rowNum + '">').text(data.ancShippingAddressDetail);
 			tr.append(td);
 			
-			// 회원 ID
+			// 등급
 			td = $('<td id="grade-' + rowNum + '">').text(data.ancGradeName);
 			tr.append(td);
 			
