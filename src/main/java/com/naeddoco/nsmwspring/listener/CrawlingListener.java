@@ -46,7 +46,7 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-	//	crawling();
+		// crawling();
 	}
 
 	public void crawling() {
@@ -337,6 +337,8 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 
 				ProductCategoryDTO productCategoryDTO = new ProductCategoryDTO(); // 상품 카테고리 사이 테이블 DTO 호출
 
+				productCategoryDTO.setSearchCondition("insertProductByAdmin");
+				
 				productCategoryDTO.setProductID(x.getProductID()); // 상품 카테고리 사이 테이블 DTO에 상품 PK를 set
 
 				productCategoryDTO.setCategoryID(categoryDTO.getCategoryID()); // 상품 카테고리 사이 테이블 DTO에 카테고리 PK를 set
@@ -344,6 +346,8 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 				productCategoryDAO.insert(productCategoryDTO); // 상품 카테고리 사이 테이블에 데이터를 insert
 				
 				ImageDTO imageDTO = new ImageDTO(); // 이미지 DTO 호출
+				
+				imageDTO.setSearchCondition("insertProductByAdmin");
 				
 				imageDTO.setImagePath(productDTO.getAncImagePath()); // 이미지 DTO에 이미지 경로 데이터 set
 				
@@ -356,6 +360,8 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 				for(ImageDTO y : imageDTOList) { // 이미지 테이블 SELECTALL 반환 값 순회	
 					
 					ProductImageDTO productImageDTO = new ProductImageDTO(); // 상품 이미지 사이 테이블 호출 
+					
+					productImageDTO.setSearchCondition("insertProductByAdmin");
 					 
 					productImageDTO.setImageID(y.getImageID()); // 이미지 아이디값 set
 					 

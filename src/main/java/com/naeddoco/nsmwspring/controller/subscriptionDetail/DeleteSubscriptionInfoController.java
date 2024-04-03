@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDAO;
+import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoService;
 import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDTO;
-import com.naeddoco.nsmwspring.model.subscriptionInfoProductModel.SubscriptionInfoProductDAO;
+import com.naeddoco.nsmwspring.model.subscriptionInfoProductModel.SubscriptionInfoProductService;
 import com.naeddoco.nsmwspring.model.subscriptionInfoProductModel.SubscriptionInfoProductDTO;
 
 import jakarta.servlet.http.HttpSession;
@@ -20,9 +20,9 @@ import jakarta.servlet.http.HttpSession;
 public class DeleteSubscriptionInfoController {
 	
 	@Autowired
-	private SubscriptionInfoDAO subscriptionInfoDAO;
+	private SubscriptionInfoService subscriptionInfoService;
 	@Autowired
-	private SubscriptionInfoProductDAO subscriptionInfoProductDAO;
+	private SubscriptionInfoProductService subscriptionInfoProductService;
 	
 	@RequestMapping(value = "subscriptionDetail/delete", method = RequestMethod.GET)
 	public String updateSubscriptionInfo(HttpSession session, 
@@ -46,7 +46,7 @@ public class DeleteSubscriptionInfoController {
 		subscriptionInfoDTO.setSearchCondition("deleteSubscriptionData");
 		subscriptionInfoDTO.setSubscriptionInfoID(subscriptionInfoID);
 		
-		subscriptionInfoDAO.delete(subscriptionInfoDTO);
+		subscriptionInfoService.delete(subscriptionInfoDTO);
 		
 		// -----------------------------------------------구독 상품 데이터 삭제 ↓-----------------------------------------------
 		
@@ -55,7 +55,7 @@ public class DeleteSubscriptionInfoController {
 		subscriptionInfoProductDTO.setSearchCondition("deleteSubscriptionData");
 		subscriptionInfoProductDTO.setSubscriptionInfoID(subscriptionInfoID);
 		
-		subscriptionInfoProductDAO.delete(subscriptionInfoProductDTO);
+		subscriptionInfoProductService.delete(subscriptionInfoProductDTO);
 		
 		return "subscriptionDetail";
 		

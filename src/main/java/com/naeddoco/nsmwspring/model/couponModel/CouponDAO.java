@@ -35,8 +35,9 @@ public class CouponDAO {
 	// ex)뇌;뼈/치아;간;
 	// 기본정렬은 등록일-오름차순
 	private static final String SELECTALL_COUPON_INFO_GRADE ="SELECT DISTINCT "
-																+ "C.COUPON_ID"
-																+ "C.CREATE_DATE"
+																+ "PC.PROVISION_GRADE_COUPON_ID, "
+																+ "C.COUPON_ID, "
+																+ "C.CREATE_DATE, "
 																+ "C.COUPON_NAME, "
 																+ "C.EXPIRATION_DATE, "
 																+ "CONCAT((SELECT GROUP_CONCAT(CA.CATEGORY_NAME SEPARATOR ';') "
@@ -45,17 +46,20 @@ public class CouponDAO {
 																	+ "ON CA.CATEGORY_ID = CC.CATEGORY_ID "
 																	+ "WHERE C.COUPON_ID = CC.COUPON_ID)"
 																	+ ") AS CATEGORY_NAME, "
-																+ "C.COUPON_TYPE,"
+																+ "C.COUPON_TYPE, "
+																+ "CAT.CATEGORY_ID, "
 																+ "CASE "
 																	+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
 																	+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
 																+ "END AS DISCOUNT, "
+																+ "W.WON_COUPON_ID, "
+																+ "P.PERCENTAGE_COUPON_ID, "
 																+ "CASE "
 																	+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
 																	+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
 																+ "END AS AMOUNT_LIMIT, "
 																+ "PC.DEPLOY_CYCLE, "
-																+ "PC.DEPLOY_BASE,"
+																+ "PC.DEPLOY_BASE, "
 																+ "G.GRADE_NAME "
 																+ "FROM "
 																	+ "COUPON C "
@@ -69,57 +73,63 @@ public class CouponDAO {
 																	+ "CATEGORY CAT ON CC.CATEGORY_ID = CAT.CATEGORY_ID "
 																+ "JOIN "
 																	+ "PROVISION_GRADE_COUPON PC ON C.COUPON_ID = PC.COUPON_ID "
-																+ "LEFT JOIN"
+																+ "LEFT JOIN "
 																	+ "GRADE G ON PC.GRADE_ID = G.GRADE_ID "
 																+ "ORDER BY C.CREATE_DATE ASC";
 
 	//등급쿠폰 문자열 검색 또는 정렬
 	private static final String SELECTALL_SEARCH_AND_SORT_BY_GRADE = "SELECT DISTINCT "
-																	+ "C.COUPON_ID"
-																	+ "C.CREATE_DATE, "
-																	+ "C.COUPON_NAME, "
-																	+ "C.EXPIRATION_DATE, "
-																	+ "CONCAT((SELECT GROUP_CONCAT(CATEGORY_NAME SEPARATOR ';') "
-																		+ "FROM COUPON_CATEGORY CC "
-																		+ "JOIN CATEGORY C ON CC.CATEGORY_ID = C.CATEGORY_ID "
-																		+ "WHERE CC.COUPON_ID = C.COUPON_ID), ';') AS CATEGORY_NAME,"
-																	+ "C.COUPON_TYPE, "
-																	+ "CASE "
-																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
-																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
-																	+ "END AS DISCOUNT, "
-																	+ "CASE "
-																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
-																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
-																	+ "END AS AMOUNT_LIMIT, "
+																		+ "PC.PROVISION_GRADE_COUPON_ID, "
+																		+ "C.COUPON_ID, "
+																		+ "C.CREATE_DATE, "
+																		+ "C.COUPON_NAME, "
+																		+ "C.EXPIRATION_DATE, "
+																		+ "CONCAT((SELECT GROUP_CONCAT(CA.CATEGORY_NAME SEPARATOR ';') "
+																			+ "FROM CATEGORY CA "
+																			+ "JOIN COUPON_CATEGORY CC "
+																			+ "ON CA.CATEGORY_ID = CC.CATEGORY_ID "
+																			+ "WHERE C.COUPON_ID = CC.COUPON_ID)"
+																			+ ") AS CATEGORY_NAME, "
+																		+ "C.COUPON_TYPE, "
+																		+ "CAT.CATEGORY_ID, "
+																		+ "CASE "
+																			+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
+																			+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
+																		+ "END AS DISCOUNT, "
+																		+ "W.WON_COUPON_ID, "
+																		+ "P.PERCENTAGE_COUPON_ID, "
+																		+ "CASE "
+																			+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
+																			+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
+																		+ "END AS AMOUNT_LIMIT, "
 																		+ "PC.DEPLOY_CYCLE, "
 																		+ "PC.DEPLOY_BASE, "
 																		+ "G.GRADE_NAME "
-																	+ "FROM "
-																		+ "COUPON C "
-																	+ "LEFT JOIN "
-																		+ "PERCENTAGE_COUPON P ON C.COUPON_ID = P.COUPON_ID "
-																	+ "LEFT JOIN "
-																		+ "WON_COUPON W ON C.COUPON_ID = W.COUPON_ID "
-																	+ "LEFT JOIN "
-																		+ "COUPON_CATEGORY CC ON C.COUPON_ID = CC.COUPON_ID "
-																	+ "LEFT JOIN "
-																		+ "CATEGORY CAT ON CC.CATEGORY_ID = CAT.CATEGORY_ID "
-																	+ "LEFT JOIN "
-																		+ "PROVISION_GRADE_COUPON PC ON C.COUPON_ID = PC.COUPON_ID "
-																	+ "LEFT JOIN "
-																		+ "GRADE G ON PC.GRADE_ID = G.GRADE_ID "
-																	+ "WHERE "
-																		+ "1=1 "
-																		+ "AND IF(? IS NOT NULL, C.COUPON_NAME LIKE CONCAT('%', ?, '%'), 1) "
-																	+ "ORDER BY ";	
+																		+ "FROM "
+																			+ "COUPON C "
+																		+ "LEFT JOIN "
+																			+ "PERCENTAGE_COUPON P ON C.COUPON_ID = P.COUPON_ID "
+																		+ "LEFT JOIN "
+																			+ "WON_COUPON W ON C.COUPON_ID = W.COUPON_ID "
+																		+ "LEFT JOIN "
+																			+ "COUPON_CATEGORY CC ON C.COUPON_ID = CC.COUPON_ID "
+																		+ "LEFT JOIN "
+																			+ "CATEGORY CAT ON CC.CATEGORY_ID = CAT.CATEGORY_ID "
+																		+ "JOIN "
+																			+ "PROVISION_GRADE_COUPON PC ON C.COUPON_ID = PC.COUPON_ID "
+																		+ "LEFT JOIN "
+																			+ "GRADE G ON PC.GRADE_ID = G.GRADE_ID "
+																		+ "WHERE "
+																			+ "1=1 "
+																			+ "AND IF(? IS NOT NULL, C.COUPON_NAME LIKE CONCAT('%', ?, '%'), 1) "
+																		+ "ORDER BY ";	
 	
 	// 관리자페이지_전체 발송 쿠폰 조회
 	// 1개의 쿠폰에 카테고리가 여러개라면 CATEGORY_NAME에 ;로 구분되어 조회
 	// ex)뇌;뼈/치아;간;
 	// 기본정렬은 등록일-오름차순
 	private static final String SELECTALL_COUPON_INFO_BATCH = "SELECT DISTINCT "
-																	+ "C.COUPON_ID , C.COUPON_NAME, C.CREATE_DATE, C.DISTRIBUTE_DATE , C.EXPIRATION_DATE, "
+																	+ "PBC.PROVISION_BATCH_COUPON_ID, C.COUPON_ID , C.COUPON_NAME, C.CREATE_DATE, C.DISTRIBUTE_DATE , C.EXPIRATION_DATE, "
 																	+ "CONCAT((SELECT GROUP_CONCAT(CA.CATEGORY_NAME SEPARATOR ';') "
 																		+ "FROM CATEGORY CA "
 																		+ "JOIN COUPON_CATEGORY CC "
@@ -127,10 +137,14 @@ public class CouponDAO {
 																		+ "WHERE C.COUPON_ID = CC.COUPON_ID)) "
 																		+ "AS CATEGORY_NAME, "
 																	+ "C.COUPON_TYPE, "
+																	+ "CAT.CATEGORY_ID, "
+																	+ "CC.COUPON_CATEGORY_ID, "
 																	+ "CASE "
 																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
 																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
 																	+ "END AS DISCOUNT, "
+																	+ "W.WON_COUPON_ID, "
+																	+ "P.PERCENTAGE_COUPON_ID, "
 																	+ "CASE "
 																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
 																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
@@ -153,7 +167,7 @@ public class CouponDAO {
 
 	//전체 발송 쿠폰 문자열 검색 또는 정렬
 	private static final String SELECTALL_SEARCH_AND_SORT_BY_BATCH = "SELECT DISTINCT "
-																				+ "C.COUPON_ID , C.COUPON_NAME, C.CREATE_DATE, C.DISTRIBUTE_DATE , C.EXPIRATION_DATE, "
+																				+ "PBC.PROVISION_BATCH_COUPON_ID, C.COUPON_ID , C.COUPON_NAME, C.CREATE_DATE, C.DISTRIBUTE_DATE , C.EXPIRATION_DATE, "
 																				+ "CONCAT((SELECT GROUP_CONCAT(CA.CATEGORY_NAME SEPARATOR ';') "
 																					+ "FROM CATEGORY CA "
 																					+ "JOIN COUPON_CATEGORY CC "
@@ -161,10 +175,14 @@ public class CouponDAO {
 																					+ "WHERE C.COUPON_ID = CC.COUPON_ID)) "
 																					+ "AS CATEGORY_NAME, "
 																				+ "C.COUPON_TYPE, "
+																				+ "CAT.CATEGORY_ID, "
+																				+ "CC.COUPON_CATEGORY_ID, "
 																				+ "CASE "
 																					+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
 																					+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
 																				+ "END AS DISCOUNT, "
+																				+ "W.WON_COUPON_ID, "
+																				+ "P.PERCENTAGE_COUPON_ID, "
 																				+ "CASE "
 																					+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
 																					+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
@@ -245,10 +263,14 @@ public class CouponDAO {
 																		+ "	ON CA.CATEGORY_ID = CC.CATEGORY_ID "
 																		+ "	WHERE C.COUPON_ID = CC.COUPON_ID)) AS CATEGORY_NAME, "
 																	+ "C.COUPON_TYPE, "
+																	+ "CAT.CATEGORY_ID, "
+																	+ "CC.COUPON_CATEGORY_ID, "
 																	+ "CASE "
 																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT "
 																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE "
 																	+ "END AS DISCOUNT, "
+																	+ "W.WON_COUPON_ID, "
+																	+ "P.PERCENTAGE_COUPON_ID, "
 																	+ "CASE "
 																		+ "WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT "
 																		+ "WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT "
@@ -468,7 +490,6 @@ public class CouponDAO {
 			}
 			
 		}
-		//////////////////////////////////////////
 		else if (couponDTO.getSearchCondition().equals("selectAllSearchAndSortDownload")) {
 
 			log.trace("selectAllSearchAndSortDownload 진입");
@@ -707,13 +728,17 @@ class selectAllGradeCouponInfoRowMapper implements RowMapper<CouponDTO> {
 		
 		CouponDTO data = new CouponDTO();
 
+		data.setAncProvisionGradeCouponID(rs.getInt("PC.PROVISION_GRADE_COUPON_ID"));
 		data.setCouponID(rs.getInt("C.COUPON_ID"));
 		data.setCreateDate(rs.getTimestamp("C.CREATE_DATE"));
 		data.setCouponName(rs.getString("C.COUPON_NAME"));
 		data.setExpirationDate(rs.getTimestamp("C.EXPIRATION_DATE"));
 		data.setAncCategoryName(rs.getString("CATEGORY_NAME"));
 		data.setCouponType(rs.getString("C.COUPON_TYPE"));
+		data.setAncCategoryID(rs.getInt("CAT.CATEGORY_ID"));
 		data.setAncDiscount(rs.getInt("DISCOUNT"));
+		data.setAncWonCouponID(rs.getInt("W.WON_COUPON_ID"));
+		data.setAncPercentageCouponID(rs.getInt("P.PERCENTAGE_COUPON_ID"));
 		data.setAncAmount(rs.getInt("AMOUNT_LIMIT"));
 		data.setAncDeployCycle(rs.getString("PC.DEPLOY_CYCLE"));
 		data.setAncDeployBase(rs.getString("PC.DEPLOY_BASE"));
@@ -733,6 +758,7 @@ class selectAllBatchCouponInfoRowMapper implements RowMapper<CouponDTO> {
 		
 		CouponDTO data = new CouponDTO();
 
+		data.setAncProvisionBatchCouponID(rs.getInt("PBC.PROVISION_BATCH_COUPON_ID"));
 		data.setCouponID(rs.getInt("C.COUPON_ID"));
 		data.setCouponName(rs.getString("C.COUPON_NAME"));
 		data.setCreateDate(rs.getTimestamp("C.CREATE_DATE"));
@@ -740,7 +766,11 @@ class selectAllBatchCouponInfoRowMapper implements RowMapper<CouponDTO> {
 		data.setExpirationDate(rs.getTimestamp("C.EXPIRATION_DATE"));
 		data.setAncCategoryName(rs.getString("CATEGORY_NAME"));
 		data.setCouponType(rs.getString("C.COUPON_TYPE"));
+		data.setAncCategoryID(rs.getInt("CAT.CATEGORY_ID"));
+		data.setAncCouponCategoryID(rs.getInt("CC.COUPON_CATEGORY_ID"));
 		data.setAncDiscount(rs.getInt("DISCOUNT"));
+		data.setAncWonCouponID(rs.getInt("W.WON_COUPON_ID"));
+		data.setAncPercentageCouponID(rs.getInt("P.PERCENTAGE_COUPON_ID"));
 		data.setAncAmount(rs.getInt("AMOUNT_LIMIT"));
 		data.setAncDeployStatus(rs.getString("PBC.DEPLOY_STATUS"));
 		

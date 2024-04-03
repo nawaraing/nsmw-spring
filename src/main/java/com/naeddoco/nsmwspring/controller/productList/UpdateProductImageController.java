@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.naeddoco.nsmwspring.model.imageModel.ImageDAO;
+import com.naeddoco.nsmwspring.model.imageModel.ImageService;
 import com.naeddoco.nsmwspring.model.imageModel.ImageDTO;
-import com.naeddoco.nsmwspring.model.productImageModel.ProductImageDAO;
+import com.naeddoco.nsmwspring.model.productImageModel.ProductImageService;
 import com.naeddoco.nsmwspring.model.productImageModel.ProductImageDTO;
 
 import jakarta.servlet.http.HttpSession;
@@ -26,9 +26,9 @@ import jakarta.servlet.http.HttpSession;
 public class UpdateProductImageController {
 	
 	@Autowired
-	private ImageDAO imageDAO;
+	private ImageService imageService;
 	@Autowired
-	private ProductImageDAO productImageDAO;
+	private ProductImageService productImageService;
 	
 	@RequestMapping(value = "/productList/imageUpdate", method = RequestMethod.GET)
 	public String updateImage(HttpSession session, @RequestParam("imageID") int imageID) {
@@ -50,7 +50,7 @@ public class UpdateProductImageController {
 		imageDTO.setSearchCondition("deleteAdminProductImageDatas"); // 쿼리 분기 설정
 		imageDTO.setImageID(imageID); // 이미지 아이디 set
 		
-		imageDTO = imageDAO.selectOne(imageDTO); // 이미지 정보를 DTO에 저장
+		imageDTO = imageService.selectOne(imageDTO); // 이미지 정보를 DTO에 저장
 		
 		Path imagePath = Paths.get(imageDTO.getImagePath()); // 이미지 경로 습득
 		
@@ -59,7 +59,7 @@ public class UpdateProductImageController {
 		imageDTO.setSearchCondition("deleteAdminProductImageDatas"); // 쿼리 분기 설정
 		imageDTO.setImageID(imageID); // 이미지 아이디 set
 		
-		imageDAO.delete(imageDTO); // 이미지 경로 삭제
+		imageService.delete(imageDTO); // 이미지 경로 삭제
 		
 		//-----------------------------------------------상품 이미지 테이블 관련 데이터 삭제 ↓-----------------------------------------------
 		
@@ -68,7 +68,7 @@ public class UpdateProductImageController {
 		productImageDTO.setSearchCondition("deleteAdminProductImageDatas");
 		productImageDTO.setImageID(imageID);
 		
-		productImageDAO.delete(productImageDTO);
+		productImageService.delete(productImageDTO);
 		
 		//-----------------------------------------------이미지 파일 삭제 ↓-----------------------------------------------
 		
