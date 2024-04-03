@@ -21,7 +21,7 @@ public class SubscriptionInfoProductDAO {
 	private JdbcTemplate jdbcTemplate;
 	
 	// 구독 상품 정보를 모두 가져오는 쿼리
-	private static final String SELECTALL_SUBSCRIPTION_PRODUCT = "SELECT P.PRODUCT_NAME, SIP.QUANTITY " +
+	private static final String SELECTALL_SUBSCRIPTION_PRODUCT = "SELECT P.PRODUCT_NAME, SIP.QUANTITY, SIP.PURCHASE_PRICE " +
 																 "FROM SUBSCRIPTION_INFO_PRODUCT SIP " +
 																 "INNER JOIN PRODUCT P ON SIP.PRODUCT_ID = P.PRODUCT_ID " +
 																 "WHERE SIP.SUBSCRIPTION_INFO_ID = ?";
@@ -158,7 +158,8 @@ class selectAllSubscriptionProductRowMapper implements RowMapper<SubscriptionInf
 		SubscriptionInfoProductDTO subscriptionInfoProductDTO = new SubscriptionInfoProductDTO();
 
 		subscriptionInfoProductDTO.setAncProductName(rs.getString("P.PRODUCT_NAME"));
-		subscriptionInfoProductDTO.setQuantity(rs.getInt("SIP.QUANTITY "));
+		subscriptionInfoProductDTO.setQuantity(rs.getInt("SIP.QUANTITY"));
+		subscriptionInfoProductDTO.setPurchasePrice(rs.getInt("SIP.PURCHASE_PRICE"));
 		
 		log.debug("selectAllSubscriptionProductRowMapper 완료");
 
