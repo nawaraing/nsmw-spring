@@ -68,7 +68,7 @@
 					<h1 class="mb-4">구독이 완료되었습니다</h1>
 					<hr>
 					<h2>구독번호 | ${subscriptionID}</h2>
-					<a class="btn border-secondary rounded-pill py-3 px-5" href="redirect:/">쇼핑 계속하기</a>
+					<a class="btn border-secondary rounded-pill py-3 px-5" href="/">쇼핑 계속하기</a>
 				</div>
 			</div>
 		</div>

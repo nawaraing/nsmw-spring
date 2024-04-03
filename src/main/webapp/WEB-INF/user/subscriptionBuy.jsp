@@ -77,7 +77,7 @@
 			//경로는 시스템에 맞게 수정하여 사용
 			//호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://business.juso.go.kr/addrlink/addrLinkUrl.do)를
 			//호출하게 됩니다.
-			var pop = window.open("jusoPopup.jsp", "pop",
+			var pop = window.open("/jusoPopup.jsp", "pop",
 					"width=570,height=420, scrollbars=yes, resizable=yes");
 			//** 2017년 5월 모바일용 팝업 API 기능 추가제공 **/
 			// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서
@@ -88,9 +88,15 @@
 		function jusoCallBack(zipNo, roadAddrPart1, addrDetail) {
 
 			// 2017년 2월 제공항목이 추가되었습니다. 원하시는 항목을 추가하여 사용하시면 됩니다.
-			document.subscriptionForm.subscriptionPostCode.value = zipNo;
-			document.subscriptionForm.subscriptionAddress.value = roadAddrPart1;
-			document.subscriptionForm.subscriptionDetailAddress.value = addrDetail;
+			document.getElementById('subscriptionPostCode').value = zipNo;	
+			document.getElementById('subscriptionAddress').value = roadAddrPart1;	
+			document.getElementById('subscriptionDetailAddress').value = addrDetail;	
+			
+			console.log("________________________주소 API_____________________");
+			console.log("우편번호 : " + document.getElementById('subscriptionPostCode').value);
+			console.log("주   소 : " + document.getElementById('subscriptionAddress').value);
+			console.log("상세주소 : " + document.getElementById('subscriptionDetailAddress').value);
+			console.log("________________________주소 API 끝_____________________");
 
 		}
 	</script>
@@ -204,7 +210,28 @@
 	<!-- 구매 확정 -->
 	<script>
 		function goToPurchase(){
-			var form = document.getElementById('subscriptionForm');			
+			var form = document.getElementById('subscriptionForm');
+			
+			<!-- 유저 정보 수집 -->			
+			console.log("________________________goToPurchase_____________________");
+			console.log("우편번호 : " + document.getElementById('subscriptionPostCode').value);
+			console.log("주   소 : " + document.getElementById('subscriptionAddress').value);
+			console.log("상세주소 : " + document.getElementById('subscriptionDetailAddress').value);
+			console.log("________________________goToPurchase끝_____________________");
+			
+			var postCode = document.getElementById('subscriptionPostCode').value;
+			var address = document.getElementById('subscriptionAddress').value;
+			var detailAddress = document.getElementById('subscriptionDetailAddress').value;
+			
+			console.log("________________________goToPurchase 변수에 저장한 값_____________________");
+			console.log("우편번호 : " + postCode);
+			console.log("주   소 : " + address);
+			console.log("상세주소 : " + detailAddress);
+			console.log("________________________goToPurchase 변수에 저장한 값 끝_____________________");
+			
+			form.innerHTML += '<input type="hidden" name="subscriptionPostCode" value="' + postCode + '">';
+			form.innerHTML += '<input type="hidden" name="subscriptionAddress" value="' + address + '">';
+			form.innerHTML += '<input type="hidden" name="subscriptionDetailAddress" value="' + detailAddress + '">';	
 			
 			<!-- 구독기간 -->
 			form.innerHTML += '<input type="hidden" name="subscriptionClosingTimes" value="' + document.getElementById('hiddenSubscriptionClosingTimes').value + '">';
@@ -277,7 +304,7 @@
 						<div class="row">
 							<label class="form-label my-3"></label>
 							<div class="col-lg-8">
-								<input class="form-control p-3 border-secondary" type="number" id="subscriptionPostCode" name="subscriptionPostCode" value="${memberInfo.ancShippingPostCode}" readonly required />
+								<input class="form-control p-3 border-secondary" type="number" id="subscriptionPostCode" value="${memberInfo.ancShippingPostCode}" readonly required />
 							</div>
 							<div class="col-lg-4">
 								<input class="btn border border-secondary text-primary rounded-pill px-4 py-3" type="button" onClick="goPopup()" value="우편번호 찾기" />
@@ -286,10 +313,10 @@
 						<div class="row">
 							<label class="form-label my-3"></label>
 							<div class="col-lg-6">
-								<input class="form-control p-3" type="text" id="subscriptionAddress" name="subscriptionAddress" value="${memberInfo.ancShippingAddress}" readonly required />
+								<input class="form-control p-3" type="text" id="subscriptionAddress" value="${memberInfo.ancShippingAddress}" readonly required />
 							</div>
 							<div class="col-lg-6">
-								<input class="form-control p-3" type="text" id="subscriptionDetailAddress" name="subscriptionDetailAddress" value="${memberInfo.ancShippingAddressDetail}" readonly required />
+								<input class="form-control p-3" type="text" id="subscriptionDetailAddress" value="${memberInfo.ancShippingAddressDetail}" readonly required />
 							</div>
 						</div>
 					</div>

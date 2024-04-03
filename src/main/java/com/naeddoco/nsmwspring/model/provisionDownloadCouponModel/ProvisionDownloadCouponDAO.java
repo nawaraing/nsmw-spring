@@ -36,6 +36,12 @@ public class ProvisionDownloadCouponDAO {
 										+ "DEPLOY_STATUS = ? "
 										+ "WHERE PROVISION_DOWNLOAD_COUPON_ID = ? ";
 	
+	
+	// 배포상태 '중단'으로 변경
+	private static final String UPDATE_DEPLOY_STATUS = "UPDATE PROVISION_DOWNLOAD_COUPON "
+													 + "SET DEPLOY_STATUS = 'STOP' "
+													 + "WHERE PROVISION_DOWNLOAD_COUPON_ID = ?";
+	
 	private static final String DELETE = "";
 
 	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -172,22 +178,29 @@ public class ProvisionDownloadCouponDAO {
 			return true;
 
 		}
+		else if (provisionDownloadCouponDTO.getSearchCondition().equals("stopAdminCouponDownloadData")) {
 
+			log.trace("stopAdminCouponDownloadData 진입");
+
+			int result = jdbcTemplate.update(UPDATE_DEPLOY_STATUS, provisionDownloadCouponDTO.getProvisionDownloadCouponID());
+
+			if(result <= 0) {
+				log.error("stopAdminCouponDownloadData 실패");
+				return false;
+
+			}
+
+			log.trace("stopAdminCouponDownloadData 성공");
+			return true;
+		}
+		
 		log.error("update 실패");
 		return false;
 	}
 	
 	
 	public boolean delete(ProvisionDownloadCouponDTO provisionDownloadCouponDTO) {
-//		int result = jdbcTemplate.update(UPDATE);
-//
-//		if (result <= 0) {
-
 			return false;
-
-//		}
-//
-//		return true;
 
 	}
 

@@ -50,7 +50,7 @@ public class EntrySubscriptionCompPageController {
 		
 		
 		/*------------------------------------------------------------------ 구독 내역(마이페이지) 추가 ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-		
+
 		System.out.println("구독 완료 페이지 요청");
 		System.out.println("@RequestParam으로 받은 값");
 		System.out.println("상품 PK : " + productID.toString() + "자료형 : " + productID.get(0).getClass());
@@ -73,7 +73,7 @@ public class EntrySubscriptionCompPageController {
         System.out.println("[구독 insert] 현재 시간: " + subscriptionInfoDTO.getBeginDate());
         
         // 배송지
-        System.out.println("[구독 insert] 구독 상품을 배송지 : " + subscriptionInfoDTO.getSubscriptionPostCode() + " // " + subscriptionInfoDTO.getSubscriptionAddress() + " // " + subscriptionInfoDTO.getSubscriptionDetailAddress());
+        System.out.println("[구독 insert] 구독 상품을 배송지 /Command객체/: " + subscriptionInfoDTO.getSubscriptionPostCode() + " // " + subscriptionInfoDTO.getSubscriptionAddress() + " // " + subscriptionInfoDTO.getSubscriptionDetailAddress());
          
         // 구독 기간
         System.out.println("[구독 insert] 구독 기간 : " + subscriptionInfoDTO.getSubscriptionClosingTimes()+"개월");
