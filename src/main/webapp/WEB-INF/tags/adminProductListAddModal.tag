@@ -32,27 +32,13 @@
             <div id="carouselExample" class="carousel carousel-dark slide" data-bs-ride="carousel">
               <ol class="carousel-indicators" id="carousel-indicators">
                 <li data-bs-target="#carouselExample" data-bs-slide-to="0" class="active"></li>
-                <li data-bs-target="#carouselExample" data-bs-slide-to="1"></li>
-                <li data-bs-target="#carouselExample" data-bs-slide-to="2"></li>
               </ol>
               <div class="carousel-inner mb-3" id="image-preview">
                 <div class="carousel-item active">
-                  <img class="d-block w-100" src="/resources/productImages/collagen.jpg" alt="First slide" />
-                  <div class="carousel-caption d-none d-md-block">
+                  <img class="d-block w-100" src="/resources/commonImages/no-image.jpg" alt="First slide" />
+<!--                   <div class="carousel-caption d-none d-md-block">
                     <h3>First slide</h3>
-                  </div>
-                </div>
-                <div class="carousel-item">
-                  <img class="d-block w-100" src="/resources/productImages/collagen.jpg" alt="Second slide" />
-                  <div class="carousel-caption d-none d-md-block">
-                    <h3>Second slide</h3>
-                  </div>
-                </div>
-                <div class="carousel-item">
-                  <img class="d-block w-100" src="/resources/productImages/collagen.jpg" alt="Third slide" />
-                  <div class="carousel-caption d-none d-md-block">
-                    <h3>Third slide</h3>
-                  </div>
+                  </div> --> 
                 </div>
               </div>
               <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
@@ -213,24 +199,36 @@
 <script>
 const maxImageCnt = 3;
 function displayImage() {
+	console.log('Call displayImage()');
+	
 	// 3개 이상 등록 시 경고 문구 비우기
 	let tooManyImages = $('#too-many-images');
 	tooManyImages.empty();
-	
-    let fileInput = $('#upload-image');
 
     // 하단 이미지 목록 비우기
     let imageList = $('#image-list');
     imageList.empty();
+	
+    // 상단 이미지 미리보기 비우기
+    var imagePreview = $('#image-preview');
+    imagePreview.empty();
     
-    let cnt = 0;
+    // 캐러셀 눈금 비우기
+    let indicators = $('#carousel-indicators');
+    indicators.empty();
     
-    $.each(fileInput.prop("files"), function(index, file) {
+    let files = $('#upload-image')[0].files;
+    console.log('files: ' + files);
+    // TODO: files가 null인 경우 처리 
+	let modifiedFiles = [];
+    
+    $.each(files, function(index, file) {
+    	console.log('$.each(' + index + ')');
     	// 3개 초과 시 경고 문구 & 초과하는 이미지 파일 무시
-    	if (cnt === maxImageCnt) {
+    	if (index >= maxImageCnt) {
     		tooManyImages.empty();
     		tooManyImages.append($('<h5 class="text-danger">').text('이미지는 최대 3개까지 등록할 수 있습니다'));
-    		return;
+    		return false;
     	}
     	
     	// 하단 이미지 목록에 이미지 이름 추가
@@ -246,26 +244,11 @@ function displayImage() {
 		div.append(trashBtn);
 		
 		imageList.append(div);
+		modifiedFiles.push(file);
 		
-		cnt++;
-    });
-    
-    // 상단 이미지 미리보기
-    var imagePreview = $('#image-preview');
-    imagePreview.empty();
-    
-    var files = event.target.files;
-    // TODO: files가 null인 경우 에러 처리
-    
-    for (let i = 0; i < files.length; i++) {
-    	if (i > 2) {
-    		break;
-    	}
-		console.log('files.length: ' + files.length);
-	     
-	    var file = files[i];
+		// 상단 이미지 미리보기
 	    var reader = new FileReader();
-	    let idx = i;
+	    let idx = index;
 	
 	    reader.onload = function(event) {
 	     
@@ -286,18 +269,14 @@ function displayImage() {
 			imagePreview.append(imageHtml);
 		};
 		reader.readAsDataURL(file);
-    }
-    
-    // 캐러셀 눈금 추가
-    let indicators = $('#carousel-indicators');
-    indicators.empty();
-    
-    $.each(fileInput.prop("files"), function(index, file) {
+		
+		// 캐러셀 눈금
     	let active = '';
     	if (index === 0) active = 'class="active"';
     	let li = $('<li data-bs-target="#carouselExample" id="carousel-indicator-' + index + '" data-bs-slide-to="' + index + '" ' + active + '>');
     	indicators.append(li);
     });
+    $(this)[0].files = modifiedFiles;
 }
     
     
@@ -308,6 +287,7 @@ function displayImage() {
   </ol>
  */
 
+let deleteImageList = [];
 function deleteImage(index) {
 	console.log('deleteImage index: ' + index);
 	
@@ -316,16 +296,19 @@ function deleteImage(index) {
 	
 	// 상단 이미지 미리보기 삭제
 	let imagePreview = $('#image-preview-' + index);
+//	console.log('imagePreview: ' + imagePreview);
 	if (imagePreview.hasClass('active')) {
 		console.log('hasClass == true');
 		// active 옮기기
 		for (let i = 0; i < maxImageCnt; i++) {
-			if ($('#image-preview-' + i).length <= 0) continue;
+			if (index === i || $('#image-preview-' + i).length <= 0) continue;
 			
 			$('#image-preview-' + i).addClass('active');
+			console.log('image preview addClass(active) on ' + i);
 			break;
 		}
 	}
+	deleteImageList.push(index);
 	imagePreview.remove();
 	
 	// 캐러셀 눈금 삭제
@@ -333,9 +316,10 @@ function deleteImage(index) {
 	if (imageIndicator.hasClass('active')) {
 		// active 옮기기
 		for (let i = 0; i < maxImageCnt; i++) {
-			if ($('#carousel-indicator-' + i).length <= 0) continue;
+			if (index === i || $('#carousel-indicator-' + i).length <= 0) continue;
 			
 			$('#carousel-indicator-' + i).addClass('active');
+			console.log('image indicator addClass(active) on ' + i);
 			break;
 		}
 	}
@@ -343,13 +327,13 @@ function deleteImage(index) {
 
 	
 	// multipart 이미지 삭제
-    var files = event.target.files;
+    var files = $('#upload-image')[0].files;
 	console.log('delete files: ' + files);
 	
     var modifiedFiles = Array.from(files).filter(function(_, idx) {
         return idx !== index;
     });
-	event.target.files = modifiedFiles;
+    $('#upload-image')[0].files = modifiedFiles;
 }
 
 function generateUUID() {
@@ -366,9 +350,17 @@ $(document).ready(function() {
     $('#submit-button').click(function() {
         var files = $('#upload-image')[0].files;
         var formData = new FormData();
-        for (var i = 0; i < files.length; i++) {
-            formData.append('images[]', files[i]);
-        }
+        
+        $.each(files, function (index, file) {
+        	if (index >= maxImageCnt) {
+        		return false;
+        	}
+        	if (deleteImageList.indexOf(index) === -1) {
+        		return ;
+        	}
+        	console.log('index : ' + index);
+            formData.append('images[]', file);
+        });
     });
 });
 
