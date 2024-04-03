@@ -47,6 +47,7 @@
 
 <body>
 
+	<!-- 원래 가격 삭선 스타일 -->
 	<style>
     	#total {
         	position: relative; /* 부모 요소를 기준으로 절대 위치 지정 */
@@ -61,6 +62,7 @@
 	        border-top: 1px solid #000; /* 1픽셀 선 생성 및 색상 설정 */
 	    }
 	</style>
+	<!-- 원래 가격 삭선 스타일 -->
 
 	<%-- 세션 확인 후 없으면 메인으로 --%>
 	<custom:emthySessionAndGoToMain/>
@@ -110,49 +112,33 @@
 	
 	function calculateTotal() {
 		
-	    // 선택된 옵션의 값을 가져오기
+	    // 선택된 ID의 값 전부 저장
 	    var selectElement = document.getElementById('subscriptionDuration');
-	    console.log("calculateTotal함수의 셀렉값 : " + selectElement);
-	        
+	    
+	    // 현재 셀텍트 박스의 선택된 값을 저장
 	    var selectedOption = selectElement.options[selectElement.selectedIndex];
-	    console.log("calculateTotal함수의 선택된 값 : " + selectedOption);
 	    
-	    var selectedText = selectedOption.text; // 선택된 옵션의 텍스트 가져오기
-	    console.log("calculateTotal함수의 선택된 text값 : " + selectedText);
+	    // 현재 셀렉트 박스의 값에서 text값을 저장 : 구독 개월
+	    var selectedText = selectedOption.text;
 
-	    var selectedValue = selectedOption.value; // 선택된 옵션의 value 값 가져오기
-	    console.log("calculateTotal 함수의 선택된 value 값 : " + selectedValue);
+	    // 현재 셀렉트 박스의 값에서 value값을 저장 : 할인율
+	    var discountRate = selectedOption.value;	    
+	    console.log("calculateTotal함수의 할인율 : " + discountRate);
 	    
+	    // text값에서 '개월'앞의 숫자만 저장
 	    var selectedText = selectedText.split('개월')[0].trim();
-	    console.log("calculateTotal함수의 선택된 text값 → int : " + selectedValue);
+	    console.log("calculateTotal함수의 구독개월 : " + selectedText);
 	    
-	    // hiddenSubscriptionClosingTimes 태그에 선택된 값 설정
+	    // hiddenSubscriptionClosingTimes ID를 가진 태그의 value값에 '개월'을 제외한 text값 저장 : 구독 개월
 	    document.getElementById('hiddenSubscriptionClosingTimes').value = selectedText;
 	    
-	    // hiddendiscount 태그에 선택된 값 설정
-	    document.getElementById('hiddendiscount').value = selectedValue;
-		
-	    // 셀렉트 태그의 현재 선택된 값 가져오기(할인율)
-	    var discountRate = document.getElementById('subscriptionDuration').value;
-	    
-	    console.log("calculateTotal함수의 할인율 : " + discountRate);
+	    // hiddendiscount ID를 가진 태그의 value 값에 value값 저장 : 할인율
+	    document.getElementById('hiddendiscount').value = discountRate;	    
 	    
 	    // 할인율 계산해서 지불할 비율 계산
 	    var paymentRate = (100 - discountRate) / 100;
 	    
-	    console.log("calculateTotal함수의 지불% : " + paymentRate);
-	    
-		// 상품 하나 가격 가져오기
-	    var productPriceOne = parseFloat(document.getElementById('hiddenPrice').value);
-		
-	    console.log("calculateTotal함수의 상품 하나가격 [전]: " + productPriceOne);
-		 
-		// 할인된 상품 하나 가격 저장
-	    var discountedPrice = productPriceOne * paymentRate;	
-		console.log("calculateTotal함수의 상품 하나가격 [후] : ", discountedPrice);
-		
-		// 새로운 가격을 hiddenPrice에 넣기
-		document.getElementById('hiddenPrice').value = discountedPrice;
+	    console.log("calculateTotal함수의 지불% : " + paymentRate);	    
 	    
 	 	// buyProducts의 각 상품의 hiddenPrice를 가져와서 할인율을 적용하여 업데이트
 	    var trElements = document.querySelectorAll('tr[id^="product_"]');
@@ -194,6 +180,8 @@
 	
 	    // 웹 페이지에 결과 표시
 	    document.getElementById('discountTotal').innerText = discountPrice + "원";
+	    
+	    console.log("___________________________________________구독 기간 변경에 따른 가격 변경____________________________________________________");
 	}
 	
 	// 통화 포맷 함수 정의
@@ -216,12 +204,7 @@
 	<!-- 구매 확정 -->
 	<script>
 		function goToPurchase(){
-			var form = document.getElementById('subscriptionForm');
-			
-			<!-- 유저 정보 수집 -->
-			form.innerHTML += '<input type="hidden" name="subscriptionPostCode" value="' + document.getElementById('subscriptionPostCode').value + '">';
-			form.innerHTML += '<input type="hidden" name="subscriptionAddress" value="' + document.getElementById('subscriptionAddress').value + '">';
-			form.innerHTML += '<input type="hidden" name="subscriptionDetailAddress" value="' + document.getElementById('subscriptionDetailAddress').value + '">';
+			var form = document.getElementById('subscriptionForm');			
 			
 			<!-- 구독기간 -->
 			form.innerHTML += '<input type="hidden" name="subscriptionClosingTimes" value="' + document.getElementById('hiddenSubscriptionClosingTimes').value + '">';
@@ -231,8 +214,10 @@
 			var productRows = document.querySelectorAll('tr[id^="product_"]');
 
 			productRows.forEach(function(row) {
-			    var originalPrice = parseFloat(row.querySelector('#hiddenPrice').value);
+			    var originalPrice = parseFloat(row.querySelector('#hiddenPrice2').value);
+			    console.log("현재 row의 가격정보 : " + originalPrice);
 			    var discountedPrice = Math.round(originalPrice * (100 - finalDiscount) / 100);
+			    console.log("할인율이 적용된 가격 정보 : " + discountedPrice);
 
 			    form.innerHTML += '<input type="hidden" name="PID[]" value="' + row.querySelector('#hiddenProductID').value + '">';
 			    form.innerHTML += '<input type="hidden" name="CID[]" value="' + row.querySelector('#hiddenCartID').value + '">';
