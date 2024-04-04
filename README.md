@@ -60,7 +60,7 @@
 <img src="https://img.shields.io/badge/카카오%20지도-FFCD00?style=for-the-badge&logo=googlemaps&logoColor=white">
 
 ## 📋설계서
-(사진을 클릭하여 자세히 보기)
+###### ( 사진을 클릭하여 자세히 보기 )
 
 ### ERD & 테이블 설계서
 
