@@ -367,6 +367,8 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 					 
 					productImageDTO.setProductID(x.getProductID()); // 상품 아이디 값 set
 					
+					productImageDTO.setPriority(1);
+					
 					productImageDAO.insert(productImageDTO);
 					
 				}
