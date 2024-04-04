@@ -60,7 +60,7 @@ function fillProductListTable(datas) {
 			
 			// 재고
             td = $('<td>');
-            input = $('<input style="width: 60px;" type="number" class="form-control" id="stock-' + rowNum + '" value="' + data.stock + '" name="stock" />');
+            input = $('<input style="width: 70px;" type="number" class="form-control" id="stock-' + rowNum + '" value="' + data.stock + '" name="stock" />');
             tr.append(td.append(input));
 			
 			// 성분

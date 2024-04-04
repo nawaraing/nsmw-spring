@@ -137,7 +137,7 @@
                               <!-- / 판매가 -->
                               <!-- 재고 -->
                               <td>
-                                <input style="width: 70px;" type="number" class="form-control" id="stock-${status.index}" value="${product.stock}" name="stock" />
+                                <input style="width:80px;" type="number" class="form-control" id="stock-${status.index}" value="${product.stock}" name="stock" />
                               </td>
                               <!-- / 재고 -->
                               <!-- 성분 -->
@@ -220,7 +220,7 @@
                     </table>
                   </div>
                   <div class="card-footer text-muted text-end">
-                    <form id="update-product-sale-stop-form" action="/productList/update/saleStop" method="GET">
+                    <form id="update-product-sale-stop-form" action="/productList/update/saleStop" method="GET" class="d-inline">
                       <button type="submit" class="btn btn-danger me-5" onclick="updateProductSaleStop(10)">판매 중단</button>
                     </form>
                     <c:forEach var="category" items="${categoryList}">
@@ -230,7 +230,7 @@
                     </c:forEach>
                     <script>console.log('categoryJoin: ${categoryJoin}');</script>
                     <custom:adminProductListAddModal categoryNames="${categoryJoin}" />
-                    <form id="update-product-form" action="/productList/update" method="POST">
+                    <form id="update-product-form" action="/productList/update" method="POST" class="d-inline">
                       <button type="submit" class="btn btn-success me-2" onclick="updateProduct(10)">저장</button>
                     </form>
                   </div>
