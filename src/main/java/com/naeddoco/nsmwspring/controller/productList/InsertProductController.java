@@ -153,6 +153,8 @@ public class InsertProductController {
 		// -----------------------------------------------이미지 파일 저장 ↓-----------------------------------------------
 			
 		for (MultipartFile image : images) {
+			
+			int i = 0;
 				 
 			try {
 					 
@@ -162,7 +164,7 @@ public class InsertProductController {
 				log.debug(uploadDir);
 				
 				// 업로드할 파일명 설정
-				String fileName = image.getOriginalFilename();
+				String fileName = imagePaths.get(i);
 				
 				log.debug(fileName);
 
@@ -191,6 +193,8 @@ public class InsertProductController {
 					
 					e.printStackTrace();
 				}
+			
+				i++;
 			
 			}
 				
