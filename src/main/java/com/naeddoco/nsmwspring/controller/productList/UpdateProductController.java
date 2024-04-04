@@ -88,7 +88,7 @@ public class UpdateProductController {
 			
 		}
 		
-		return "admin/productList";
+		return "redirect:/productList";
 
 	}
 
