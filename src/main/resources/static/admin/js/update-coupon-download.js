@@ -1,11 +1,11 @@
 /*
- * Update Download Coupon
+ * Update Coupon Download
  */
 
-function updateDownloadCoupon(maxIdx) {
+function updateCouponDownload(maxIdx) {
 	
 	let isChecked;
-	let updateDownloadCouponForm = $('#update-download-coupon-form');
+	let updatedCouponDownloadForm = $('#update-coupon-download-form');
 	
 	for (let i = 0; i < maxIdx; i++) {
 		isChecked = $('#checkbox-id-' + i).prop("checked");
@@ -14,8 +14,8 @@ function updateDownloadCoupon(maxIdx) {
         }
 		
 		let couponID = $('#checkbox-id-' + i);
-		updateDownloadCouponForm.append(couponID);
+		updatedCouponDownloadForm.append(couponID);
 		let deployDeadline = $('#deploy-deadline-' + i);
-		updateDownloadCouponForm.append(deployDeadline);
+		updatedCouponDownloadForm.append(deployDeadline);
 	}
 }

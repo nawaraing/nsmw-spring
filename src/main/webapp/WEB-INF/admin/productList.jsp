@@ -165,10 +165,10 @@
                                   data-bs-toggle="dropdown"
                                   aria-expanded="false"
                                 >
-                                <c:set var="categories" value="${fn:split(product.ancCategory, ';')}" />
-                                <c:forEach var="category" items="${categories}" varStatus="categoryStatus">
-                                  <span class="badge bg-label-info me-1" id="product-${status.index}-category-${categoryStatus.index}">${category}</span>
-                                </c:forEach>
+                                  <c:set var="categories" value="${fn:split(product.ancCategory, ';')}" />
+                                  <c:forEach var="category" items="${categories}" varStatus="categoryStatus">
+                                    <span class="badge bg-label-info me-1" id="product-${status.index}-category-${categoryStatus.index}">${category}</span>
+                                  </c:forEach>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="checkbox-categories-${status.index}">
                                   <c:forEach var="category" items="${categoryList}" varStatus="categoryStatus">

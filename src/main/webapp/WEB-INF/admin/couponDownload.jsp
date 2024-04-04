@@ -188,8 +188,8 @@
                     </table>
                   </div>
                   <div class="card-footer text-muted text-end">
-                    <form id="update-product-sale-stop-form" action="/productList/update/saleStop" method="GET" class="d-inline">
-                      <button type="submit" class="btn btn-danger me-5" onclick="updateProductSaleStop(10)">배포 중단</button>
+                    <form id="update-coupon-download-stop-form" action="/couponDownload/update/couponDownloadStop" method="GET" class="d-inline">
+                      <button type="submit" class="btn btn-danger me-5" onclick="updateCouponDownloadStop(10)">배포 중단</button>
                     </form>
                     <c:forEach var="category" items="${categoryList}">
                       <script>console.log('category out: ${category.categoryName}');</script>
@@ -198,8 +198,8 @@
                     </c:forEach>
                     <script>console.log('categoryJoin: ${categoryJoin}');</script>
                     <custom:adminProductListAddModal categoryNames="${categoryJoin}" />
-                    <form id="update-download-coupon-form" action="/couponDownload/update" method="GET" class="d-inline">
-                      <button type="submit" class="btn btn-success me-2" onclick="updateDownloadCoupon(${fn:length(couponList)})">저장</button>
+                    <form id="update-coupon-download-form" action="/couponDownload/update" method="GET" class="d-inline">
+                      <button type="submit" class="btn btn-success me-2" onclick="updateCouponDownload(${fn:length(couponList)})">저장</button>
                     </form>
                   </div>
                 </div>
@@ -254,7 +254,8 @@
     <script src="/resources/admin/js/pagination-composed.js"></script>
     <script src="/resources/admin/js/coupon-download.js"></script>
 
-    <script src="/resources/admin/js/update-download-coupon.js"></script>
+    <script src="/resources/admin/js/update-coupon-download.js"></script>
+    <script src="/resources/admin/js/update-coupon-download-stop.js"></script>
 
 
   </body>
