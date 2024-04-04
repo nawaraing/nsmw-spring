@@ -106,43 +106,53 @@
                               <!-- 체크 박스 -->
                               <td>
                                 <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" value="" id="checkbox-id-${status.index}" onclick="handleCheckbox(${status.index}, 10)" />
+                                  <input class="form-check-input" type="checkbox" value="${product.productID}" name="productID" id="checkbox-id-${status.index}" onclick="handleListCheckbox(${status.index}, 10)" />
                                 </div>
                               </td>
                               <!-- / 체크 박스 -->
                               <!-- 상품명 -->
-                              <td><i class="fab fa-angular fa-lg me-3"><strong id="product-name-${status.index}">${product.productName}</strong></i></td>
+                              <td>
+                                <input style="width: 150px;" type="text" class="form-control" id="product-name-${status.index}" value="${product.productName}" name="productName" />
+                              </td>
                               <!-- / 상품명 -->
                               <!-- 상품 설명 -->
                               <td>
-                                <div style="width: 150px;" class="text-truncate" id="product-detail-${status.index}">${product.productDetail}</div>
+                                <input style="width: 150px;" type="text" class="form-control" id="product-detail-${status.index}" value="${product.productDetail}" name="productDetail" />
                               </td>
                               <!-- / 상품 설명 -->
                               <!-- 원가 -->
-                              <td id="cost-price-${status.index}"><fmt:formatNumber value="${product.costPrice}" currencyCode="KRW" /></td>
+                              <td>
+                                <input style="width: 90px;" type="number" class="form-control" id="cost-price-${status.index}" value="${product.costPrice}" name="costPrice" />
+                              </td>
                               <!-- / 원가 -->
                               <!-- 정가 -->
-                              <td id="retail-price-${status.index}"><fmt:formatNumber value="${product.retailPrice}" currencyCode="KRW" /></td>
+                              <td>
+                                <input style="width: 90px;" type="number" class="form-control" id="retail-price-${status.index}" value="${product.retailPrice}" name="retailPrice" />
+                              </td>
                               <!-- / 정가 -->
                               <!-- 판매가 -->
-                              <td id="sale-price-${status.index}"><fmt:formatNumber value="${product.salePrice}" currencyCode="KRW" /></td>
+                              <td>
+                                <input style="width: 90px;" type="number" class="form-control" id="sale-price-${status.index}" value="${product.salePrice}" name="salePrice" />
+                              </td>
                               <!-- / 판매가 -->
                               <!-- 재고 -->
-                              <td id="stock-${status.index}">${product.stock}</td>
+                              <td>
+                                <input style="width: 70px;" type="number" class="form-control" id="stock-${status.index}" value="${product.stock}" name="stock" />
+                              </td>
                               <!-- / 재고 -->
                               <!-- 성분 -->
                               <td>
-                                <div style="width: 150px;" class="text-truncate" id="ingredient-${status.index}">${product.ingredient}</div>
+                                <input style="width: 150px;" type="text" class="form-control" id="ingredient-${status.index}" value="${product.ingredient}" name="ingredient" />
                               </td>
                               <!-- / 성분 -->
                               <!-- 용법 -->
                               <td>
-                                <div style="width: 150px;" class="text-truncate" id="dosage-${status.index}">${product.dosage}</div>
+                                <input style="width: 150px;" type="text" class="form-control" id="dosage-${status.index}" value="${product.dosage}" name="dosage" />
                               </td>
                               <!-- / 용법 -->
                               <!-- 소비기한 -->
                               <td>
-                                <div style="width: 150px;" class="text-truncate" id="expiration-date-${status.index}">${product.expirationDate}</div>
+                                <input style="width: 150px;" type="text" class="form-control" id="expiration-date-${status.index}" value="${product.expirationDate}" name="expirationDate" />
                               </td>
                               <!-- / 소비기한 -->
                               <!-- 카테고리 -->
@@ -164,7 +174,7 @@
                                   <c:forEach var="category" items="${categoryList}" varStatus="categoryStatus">
                                     <li>
                                       <div class="form-check">
-                                        <label class="dropdown-item" for="checkbox-product-${status.index}-category-${categoryStatus.index}" id="dropdown-item-coupon-${status.index}-category-${categoryStatus.index}">
+                                        <label class="dropdown-item" for="checkbox-product-${status.index}-category-${categoryStatus.index}" id="dropdown-item-product-${status.index}-category-${categoryStatus.index}">
                                           <input class="form-check-input" type="checkbox" value="${category.categoryName}" id="checkbox-product-${status.index}-category-${categoryStatus.index}" />${category.categoryName}
                                         </label>
                                       </div>
@@ -178,8 +188,8 @@
                               <td id="register-date-${status.index}"><fmt:formatDate pattern="yyyy-MM-dd" value="${strRegDate}" /></td>
                               <!-- / 등록일 -->
                               <!-- 마지막 수정일 -->
-                              <fmt:parseDate var="sttModDate" value="${product.modifyDate}" pattern="yyyy-MM-dd HH:mm:ss" />
-                              <td id="modify-date-${status.index}"><fmt:formatDate pattern="yyyy-MM-dd" value="${sttModDate}" /></td>
+                              <fmt:parseDate var="strModDate" value="${product.modifyDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+                              <td id="modify-date-${status.index}"><fmt:formatDate pattern="yyyy-MM-dd" value="${strModDate}" /></td>
                               <!-- / 마지막 수정일 -->
                               <!-- 판매 상태 -->
                               <c:if test='${product.saleState eq "SALES"}'>
@@ -218,7 +228,9 @@
                     </c:forEach>
                     <script>console.log('categoryJoin: ${categoryJoin}');</script>
                     <custom:adminProductListAddModal categoryNames="${categoryJoin}" />
-                    <button type="button" class="btn btn-success me-2">저장</button>
+                    <form id="update-product-form" action="/productList/update" method="POST">
+                      <button type="submit" class="btn btn-success me-2" onclick="updateProduct(10)">저장</button>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -270,7 +282,8 @@
     <script src="/resources/admin/js/page-variables.js"></script>
     <script src="/resources/admin/js/pagination-action.js"></script>
     <script src="/resources/admin/js/pagination-composed.js"></script>
-    <script src="/resources/admin/js/product-list.js"></script>
-    
+<!--     <script src="/resources/admin/js/product-list.js"></script>
+ -->    
+    <script src="/resources/admin/js/update-product.js"></script>
   </body>
 </html>
