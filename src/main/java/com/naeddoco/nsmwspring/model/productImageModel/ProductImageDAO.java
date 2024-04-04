@@ -20,7 +20,7 @@ public class ProductImageDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	private static final String INSERT = "INSERT INTO PRODUCT_IMAGE (IMAGE_ID, PRODUCT_ID) VALUES (?, ?)";
+	private static final String INSERT = "INSERT INTO PRODUCT_IMAGE (IMAGE_ID, PRODUCT_ID, PRIORITY) VALUES (?, ?, ?)";
 	
 	private static final String DELETE = "DELETE FROM PRODUCT_IMAGE WHERE IMAGE_ID = ?";
 	
@@ -34,7 +34,7 @@ public class ProductImageDAO {
 			
 			log.debug("insertProductByAdmin 진입");
 			
-			int result = jdbcTemplate.update(INSERT, productImageDTO.getImageID(), productImageDTO.getProductID());
+			int result = jdbcTemplate.update(INSERT, productImageDTO.getImageID(), productImageDTO.getProductID(), productImageDTO.getPriority());
 			
 			if(result <= 0) {
 				

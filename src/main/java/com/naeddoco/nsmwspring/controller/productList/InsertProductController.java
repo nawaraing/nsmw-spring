@@ -107,8 +107,7 @@ public class InsertProductController {
 		for(int i=0; i<imagePaths.size(); i++) {
 			
 			ImageDTO imageDTO = new ImageDTO();
-
-			imageDTO.setSearchCondition("insertProductByAdmin");
+			imageDTO.setSearchCondition("insertProductByAdmin"); // 쿼리 조건 set
 			imageDTO.setImagePath("/resources/productImages/" + imagePaths.get(i)); // DTO에 이미지 경로 데이터를 set
 			
 			imageService.insert(imageDTO); // 경로 데이터 insert
@@ -118,7 +117,6 @@ public class InsertProductController {
 			List<ImageDTO> imageDTOList = imageService.selectAll(imageDTO); // 가장 최근에 추가된 데이터 select
 			
 			imageDTO = imageDTOList.get(0); // DTO에 저장
-			
 			int imagePK = imageDTO.getImageID(); // PK값 습득
 			
 			ProductImageDTO productImageDTO = new ProductImageDTO();
@@ -126,6 +124,7 @@ public class InsertProductController {
 			productImageDTO.setSearchCondition("insertProductByAdmin");
 			productImageDTO.setProductID(productPK); // 상품 PK값 set
 			productImageDTO.setImageID(imagePK); // 이미지 PK값 set
+			productImageDTO.setPriority(i+1);
 			
 			productImageService.insert(productImageDTO); // 데이터 inserts
 			
@@ -135,9 +134,9 @@ public class InsertProductController {
 		
 		for(int i=0; i<categoryNames.size(); i++) {
 					
-			CategoryDTO categoryDTO = new CategoryDTO();
-			categoryDTO.setCategoryName(categoryNames.get(i));
-			categoryDTO = categoryService.selectOne(categoryDTO);
+			CategoryDTO categoryDTO = new CategoryDTO(); 
+			categoryDTO.setCategoryName(categoryNames.get(i)); // 카테고리 이름 set
+			categoryDTO = categoryService.selectOne(categoryDTO); // 이름을 조건으로 데이터를 가져옴
 					
 			int categoryID = categoryDTO.getCategoryID();
 					
@@ -158,45 +157,29 @@ public class InsertProductController {
 				 
 			try {
 					 
-				// 파일을 저장할 디렉토리 경로
-				String uploadDir = "src/main/resources/static/productImages/";
-	                        
-				log.debug(uploadDir);
+				String uploadDir = "src/main/resources/static/productImages/"; // 파일을 저장할 디렉토리 경로
 				
-				// 업로드할 파일명 설정
-				String fileName = imagePaths.get(i);
-				
-				log.debug(fileName);
+				String fileName = imagePaths.get(i); // 업로드할 파일명 설정
 
-				// 파일 경로 설정
-				String filePath = uploadDir + "/" + fileName;
-	                        
-				// 파일을 업로드할 디렉토리 생성
-				File directory = new File(uploadDir);
+				String filePath = uploadDir + "/" + fileName; // 파일 경로 설정
 				
-				if (!directory.exists()) {
-
-					directory.mkdirs();
-	                        
+				try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)))) { // 파일을 서버에 저장
+					
+					byte[] bytes = image.getBytes();
+					
+					stream.write(bytes);
+					
 				}
-	                        
-					// 파일을 서버에 저장
-					try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)))) {
-					
-						byte[] bytes = image.getBytes();
-					
-						stream.write(bytes);
-					
-					}
 				
-				} catch (IOException e) {
+			} catch (IOException e) {
 					
-					e.printStackTrace();
-				}
-			
-				i++;
-			
+				e.printStackTrace();
+				
 			}
+			
+			i++;
+			
+		}
 				
 		return "redirect:/productList";
 		
