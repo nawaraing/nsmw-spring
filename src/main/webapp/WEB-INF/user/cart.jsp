@@ -236,7 +236,7 @@
 									</td>
 									<!-- 취소 버튼 -->
 									<td>
-										<button class="btn btn-md rounded-circle bg-light border mt-4" type="button" onclick='location.href="cartDelete.do?cartID=${cart.cartID}";'>
+										<button class="btn btn-md rounded-circle bg-light border mt-4" type="button" onclick='location.href="deleteCart?cartID=${cart.cartID}";'>
 											<i class="fa fa-times text-danger"></i>
 										</button>
 										<input type="hidden" id="hiddenCartID" value="${cart.cartID}" />
