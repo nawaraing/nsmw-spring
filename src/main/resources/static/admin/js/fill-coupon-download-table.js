@@ -20,7 +20,7 @@ function fillCouponDownloadTable(datas) {
 
     // Table body
     let rowNum = 0;
-    let td, div, input, aTag, span, ul, li, label;
+    let td, div, input, disabled;
     $.each(datas, function(index, data) {
 //    	console.log("index: " + index);
         if (Math.floor(index / 10) + 1 === curPage) {
@@ -29,7 +29,11 @@ function fillCouponDownloadTable(datas) {
             // 체크 박스
             td = $('<td>');
             div = $('<div class="form-check">');
-            input = $('<input class="form-check-input" type="checkbox" value="' + data.couponID + '" name="couponID" id="checkbox-id-' + rowNum + '" onclick="handleListCheckbox(' + rowNum + ', ' + Math.min(datas.length - index, 10) + ')" />');
+            disabled = '';
+            if (data.ancDeployStatus === '배포 중단' || data.ancDeployStatus === '배포 완료') {
+				disabled = 'disabled';
+			}
+            input = $('<input class="form-check-input" type="checkbox" value="' + data.couponID + '" name="couponID" id="checkbox-id-' + rowNum + '" onclick="handleListCheckbox(' + rowNum + ', ' + Math.min(datas.length - index, 10) + ')" ' + disabled + ' />');
             tr.append(td.append(div.append(input)));
             
             // 쿠폰 이름

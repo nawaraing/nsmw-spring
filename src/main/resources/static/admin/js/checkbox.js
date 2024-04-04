@@ -11,6 +11,9 @@ function handleListCheckbox(idx, rowNum) {
 		// 전체가 checked이면 header도 checked
 		let allCheck = true;
 		for (let i = 0; i < rowNum; i++) {
+			if ($("#checkbox-id-" + i).prop("disabled")) {
+				continue;
+			}
 			if (!$("#checkbox-id-" + i).prop("checked")) {
 				allCheck = false;
 				break;
@@ -29,10 +32,16 @@ function handleCheckboxHeader(rowNum) {
 
 	if (isChecked) {
 		for (let i = 0; i < rowNum; i++) {
+			if ($("#checkbox-id-" + i).prop("disabled")) {
+				continue;
+			}
 			$("#checkbox-id-" + i).prop("checked", true);
 		}
 	} else {
 		for (let i = 0; i < rowNum; i++) {
+			if ($("#checkbox-id-" + i).prop("disabled")) {
+				continue;
+			}
 			$("#checkbox-id-" + i).prop("checked", false);
 		}
 	}
