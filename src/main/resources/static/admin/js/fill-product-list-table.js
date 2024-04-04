@@ -30,7 +30,7 @@ function fillProductListTable(datas) {
             // 체크 박스
             td = $('<td>');
             div = $('<div class="form-check">');
-            input = $('<input class="form-check-input" type="checkbox" value="' + data.productID + '" name="productID" id="checkbox-id-' + rowNum + '" onclick="handleListCheckbox(' + rowNum + ', 10)" />');
+            input = $('<input class="form-check-input" type="checkbox" value="' + data.productID + '" name="productID" id="checkbox-id-' + rowNum + '" onclick="handleListCheckbox(' + rowNum + ', ' + Math.min(datas.length - index, 10) + ')" />');
             tr.append(td.append(div.append(input)));
             
             // 상품명
