@@ -5,13 +5,13 @@
 function updateProduct(maxIdx) {
 	
 	let isChecked;
+	let updateProductForm = $('#update-product-form');
+	
 	for (let i = 0; i < maxIdx; i++) {
 		isChecked = $('#checkbox-id-' + i).prop("checked");
         if (!isChecked) {
 			continue;
         }
-
-		let updateProductForm = $('#update-product-form');
 		
 		let productID = $('#checkbox-id-' + i);
 		updateProductForm.append(productID);

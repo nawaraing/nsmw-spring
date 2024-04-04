@@ -6,14 +6,11 @@ function fillProductListTable(datas) {
 	console.log('fillProductListTable');
 //    console.log("curFile start fillProductListTable: " + curFile);
 
-    // 엘레먼트 불러오기
-    let tbody = $('#table-body');
-    let tfooter = $('#table-footer');
-    // 테이블 내용 비우기
-    tbody.empty();
-    tfooter.empty();
+    let tbody = $('<tbody class="table-border-bottom-0" id="table-body">');
 
     // Table footer
+    let tfooter = $('#table-footer');
+    tfooter.empty();
     if (datas.length <= 0) {
         let row = $('<tr>');
         row.append($('<td>').text("표시할 데이터가 없습니다.."));
@@ -24,7 +21,7 @@ function fillProductListTable(datas) {
 
     // Table body
     let rowNum = 0;
-    let td, div, input, iTag, strong, aTag, span, ul, li, label;
+    let td, div, input, aTag, span, ul, li, label;
     $.each(datas, function(index, data) {
 //    	console.log("index: " + index);
         if (Math.floor(index / 10) + 1 === curPage) {
@@ -33,50 +30,53 @@ function fillProductListTable(datas) {
             // 체크 박스
             td = $('<td>');
             div = $('<div class="form-check">');
-            input = $('<input class="form-check-input" type="checkbox" value="" id="checkbox-id-' + rowNum + '" onclick="handleListCheckbox(' + rowNum + ', 10)" />');
+            input = $('<input class="form-check-input" type="checkbox" value="' + data.productID + '" name="productID" id="checkbox-id-' + rowNum + '" onclick="handleListCheckbox(' + rowNum + ', 10)" />');
             tr.append(td.append(div.append(input)));
             
             // 상품명
             td = $('<td>');
-            iTag = $('<i class="fab fa-angular fa-lg me-3">');
-            strong = $('<strong id="product-name-' + rowNum + '">').text(data.productName);
-            tr.append(td.append(iTag.append(strong)));
+            input = $('<input style="width: 150px;" type="text" class="form-control" id="product-name-' + rowNum + '" value="' + data.productName + '" name="productName" />');
+            tr.append(td.append(input));
             
             // 상품 설명
             td = $('<td>');
-            div = $('<div style="width: 150px;" class="text-truncate" id="product-detail-' + rowNum + '">').text(data.productDetail);
-            tr.append(td.append(div));
+            input = $('<input style="width: 150px;" type="text" class="form-control" id="product-detail-' + rowNum + '" value="' + data.productDetail + '" name="productDetail" />');
+            tr.append(td.append(input));
          
 			// 원가
-			td = $('<td id="cost-price-' + rowNum + '">').text(data.costPrice.toLocaleString());
-			tr.append(td);
+            td = $('<td>');
+            input = $('<input style="width: 90px;" type="number" class="form-control" id="cost-price-' + rowNum + '" value="' + data.costPrice + '" name="costPrice" />');
+            tr.append(td.append(input));
 			
 			// 정가
-			td = $('<td id="retail-price-' + rowNum + '">').text(data.retailPrice.toLocaleString());
-			tr.append(td);
+            td = $('<td>');
+            input = $('<input style="width: 90px;" type="number" class="form-control" id="retail-price-' + rowNum + '" value="' + data.retailPrice + '" name="retailPrice" />');
+            tr.append(td.append(input));
 			
 			// 판매가
-			td = $('<td id="sale-price-' + rowNum + '">').text(data.salePrice.toLocaleString());
-			tr.append(td);
+            td = $('<td>');
+            input = $('<input style="width: 90px;" type="number" class="form-control" id="sale-price-' + rowNum + '" value="' + data.salePrice + '" name="salePrice" />');
+            tr.append(td.append(input));
 			
 			// 재고
-			td = $('<td id="stock-' + rowNum + '">').text(data.stock);
-			tr.append(td);
+            td = $('<td>');
+            input = $('<input style="width: 60px;" type="number" class="form-control" id="stock-' + rowNum + '" value="' + data.stock + '" name="stock" />');
+            tr.append(td.append(input));
 			
 			// 성분
             td = $('<td>');
-            div = $('<div style="width: 150px;" class="text-truncate" id="ingredient-' + rowNum + '">').text(data.ingredient);
-            tr.append(td.append(div));
+            input = $('<input style="width: 150px;" type="text" class="form-control" id="ingredient-' + rowNum + '" value="' + data.ingredient + '" name="ingredient" />');
+            tr.append(td.append(input));
             
 			// 용법
             td = $('<td>');
-            div = $('<div style="width: 150px;" class="text-truncate" class="dosage" id="dosage-' + rowNum + '">').text(data.dosage);
-            tr.append(td.append(div));
+            input = $('<input style="width: 150px;" type="text" class="form-control" id="dosage-' + rowNum + '" value="' + data.dosage + '" name="dosage" />');
+            tr.append(td.append(input));
             
 			// 소비기한
             td = $('<td>');
-            div = $('<div style="width: 150px;" class="text-truncate" id="expiration-date-' + rowNum + '">').text(data.expirationDate);
-            tr.append(td.append(div));
+            input = $('<input style="width: 150px;" type="text" class="form-control" id="expiration-date-' + rowNum + '" value="' + data.expirationDate + '" name="expirationDate" />');
+            tr.append(td.append(input));
             
 			// 카테고리
             td = $('<td>');
@@ -85,7 +85,7 @@ function fillProductListTable(datas) {
             $.each(categoryList, function(allCategoryIdx, allCategory) {
 				li = $('<li>');
 				div = $('<div class="form-check">');
-				label = $('<label class="dropdown-item" for="checkbox-product-' + rowNum + '-category-' + allCategory + '" id="dropdown-item-coupon-' + rowNum + '-category-' + allCategory + '">');
+				label = $('<label class="dropdown-item" for="checkbox-product-' + rowNum + '-category-' + allCategory + '" id="dropdown-item-product-' + rowNum + '-category-' + allCategory + '">');
 				input = $('<input class="form-check-input" type="checkbox" onclick="handleCategoryCheckbox(' + rowNum + ', \'' + allCategory + '\')" value="' + allCategory + '" id="checkbox-product-' + rowNum + '-category-' + allCategory + '">');
 				
 //				console.log("allCategory: " + allCategory);
@@ -139,6 +139,7 @@ function fillProductListTable(datas) {
 			rowNum++;
         }
     });
+    $('#table-body').replaceWith(tbody);
     
 //    console.log("curFile end fillProductListTable: " + curFile);
 }

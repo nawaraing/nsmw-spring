@@ -220,7 +220,9 @@
                     </table>
                   </div>
                   <div class="card-footer text-muted text-end">
-                    <button type="button" class="btn btn-danger me-5">판매 중단</button>
+                    <form id="update-product-sale-stop-form" action="/productList/update/saleStop" method="GET">
+                      <button type="submit" class="btn btn-danger me-5" onclick="updateProductSaleStop(10)">판매 중단</button>
+                    </form>
                     <c:forEach var="category" items="${categoryList}">
                       <script>console.log('category out: ${category.categoryName}');</script>
                       <c:set var="categoryJoin" value="${categoryJoin},${category.categoryName}" />
@@ -282,8 +284,9 @@
     <script src="/resources/admin/js/page-variables.js"></script>
     <script src="/resources/admin/js/pagination-action.js"></script>
     <script src="/resources/admin/js/pagination-composed.js"></script>
-<!--     <script src="/resources/admin/js/product-list.js"></script>
- -->    
+    <script src="/resources/admin/js/product-list.js"></script>
+
     <script src="/resources/admin/js/update-product.js"></script>
+    <script src="/resources/admin/js/update-product-sale-stop.js"></script>
   </body>
 </html>
