@@ -9,8 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.naeddoco.nsmwspring.model.buyInfoModel.BuyInfoDTO;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Repository("orderInfoDAO")
@@ -29,8 +27,7 @@ public class OrderInfoDAO {
 														   "JOIN CATEGORY c ON pc.CATEGORY_ID = c.CATEGORY_ID " +
 														   "JOIN PRODUCT_IMAGE pi ON p.PRODUCT_ID = pi.PRODUCT_ID " +
 														   "JOIN IMAGE i ON pi.IMAGE_ID = i.IMAGE_ID " +
-														   "ORDER BY cnt DESC " +
-														   "LIMIT 8";
+														   "ORDER BY cnt DESC ";
 	
 	// 구매 상세 내역을 추가하는 쿼리
 	private static final String INSERT_ORDER_INFO = "INSERT INTO ORDER_INFO (" +
@@ -99,17 +96,23 @@ public class OrderInfoDAO {
 
 			}
 			
-		}
+			if (result <= 0) {
+				
+				log.debug("selectSubscriptionDatas 실패");
 
-		if (result <= 0) {
+				return false;
 
-			return false;
+			}
+			
+			log.debug("selectSubscriptionDatas 성공");
 
+			return true;
+			
 		}
 		
-		log.debug("insert 처리 실패");
-
-		return true;
+		log.debug("insert 성공");
+		
+		return false;
 
 	}
 
