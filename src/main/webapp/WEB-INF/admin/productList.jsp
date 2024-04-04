@@ -220,7 +220,7 @@
                     </table>
                   </div>
                   <div class="card-footer text-muted text-end">
-                    <form id="update-product-sale-stop-form" action="/productList/update/saleStop" method="GET" class="d-inline">
+                    <form id="update-product-sale-stop-form" action="/productList/stop" method="POST" class="d-inline">
                       <button type="submit" class="btn btn-danger me-5" onclick="updateProductSaleStop(10)">판매 중단</button>
                     </form>
                     <c:forEach var="category" items="${categoryList}">
