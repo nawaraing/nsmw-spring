@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoService;
 import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDTO;
@@ -20,10 +21,10 @@ public class UpdateSubscriptionInfoController {
 	@Autowired
 	private SubscriptionInfoService subscriptionInfoService;
 	
-	@RequestMapping(value = "subscriptionDetail/updateAddress", method = RequestMethod.GET)
-	public String updateSubscriptionInfo(HttpSession session, 
-										 Model model,
-										 @RequestParam("subscriptionInfoID") int subscriptionInfoID) {
+	@RequestMapping(value = "subscriptionDetail/updateAddress", method = RequestMethod.POST)
+	public @ResponseBody String updateSubscriptionInfo(HttpSession session, SubscriptionInfoDTO subscriptionInfoDTO) {
+		
+		System.out.println("구독 배송지 변경 요청 진입");
 		
 		// -----------------------------------------------세션 확인 ↓-----------------------------------------------
 
@@ -35,14 +36,23 @@ public class UpdateSubscriptionInfoController {
 
 		}
 		
-		SubscriptionInfoDTO subscriptionInfoDTO = new SubscriptionInfoDTO();
+		System.out.println("구독 배송지 변경 컨트롤러의 구독 PK : " + subscriptionInfoDTO.getSubscriptionInfoID());
+		System.out.println("구독 배송지 변경 컨트롤러의 우편변호 : " + subscriptionInfoDTO.getSubscriptionPostCode());
+		System.out.println("구독 배송지 변경 컨트롤러의 주   소 : " + subscriptionInfoDTO.getSubscriptionAddress());
+		System.out.println("구독 배송지 변경 컨트롤러의 상세주소 : " + subscriptionInfoDTO.getSubscriptionDetailAddress());
 		
 		subscriptionInfoDTO.setSearchCondition("updateSubscriptionShippingData");
-		subscriptionInfoDTO.setSubscriptionInfoID(subscriptionInfoID);
 		
-		subscriptionInfoService.update(subscriptionInfoDTO);
+		boolean result = subscriptionInfoService.update(subscriptionInfoDTO);
 		
-		return "subscriptionDetail";
+		if(!result) {
+			System.out.println("구독 배송지 변경 실패");
+			
+			return "fail";
+		}
+		
+		System.out.println("구독 배송지 변경 성공");
+		return "suc";
 		
 	}
 

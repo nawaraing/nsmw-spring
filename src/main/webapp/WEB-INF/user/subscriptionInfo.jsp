@@ -89,6 +89,55 @@
 		}
 	</script>
 	<!-- 구독 상세 모달 비동기 -->
+	
+	<!-- 주소 api 자바스크립트 -->
+	<script>
+
+    function goPopup(index, subscriptionInfoID) {
+    	
+    	console.log("선택된 index번호 : " + index);
+    	console.log("해당 index번호의 PK값 : " + subscriptionInfoID);
+    	
+        var url = "subscriptionJusoPopup.jsp?index=" + index + "&subscriptionInfoID=" + subscriptionInfoID;
+        var pop = window.open(url, "pop", "width=570,height=420, scrollbars=yes, resizable=yes");
+        
+    }
+
+		function jusoCallBack(zipNo, roadAddrPart1, addrDetail, subscriptionInfoID, index) {
+			
+			var subscriptionInfoID = subscriptionInfoID;
+			var postCode = zipNo;
+			var address = roadAddrPart1;
+			var detailAddress = addrDetail;
+			
+		    $.ajax({
+		        type: "POST",
+		        url: "subscriptionDetail/updateAddress",
+		        data: { 'subscriptionInfoID': subscriptionInfoID,
+		        		'subscriptionPostCode': postCode,
+		        		'subscriptionAddress': address,
+		        		'subscriptionDetailAddress': detailAddress,},
+		        success: function (subscriptionInfo) {
+		            if (subscriptionInfo === "suc") {
+		                Swal.fire({
+							icon : 'success',
+							title : '정기 배송지 변경',
+							text : '성공.',
+		                });
+		            } else {
+		                Swal.fire({
+							icon : 'error',
+							title : '정기 배송지 변경',
+							text : '실패.',
+		                });
+		            }
+		        }
+		    });
+		
+			document.getElementById('updateAddress_' + index).innerText = address + ' ' + detailAddress;
+		}
+	</script>
+	<!-- 주소 api 자바스크립트 -->
 
 	<%-- 세션 확인 후 없으면 메인으로 --%>
 	<custom:emthySessionAndGoToMain/>
@@ -128,37 +177,43 @@
 							<th scope="col">결제 예정일</th>
 							<th scope="col">구독 종료 예정일</th>
 							<th scope="col">배송지</th>
+							<th scope="col">배송지 변경</th>
 							<th scope="col">구독 취소</th>
 						</tr>
 					</thead>
-					<tbody>
-						<c:forEach var="subscriptionInfo" items="${subscriptionInfos}">
-						<tr>
-							<td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
-								<p class="mb-0 mt-4">${subscriptionInfo.beginDate}</p>
-							</td>
-							<td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
-								<p class="mb-0 mt-4"><fmt:formatNumber value="${subscriptionInfo.ancTotalPrice}" currencyCode="KRW" />원</p>
-							</td>
-							<td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
-								<p class="mb-0 mt-4">${subscriptionInfo.nextPaymentDate}</p>
-							</td>
-							<td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
-								<p class="mb-0 mt-4">${subscriptionInfo.ancLastPaymentDate}</p>
-							</td>
-							<td>
-								<p class="mb-0 mt-4">${subscriptionInfo.subscriptionAddress} ${subscriptionInfo.subscriptionDetailAddress}</p>
-							</td>
-							<td>
-								<a class="btn border-secondary text-primary rounded-pill mb-0 mt-3" onclick='location.href="/subscriptionDetail/delete?subscriptionInfoID=${subscriptionInfo.subscriptionInfoID}";'>구독 취소</a>								
-							</td>
-						</tr>
-						</c:forEach>
-					</tbody>
+						<tbody>
+							<c:forEach var="subscriptionInfo" items="${subscriptionInfos}" varStatus="status">
+							    <tr>
+							        <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
+							            <p class="mb-0 mt-4">${subscriptionInfo.beginDate}</p>
+							        </td>
+							        <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
+							            <p class="mb-0 mt-4"><fmt:formatNumber value="${subscriptionInfo.ancTotalPrice}" currencyCode="KRW" />원</p>
+							        </td>
+							        <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
+							            <p class="mb-0 mt-4">${subscriptionInfo.nextPaymentDate}</p>
+							        </td>
+							        <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
+							            <p class="mb-0 mt-4">${subscriptionInfo.ancLastPaymentDate}</p>
+							        </td>
+							        <td>
+							            <p class="mb-0 mt-4" id="updateAddress_${status.index}">${subscriptionInfo.subscriptionAddress} ${subscriptionInfo.subscriptionDetailAddress}</p>
+							        </td>
+							        <td onclick='goPopup(${status.index}, ${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
+							            <a class="btn border-secondary text-primary rounded-pill mb-0 mt-3" >배송지 변경</a>
+							        </td>
+							        <td>
+							            <a class="btn border-secondary text-primary rounded-pill mb-0 mt-3" onclick='location.href="/subscriptionDetail/delete?subscriptionInfoID=${subscriptionInfo.subscriptionInfoID}";'>구독 취소</a>                                
+							        </td>
+							    </tr>
+							</c:forEach>
+						</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
+	
+	
 	<!-- Cart Page End -->
 
 

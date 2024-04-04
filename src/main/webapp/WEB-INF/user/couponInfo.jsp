@@ -56,7 +56,7 @@
 
 	<!-- Single Page Header start -->
 	<div class="container-fluid page-header py-5">
-		<h1 class="text-center text-white display-6">쿠폰 관리</h1>
+		<h1 class="text-center text-white display-6">쿠폰관리</h1>
 	</div>
 	<!-- Single Page Header End -->
 
@@ -76,22 +76,27 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="coupon" items="${couponList}">
+						<c:forEach var="coupon" items="${myCouponList}">
 							<tr>
 								<td>
-									<p class="mb-0 mt-0">${coupon.cpName}</p>
+									<p class="mb-0 mt-0">${coupon.ancCouponName}</p>
 								</td>
 								<td>
-									<p class="mb-0 mt-0">${coupon.discount}%</p>
+									<c:if test="${coupon.ancCouponType eq 'WON'}">
+									    <p id="wonCoupon" class="mb-0 mt-0">${coupon.ancDiscount}원</p>
+									</c:if>
+									<c:if test="${coupon.ancCouponType ne 'WON'}">
+									    <p id="pCoupon" class="mb-0 mt-0">${coupon.ancDiscount}%</p>
+									</c:if>
 								</td>
 								<td>
-									<p class="mb-0 mt-0">${coupon.period}</p>
+									<p class="mb-0 mt-0">${coupon.ancExpirationDate}</p>
 								</td>
 								<td>
-									<p class="mb-0 mt-0">${coupon.category}</p>
+									<p class="mb-0 mt-0">${coupon.ancCouponType}</p>
 								</td>
 								<td>
-									<p class="mb-0 mt-0">${coupon.used}</p>
+									<p class="mb-0 mt-0">${coupon.couponUsage}</p>
 								</td>
 							</tr>
 						</c:forEach>
