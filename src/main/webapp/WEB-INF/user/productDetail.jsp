@@ -43,6 +43,9 @@
 
 <body>
 
+<!-- 배너 -->
+<custom:banner/>
+
 	<!-- 장바구니 추가 비동기처리 -->
 	<script>
 		function addItemToCart(productID) {
@@ -145,6 +148,14 @@
 									<a href="user/login" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> 장바구니 추가</a>
 								</c:if>
 							</div>
+
+							<!-- 제품 추천 시작 -->
+							
+							<!-- 케러셀의 제목 -->
+							<div class="container py-5">
+								<h1 class="mb-0">추천 상품</h1>
+								
+
 
 							<!-- 제품 상세 -->
 							<div class="col-lg-12">
