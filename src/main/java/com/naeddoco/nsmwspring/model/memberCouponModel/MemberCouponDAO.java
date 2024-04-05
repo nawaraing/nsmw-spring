@@ -180,6 +180,7 @@ class SelectAllMemberCouponRowMapper implements RowMapper<MemberCouponDTO> {
 		data.setCouponUsage(rs.getString("MC.COUPON_USAGE"));
 		data.setAncCouponName(rs.getString("C.COUPON_NAME"));
 		data.setAncExpirationDate(rs.getTimestamp("C.EXPIRATION_DATE"));
+		data.setAncCouponType(rs.getString("C.COUPON_TYPE"));
 		data.setAncDiscount(rs.getInt("DISCOUNT"));
 		data.setAncAmount(rs.getInt("AMOUNT_LIMIT"));
 		
