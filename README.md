@@ -11,7 +11,16 @@
 <a href="https://github.com/JeongHoonSeok" target="_blank"><img src="https://img.shields.io/badge/정훈석-83B81A?style=for-the-badge&logo=github&logoColor=white"></a>&nbsp;
 <a href="https://github.com/jjeong623" target="_blank"><img src="https://img.shields.io/badge/하정희-FE5F50?style=for-the-badge&logo=github&logoColor=white"></a>&nbsp;
 
+######  우리 팀원들 5개월간 고생하셨습니다 🧡
+
 ## 🛠️사용한 기술
+
+### Framework & Library
+
+<img src="https://img.shields.io/badge/apache%20tomcat10-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white">
+<img src="https://img.shields.io/badge/spring%20boot3-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+<img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
+<img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
 
 ### Language
 
@@ -24,12 +33,12 @@
 
 <img src="https://img.shields.io/badge/mysql8-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
-### Framework & Library
+### API
 
-<img src="https://img.shields.io/badge/apache%20tomcat10-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white">
-<img src="https://img.shields.io/badge/spring%20boot3-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
-<img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
-<img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
+<img src="https://img.shields.io/badge/카카오%20로그인-FFCD00?style=for-the-badge&logo=kakao&logoColor=white">
+<img src="https://img.shields.io/badge/도로명주소-FF4F00?style=for-the-badge&logoColor=white">
+<img src="https://img.shields.io/badge/coolsms%20문자%20인증-19A974?style=for-the-badge&logoColor=white">
+<img src="https://img.shields.io/badge/카카오%20지도-FFCD00?style=for-the-badge&logo=googlemaps&logoColor=white">
 
 ### Communication & Cooperation
 
@@ -51,13 +60,6 @@
   <img src="https://img.shields.io/badge/sourcetree-0052CC?style=for-the-badge&logo=sourcetree&logoColor=white">
   <img src="https://img.shields.io/badge/github%20desktop-181717?style=for-the-badge&logo=github&logoColor=white">
 </div>
-
-### API
-
-<img src="https://img.shields.io/badge/카카오%20로그인-FFCD00?style=for-the-badge&logo=kakao&logoColor=white">
-<img src="https://img.shields.io/badge/도로명주소-FF4F00?style=for-the-badge&logoColor=white">
-<img src="https://img.shields.io/badge/coolsms%20문자%20인증-19A974?style=for-the-badge&logoColor=white">
-<img src="https://img.shields.io/badge/카카오%20지도-FFCD00?style=for-the-badge&logo=googlemaps&logoColor=white">
 
 ## 📋설계서
 ###### ( 사진을 클릭하여 자세히 보기 )
