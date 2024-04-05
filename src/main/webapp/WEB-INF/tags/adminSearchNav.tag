@@ -22,7 +22,7 @@
   <c:set var="sortDisplayList" value='${fn:split("배포 상태순,배포 마감일순,쿠폰 만료일순,할인순", ",")}' />
   <c:set var="sortCodeList" value='${fn:split("deployStatus,deployDeadline,expirationDate,discount", ",")}' />
   <c:set var="placeholder" value="쿠폰 이름 검색" />
-  <c:set var="asyncUrl" value="/memberList/searchAndSort" />
+  <c:set var="asyncUrl" value="/couponDownload/searchAndSort" />
 </c:if>
 <!-- / 페이지별 변수 설정 -->
 
