@@ -45,6 +45,10 @@
 </head>
 <body>
 
+<!-- 배너 -->
+<custom:banner/>
+
+
 	<%--로그아웃 확인 후 모달을 띄우는 커스텀 태그 --%>
 	<custom:loginResult logoutResult='${logoutResult}' />
 	
@@ -185,37 +189,37 @@
 				<h1 class="mb-0">Today's Recommendation</h1>
 				<div class="owl-carousel vegetable-carousel owl-theme">
 					<c:if test="${fn:length(recommandProducts) > 0}">
-						<c:forEach var="data" items="${recommandProducts}" varStatus="loop">
-							<div class="border border-primary rounded position-relative vesitable-item">
-								<div class="vesitable-img" onclick='location.href="/productDetail?productID=${data.productID}";'>
-									<img src="${data.ancImagePath}" class="img-fluid w-100 rounded-top">
-								</div>
-								<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.ancCategoryName}</div>
-								<div class="p-4 rounded-bottom">
-									<h4 style="text-align: center;">${data.ancProductName}</h4>
-									<custom:starRateMain1 score='3' index='${loop.index}'/>
-									<div class="line-clamp my-2">
-										<p>${data.ancProductDetail}</p>
+						<c:forEach var="data" items="${recommandProducts}" varStatus="loop">					
+								<div class="border border-primary rounded position-relative vesitable-item">
+									<div class="vesitable-img" onclick='location.href="/productDetail?productID=${data.productID}";'>
+										<img src="${data.ancImagePath}" class="img-fluid w-100 rounded-top">
 									</div>
-									<div class="d-flex justify-content-between flex-lg-wrap">
-										<div class="row">
-											<div class="col">
-												<p class="text-dark fs-5 fw-bold mb-0 my-2"><fmt:formatNumber value="${data.ancSalePrice}" currencyCode="KRW" />원</p>
-											</div>
+									<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.ancCategoryName}</div>
+									<div class="p-4 rounded-bottom">
+										<h4 style="text-align: center;">${data.ancProductName}</h4>
+										<custom:starRateMain1 score='3' index='${loop.index}'/>
+										<div class="line-clamp my-2">
+											<p>${data.ancProductDetail}</p>
 										</div>
-										<c:if test="${not empty memberID}">
+										<div class="d-flex justify-content-between flex-lg-wrap">
 											<div class="row">
-												<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${data.productID})">장바구니 추가</button>
+												<div class="col">
+													<p class="text-dark fs-5 fw-bold mb-0 my-2"><fmt:formatNumber value="${data.ancSalePrice}" currencyCode="KRW" />원</p>
+												</div>
 											</div>
-										</c:if>
-										<c:if test="${empty memberID}">
-											<a href="/login" class="btn border border-secondary rounded-pill px-3 text-primary"> 
-												<i class="fa fa-shopping-bag me-2 text-primary"></i> 장바구니 추가
-											</a>
-										</c:if>
+											<c:if test="${not empty memberID}">
+												<div class="row">
+													<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${data.productID})">장바구니 추가</button>
+												</div>
+											</c:if>
+											<c:if test="${empty memberID}">
+												<a href="/login" class="btn border border-secondary rounded-pill px-3 text-primary"> 
+													<i class="fa fa-shopping-bag me-2 text-primary"></i> 장바구니 추가
+												</a>
+											</c:if>
+										</div>
 									</div>
 								</div>
-							</div>
 						</c:forEach>
 					</c:if>
 				</div>
