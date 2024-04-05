@@ -84,7 +84,7 @@ public class EntryMainPageController {
 						
 					}
 					
-					model.addAttribute("recommandProducts", productCategoryDTOList);
+					model.addAttribute("recommandProductsByMC", productCategoryDTOList);
 					
 				}
 				
@@ -112,7 +112,7 @@ public class EntryMainPageController {
 				
 				productCategoryDTOList.addAll(productCategoryService.selectAll(productCategoryDTO));
 				
-				model.addAttribute("recommandProducts", productCategoryDTOList);
+				model.addAttribute("recommandProductsByPC", productCategoryDTOList);
 				
 			}
 			
@@ -193,7 +193,7 @@ public class EntryMainPageController {
 				
 			}
 			
-			model.addAttribute("recommandProducts", filteredList);
+			model.addAttribute("recommandProductsByBI", filteredList);
 			
 		}
 		
