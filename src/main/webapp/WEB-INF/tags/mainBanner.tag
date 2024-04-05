@@ -4,7 +4,7 @@
 <style>
     .div-banner {
         position: absolute;
-        top: 60%;
+        top: 50%;
         right: 3%;
         transform: translateY(-50%);
         z-index: 5;
@@ -47,16 +47,14 @@
 	
 	    // 배너 하단의 현재 위치 계산
 	    var bannerBottomPosition = scrollY + windowHeight / 2 + bannerHeight / 2;
-	    console.log("배너 하단의 위치 : " + bannerBottomPosition);
-
-		if (bannerBottomPosition < footerTop) {
+	    console.log("배너 하단의 위치 : " + bannerBottomPosition); 
+	
+	   if (bannerBottomPosition < footerTop) {
 	        // 풋터에 닿기 전까지는 배너를 스크롤에 따라 움직임
-	        console.log("페이지 스크롤");
 	        divBanner.style.position = 'fixed';
-	        divBanner.style.top = '60%';
+	        divBanner.style.top = '50%';
 	    } else {
 	        // 풋터에 닿으면 배너의 위치 고정
-	        console.log("풋터 상단");
 	        divBanner.style.position = 'absolute';
 	        divBanner.style.top = (footerTop - bannerHeight) + 'px'; // 배너 하단이 풋터 상단에 위치하도록 조정
 	    }
