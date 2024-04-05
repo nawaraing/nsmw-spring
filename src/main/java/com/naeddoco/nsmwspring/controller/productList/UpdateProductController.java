@@ -25,7 +25,7 @@ public class UpdateProductController {
 	@Autowired
 	private ProductCategoryService productCategoryService;
 
-	@RequestMapping(value = "/productList/update", method = RequestMethod.GET)
+	@RequestMapping(value = "/productList/update", method = RequestMethod.POST)
 	public String updateProduct(HttpSession session, 
 								@RequestParam("productID") int productID,
 								@RequestParam("productName") String productName, 
@@ -37,7 +37,7 @@ public class UpdateProductController {
 								@RequestParam("ingredient") String ingredient, 
 								@RequestParam("dosage") String dosage,
 								@RequestParam("expirationDate") String expirationDate,
-								@RequestParam("categoryIDs") List<Integer> categoryIDs) {
+								@RequestParam("categoryNames") List<Integer> categoryNames) {
 
 		// -----------------------------------------------세션 확인 ↓-----------------------------------------------
 
@@ -77,12 +77,12 @@ public class UpdateProductController {
 
 		// -----------------------------------------------기존 카테고리 정보 추가-----------------------------------------------
 
-		for(int i = 0; i < categoryIDs.size(); i++) { // 카테고리 아이디 데이터 순회
+		for(int i = 0; i < categoryNames.size(); i++) { // 카테고리 아이디 데이터 순회
 			
 			productCategoryDTO = new ProductCategoryDTO();
 			
 			productCategoryDTO.setProductID(productID); // 상품 아이디 set
-			productCategoryDTO.setCategoryID(categoryIDs.get(i)); // 카테고리 아이디 st
+			productCategoryDTO.setCategoryID(categoryNames.get(i)); // 카테고리 아이디 st
 			
 			productCategoryService.insert(productCategoryDTO); // 카테고리 추가
 			

@@ -20,6 +20,13 @@ public class BuyInfoDTO {
     
     private int maxPk;                      // 가장 높은 PK 
     
+    private int ancProductID;               // 상품 아이디
+    private String ancProductName;          // 상품 이름
+    private String ancProductDetail;        // 상품 상세
+    private int ancSalePrice;               // 판매 가격
+    private String ancCategoryName;         // 상품 카테고리 이름
+    private String ancImagePath;            // 상품 이미지 경로
+    
     @Override
 	public String toString() {
 		
@@ -32,7 +39,13 @@ public class BuyInfoDTO {
 			   "deliveryAddress = " + deliveryAddress + ", " +
 			   "deliveryDetailAddress = " + deliveryDetailAddress + ", " +
 			   "orderState = " + orderState + ", " +
-			   "maxPk = " + maxPk +
+			   "maxPk = " + maxPk + ", " + ", " +
+			   "ancProductID = " + ancProductID + ", " +
+			   "ancProductName = " + ancProductName + ", " +
+			   "ancProductDetail = " + ancProductDetail + ", " +
+			   "ancSalePrice = " + ancSalePrice + ", " +
+			   "ancCategoryName = " + ancCategoryName + ", " +
+			   "ancImagePath = " + ancImagePath +
 			   "]";
 		
 	}

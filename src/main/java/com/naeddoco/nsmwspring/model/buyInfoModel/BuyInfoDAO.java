@@ -2,15 +2,12 @@ package com.naeddoco.nsmwspring.model.buyInfoModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,48 +17,85 @@ public class BuyInfoDAO {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
-	private static final String SELECTALL_GET_NOT_BUY_PRODUCT = "";
+	
+	// 사용자의 구매 내역을 5개 가져오는 쿼리
+	private static final String SELECTALL_BUY_INFO_BY_MEMBER = "SELECT DISTINCT " +
+															   "O.PRODUCT_ID FROM BUY_INFO B " +
+															   "INNER JOIN ORDER_INFO O ON B.BUY_INFO_ID = O.BUY_INFO_ID " +
+															   "WHERE B.MEMBER_ID = ? " +
+															   "LIMIT 5";
+	
+	// 사용자가 구매하지 않은 다른 사용자가 구매한 상품을 가져오는 쿼리
+	private static final String SELCTALL_NOT_BUY_PRODUCT = "SELECT DISTINCT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRODUCT_DETAIL, P.SALE_PRICE, C.CATEGORY_NAME, I.IMAGE_PATH " +
+            										       "FROM BUY_INFO B " +
+            										       "INNER JOIN ORDER_INFO O ON B.BUY_INFO_ID = O.BUY_INFO_ID " +
+            										       "INNER JOIN PRODUCT P ON O.PRODUCT_ID = P.PRODUCT_ID " +
+            										       "INNER JOIN PRODUCT_CATEGORY PC ON P.PRODUCT_ID = PC.PRODUCT_ID " +
+            										       "INNER JOIN CATEGORY C ON PC.CATEGORY_ID = C.CATEGORY_ID " +
+            										       "INNER JOIN PRODUCT_IMAGE PI ON P.PRODUCT_ID = PI.PRODUCT_ID " +
+            										       "INNER JOIN IMAGE I ON PI.IMAGE_ID = I.IMAGE_ID " +
+            										       "WHERE B.MEMBER_ID = ?";
 	
 	// 가장 높은 PK값을 가져오는 쿼리
 	private static final String SELECTONE_MAX_PK = "SELECT MAX(BUY_INFO_ID) AS MAX_PK FROM BUY_INFO";
 
 	// 구매내역을 추가하는 쿼리
 	private static final String INSERT_BUY_INFO = "INSERT INTO BUY_INFO (" +
-												 "MEMBER_ID, " +
-												 "SUBSCRIPTION_INFO_ID, " +
-												 "BUY_DATE, " +
-												 "DELIVERY_POSTCODE, " +
-												 "DELIVERY_ADDRESS, " +
-												 "DELIVERY_DETAIL_ADDRESS, " +
-												 "ORDER_STATE" +
-												 ") VALUES (?, ?, current_date(), ?, ?, ?,'PAY')";
+												  "MEMBER_ID, " +
+												  "SUBSCRIPTION_INFO_ID, " +
+												  "BUY_DATE, " +
+												  "DELIVERY_POSTCODE, " +
+												  "DELIVERY_ADDRESS, " +
+												  "DELIVERY_DETAIL_ADDRESS, " +
+												  "ORDER_STATE" +
+												  ") VALUES (?, ?, current_date(), ?, ?, ?,'PAY')";
 
-	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 	public List<BuyInfoDTO> selectAll(BuyInfoDTO buyInfoDTO) {
 
-		log.debug("[로그] buyInfo SELECTALL 처리 진입");
+		log.debug("selectAll 진입");
 
-		if (buyInfoDTO.getSearchCondition().equals("getNotBuyProduct")) {
+		if (buyInfoDTO.getSearchCondition().equals("getProductIDs")) {
 			
-			log.debug("[로그] buyInfo getNotBuyProduct 처리 진입");
+			log.debug("getProductIDs 진입");
+			
+			Object args[] = { buyInfoDTO.getMemberID() };
 			
 			try {
 
-				return (List<BuyInfoDTO>) jdbcTemplate.query(SELECTALL_GET_NOT_BUY_PRODUCT, new getNotBuyProductRowMapper());
+				return jdbcTemplate.query(SELECTALL_BUY_INFO_BY_MEMBER, args, new getProductIDsRowMapper());
 			
 			} catch (Exception e) {
 				
-				log.debug("[로그] buyInfo getNotBuyProduct 예외 발생");
+				log.error("getProductIDs 예외 발생");
 				
 				return null;
 				
 			}
 
+		} else if(buyInfoDTO.getSearchCondition().equals("getNotBuyProduct")) {
+			
+			log.debug("getNotBuyProduct 진입");
+			
+			Object args[] = { buyInfoDTO.getMemberID() };
+			
+			try {
+
+				return jdbcTemplate.query(SELCTALL_NOT_BUY_PRODUCT, args, new GetNotBuyProductRowMapper());
+			
+			} catch (Exception e) {
+				
+				log.error("getProductIDs 예외 발생");
+				
+				return null;
+				
+			}
+			
+			
 		}
 		
-		log.debug("[로그] buyInfo getNotBuyProduct 처리 실패");
+		log.debug("selectAll 실패");
 		
 		return null;
 
@@ -126,17 +160,23 @@ public class BuyInfoDAO {
 
 			}
 			
-		}
+			if (result <= 0) {
+				
+				log.debug("insertSubscriptionData 실패");
 
-		if (result <= 0) {
+				return false;
 
-			return false;
+			}
+			
+			log.debug("insertSubscriptionData 성공");
 
+			return true;
+			
 		}
 		
-		log.debug("insert 처리 실패");
-
-		return true;
+		log.debug("insert 실패");
+		
+		return false;
 
 	}
 
@@ -145,35 +185,20 @@ public class BuyInfoDAO {
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 @Slf4j
-class getNotBuyProductRowMapper implements RowMapper<BuyInfoDTO> {
+class getProductIDsRowMapper implements RowMapper<BuyInfoDTO> {
 
 	@Override
 	public BuyInfoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-		BuyInfoDTO data = new BuyInfoDTO();
+		
+		log.debug("getProductIDsRowMapper 진입");
+		
+		BuyInfoDTO buyInfoDTO = new BuyInfoDTO();
+		
+		buyInfoDTO.setAncProductID(rs.getInt("O.PRODUCT_ID"));
+		
+		log.debug("getProductIDsRowMapper 완료");
 
-		// rs에 저장된 데이터를 JAVA에서 사용가능하게 리스트에 넣기위해 DTO객체에 값을 set하는 코드
-		// timestamp는 밀리초 단위까지 출력되기 때문에 SimpleDateFormat을 사용해 형식지정(분까지)
-		// data.setBuyDate(rs.getTimestamp("BUY_DATE"));
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		// String buyTime = timeFormat.format(data.getBuyDate());
-
-		data.setBuyInfoID(rs.getInt("BUY_INFO_ID"));
-		data.setMemberID(rs.getString("MEMBER_ID"));
-		data.setBuyDate(rs.getTimestamp("BUY_DATE"));
-		data.setDeliveryPostcode(rs.getInt("DELIVERY_POSTCODE"));
-		data.setDeliveryAddress(rs.getString("DELIVERY_ADDRESS"));
-		data.setDeliveryDetailAddress(rs.getString("DELIVERY_DETAIL_ADDRESS"));
-		data.setOrderState(rs.getString("ORDER_STATE"));
-
-		log.debug(rs.getString("BUY_INFO_ID"));
-		log.debug(rs.getString("MEMBER_ID"));
-		log.debug(sdf.format(rs.getTimestamp("BUY_DATE")));
-		log.debug(Integer.toString(rs.getInt("DELIVERY_POSTCODE")));
-		log.debug(rs.getString("DELIVERY_ADDRESS"));
-		log.debug(rs.getString("DELIVERY_DETAIL_ADDRESS"));
-		log.debug(rs.getString("ORDER_STATE"));
-
-		return data;
+		return buyInfoDTO;
 
 	}
 
@@ -192,6 +217,31 @@ class selectMaxPKRowMapper implements RowMapper<BuyInfoDTO> {
 		buyInfoDTO.setMaxPk(rs.getInt("MAX_PK"));
 
 		log.debug("selectMaxPKRowMapper 완료");
+		
+		return buyInfoDTO;
+
+	}
+
+}
+
+@Slf4j
+class GetNotBuyProductRowMapper implements RowMapper<BuyInfoDTO> {
+
+	@Override
+	public BuyInfoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		log.debug("GetNotBuyProductRowMapper 진입");
+		
+		BuyInfoDTO buyInfoDTO = new BuyInfoDTO();
+		
+		buyInfoDTO.setAncProductID(rs.getInt("P.PRODUCT_ID"));
+		buyInfoDTO.setAncProductName(rs.getString("P.PRODUCT_NAME"));
+		buyInfoDTO.setAncProductDetail(rs.getString("P.PRODUCT_DETAIL"));
+		buyInfoDTO.setAncSalePrice(rs.getInt("P.SALE_PRICE"));
+		buyInfoDTO.setAncCategoryName(rs.getString("C.CATEGORY_NAME"));
+		buyInfoDTO.setAncImagePath(rs.getString("I.IMAGE_PATH"));
+
+		log.debug("GetNotBuyProductRowMapper 완료");
 		
 		return buyInfoDTO;
 
