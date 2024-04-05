@@ -84,7 +84,7 @@ public class EntryMainPageController {
 						
 					}
 					
-					model.addAttribute("recommandProductsByMC", productCategoryDTOList);
+					model.addAttribute("recommandProductsByPC", productCategoryDTOList);
 					
 				}
 				
