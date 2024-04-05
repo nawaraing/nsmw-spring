@@ -4,6 +4,12 @@
 
 # 👨‍💻영양제 쇼핑몰👩‍💻
 
+###### 회원 쇼핑몰
+<img width="50%" alt="image" src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/262d2fb4-8c26-4388-8c00-96beac37cf62">
+
+###### 관리자
+<img width="50%" alt="image" src="https://github.com/NaeDdoCo/nsmw-spring/assets/59286081/8ae76ca6-b84d-439c-a3e2-ba56de86bdae">
+
 ## 🙋팀원
 
 <a href="https://github.com/nawaraing" target="_blank"><img src="https://img.shields.io/badge/강준현-31A8FF?style=for-the-badge&logo=github&logoColor=white"/></a>&nbsp;
