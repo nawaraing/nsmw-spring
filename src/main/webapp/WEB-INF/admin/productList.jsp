@@ -195,10 +195,10 @@
                               <c:if test='${product.saleState eq "SALES"}'>
                                 <td id="sale-state-${status.index}">판매중</td>
                               </c:if>
-                              <c:if test='${product.saleState eq "DISCONTINED"}'>
+                              <c:if test='${product.saleState eq "DISCONTINUED"}'>
                                 <td id="sale-state-${status.index}">단종</td>
                               </c:if>
-                              <c:if test='${(product.saleState ne "SALES") && (product.saleState ne "DISCONTINED")}'>
+                              <c:if test='${(product.saleState ne "SALES") && (product.saleState ne "DISCONTINUED")}'>
                                 <td id="sale-state-${status.index}"></td>
                               </c:if>
                               <!-- / 판매 상태 -->
@@ -285,7 +285,6 @@
     <script src="/resources/admin/js/pagination-action.js"></script>
     <script src="/resources/admin/js/pagination-composed.js"></script>
     <script src="/resources/admin/js/product-list.js"></script>
-
     <script src="/resources/admin/js/update-product.js"></script>
     <script src="/resources/admin/js/update-product-sale-stop.js"></script>
   </body>

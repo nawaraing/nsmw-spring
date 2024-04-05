@@ -197,7 +197,7 @@
                       <script>console.log('categoryJoin out: ${categoryJoin}');</script>
                     </c:forEach>
                     <script>console.log('categoryJoin: ${categoryJoin}');</script>
-                    <custom:adminProductListAddModal categoryNames="${categoryJoin}" />
+                    <custom:adminCouponDownloadAddModal categoryNames="${categoryJoin}" />
                     <form id="update-coupon-download-form" action="/couponDownload/update" method="GET" class="d-inline">
                       <button type="submit" class="btn btn-success me-2" onclick="updateCouponDownload(${fn:length(couponList)})">저장</button>
                     </form>

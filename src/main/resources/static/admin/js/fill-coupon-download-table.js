@@ -26,13 +26,14 @@ function fillCouponDownloadTable(datas) {
         if (Math.floor(index / 10) + 1 === curPage) {
             let tr = $('<tr>');
             
-            // 체크 박스
-            td = $('<td>');
-            div = $('<div class="form-check">');
             disabled = '';
             if (data.ancDeployStatus === '배포 중단' || data.ancDeployStatus === '배포 완료') {
 				disabled = 'disabled';
 			}
+            
+            // 체크 박스
+            td = $('<td>');
+            div = $('<div class="form-check">');
             input = $('<input class="form-check-input" type="checkbox" value="' + data.couponID + '" name="couponID" id="checkbox-id-' + rowNum + '" onclick="handleListCheckbox(' + rowNum + ', ' + Math.min(datas.length - index, 10) + ')" ' + disabled + ' />');
             tr.append(td.append(div.append(input)));
             
@@ -46,7 +47,7 @@ function fillCouponDownloadTable(datas) {
 			
             // 배포 마감일
             td = $('<td>');
-            input = $('<input style="width: 230px;" type="datetime-local" class="form-control" id="deploy-deadline-' + rowNum + '" value="' + data.ancDeployDeadline + '" name="ancDeployDeadline" />');
+            input = $('<input style="width: 230px;" type="datetime-local" class="form-control" id="deploy-deadline-' + rowNum + '" value="' + data.ancDeployDeadline + '" name="ancDeployDeadline" ' + disabled + ' />');
             tr.append(td.append(input));
          
 			// 쿠폰 만료일

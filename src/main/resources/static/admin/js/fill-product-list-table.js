@@ -21,61 +21,67 @@ function fillProductListTable(datas) {
 
     // Table body
     let rowNum = 0;
-    let td, div, input, aTag, span, ul, li, label;
+    let td, div, input, aTag, span, ul, li, label, disabled;
     $.each(datas, function(index, data) {
 //    	console.log("index: " + index);
         if (Math.floor(index / 10) + 1 === curPage) {
             let tr = $('<tr>');
             
+			// console.log('data.saleState : ' + data.saleState);
+            disabled = '';
+            if (data.saleState === '단종') {
+				disabled = 'disabled';
+			}
+            
             // 체크 박스
             td = $('<td>');
             div = $('<div class="form-check">');
-            input = $('<input class="form-check-input" type="checkbox" value="' + data.productID + '" name="productID" id="checkbox-id-' + rowNum + '" onclick="handleListCheckbox(' + rowNum + ', ' + Math.min(datas.length - index, 10) + ')" />');
+            input = $('<input class="form-check-input" type="checkbox" value="' + data.productID + '" name="productID" id="checkbox-id-' + rowNum + '" onclick="handleListCheckbox(' + rowNum + ', ' + Math.min(datas.length - index, 10) + ')" ' + disabled + ' />');
             tr.append(td.append(div.append(input)));
             
             // 상품명
             td = $('<td>');
-            input = $('<input style="width: 150px;" type="text" class="form-control" id="product-name-' + rowNum + '" value="' + data.productName + '" name="productName" />');
+            input = $('<input style="width: 150px;" type="text" class="form-control" id="product-name-' + rowNum + '" value="' + data.productName + '" name="productName" ' + disabled + ' />');
             tr.append(td.append(input));
             
             // 상품 설명
             td = $('<td>');
-            input = $('<input style="width: 150px;" type="text" class="form-control" id="product-detail-' + rowNum + '" value="' + data.productDetail + '" name="productDetail" />');
+            input = $('<input style="width: 150px;" type="text" class="form-control" id="product-detail-' + rowNum + '" value="' + data.productDetail + '" name="productDetail" ' + disabled + ' />');
             tr.append(td.append(input));
          
 			// 원가
             td = $('<td>');
-            input = $('<input style="width: 90px;" type="number" class="form-control" id="cost-price-' + rowNum + '" value="' + data.costPrice + '" name="costPrice" />');
+            input = $('<input style="width: 90px;" type="number" class="form-control" id="cost-price-' + rowNum + '" value="' + data.costPrice + '" name="costPrice" ' + disabled + ' />');
             tr.append(td.append(input));
 			
 			// 정가
             td = $('<td>');
-            input = $('<input style="width: 90px;" type="number" class="form-control" id="retail-price-' + rowNum + '" value="' + data.retailPrice + '" name="retailPrice" />');
+            input = $('<input style="width: 90px;" type="number" class="form-control" id="retail-price-' + rowNum + '" value="' + data.retailPrice + '" name="retailPrice" ' + disabled + ' />');
             tr.append(td.append(input));
 			
 			// 판매가
             td = $('<td>');
-            input = $('<input style="width: 90px;" type="number" class="form-control" id="sale-price-' + rowNum + '" value="' + data.salePrice + '" name="salePrice" />');
+            input = $('<input style="width: 90px;" type="number" class="form-control" id="sale-price-' + rowNum + '" value="' + data.salePrice + '" name="salePrice" ' + disabled + ' />');
             tr.append(td.append(input));
 			
 			// 재고
             td = $('<td>');
-            input = $('<input style="width: 70px;" type="number" class="form-control" id="stock-' + rowNum + '" value="' + data.stock + '" name="stock" />');
+            input = $('<input style="width: 70px;" type="number" class="form-control" id="stock-' + rowNum + '" value="' + data.stock + '" name="stock" ' + disabled + ' />');
             tr.append(td.append(input));
 			
 			// 성분
             td = $('<td>');
-            input = $('<input style="width: 150px;" type="text" class="form-control" id="ingredient-' + rowNum + '" value="' + data.ingredient + '" name="ingredient" />');
+            input = $('<input style="width: 150px;" type="text" class="form-control" id="ingredient-' + rowNum + '" value="' + data.ingredient + '" name="ingredient" ' + disabled + ' />');
             tr.append(td.append(input));
             
 			// 용법
             td = $('<td>');
-            input = $('<input style="width: 150px;" type="text" class="form-control" id="dosage-' + rowNum + '" value="' + data.dosage + '" name="dosage" />');
+            input = $('<input style="width: 150px;" type="text" class="form-control" id="dosage-' + rowNum + '" value="' + data.dosage + '" name="dosage" ' + disabled + ' />');
             tr.append(td.append(input));
             
 			// 소비기한
             td = $('<td>');
-            input = $('<input style="width: 150px;" type="text" class="form-control" id="expiration-date-' + rowNum + '" value="' + data.expirationDate + '" name="expirationDate" />');
+            input = $('<input style="width: 150px;" type="text" class="form-control" id="expiration-date-' + rowNum + '" value="' + data.expirationDate + '" name="expirationDate" ' + disabled + ' />');
             tr.append(td.append(input));
             
 			// 카테고리
@@ -86,7 +92,7 @@ function fillProductListTable(datas) {
 				li = $('<li>');
 				div = $('<div class="form-check">');
 				label = $('<label class="dropdown-item" for="checkbox-product-' + rowNum + '-category-' + allCategory + '" id="dropdown-item-product-' + rowNum + '-category-' + allCategory + '">');
-				input = $('<input class="form-check-input" type="checkbox" onclick="handleCategoryCheckbox(' + rowNum + ', \'' + allCategory + '\')" value="' + allCategory + '" id="checkbox-product-' + rowNum + '-category-' + allCategory + '">');
+				input = $('<input class="form-check-input" type="checkbox" onclick="handleCategoryCheckbox(' + rowNum + ', \'' + allCategory + '\')" value="' + allCategory + '" id="checkbox-product-' + rowNum + '-category-' + allCategory + '" ' + disabled + ' >');
 				
 //				console.log("allCategory: " + allCategory);
 	            $.each(data.categories, function(productCategoryIdx, productCategory) {
