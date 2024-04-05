@@ -47,6 +47,9 @@
 </head>
 <body>
 
+<!-- 배너 -->
+<custom:banner/>
+
 
 	<!-- 장바구니 추가 비동기처리 -->
 	<script>

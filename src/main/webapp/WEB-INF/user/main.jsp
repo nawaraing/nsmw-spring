@@ -46,7 +46,7 @@
 <body>
 
 <!-- 배너 -->
-<custom:banner/>
+<custom:mainBanner/>
 
 
 	<%--로그아웃 확인 후 모달을 띄우는 커스텀 태그 --%>
@@ -151,14 +151,12 @@
 	<%-- Spinner End --%>
 
 
-	<%-- 로고가 포홤된 헤더 시작 --%>
+	<!-- Navbar start -->
 	<div class="container-fluid fixed-top">
-		<%-- 지도 헤더 --%>
 		<custom:commonHeader/>
-		<%-- 로고 헤더 --%>
 		<custom:commonHeaderWithLogo/>
 	</div>
-	<%-- 로고가 포홤된 헤더 끝 --%>
+	<!-- Navbar End -->
 
 
 	<!-- 검색 버튼 시작 -->
@@ -188,8 +186,10 @@
 			<div class="container py-5">
 				<h1 class="mb-0">Today's Recommendation</h1>
 				<div class="owl-carousel vegetable-carousel owl-theme">
-					<c:if test="${fn:length(recommandProducts) > 0}">
-						<c:forEach var="data" items="${recommandProducts}" varStatus="loop">					
+				
+					<!-- ProductCategoryDTO // recommandProductsByPC -->
+					<c:if test="${not empty recommandProductsByPC}">
+						<c:forEach var="data" items="${recommandProductsByPC}" varStatus="loop">					
 								<div class="border border-primary rounded position-relative vesitable-item">
 									<div class="vesitable-img" onclick='location.href="/productDetail?productID=${data.productID}";'>
 										<img src="${data.ancImagePath}" class="img-fluid w-100 rounded-top">
@@ -210,6 +210,42 @@
 											<c:if test="${not empty memberID}">
 												<div class="row">
 													<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${data.productID})">장바구니 추가</button>
+												</div>
+											</c:if>
+											<c:if test="${empty memberID}">
+												<a href="/login" class="btn border border-secondary rounded-pill px-3 text-primary"> 
+													<i class="fa fa-shopping-bag me-2 text-primary"></i> 장바구니 추가
+												</a>
+											</c:if>
+										</div>
+									</div>
+								</div>
+						</c:forEach>
+					</c:if>
+					
+					<!-- BuyInfoDTO // recommandProductsByBI -->
+					<c:if test="${not empty recommandProductsByBI}">
+						<c:forEach var="data" items="${recommandProductsByBI}" varStatus="loop">					
+								<div class="border border-primary rounded position-relative vesitable-item">
+									<div class="vesitable-img" onclick='location.href="/productDetail?productID=${data.ancProductID}";'>
+										<img src="${data.ancImagePath}" class="img-fluid w-100 rounded-top">
+									</div>
+									<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.ancCategoryName}</div>
+									<div class="p-4 rounded-bottom">
+										<h4 style="text-align: center;">${data.ancProductName}</h4>
+										<custom:starRateMain1 score='3' index='${loop.index}'/>
+										<div class="line-clamp my-2">
+											<p>${data.ancProductDetail}</p>
+										</div>
+										<div class="d-flex justify-content-between flex-lg-wrap">
+											<div class="row">
+												<div class="col">
+													<p class="text-dark fs-5 fw-bold mb-0 my-2"><fmt:formatNumber value="${data.ancSalePrice}" currencyCode="KRW" />원</p>
+												</div>
+											</div>
+											<c:if test="${not empty memberID}">
+												<div class="row">
+													<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${data.ancProductID})">장바구니 추가</button>
 												</div>
 											</c:if>
 											<c:if test="${empty memberID}">
