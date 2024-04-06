@@ -71,7 +71,7 @@ public class ProductDAO {
 															   "JOIN PRODUCT_IMAGE PI ON P.PRODUCT_ID = PI.PRODUCT_ID " +
 															   "JOIN IMAGE I ON PI.IMAGE_ID = I.IMAGE_ID " +
 															   "WHERE P.PRODUCT_ID = ?";
-
+	
 	// 크롤링한 상품 데이터를 추가하는 쿼리문
 	private static final String INSERT = "INSERT INTO PRODUCT ( " +
 			 							 "PRODUCT_NAME, " +
@@ -119,7 +119,7 @@ public class ProductDAO {
 
 			} catch (Exception e) {
 
-				log.debug("getLastOne 예외 발생");
+				log.error("getLastOne 예외 발생");
 
 				return null;
 
@@ -144,15 +144,15 @@ public class ProductDAO {
 
 			} catch (Exception e) {
 
-				log.debug("selectAdminProductListDatas 예외 발생");
+				log.error("selectAdminProductListDatas 예외 발생");
 
 				return null;
 
 			}
 			
-		}
+		} 
 
-		log.debug("selectAll 실패");
+		log.error("selectAll 실패");
 
 		return null;
 
@@ -176,7 +176,7 @@ public class ProductDAO {
 
 			} catch (Exception e) {
 				
-				log.debug("getProductDetail 예외 발생");
+				log.error("getProductDetail 예외 발생");
 
 				return null;
 
@@ -184,7 +184,7 @@ public class ProductDAO {
 			
 		}
 		
-		log.debug("selectOne 실패");
+		log.error("selectOne 실패");
 		
 		return null;
 
@@ -218,7 +218,7 @@ public class ProductDAO {
 
 			} catch (Exception e) {
 			
-				log.debug("crawlProduct 예외 발생");
+				log.error("crawlProduct 예외 발생");
 
 				return false;
 
@@ -226,7 +226,7 @@ public class ProductDAO {
 			
 			if (result <= 0) {
 				
-				log.debug("crawlProduct 실패");
+				log.error("crawlProduct 실패");
 
 				return false;
 
@@ -256,7 +256,7 @@ public class ProductDAO {
 				
 			} catch (Exception e) {
 			
-				log.debug("insertProductByAdmin 예외 발생");
+				log.error("insertProductByAdmin 예외 발생");
 
 				return false;
 
@@ -264,7 +264,7 @@ public class ProductDAO {
 			
 			if (result <= 0) {
 				
-				log.debug("insertProductByAdmin 실패");
+				log.error("insertProductByAdmin 실패");
 
 				return false;
 
@@ -276,7 +276,7 @@ public class ProductDAO {
 			
 		}
 		
-		log.debug("insert 실패");
+		log.error("insert 실패");
 		
 		return false;
 
@@ -313,13 +313,15 @@ public class ProductDAO {
 		
 			} catch (Exception e) {
 			
-				log.debug("updateAdminProductListData 예외 발생");
+				log.error("updateAdminProductListData 예외 발생");
 
 				return false;
 
 			}
 
 			if (result <= 0) {
+				
+				log.error("updateAdminProductListData 실패");
 
 				return false;
 
@@ -327,7 +329,7 @@ public class ProductDAO {
 
 		}
 		
-		log.debug("update 실패");
+		log.error("update 실패");
 		
 		return false;
 		
@@ -380,7 +382,7 @@ class getProductDetailRowMapper implements RowMapper<ProductDTO> {
 		productDTO.setRegisterDate(rs.getString("P.REGISTER_DATE"));
 		productDTO.setModifyDate(rs.getString("P.MODIFY_DATE"));
 		productDTO.setSaleState(rs.getString("P.SALE_STATE"));
-		productDTO.setAncCategory(rs.getString("CA.CATEGORY_NAME"));
+		productDTO.setAncCategoryName(rs.getString("CA.CATEGORY_NAME"));
 		productDTO.setAncImagePath(rs.getString("I.IMAGE_PATH"));
 		
 		log.debug("getProductDetailRowMapper 완료");
@@ -414,7 +416,7 @@ class selectAllCharSearchRowMapper implements RowMapper<ProductDTO> {
 		productDTO.setRegisterDate(rs.getString("P.REGISTER_DATE"));
 		productDTO.setModifyDate(rs.getString("P.MODIFY_DATE"));
 		productDTO.setSaleState(rs.getString("P.SALE_STATE"));
-		productDTO.setAncCategory(rs.getString("CATEGORIES"));
+		productDTO.setAncCategoryName(rs.getString("CATEGORIES"));
 		productDTO.setAncImagePath(rs.getString("IMAGE_PATHS"));
 		
 		log.debug("selectAllProductRowMapper 완료");

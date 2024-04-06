@@ -22,7 +22,7 @@ public class ProductDTO {
 	private String searchCondition; // 쿼리 분기
 	
 	private String ancImagePath;    // 이미지
-	private String ancCategory;     // 카테고리
+	private String ancCategoryName; // 카테고리
 	
 	private String searchKeyword;   // 검색 키워드
 	private String sortColumnName;  // 정렬할 컬럼명

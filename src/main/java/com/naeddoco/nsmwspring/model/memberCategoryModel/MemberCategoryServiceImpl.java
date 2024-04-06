@@ -17,23 +17,8 @@ public class MemberCategoryServiceImpl implements MemberCategoryService {
 	}
 
 	@Override
-	public MemberCategoryDTO selectOne(MemberCategoryDTO memberCategoryDTO) {
-		return memberCategoryDAO.selectOne(memberCategoryDTO);
-	}
-
-	@Override
 	public boolean insert(MemberCategoryDTO memberCategoryDTO) {
 		return memberCategoryDAO.insert(memberCategoryDTO);
-	}
-
-	@Override
-	public boolean update(MemberCategoryDTO memberCategoryDTO) {
-		return memberCategoryDAO.update(memberCategoryDTO);
-	}
-
-	@Override
-	public boolean delete(MemberCategoryDTO memberCategoryDTO) {
-		return memberCategoryDAO.delete(memberCategoryDTO);
 	}
 
 }

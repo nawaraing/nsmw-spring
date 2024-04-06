@@ -20,4 +20,5 @@ public class MemberCouponDTO {
 	private int ancDiscount;			// 할인액 or 할인율 
 	private int ancAmount;				// 최소 구매 금액 or 최대 할인 금액
 	
+	private String ancCategoryName; 	// 카테고리명
 }

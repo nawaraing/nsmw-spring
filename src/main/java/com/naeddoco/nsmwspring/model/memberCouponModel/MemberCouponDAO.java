@@ -91,7 +91,7 @@ public class MemberCouponDAO {
 			
 			} catch (Exception e) {
 
-				log.error("selectAllMyCoupon 예외/실패" + e.getMessage());
+				log.error("selectAllMyCoupon 예외/실패" + e.getMessage(), e);
 
 				return null;
 
@@ -194,18 +194,21 @@ class SelectAllMemberCouponRowMapper implements RowMapper<MemberCouponDTO> {
 		data.setAncCouponName(rs.getString("C.COUPON_NAME"));
 		data.setAncExpirationDate(rs.getTimestamp("C.EXPIRATION_DATE"));
 		data.setAncCouponType(rs.getString("C.COUPON_TYPE"));
+		data.setAncCategoryName(rs.getString("CATEGORY_NAME"));
 		data.setAncDiscount(rs.getInt("DISCOUNT"));
 		data.setAncAmount(rs.getInt("AMOUNT_LIMIT"));
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
-		log.debug(Integer.toString(rs.getInt("MC.MEMBER_COUPON_ID")));
-		log.debug(rs.getString("MC.COUPON_ID"));
-		log.debug(rs.getString("MC.COUPON_USAGE"));
-		log.debug(rs.getString("C.COUPON_NAME"));
-		log.debug(dateFormat.format(rs.getTimestamp("C.EXPIRATION_DATE")));
-		log.debug(Integer.toString(rs.getInt("DISCOUNT")));
-		log.debug(Integer.toString(rs.getInt("AMOUNT_LIMIT")));
+		log.debug("MEMBER_COUPON_ID: " + rs.getInt("MC.MEMBER_COUPON_ID"));
+		log.debug("COUPON_ID: " + rs.getString("MC.COUPON_ID"));
+		log.debug("COUPON_USAGE: " + rs.getString("MC.COUPON_USAGE"));
+		log.debug("COUPON_NAME: " + rs.getString("C.COUPON_NAME"));
+		log.debug("EXPIRATION_DATE: " + rs.getTimestamp("C.EXPIRATION_DATE"));
+		log.debug("COUPON_TYPE: " + rs.getString("C.COUPON_TYPE"));
+		log.debug("CATEGORY_NAME: " + rs.getString("CATEGORY_NAME"));
+		log.debug("DISCOUNT: " + rs.getInt("DISCOUNT"));
+		log.debug("AMOUNT_LIMIT: " + rs.getInt("AMOUNT_LIMIT"));
 		
 		return data;
 	}
