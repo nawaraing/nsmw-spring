@@ -28,7 +28,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <form method="POST" enctype="multipart/form-data" action="/productList/imageUpload">
+      <form method="POST" enctype="multipart/form-data" action="/productList/imageUpdate">
         <div class="modal-body">
           <custom:adminImageHandle rowNum="${rowNum}"/>
         </div>

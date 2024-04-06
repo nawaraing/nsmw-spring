@@ -30,7 +30,7 @@
         ></button>
       </div>
 
-      <form method="POST" enctype="multipart/form-data" action="/couponDownload/imageUpload">
+      <form method="POST" enctype="multipart/form-data" action="/couponDownload/imageUpdate">
         <div class="modal-body">
           <custom:adminImageHandle rowNum="${rowNum}" />
           <div class="text-center">
