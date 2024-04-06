@@ -20,7 +20,7 @@ function fillCouponDownloadTable(datas) {
 
     // Table body
     let rowNum = 0;
-    let td, div, input, disabled;
+    let td, div, input, custom, disabled;
     $.each(datas, function(index, data) {
 //    	console.log("index: " + index);
         if (Math.floor(index / 10) + 1 === curPage) {
@@ -76,7 +76,7 @@ function fillCouponDownloadTable(datas) {
 			tr.append(td);
 			
 			// 팝업 이미지
-			td = $('<td id="image-' + rowNum + '">').text('이미지 확인');
+			td = $('<td>').text('이미지 확인');
 			tr.append(td);
 			
 			// 배포 현황

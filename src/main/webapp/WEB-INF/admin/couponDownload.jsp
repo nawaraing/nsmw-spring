@@ -155,7 +155,9 @@
                               </c:if>
                               <!-- / 금액 제한 -->
                               <!-- 팝업 이미지 -->
-                              <td id="image-${status.index}">이미지 확인</td>
+                              <td>
+                                <custom:adminCouponDownloadImageModal />
+                              </td>
                               <!-- / 팝업 이미지 -->
                               <!-- 배포 현황 -->
                               <td>
@@ -243,6 +245,7 @@
     <!-- Utils -->
     <script src="/resources/admin/js/utils.js"></script>
     <script src="/resources/admin/js/checkbox.js"></script>
+    <script src="/resources/admin/js/image-handle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     
     

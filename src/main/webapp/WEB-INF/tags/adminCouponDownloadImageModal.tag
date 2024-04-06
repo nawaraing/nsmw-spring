@@ -13,15 +13,15 @@
   type="button"
   class="btn btn-primary me-2"
   data-bs-toggle="modal"
-  data-bs-target="#backDropModal"
->추가</button>
+  data-bs-target="#imageModal"
+>이미지 확인</button>
 
 <!-- Modal -->
-<div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
+<div class="modal fade" id="#imageModal" data-bs-backdrop="static" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="backDropModalTitle">상품 추가</h5>
+        <h5 class="modal-title" id="backDropModalTitle">쿠폰 추가 - 사용자 다운로드 쿠폰</h5>
         <button
           type="button"
           class="btn-close"
@@ -36,15 +36,12 @@
           <div class="col-md-6 col-12 mb-md-0 mb-4">
             <!-- Carousel -->
             <div id="carouselExample" class="carousel carousel-dark slide" data-bs-ride="carousel">
-              <ol class="carousel-indicators" id="carousel-indicators-add">
+              <ol class="carousel-indicators" id="carousel-indicators">
                 <li data-bs-target="#carouselExample" data-bs-slide-to="0" class="active"></li>
               </ol>
-              <div class="carousel-inner mb-3" id="image-preview-add">
+              <div class="carousel-inner mb-3" id="image-preview">
                 <div class="carousel-item active">
                   <img class="d-block w-100" src="/resources/commonImages/no-image.jpg" alt="First slide" />
-<!--                   <div class="carousel-caption d-none d-md-block">
-                    <h3>First slide</h3>
-                  </div> --> 
                 </div>
               </div>
               <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
@@ -58,13 +55,13 @@
             </div>
             <!-- / Carousel -->
             <!-- Image List -->
-            <div id="image-list-add"></div>
+            <div id="image-list"></div>
             <!-- / Image List -->
             
             <div class="text-center">
-              <input type="file" name="images" multiple class="btn btn-primary me-2" id="upload-image-add" onchange="displayImage(add, 3)" style="display: none;" required />
-              <div id="too-many-images-add"></div>
-              <button type="button" class="btn btn-primary me-2" onclick="$('#upload-image-add').click();">이미지 업로드</button>
+              <input type="file" name="images" multiple class="btn btn-primary me-2" id="upload-image" onchange="displayImage(1)" style="display: none;"/>
+              <div id="too-many-images"></div>
+              <button type="button" class="btn btn-primary me-2" onclick="$('#upload-image').click();">이미지 업로드</button>
             </div>
           </div>
           
@@ -72,89 +69,32 @@
           
           <div class="col-md-5 col-12 text-start">
             <div class="mb-3">
-              <label for="defaultFormControlInput" class="form-label">상품명</label>
+              <label for="defaultFormControlInput" class="form-label">쿠폰 이름</label>
               <input
                 type="text"
                 name="productName"
                 class="form-control"
                 id="defaultFormControlInput"
-                placeholder="상품명"
+                placeholder="쿠폰 이름"
                 aria-describedby="defaultFormControlHelp"
                 required
               />
             </div>
             <div class="mb-3">
-              <label for="exampleFormControlTextarea1" class="form-label">상품 설명</label>
-              <textarea name="productDetail" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="상품 설명" required></textarea>
+              <label for="distribute-date" class="form-label">쿠폰 배포 시작일</label>
+              <input type="datetime-local" name="distributeDate" class="form-control" aria-label="Amount (to the nearest dollar)" id="distribute-date" required>
             </div>
             <div class="mb-3">
-              <label for="costPrice" class="form-label">원가</label>
-              <div class="input-group input-group-merge">
-                <span class="input-group-text">₩</span>
-                <input type="number" name="costPrice" class="form-control" placeholder="12000" aria-label="Amount (to the nearest dollar)" id="costPrice" required>
-              </div>
+              <label for="deploy-deadline" class="form-label">쿠폰 배포 마감일</label>
+              <input type="datetime-local" name="ancDeployDeadline" class="form-control" aria-label="Amount (to the nearest dollar)" id="deploy-deadline" required>
             </div>
             <div class="mb-3">
-              <label for="retailPrice" class="form-label">정가</label>
-              <div class="input-group input-group-merge">
-                <span class="input-group-text">₩</span>
-                <input type="number" name="retailPrice" class="form-control" placeholder="12000" aria-label="Amount (to the nearest dollar)" id="retailPrice" required>
-              </div>
+              <label for="expiration-date" class="form-label">쿠폰 만료일</label>
+              <input type="datetime-local" name="expirationDate" class="form-control" aria-label="Amount (to the nearest dollar)" id="expiration-date" required>
             </div>
-            <div class="mb-3">
-              <label for="salePrice" class="form-label">판매가</label>
-              <div class="input-group input-group-merge">
-                <span class="input-group-text">₩</span>
-                <input type="number" name="salePrice" class="form-control" placeholder="12000" aria-label="Amount (to the nearest dollar)" id="salePrice" required>
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="stock" class="form-label">재고</label>
-              <div class="input-group input-group-merge">
-                <input type="number" name="stock" class="form-control" placeholder="30" aria-label="Amount (to the nearest dollar)" id="stock" required>
-                <span class="input-group-text">개</span>
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="ingredient" class="form-label">성분</label>
-              <input
-                type="text"
-                name="ingredient"
-                class="form-control"
-                id="ingredient"
-                placeholder="성분"
-                aria-describedby="defaultFormControlHelp"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="dosage" class="form-label">용법</label>
-              <input
-                type="text"
-                name="dosage"
-                class="form-control"
-                id="dosage"
-                placeholder="1일 2회, 1회 2정 섭취"
-                aria-describedby="defaultFormControlHelp"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="expirationDate" class="form-label">소비기한</label>
-              <input
-                type="text"
-                name="expirationDate"
-                class="form-control"
-                id="expirationDate"
-                placeholder="제조일로부터 24개월"
-                aria-describedby="defaultFormControlHelp"
-                required
-              />
-            </div>
-
             <!-- 카테고리 -->
             <div class="mb-3">
-              <label for="product-categories-add" class="form-label">카테고리</label>
+              <label for="defaultFormControlInput" class="form-label">카테고리</label>
               <div>
                 <a
                   class="dropdown-toggle"
@@ -163,6 +103,7 @@
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
+                  required
                 >
                 </a>
                 <script>console.log('categoryNames: ${categoryNames}');</script>
@@ -171,7 +112,7 @@
 	                <script>console.log('category: ${category}');</script>
                     <li>
                       <div class="form-check">
-                        <label class="dropdown-item" for="checkbox-product-add-category-${category}" id="dropdown-item-coupon-add-category-${categoryStatus.index}">
+                        <label class="dropdown-item" for="checkbox-product-add-category-${category}" id="dropdown-item-product-add-category-${categoryStatus.index}">
                           <input class="form-check-input" type="checkbox" onclick="handleCategoryCheckbox('add', '${category}')" value="${category}" name="categoryNames" id="checkbox-product-add-category-${category}" />${category}
                         </label>
                       </div>
@@ -181,6 +122,37 @@
               </div>
             </div>
             <!-- / 카테고리 -->
+            <!-- 할인 방식 -->
+            <div class="mb-3">
+              <label for="costPrice" class="form-label">할인 방식</label>
+              <div class="form-check">
+                <input name="coupon-type" class="form-check-input" type="radio" value="PERCENTAGE" id="defaultRadio2" onclick="clickRadioPercentageCoupon()" checked />
+                <label class="form-check-label" for="defaultRadio2">할인율</label>
+              </div>
+              <div class="form-check">
+                <input name="coupon-type" class="form-check-input" type="radio" value="WON" id="defaultRadio1" onclick="clickRadioWonCoupon()" />
+                <label class="form-check-label" for="defaultRadio1">할인액</label>
+              </div>
+            </div>
+            <!-- / 할인 방식 -->
+            <!-- 할인율(액) -->
+            <div class="mb-3" id="coupon-discount">
+              <label for="coupon-discount-rate" class="form-label">할인율</label>
+              <div class="input-group input-group-merge">
+                <span class="input-group-text">%</span>
+                <input type="number" name="ancDiscount" class="form-control" placeholder="10" aria-label="Amount (to the nearest dollar)" id="coupon-discount-rate" required />
+              </div>
+            </div>
+            <!-- / 할인율(액) -->
+            <!-- 금액 제한 -->
+            <div class="mb-3" id="coupon-limit">
+              <label for="coupon-limit-amount" class="form-label" id="coupon-limit-amount-label">최대 할인 금액</label>
+              <div class="input-group input-group-merge">
+                <span class="input-group-text">₩</span>
+                <input type="number" name="ancAmount" class="form-control" placeholder="5000" aria-label="Amount (to the nearest dollar)" id="coupon-limit-amount" required />
+              </div>
+            </div>
+            <!-- / 금액 제한 -->
             <div class="text-end mb-3">
               <button
                 type="button"

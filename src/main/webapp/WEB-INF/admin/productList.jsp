@@ -203,7 +203,10 @@
                               </c:if>
                               <!-- / 판매 상태 -->
                               <!-- 상품 이미지 -->
-                              <td id="image-${status.index}">이미지 확인</td>
+                              <%-- <td id="image-${status.index}">이미지 확인</td> --%>
+                              <td>
+                                <custom:adminProductListImageModal rowNum="${status.index}" />
+                              </td>
                               <!-- / 상품 이미지 -->
                             </tr>
                           </c:forEach>
@@ -275,6 +278,7 @@
     <!-- Utils -->
     <script src="/resources/admin/js/utils.js"></script>
     <script src="/resources/admin/js/checkbox.js"></script>
+    <script src="/resources/admin/js/image-handle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     
     
@@ -284,8 +288,8 @@
     <script src="/resources/admin/js/page-variables.js"></script>
     <script src="/resources/admin/js/pagination-action.js"></script>
     <script src="/resources/admin/js/pagination-composed.js"></script>
-    <script src="/resources/admin/js/product-list.js"></script>
-    <script src="/resources/admin/js/update-product.js"></script>
+<!--     <script src="/resources/admin/js/product-list.js"></script>
+ -->    <script src="/resources/admin/js/update-product.js"></script>
     <script src="/resources/admin/js/update-product-sale-stop.js"></script>
   </body>
 </html>
