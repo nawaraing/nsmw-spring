@@ -13,11 +13,11 @@
   type="button"
   class="btn btn-primary me-2"
   data-bs-toggle="modal"
-  data-bs-target="#backDropModal"
+  data-bs-target="#backDropModal-coupon"
 >추가</button>
 
 <!-- Modal -->
-<div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
+<div class="modal fade" id="backDropModal-coupon" data-bs-backdrop="static" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -30,38 +30,13 @@
         ></button>
       </div>
 
-<form method="POST" enctype="multipart/form-data" action="/productList/insert">
+<form method="POST" enctype="multipart/form-data" action="/couponDownload/insert">
       <div class="modal-body">
         <div class="row">
           <div class="col-md-6 col-12 mb-md-0 mb-4">
-            <!-- Carousel -->
-            <div id="carouselExample" class="carousel carousel-dark slide" data-bs-ride="carousel">
-              <ol class="carousel-indicators" id="carousel-indicators">
-                <li data-bs-target="#carouselExample" data-bs-slide-to="0" class="active"></li>
-              </ol>
-              <div class="carousel-inner mb-3" id="image-preview">
-                <div class="carousel-item active">
-                  <img class="d-block w-100" src="/resources/commonImages/no-image.jpg" alt="First slide" />
-                </div>
-              </div>
-              <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-              </a>
-              <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-              </a>
-            </div>
-            <!-- / Carousel -->
-            <!-- Image List -->
-            <div id="image-list"></div>
-            <!-- / Image List -->
-            
+            <custom:adminImageHandle rowNum="coupon" />
             <div class="text-center">
-              <input type="file" name="images" multiple class="btn btn-primary me-2" id="upload-image" onchange="displayImage(1)" style="display: none;"/>
-              <div id="too-many-images"></div>
-              <button type="button" class="btn btn-primary me-2" onclick="$('#upload-image').click();">이미지 업로드</button>
+              <custom:adminImageUploadButton rowNum="coupon" />
             </div>
           </div>
           

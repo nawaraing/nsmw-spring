@@ -28,47 +28,23 @@
           aria-label="Close"
         ></button>
       </div>
-      <form method="POST" enctype="multipart/form-data" action="/productList/insert">
+      <form method="POST" enctype="multipart/form-data" action="/productList/imageUpload">
         <div class="modal-body">
-              <!-- Carousel -->
-              <div id="carouselExample" class="carousel carousel-dark slide" data-bs-ride="carousel">
-                <ol class="carousel-indicators" id="carousel-indicators-${rowNum}">
-                  <li data-bs-target="#carouselExample" data-bs-slide-to="0" class="active"></li>
-                </ol>
-                <div class="carousel-inner mb-3" id="image-preview-${rowNum}">
-                  <div class="carousel-item active">
-                    <img class="d-block w-100" src="/resources/commonImages/no-image.jpg" alt="First slide" />
-                  </div>
-                </div>
-              </div>
-              <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-              </a>
-              <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-              </a>
-            <!-- / Carousel -->
-            <!-- Image List -->
-            <div id="image-list-${rowNum}"></div>
-            <!-- / Image List -->
-          </div>
-          <div class="text-center mb-3">
-            <input type="file" name="images" multiple class="btn btn-primary me-2" id="upload-image-${rowNum}" onchange="displayImage(${rowNum}, 3)" style="display: none;"/>
-            <div id="too-many-images-${rowNum}"></div>
-            <button type="button" class="btn btn-primary me-2" onclick="$('#upload-image-${rowNum}').click();">이미지 업로드</button>
-            <button
-              type="button"
-              class="btn btn-secondary me-2"
-              data-bs-dismiss="modal"
-            >취소</button>
-            <button
-              type="submit"
-              id="submit-button"
-              class="btn btn-success me-2"
-            >저장</button>
-          </div>
+          <custom:adminImageHandle rowNum="${rowNum}"/>
+        </div>
+        <div class="text-center mb-3">
+          <custom:adminImageUploadButton rowNum="${rowNum}" />
+          <button
+            type="button"
+            class="btn btn-secondary me-2"
+            data-bs-dismiss="modal"
+          >취소</button>
+          <button
+            type="submit"
+            id="submit-button"
+            class="btn btn-success me-2"
+          >저장</button>
+        </div>
       </form>
     </div>
   </div>
