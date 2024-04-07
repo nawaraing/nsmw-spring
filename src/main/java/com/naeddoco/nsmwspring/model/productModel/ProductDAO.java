@@ -88,19 +88,24 @@ public class ProductDAO {
 			 							 "SALE_STATE ) " + 
 									     "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ? )";
 	
+	// 상품의 정보를 갱신하는 쿼리
+	private static final String UPDATE_PRODUCT_INFO = "UPDATE PRODUCT SET " +
+			 							 			  "PRODUCT_NAME = ?, " +
+			 							 			  "PRODUCT_DETAIL = ?, " +
+			 							 			  "COST_PRICE = ?, " +
+			 							 			  "RETAIL_PRICE = ?, " +
+			 							 			  "SALE_PRICE = ?, " +
+			 							 			  "STOCK = ?, " +
+			 							 			  "INGREDIENT = ?, " +
+			 							 			  "DOSAGE = ?, " +
+			 							 			  "EXPIRATION_DATE = ?, " +
+			 							 			  "MODIFY_DATE = CURRENT_TIMESTAMP " +
+			 							 			  "WHERE PRODUCT_ID = ?";
 	
-	private static final String UPDATE = "UPDATE PRODUCT SET " +
-			 							 "PRODUCT_NAME = ?, " +
-            					 		 "PRODUCT_DETAIL = ?, " +
-            					 		 "COST_PRICE = ?, " +
-            					 		 "RETAIL_PRICE = ?, " +
-            					 		 "SALE_PRICE = ?, " +
-            					 		 "STOCK = ?, " +
-            					 		 "INGREDIENT = ?, " +
-            					 		 "DOSAGE = ?, " +
-            					 		 "EXPIRATION_DATE = ?, " +
-            					 		 "MODIFY_DATE = CURRENT_TIMESTAMP " +
-            					 		 "WHERE PRODUCT_ID = ?";
+	// 상품의 판매 상태를 갱신하는 쿼리
+	private static final String UPDATE_PRODUCT_SALE_STATE = "UPDATE PRODUCT SET " +
+														    "SALE_STATE = ? " +
+														    "WHERE PRODUCT_ID = ?";
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -295,7 +300,7 @@ public class ProductDAO {
 		
 			try {
 		
-				result = jdbcTemplate.update(UPDATE, 
+				result = jdbcTemplate.update(UPDATE_PRODUCT_INFO, 
                         					 productDTO.getProductName(), 
                         					 productDTO.getProductDetail(),
                         					 productDTO.getCostPrice(), 
@@ -308,8 +313,6 @@ public class ProductDAO {
                         					 productDTO.getProductID());
 		
 			} catch (Exception e) {
-				
-				e.printStackTrace();
 			
 				log.error("updateAdminProductListData 예외 발생");
 
@@ -329,6 +332,37 @@ public class ProductDAO {
 			
 			return true;
 
+		} else if(productDTO.getSearchCondition().equals("updateSaleState")) {
+			
+			log.debug("updateSaleState 진입");
+			
+			try {
+		
+				result = jdbcTemplate.update(UPDATE_PRODUCT_SALE_STATE, 
+                        					 productDTO.getSaleState(), 
+                        					 productDTO.getProductID());
+		
+			} catch (Exception e) {
+			
+				log.error("updateSaleState 예외 발생");
+
+				return false;
+
+			}
+
+			if (result <= 0) {
+				
+				log.error("updateSaleState 실패");
+
+				return false;
+
+			}
+			
+			log.error("updateSaleState 성공");
+			
+			return true;
+			
+			
 		}
 		
 		log.error("update 실패");
