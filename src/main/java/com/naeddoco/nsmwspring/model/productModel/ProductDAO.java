@@ -89,19 +89,18 @@ public class ProductDAO {
 									     "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ? )";
 	
 	
-	private static final String UPDATE = "UPDATE PRODUCT " +
-										 "SET PRODUCT_NAME = ?" +
-										 "SET PRODUCT_DETAIL = ?" +
-										 "SET COST_PRICE = ?" + 
-										 "SET RETAIL_PRICE = ?" +
-										 "SET SALE_PRICE = ?" +
-										 "SET STOCK = ? " +
-										 "SET INGREDIENT = ? " +
-										 "SET DOSAGE = ? " +
-										 "SET EXPIRATION_DATE = ? " +
-										 "SET MODIFY_DATE = CURRENT_TIMESTAMP " +
-										 "SET SALE_STATE = ? " +
-										 "WHERE PRODUCT_ID = ?";
+	private static final String UPDATE = "UPDATE PRODUCT SET " +
+			 							 "PRODUCT_NAME = ?, " +
+            					 		 "PRODUCT_DETAIL = ?, " +
+            					 		 "COST_PRICE = ?, " +
+            					 		 "RETAIL_PRICE = ?, " +
+            					 		 "SALE_PRICE = ?, " +
+            					 		 "STOCK = ?, " +
+            					 		 "INGREDIENT = ?, " +
+            					 		 "DOSAGE = ?, " +
+            					 		 "EXPIRATION_DATE = ?, " +
+            					 		 "MODIFY_DATE = CURRENT_TIMESTAMP " +
+            					 		 "WHERE PRODUCT_ID = ?";
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -297,21 +296,20 @@ public class ProductDAO {
 			try {
 		
 				result = jdbcTemplate.update(UPDATE, 
-										     productDTO.getProductName(), 
-										     productDTO.getProductDetail(),
-										     productDTO.getCostPrice(), 
-										     productDTO.getRetailPrice(), 
-										     productDTO.getSalePrice(),	
-										     productDTO.getStock(), 
-										     productDTO.getIngredient(), 
-										     productDTO.getDosage(),
-										     productDTO.getExpirationDate(), 
-										     productDTO.getRegisterDate(), 
-										     productDTO.getModifyDate(),
-										     productDTO.getSaleState(),
-										     productDTO.getProductID());
+                        					 productDTO.getProductName(), 
+                        					 productDTO.getProductDetail(),
+                        					 productDTO.getCostPrice(), 
+                        					 productDTO.getRetailPrice(), 
+                        					 productDTO.getSalePrice(),   
+                        					 productDTO.getStock(), 
+                        					 productDTO.getIngredient(), 
+                        					 productDTO.getDosage(),
+                        					 productDTO.getExpirationDate(), 
+                        					 productDTO.getProductID());
 		
 			} catch (Exception e) {
+				
+				e.printStackTrace();
 			
 				log.error("updateAdminProductListData 예외 발생");
 
@@ -326,6 +324,10 @@ public class ProductDAO {
 				return false;
 
 			}
+			
+			log.error("updateAdminProductListData 성공");
+			
+			return true;
 
 		}
 		

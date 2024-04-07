@@ -165,7 +165,7 @@
                                   data-bs-toggle="dropdown"
                                   aria-expanded="false"
                                 >
-                                  <c:set var="categories" value="${fn:split(product.ancCategory, ';')}" />
+                                  <c:set var="categories" value="${fn:split(product.ancCategoryName, ';')}" />
                                   <c:forEach var="category" items="${categories}" varStatus="categoryStatus">
                                     <span class="badge bg-label-info me-1" id="product-${status.index}-category-${categoryStatus.index}">${category}</span>
                                   </c:forEach>

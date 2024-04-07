@@ -50,9 +50,6 @@ public class CategoryDAO {
 
 	public CategoryDTO selectOne(CategoryDTO categoryDTO) {
 
-		log.trace("selectOne 처리 진입");
-		log.debug("categoryName = " + categoryDTO.getCategoryName());
-
 		Object[] args = { categoryDTO.getCategoryName() };
 
 		try {

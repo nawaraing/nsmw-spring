@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryService;
+import com.naeddoco.nsmwspring.model.categoryModel.CategoryDTO;
+import com.naeddoco.nsmwspring.model.categoryModel.CategoryService;
 import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryDTO;
-import com.naeddoco.nsmwspring.model.productModel.ProductService;
+import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryService;
 import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
+import com.naeddoco.nsmwspring.model.productModel.ProductService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -24,22 +26,24 @@ public class UpdateProductController {
 	private ProductService productService;
 	@Autowired
 	private ProductCategoryService productCategoryService;
+	@Autowired
+	private CategoryService categoryService;
 
 	@RequestMapping(value = "/productList/update", method = RequestMethod.POST)
 	public String updateProduct(HttpSession session, 
-								@RequestParam("productID") int productID,
-								@RequestParam("productName") String productName, 
-								@RequestParam("productDetail") String productDetail,
-								@RequestParam("costPrice") int costPrice, 
-								@RequestParam("retailPrice") int retailPrice,
-								@RequestParam("salePrice") int salePrice, 
-								@RequestParam("stock") int stock,
-								@RequestParam("ingredient") String ingredient, 
-								@RequestParam("dosage") String dosage,
-								@RequestParam("expirationDate") String expirationDate,
-								@RequestParam("categoryNames") List<Integer> categoryNames) {
+								@RequestParam("productID") List<Integer> productIDs,
+								@RequestParam("productName") List<String> productNames, 
+								@RequestParam("productDetail") List<String> productDetails,
+								@RequestParam("costPrice") List<Integer> costPrices, 
+								@RequestParam("retailPrice") List<Integer> retailPrices,
+								@RequestParam("salePrice") List<Integer> salePrices, 
+								@RequestParam("stock") List<Integer> stocks,
+								@RequestParam("ingredient") List<String> ingredients, 
+								@RequestParam("dosage") List<String> dosages,
+								@RequestParam("expirationDate") List<String> expirationDates,
+								@RequestParam("categoryNames") List<String> categoryNames) {
 
-		// -----------------------------------------------세션 확인 ↓-----------------------------------------------
+		// -----------------------------------------------세션 확인 ↓ -----------------------------------------------
 
 		String memberID = (String) session.getAttribute("memberID"); // 세션에서 유저 아이디 습득
 
@@ -49,45 +53,71 @@ public class UpdateProductController {
 
 		}
 
-		// -----------------------------------------------상품 정보 갱신 ↓-----------------------------------------------
-
-		ProductDTO productDTO = new ProductDTO();
-
-		productDTO.setSearchCondition("updateAdminProductListData"); // 쿼리 분기 설정
-		productDTO.setProductID(productID); // 상품 PK set
-		productDTO.setProductName(productName); // 상품 이름 set
-		productDTO.setProductDetail(productDetail); // 상품 상세 set
-		productDTO.setCostPrice(costPrice); // 상품 원가 set
-		productDTO.setRetailPrice(retailPrice); // 상품 소비가 set
- 		productDTO.setSalePrice(salePrice); // 상품 판매가 set
-		productDTO.setStock(stock); // 상품 재고 set
-		productDTO.setIngredient(ingredient); // 상품 성분 set
-		productDTO.setDosage(dosage); // 상품 용법 set
-		productDTO.setExpirationDate(expirationDate); // 상품 유통기한 set
-
-		productService.update(productDTO); // 상품 정보 갱신
-
-		// -----------------------------------------------기존 카테고리 정보 삭제 ↓-----------------------------------------------
+		// -----------------------------------------------상품 정보 갱신 ↓ -----------------------------------------------
+		
+		for(int i = 0; i < productIDs.size(); i++) {
 			
-		ProductCategoryDTO productCategoryDTO = new ProductCategoryDTO();
-			
-		productCategoryDTO.setProductID(productID); // 상품 카테고리 카테고리 ID set
-			
-		productCategoryService.delete(productCategoryDTO); // 카테고리 삭제
+			ProductDTO productDTO = new ProductDTO();
+			productDTO.setSearchCondition("updateAdminProductListData"); // 쿼리 분기 설정
+			productDTO.setProductID(productIDs.get(i)); // 상품 PK set
+			productDTO.setProductName(productNames.get(i)); // 상품 이름 set
+			productDTO.setProductDetail(productDetails.get(i)); // 상품 상세 set
+			productDTO.setCostPrice(costPrices.get(i)); // 상품 원가 set
+			productDTO.setRetailPrice(retailPrices.get(i)); // 상품 소비가 set
+	 		productDTO.setSalePrice(salePrices.get(i)); // 상품 판매가 set
+			productDTO.setStock(stocks.get(i)); // 상품 재고 set
+			productDTO.setIngredient(ingredients.get(i)); // 상품 성분 set
+			productDTO.setDosage(dosages.get(i)); // 상품 용법 set
+			productDTO.setExpirationDate(expirationDates.get(i)); // 상품 유통기한 set
 
-		// -----------------------------------------------기존 카테고리 정보 추가-----------------------------------------------
-
-		for(int i = 0; i < categoryNames.size(); i++) { // 카테고리 아이디 데이터 순회
-			
-			productCategoryDTO = new ProductCategoryDTO();
-			
-			productCategoryDTO.setProductID(productID); // 상품 아이디 set
-			productCategoryDTO.setCategoryID(categoryNames.get(i)); // 카테고리 아이디 st
-			
-			productCategoryService.insert(productCategoryDTO); // 카테고리 추가
+			productService.update(productDTO); // 상품 정보 갱신
 			
 		}
+
+		// -----------------------------------------------기존 카테고리 정보 삭제 ↓ -----------------------------------------------
 		
+		for(int i = 0; i < productIDs.size(); i++) {
+			
+			System.out.println(productIDs.get(i));
+			
+			ProductCategoryDTO productCategoryDTO = new ProductCategoryDTO();
+			productCategoryDTO.setSearchCondition("updateAdminProductListData");
+			productCategoryDTO.setProductID(productIDs.get(i)); // 상품 카테고리 카테고리 ID set
+				
+			productCategoryService.delete(productCategoryDTO); // 카테고리 삭제
+			
+		}
+
+		// -----------------------------------------------새로운 카테고리 정보 추가 ↓ -----------------------------------------------
+			
+		for(int i = 0; i < categoryNames.size(); i++) { // 카테고리 이름 데이터 순회
+			
+			// -----------------------------------------------;로 붙어있는 카테고리 이름 분리 ↓ -----------------------------------------------
+				
+			String[] splitedCategoryNames = categoryNames.get(i).split(";");
+			
+			for(String categoryName : splitedCategoryNames) {
+				
+				// -----------------------------------------------이름으로 아이디 값 가져오가 ↓ -----------------------------------------------
+				
+				CategoryDTO categoryDTO = new CategoryDTO();
+				categoryDTO.setCategoryName(categoryName); // DTO에 이름값 set
+				
+				categoryDTO = categoryService.selectOne(categoryDTO); // 이름 값에 대한 정보 습득
+				
+				// -----------------------------------------------새로운 카테고리 저장 ↓ -----------------------------------------------
+				
+				ProductCategoryDTO productCategoryDTO = new ProductCategoryDTO();
+				productCategoryDTO.setSearchCondition("insertProductByAdmin");
+				productCategoryDTO.setProductID(productIDs.get(i));
+				productCategoryDTO.setCategoryID(categoryDTO.getCategoryID());
+				
+				productCategoryService.insert(productCategoryDTO);
+				
+			}
+			
+		}
+
 		return "redirect:/productList";
 
 	}

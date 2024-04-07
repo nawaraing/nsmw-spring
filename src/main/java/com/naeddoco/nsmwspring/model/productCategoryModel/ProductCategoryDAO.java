@@ -55,7 +55,7 @@ public class ProductCategoryDAO {
 	private static final String INSERT = "INSERT INTO PRODUCT_CATEGORY (PRODUCT_ID, CATEGORY_ID) VALUES (?, ?)";
 	
 	// 상품 정보를 삭제하는 쿼리
-	private static final String DELETE = "DELETE FROM PRODUCT_CATEOGRY WHERE PRODUCT_ID = ?";
+	private static final String DELETE = "DELETE FROM PRODUCT_CATEGORY WHERE PRODUCT_ID = ?";
 	
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
 	
@@ -160,21 +160,35 @@ public class ProductCategoryDAO {
 		log.debug("delete 진입");
 		
 		if (productCategoryDTO.getSearchCondition().equals("updateAdminProductListData")) {
+			
+			int result = 0;
 
 			log.debug("updateAdminProductListData 진입");
 			
-			int result = jdbcTemplate.update(DELETE, productCategoryDTO.getProductID());
+			try {
+			
+				result = jdbcTemplate.update(DELETE, productCategoryDTO.getProductID());
+			
+			} catch (Exception e) {
+				
+				log.error("updateAdminProductListData 예외 발생");
+
+				return false;
+
+			}
 
 			if(result <= 0) {
 				
 				log.error("updateAdminProductListData 실패");
 				
 				return false;
+				
 			}
 			
 			log.debug("updateAdminProductListData 성공");
 			
 			return true;
+			
 		}
 		
 		log.error("delete 실패");
