@@ -4,6 +4,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="custom"%>
 
 <%@ attribute name="rowNum" %>
+<%@ attribute name="imagePath" %>
 
 <script src="/resources/admin/assets/vendor/libs/jquery/jquery.js"></script>
 <script src="/resources/admin/js/checkbox.js"></script>
@@ -32,7 +33,7 @@
 
       <form method="POST" enctype="multipart/form-data" action="/couponDownload/imageUpdate">
         <div class="modal-body">
-          <custom:adminImageHandle rowNum="${rowNum}" />
+          <custom:adminImageHandle rowNum="${rowNum}" imagePath="${imagePath}" />
           <div class="text-center">
             <custom:adminImageUploadButton rowNum="${rowNum}" />
           </div>

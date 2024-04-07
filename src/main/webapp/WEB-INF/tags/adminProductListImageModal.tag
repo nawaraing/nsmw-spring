@@ -2,7 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="custom"%>
+
 <%@ attribute name="rowNum" %>
+<%@ attribute name="imagePath" %>
 
 <script src="/resources/admin/assets/vendor/libs/jquery/jquery.js"></script>
 <script src="/resources/admin/js/checkbox.js"></script>
@@ -30,7 +32,7 @@
       </div>
       <form method="POST" enctype="multipart/form-data" action="/productList/imageUpdate">
         <div class="modal-body">
-          <custom:adminImageHandle rowNum="${rowNum}"/>
+          <custom:adminImageHandle rowNum="${rowNum}" imagePath="${imagePath}"/>
         </div>
         <div class="text-center mb-3">
           <custom:adminImageUploadButton rowNum="${rowNum}" />

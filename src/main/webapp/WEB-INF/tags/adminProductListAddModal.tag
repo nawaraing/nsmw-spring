@@ -34,7 +34,7 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-6 col-12 mb-md-0 mb-4">
- 			  <custom:adminImageHandle rowNum="add" />
+ 			  <custom:adminImageHandle rowNum="add" imagePath="/resources/commonImages/no-image.jpg" />
  			  <div class="text-center">
  			    <custom:adminImageUploadButton rowNum="add"/>
               </div>

@@ -205,7 +205,7 @@
                               <!-- 상품 이미지 -->
                               <%-- <td id="image-${status.index}">이미지 확인</td> --%>
                               <td>
-                                <custom:adminProductListImageModal rowNum="${status.index}" />
+                                <custom:adminProductListImageModal rowNum="${status.index}" imagePath="${product.ancImagePath }" />
                               </td>
                               <!-- / 상품 이미지 -->
                             </tr>
