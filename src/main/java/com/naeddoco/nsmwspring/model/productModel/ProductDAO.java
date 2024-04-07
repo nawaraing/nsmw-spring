@@ -9,8 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.naeddoco.nsmwspring.model.buyInfoModel.BuyInfoDAO;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Repository("productDAO")
@@ -137,8 +135,6 @@ public class ProductDAO {
 			
 			// ORDER BY를 동적으로 사용하기 위해서 ?를 사용하지 않고, 직접 인자를 붙여주기 위한 방법
 			sqlQuery += " ORDER BY " + productDTO.getSortColumnName() + " " + productDTO.getSortMode();
-			
-			log.debug(sqlQuery);
 			
 			Object[] args = { productDTO.getSearchKeyword() };
 
