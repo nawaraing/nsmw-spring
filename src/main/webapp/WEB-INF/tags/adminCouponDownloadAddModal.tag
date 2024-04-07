@@ -47,7 +47,7 @@
               <label for="defaultFormControlInput" class="form-label">쿠폰 이름</label>
               <input
                 type="text"
-                name="productName"
+                name="couponName"
                 class="form-control"
                 id="defaultFormControlInput"
                 placeholder="쿠폰 이름"
@@ -170,7 +170,7 @@ function clickRadioPercentageCoupon() {
 	let label = $('<label for="coupon-discount-rate" class="form-label">').text('할인율');
 	let div = $('<div class="input-group input-group-merge">');
 	let span = $('<span class="input-group-text">').text('%');
-	let input = $('<input type="number" name="ancAmount" class="form-control" placeholder="10" aria-label="Amount (to the nearest dollar)" id="coupon-discount-rate" required />');
+	let input = $('<input type="number" name="ancDiscount" class="form-control" placeholder="10" aria-label="Amount (to the nearest dollar)" id="coupon-discount-rate" required />');
 	
 	div.append(span);
 	div.append(input);
@@ -189,7 +189,7 @@ function clickRadioWonCoupon() {
 	let label = $('<label for="coupon-discount-rate" class="form-label">').text('할인액');
 	let div = $('<div class="input-group input-group-merge">');
 	let span = $('<span class="input-group-text">').text('₩');
-	let input = $('<input type="number" name="ancAmount" class="form-control" placeholder="1000" aria-label="Amount (to the nearest dollar)" id="coupon-discount-amount" required />');
+	let input = $('<input type="number" name="ancDiscount" class="form-control" placeholder="1000" aria-label="Amount (to the nearest dollar)" id="coupon-discount-amount" required />');
 	
 	div.append(span);
 	div.append(input);
