@@ -14,12 +14,12 @@ import com.naeddoco.nsmwspring.model.buyInfoModel.BuyInfoDTO;
 import com.naeddoco.nsmwspring.model.buyInfoModel.BuyInfoService;
 import com.naeddoco.nsmwspring.model.memberCategoryModel.MemberCategoryDTO;
 import com.naeddoco.nsmwspring.model.memberCategoryModel.MemberCategoryService;
+import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
+import com.naeddoco.nsmwspring.model.memberModel.MemberService;
 import com.naeddoco.nsmwspring.model.orderInfoModel.OrderInfoDTO;
 import com.naeddoco.nsmwspring.model.orderInfoModel.OrderInfoService;
 import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryDTO;
 import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryService;
-import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
-import com.naeddoco.nsmwspring.model.productModel.ProductService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EntryMainPageController {
 
+	@Autowired
+	private MemberService memberService;
 	@Autowired
 	private BuyInfoService buyInfoService;
 	@Autowired
@@ -40,11 +42,29 @@ public class EntryMainPageController {
 	@GetMapping("/")
 	public String entryMain(HttpSession session, Model model) {
 		
+		//-----------------------------------------------관리자일 경우 ↓-----------------------------------------------
+		
+		String member = (String) session.getAttribute("memberID"); // 세션에 있는 유저 아이디 습득
+		
+		if(member != null) {
+			
+			MemberDTO memberDTO = new MemberDTO();
+			memberDTO.setSearchCondition("getAuthority");
+			memberDTO.setMemberID(member);
+			
+			memberDTO = memberService.selectOne(memberDTO);
+			
+			if(memberDTO.getAuthority().equals("ADMIN")) {
+				
+				return "redirect:/dashboard";
+				
+			}
+			
+		}
+		
 		//----------------------------------------------- 상단 제품 출력 ↓ -----------------------------------------------
 		
 		// -----------------------------------------------사용자가 구매한 상품의 PK값을 습득 ↓ -----------------------------------------------
-		
-		String member = (String) session.getAttribute("memberID"); // 세션에서 사용자 이름 가져오기
 				
 		BuyInfoDTO buyInfoDTO = new BuyInfoDTO();
 		buyInfoDTO.setSearchCondition("getProductIDs"); // 쿼리 분기 설정

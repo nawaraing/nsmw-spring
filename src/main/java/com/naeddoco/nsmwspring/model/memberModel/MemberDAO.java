@@ -106,6 +106,8 @@ public class MemberDAO {
 												         + "WHERE SA.MEMBER_ID = ?) MAX_SA "
 												         + "ON M.MEMBER_ID = MAX_SA.MEMBER_ID";
 
+	// 사용자의 권한을 조회는 쿼리
+	private static final String SELECTONE_MEMBER_AUTHOR = "SELECT AUTHORITY FROM MEMBER WHERE MEMBER_ID = ?";
 	
 	// 회원가입
 	// 회원가입에 필요한 데이터를 받아 DB에 추가한다
@@ -317,9 +319,30 @@ public class MemberDAO {
 
 			}
 
+		} else if(memberDTO.getSearchCondition().equals("getAuthority")) {
+			
+			log.debug("getAuthority 진입");
+			
+			Object[] args = { memberDTO.getMemberID()};
+			
+			try {
+
+				return jdbcTemplate.queryForObject(SELECTONE_MEMBER_AUTHOR, args, new getAuthorityRowMapper());
+
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+
+				log.error("getAuthority 예외 발생");
+
+				return null;
+
+			}
+			
 		}
 
 		log.error("selectone 실패");
+		
 		return null;
 
 	}
@@ -615,6 +638,26 @@ class joinMemberInfoRowMapper implements RowMapper<MemberDTO> {
       memberDTO.setAncCategoryName(rs.getString("CATEGORIES"));
       
       log.debug("joinMemberInfoRowMapper 완료");
+      
+      return memberDTO;
+
+   }
+
+}
+
+@Slf4j
+class getAuthorityRowMapper implements RowMapper<MemberDTO> {
+
+   @Override
+   public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+      log.debug("getAuthorityRowMapper 진입");
+
+      MemberDTO memberDTO = new MemberDTO();
+      
+     memberDTO.setAuthority(rs.getString("AUTHORITY"));
+      
+      log.debug("getAuthorityRowMapper 완료");
       
       return memberDTO;
 
