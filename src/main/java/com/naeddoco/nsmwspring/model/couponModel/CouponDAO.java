@@ -277,11 +277,11 @@ public class CouponDAO {
 																	+ "ORDER BY ";
 	
 	// 쿠폰 insert 시 생성된 couponID 가져옴
-	private static final String SELECTONE_LAST_ID = "SELECT LAST_INSERT_ID()";
+	private static final String SELECTONE_LAST_ID = "SELECT LAST_INSERT_ID() AS COUPON_ID";
 
 	// 관리자 페이지에서 쿠폰추가시 사용
 	private static final String INSERT = "INSERT INTO COUPON (COUPON_NAME, DISTRIBUTE_DATE, EXPIRATION_DATE, COUPON_TYPE) "
-											+ "VALUES (?, ?, CONCAT(?, ' 23:59:59'),?)";
+											+ "VALUES (?,?,?,?)";
 
 	private static final String UPDATE = "UPDATE COUPON "
 										+ "SET COUPON_NAME = ?,"
