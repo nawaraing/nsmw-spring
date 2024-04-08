@@ -119,9 +119,20 @@ function asyncSubmit(asyncUrl) {
 						data.categories = [];
 					}
 	            });
+			} else if (curFile == "couponDownload.jsp") {
+	            $.each(datas, function(dataIdx, data) {
+					console.log("cid : " + data.couponID);
+					console.log("cname : " + data.couponName);
+					console.log("data.ancCategoryName: " + data.ancCategoryName);
+					if (data.ancCategoryName != null) {
+						data.categories = data.ancCategoryName.split(";");
+					} else {
+						data.categories = [];
+					}
+	            });
 			}
 			
-			console.log('curFile' + curFile);
+			console.log('curFile : ' + curFile);
 			composePage(curDatas, curFile, "");
 		}
 	});
