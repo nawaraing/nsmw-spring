@@ -5,6 +5,7 @@
 
 <%@ attribute name="rowNum" %>
 <%@ attribute name="imagePath" %>
+<%@ attribute name="productID" %>
 
 <script src="/resources/admin/assets/vendor/libs/jquery/jquery.js"></script>
 <script src="/resources/admin/js/checkbox.js"></script>
@@ -31,6 +32,7 @@
         ></button>
       </div>
       <form method="POST" enctype="multipart/form-data" action="/productList/imageUpdate">
+        <input type="hidden" name="productID" value="${productID}"/>
         <div class="modal-body">
           <custom:adminImageHandle rowNum="${rowNum}" imagePath="${imagePath}"/>
         </div>
