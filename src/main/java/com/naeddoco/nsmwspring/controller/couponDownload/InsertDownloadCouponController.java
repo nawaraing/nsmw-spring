@@ -50,7 +50,7 @@ public class InsertDownloadCouponController {
 
 	@RequestMapping(value = "/couponDownload/insert", method = RequestMethod.POST)
 	public String insertDownloadCouponController(@RequestParam("images") List<MultipartFile> images, // 이미지
-			@RequestParam("productName") String couponName, // 쿠폰 이름
+			@RequestParam("couponName") String couponName, // 쿠폰 이름
 			@RequestParam("distributeDate") String distributeDateStr, // 쿠폰 배포 시작일
 			@RequestParam("ancDeployDeadline") String ancDeployDeadlineStr, // 쿠폰 배포 마감일
 			@RequestParam("expirationDate") String expirationDateStr, // 쿠폰 만료일
