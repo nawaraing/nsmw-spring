@@ -46,7 +46,7 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		//crawling();
+		// crawling();
 	}
 
 	public void crawling() {
@@ -291,23 +291,23 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 				log.trace("row-7: " + str);
 
 				if (str.contains("눈")) {
-					productDTO.setAncCategory("눈");
+					productDTO.setAncCategoryName("눈");
 				} else if (str.contains("간")) {
-					productDTO.setAncCategory("간");
+					productDTO.setAncCategoryName("간");
 				} else if (str.contains("뼈")) {
-					productDTO.setAncCategory("뼈/치아");
+					productDTO.setAncCategoryName("뼈/치아");
 				} else if (str.contains("에너지")) {
-					productDTO.setAncCategory("활력");
+					productDTO.setAncCategoryName("활력");
 				} else if (str.contains("스트레스") || str.contains("면역")) {
-					productDTO.setAncCategory("면역");
+					productDTO.setAncCategoryName("면역");
 				} else if (str.contains("기억력")) {
-					productDTO.setAncCategory("두뇌");
+					productDTO.setAncCategoryName("두뇌");
 				} else if (str.contains("피부")) {
-					productDTO.setAncCategory("피부");
+					productDTO.setAncCategoryName("피부");
 				} else if (str.contains("유산균")) {
-					productDTO.setAncCategory("소화");
+					productDTO.setAncCategoryName("소화");
 				} else if (str.contains("혈압")) {
-					productDTO.setAncCategory("고혈압");
+					productDTO.setAncCategoryName("고혈압");
 				}
 
 			}
@@ -329,7 +329,7 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 
 				CategoryDTO categoryDTO = new CategoryDTO();  // 카테고리 DTO 호출
 
-				categoryDTO.setCategoryName(productDTO.getAncCategory()); // 카테고리 DTO에 카테고리 이름 데이터를 set
+				categoryDTO.setCategoryName(productDTO.getAncCategoryName()); // 카테고리 DTO에 카테고리 이름 데이터를 set
 
 				categoryDTO = categoryDAO.selectOne(categoryDTO); // 카테고리 DTO를 이용해 특정 데이터를 습득
 
