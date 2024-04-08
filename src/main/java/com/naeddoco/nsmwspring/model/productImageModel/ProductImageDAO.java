@@ -23,8 +23,11 @@ public class ProductImageDAO {
 	// 새로운 상품-이미지 데이터를 추가하는 쿼리
 	private static final String INSERT = "INSERT INTO PRODUCT_IMAGE (IMAGE_ID, PRODUCT_ID, PRIORITY) VALUES (?, ?, ?)";
 	
-	// 상품-이미지 데이터를 삭제하는 쿼리
-	private static final String DELETE = "DELETE FROM PRODUCT_IMAGE WHERE IMAGE_ID = ?";
+	// 이미지 아이디를 조건으로 상품 - 이미지 데이터를 삭제하는 쿼리
+	private static final String DELETE_BY_IMAGE_ID = "DELETE FROM PRODUCT_IMAGE WHERE IMAGE_ID = ?";
+	
+	// 상품 아이디를 조건으로 상품 - 이미지 데이터를 삭제하는 쿼리
+	private static final String DELETE_BY_PRODUCT_ID = "DELETE FROM PRODUCT_IMAGE WHERE PRODUCT_ID = ?";
 	
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
 	
@@ -98,13 +101,15 @@ public class ProductImageDAO {
 		
 		if(productImageDTO.getSearchCondition().equals("deleteAdminProductImageDatas")) {
 			
+			log.debug("deleteAdminProductImageDatas 진입");
+			
 			try {
 				
-				result = jdbcTemplate.update(DELETE, productImageDTO.getImageID());
+				result = jdbcTemplate.update(DELETE_BY_IMAGE_ID, productImageDTO.getImageID());
 				
 				if(result <= 0) {
 					
-					log.debug("deleteAdminProductImageDatas 실패");
+					log.error("deleteAdminProductImageDatas 실패");
 			
 					return false;
 				
@@ -112,13 +117,37 @@ public class ProductImageDAO {
 			
 			} catch (Exception e) {
 				
-				log.debug("deleteAdminProductImageDatas 예외 발생");
+				log.error("deleteAdminProductImageDatas 예외 발생");
 				
 				return false;
 				
 			}
 			
-		}	
+		} else if(productImageDTO.getSearchCondition().equals("deletOldProductImageDatas")) {
+			
+			log.debug("deletOldProductImageDatas 진입");
+			
+			try {
+				
+				result = jdbcTemplate.update(DELETE_BY_PRODUCT_ID, productImageDTO.getProductID());
+				
+				if(result <= 0) {
+					
+					log.error("deletOldProductImageDatas 실패");
+			
+					return false;
+				
+				}
+			
+			} catch (Exception e) {
+				
+				log.error("deletOldProductImageDatas 예외 발생");
+				
+				return false;
+				
+			}
+			
+		}
 			
 		log.debug("delete 성공");
 			

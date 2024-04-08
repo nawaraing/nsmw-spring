@@ -56,14 +56,14 @@ public class UpdateProductImageController {
 			
 		List<ProductImageDTO> productImageDTOList = productImageService.selectAll(productImageDTO);
 			
-		//----------------------------------------------- 상품 이미지 삭제 ↓ -----------------------------------------------
+		//----------------------------------------------- 상품 이미지 테이블 정보 삭제 ↓ -----------------------------------------------
 			
-		productImageDTO.setSearchCondition("deleteAdminProductImageDatas");
+		productImageDTO.setSearchCondition("deletOldProductImageDatas");
 		productImageDTO.setProductID(productID);
 			
 		productImageService.delete(productImageDTO);
 			
-		//-----------------------------------------------이미지 경로 습득 ↓-----------------------------------------------
+		//-----------------------------------------------이미지 경로 정보 습득 ↓-----------------------------------------------
 			
 		for(ProductImageDTO p : productImageDTOList) {
 				
@@ -77,7 +77,7 @@ public class UpdateProductImageController {
 				
 			String imagePath = imageDTO.getImagePath();
 				
-			//-----------------------------------------------이미지 경로 삭제 ↓-----------------------------------------------
+			//-----------------------------------------------이미지 경로 정보 삭제 ↓-----------------------------------------------
 				
 			imageDTO.setSearchCondition("deleteAdminProductImageDatas");
 			imageDTO.setImageID(imageID);
@@ -157,7 +157,7 @@ public class UpdateProductImageController {
 					
 		}
 			
-		return "admin/productList";
+		return "redirect:/productList";
 		
 	}
 
