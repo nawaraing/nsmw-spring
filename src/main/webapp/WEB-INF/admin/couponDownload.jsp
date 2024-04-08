@@ -102,7 +102,7 @@
                               <!-- 체크 박스 -->
                               <td>
                                 <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" value="${coupon.couponID}" name="couponID" id="checkbox-id-${status.index}" onclick="handleListCheckbox(${status.index}, ${fn:length(couponList)})" />
+                                  <input class="form-check-input" type="checkbox" value="${coupon.ancProvisionDownloadCouponID}" name="couponID" id="checkbox-id-${status.index}" onclick="handleListCheckbox(${status.index}, ${fn:length(couponList)})" />
                                 </div>
                               </td>
                               <!-- / 체크 박스 -->
@@ -156,7 +156,7 @@
                               <!-- / 금액 제한 -->
                               <!-- 팝업 이미지 -->
                               <td>
-                                <custom:adminCouponDownloadImageModal rowNum="${status.index}" />
+                                <custom:adminCouponDownloadImageModal rowNum="${status.index}" imagePath="${coupon.ancImagePath}" />
                               </td>
                               <!-- / 팝업 이미지 -->
                               <!-- 배포 현황 -->
