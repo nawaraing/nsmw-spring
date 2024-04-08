@@ -255,8 +255,8 @@
     <script src="/resources/admin/js/page-variables.js"></script>
     <script src="/resources/admin/js/pagination-action.js"></script>
     <script src="/resources/admin/js/pagination-composed.js"></script>
-<!--     <script src="/resources/admin/js/coupon-download.js"></script>
- -->
+    <script src="/resources/admin/js/coupon-download.js"></script>
+    
     <script src="/resources/admin/js/update-coupon-download.js"></script>
     <script src="/resources/admin/js/update-coupon-download-stop.js"></script>
 

@@ -18,8 +18,17 @@ let categoryList = [];
 //			console.log("$('#product-' + i + '-category-' + j).html() : " + $('#product-' + i + '-category-' + j).html());
 			categories.push($('#coupon-' + i + '-category-' + j).html());
 		}
-		data = {
-			couponID: $('#checkbox-id-' + i).val(),
+		
+		let images = '';
+		for (let j = 0; j < $('#image-list-' + i + ' > div').length; j++) {
+			if (j !== 0) {
+				images += ';';
+			}
+			images += $('#image-list-' + i + '-image-' + j + ' input').val();
+		}
+		console.log('images : ' + images);
+ 		data = {
+			couponDownloadID: $('#checkbox-id-' + i).val(),
 			couponName: $('#coupon-name-' + i).html(),
 			distributeDate: $('#distribute-date-' + i).html(),
 			ancDeployDeadline: $('#deploy-deadline-' + i).val(),
@@ -28,7 +37,7 @@ let categoryList = [];
 			couponType: $('#coupon-type-' + i).html(),
 			ancDiscount: $('#coupon-discount-' + i).html(),
 			ancAmount: $('#coupon-limit-' + i).html(),
-			ancImagePath: $('#image-' + i).html(),
+			ancImagePath: images,
 			ancDeployStatus: $('#deploy-status-' + i).html()
 		};
 		

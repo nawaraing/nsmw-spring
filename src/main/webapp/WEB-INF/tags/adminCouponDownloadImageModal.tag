@@ -36,16 +36,16 @@
           <custom:adminImageHandle rowNum="${rowNum}" imagePath="${imagePath}" />
           <div class="text-center">
             <custom:adminImageUploadButton rowNum="${rowNum}" />
-              <button
-                type="button"
-                class="btn btn-secondary me-2"
-                data-bs-dismiss="modal"
-              >취소</button>
-              <button
-                type="submit"
-                id="submit-button"
-                class="btn btn-success me-2"
-              >저장</button>
+            <button
+              type="button"
+              class="btn btn-secondary me-2"
+              data-bs-dismiss="modal"
+            >취소</button>
+            <button
+              type="submit"
+              id="submit-button"
+              class="btn btn-success me-2"
+            >저장</button>
             
           </div>
         </div>
