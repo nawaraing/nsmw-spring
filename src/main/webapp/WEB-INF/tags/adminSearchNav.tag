@@ -130,6 +130,43 @@ function asyncSubmit(asyncUrl) {
 						data.categories = [];
 					}
 	            });
+	            $.each(curDatas, function(dataIdx, data) {
+		            if (data.couponType === 'PERCENTAGE') {
+		            	data.couponType = '할인율';
+		            	data.ancDiscount = data.ancDiscount + '%';
+		            	data.ancAmount = '최대 ' + data.ancAmount + '원 할인';
+		            } else if (data.couponType === 'WON') {
+		            	data.couponType = '할인액';
+		            	data.ancDiscount = data.ancDiscount + '원  ';
+		            	data.ancAmount = '최소 ' + data.ancAmount + '원 구매';
+		            } else {
+		            	// TODO: error handle
+		            	console.log('unknown couponType : ' + data.couponType);
+		            }
+		            if (data.ancDeployStatus === 'WILL') {
+		            	data.ancDeployStatus = '배포 예정';
+		            } else if (data.ancDeployStatus === 'DOING') {
+		            	data.ancDeployStatus = '배포중';
+		            } else if (data.ancDeployStatus === 'STOP') {
+		            	data.ancDeployStatus = '배포 중단';
+		            } else if (data.ancDeployStatus === 'DONE') {
+		            	data.ancDeployStatus = '배포 완료';
+		            } else {
+		            	// TODO: error handle
+		            	console.log('unknown ancDeployStatus : ' + data.ancDeployStatus);
+		            }
+		            
+		            
+					// 원하는 날짜 포맷&시간대로 포맷팅
+		            const dateString = data.ancDeployDeadline;
+					const date = new Date(dateString);
+
+					data.ancDeployDeadline = date.getFullYear() + "-" +
+					                      ("0" + (date.getMonth() + 1)).slice(-2) + "-" +
+					                      ("0" + date.getDate()).slice(-2) + "T" +
+					                      "00:00";
+		            
+	            });
 			}
 			
 			console.log('curFile : ' + curFile);

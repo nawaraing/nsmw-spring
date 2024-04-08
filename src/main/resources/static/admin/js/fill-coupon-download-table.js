@@ -4,7 +4,7 @@
 
 function fillCouponDownloadTable(datas) {
 	console.log('fillCouponDownloadTable');
-
+	
     let tbody = $('<tbody class="table-border-bottom-0" id="table-body">');
 
     // Table footer
