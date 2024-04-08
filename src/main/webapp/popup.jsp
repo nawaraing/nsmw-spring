@@ -30,23 +30,18 @@ body {
 </head>
 <body>
 
-<%
-	System.out.println("[log] View popup.jsp 실행");
-%>
-
-
 	<!-- 팝업 내용을 나타내는 div 요소 추가 -->
 	<div class="popup">
-		<a href="/productAll" target="_blank"><img src="/resources/couponImages/popup.jpg" alt="팝업 이미지"></a>
+		<a href="/couponDownload/userDownload?couponDownloadID=1" target="_blank"><img src="/resources/couponImages/${param.couponImageName}" alt="${param.couponImageName}"></a>
 	</div>
 
 	<div class="btn">
-		<button onclick="closePopupAndSetCookie()">하루동안 안보기</button>
+		<button onclick="closePopupAndSetCookie('${param.couponImageName}')">하루동안 안보기</button>
 	</div>
 
 		<script>
-			function closePopupAndSetCookie() {
-				var cookieName = "popupShown";
+			function closePopupAndSetCookie(couponImageName) {
+				var cookieName = couponImageName;
 				var cookieValue = "false";
 				var expires = new Date();
 				expires.setDate(expires.getDate() + 1); // 하루 뒤에 만료

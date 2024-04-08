@@ -54,19 +54,33 @@
 	
 	
 	<%-- 팝업 쿠키 관련  --%>
+	<div id="coupon-image-name">
+	  <c:if test="${not empty downloadCouponList}">
+	    <c:forEach var="data" items="${downloadCouponList}" varStatus="status">
+	      <c:if test="${status.index lt 3}">
+            <input type="hidden" value="${data}"/>
+	      </c:if>
+	    </c:forEach>
+	  </c:if>
+	  <c:if test="${empty downloadCouponList}">
+  	    <input type="hidden" value="popup.jpg"/>
+        <input type="hidden" value="springCoupon.jpg"/>
+	  </c:if>
+	</div>
 	<script>
         // 페이지 로드 시 실행할 함수
         window.onload = function () {
-        	
-        	// 쿠키의 Value값을 저장
-            var cookieValue = getCookieValue("popupShown");
-            
-        	// 저장된 값이 false가 아니라면(null or true)
-            if (cookieValue != "false") {
-            	// 팝업창 실챙
-                openPopup();
-            }
-            
+        	$('#coupon-image-name input').each(function(index, couponName) {
+        		console.log('couponName: ' + couponName.value);
+            	let cookieValue = getCookieValue(couponName.value);
+        		console.log('cookieValue: ' + cookieValue);
+            	
+	        	// 저장된 값이 false가 아니라면(null or true)
+	            if (cookieValue != "false") {
+	            	// 팝업창 실행
+            		openPopup(couponName.value);
+	            }
+      		});
         };
 
         // 인자로 쿠키이름을 받아 쿠키값을 반환하는 함수
@@ -93,11 +107,11 @@
             return null;
         }
 
-        function openPopup() {
+        function openPopup(couponImageName) {
         	// 팝업창이 작성되어 있는 JSP파일 주소
-            var popupURL = "popup.jsp";
+            var popupURL = "popup.jsp?couponImageName=" + couponImageName;
         	// 팝업창 이름
-            var popupName = "popupPage";
+            var popupName = couponImageName;
         	// 팝업창 너비
             var popupWidth = 458;
         	// 팝업창 높이
