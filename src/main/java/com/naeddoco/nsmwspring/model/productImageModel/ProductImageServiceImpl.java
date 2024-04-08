@@ -5,13 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.naeddoco.nsmwspring.model.imageModel.ImageDTO;
-
 @Service("productImageService")
 public class ProductImageServiceImpl implements ProductImageService {
 	
 	@Autowired
 	private ProductImageDAO productImageDAO;
+	
+	@Override
+	public List<ProductImageDTO> selectAll(ProductImageDTO productImageDTO){
+		
+		return productImageDAO.selectAll(productImageDTO);
+		
+	}
 	
 	@Override
 	public boolean insert(ProductImageDTO productImageDTO) {

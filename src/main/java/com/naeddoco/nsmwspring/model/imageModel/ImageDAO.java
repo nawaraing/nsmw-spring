@@ -90,6 +90,24 @@ public class ImageDAO {
 
 			} 	
 			
+		} else if(imageDTO.getSearchCondition().equals("getImagePath")) {
+			
+			log.debug("getImagePath 진입");
+			
+			Object[] args = { imageDTO.getImageID() };
+			
+			try {
+			
+				return jdbcTemplate.queryForObject(SELECTONE_IMAGE, args, new iamgeRowMapper());
+		
+			} catch (Exception e) {
+				
+				log.debug("getImagePath 예외 발생");
+
+				return null;
+
+			} 	
+			
 		}
 		
 		log.debug("selectOne 실패");
