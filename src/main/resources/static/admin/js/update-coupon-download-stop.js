@@ -13,11 +13,11 @@ function updateCouponDownloadStop(maxIdx) {
         }
 
 		let couponID = $('#checkbox-id-' + i);
-		console.log('couponID: ' + couponID.val());
+		console.log('couponDownloadID: ' + couponID.val());
 		updateCouponDownloadStopForm.append(couponID);
 		
-		let deployDeadline = $('#deploy-deadline-' + i);
-		updateCouponDownloadStopForm.append(deployDeadline);
+//		let deployDeadline = $('#deploy-deadline-' + i);
+//		updateCouponDownloadStopForm.append(deployDeadline);
 	}
 	
 }

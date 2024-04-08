@@ -102,7 +102,7 @@
                               <!-- 체크 박스 -->
                               <td>
                                 <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" value="${coupon.ancProvisionDownloadCouponID}" name="couponID" id="checkbox-id-${status.index}" onclick="handleListCheckbox(${status.index}, ${fn:length(couponList)})" />
+                                  <input class="form-check-input" type="checkbox" value="${coupon.ancProvisionDownloadCouponID}" name="couponDownloadID" id="checkbox-id-${status.index}" onclick="handleListCheckbox(${status.index}, ${fn:length(couponList)})" />
                                 </div>
                               </td>
                               <!-- / 체크 박스 -->
