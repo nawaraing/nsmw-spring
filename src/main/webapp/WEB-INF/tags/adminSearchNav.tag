@@ -102,11 +102,21 @@ function asyncSubmit(asyncUrl) {
 					console.log("pid : " + data.productID);
 					console.log("pname : " + data.productName);
 					console.log("data.ancCategory: " + data.ancCategory);
+					
 					if (data.ancCategory != null) {
 						data.categories = data.ancCategory.split(";");
 					} else {
 						data.categories = [];
 					}
+		            if (data.saleState === 'SALES') {
+		            	data.saleState = '판매중';
+		            } else if (data.saleState === 'DISCONTINUED') {
+		            	data.saleState = '단종';
+		            } else {
+		            	// TODO: error handle
+		            	console.log('unknown saleState : ' + data.saleState);
+		            }
+
 	            });
 			} else if (curFile == "memberList.jsp") {
 	            $.each(datas, function(dataIdx, data) {

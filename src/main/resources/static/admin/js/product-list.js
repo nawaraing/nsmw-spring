@@ -20,6 +20,16 @@ let categoryList = [];
 //			console.log("$('#product-' + i + '-category-' + j).html() : " + $('#product-' + i + '-category-' + j).html());
 			categories.push($('#product-' + i + '-category-' + j).html());
 		}
+		
+		let images = '';
+		for (let j = 0; j < $('#image-list-' + i + ' > div').length; j++) {
+			if (j !== 0) {
+				images += ';';
+			}
+			images += $('#image-list-' + i + '-image-' + j + ' input').val();
+		}
+		console.log('images : ' + images);
+
 		data = {
 			productID: $('#checkbox-id-' + i).val(),
 			productName: $('#product-name-' + i).val(),
@@ -35,7 +45,7 @@ let categoryList = [];
 			registerDate: $('#register-date-' + i).html(),
 			modifyDate: $('#modify-date-' + i).html(),
 			saleState: $('#sale-state-' + i).html(),
-			imagePath: $('#image-' + i).html()
+			ancImagePath: images
 		};
 		
 		// categoryList

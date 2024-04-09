@@ -246,6 +246,7 @@
     <script src="/resources/admin/js/utils.js"></script>
     <script src="/resources/admin/js/checkbox.js"></script>
     <script src="/resources/admin/js/image-handle.js"></script>
+    <script src="/resources/admin/js/image-component.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     
     

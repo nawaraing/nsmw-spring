@@ -137,7 +137,40 @@ function fillProductListTable(datas) {
 			tr.append(td);
 			
 			// 상품 이미지
-			td = $('<td id="image-' + rowNum + '">').text('이미지 확인');
+			td = $('<td>');
+			
+			button = $('<button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#imageModal-' + rowNum + '">').text('이미지 확인');
+			td.append(button);
+			div = $('<div class="modal fade" id="imageModal-' + rowNum + '" data-bs-backdrop="static" tabindex="-1">');
+			modalSm = $('<div class="modal-dialog modal-dialog-centered modal-sm">');
+			
+			modalContent = $('<div class="modal-content">');
+			modalHeader = $('<div class="modal-header">');
+			h5 = $('<h5 class="modal-title" id="backDropModalTitle">').text('이미지 조회/변경/삭제');
+			button = $('<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>');
+			modalHeader.append(h5);
+			modalHeader.append(button);
+			
+			form = $('<form method="POST" enctype="multipart/form-data" action="/productList/imageUpdate">');
+			form.append($('<input type="hidden" name="productID" value="' + data.productID + '"/>'))
+			modalBody = $('<div class="modal-body">').append(adminImageHandle(rowNum, data.ancImagePath));
+			
+			textCenter = $('<div class="text-center">');
+			button = adminImageUploadButton(rowNum, 3);
+			textCenter.append(button.find('#upload-image-' + rowNum));
+			textCenter.append(button.find('#too-many-images-' + rowNum));
+			textCenter.append(button.find('#upload-image-button-' + rowNum));
+			textCenter.append($('<button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">').text('취소'));
+			textCenter.append($('<button type="submit" id="submit-button" class="btn btn-success me-2">').text('저장'));
+			modalBody.append(textCenter);
+			
+			form.append(modalBody);
+			modalContent.append(modalHeader);
+			modalContent.append(form);
+			
+			modalSm.append(modalContent);
+			div.append(modalSm);
+			td.append(div);
 			tr.append(td);
 			
             tbody.append(tr);
