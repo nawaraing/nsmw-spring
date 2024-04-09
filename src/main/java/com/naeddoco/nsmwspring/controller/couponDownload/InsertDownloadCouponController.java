@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -208,18 +209,64 @@ public class InsertDownloadCouponController {
 				System.out.println("Failed to save file: " + e.getMessage());
 			}
 			// DB에 저장할 Path
-			String uploadDir = "/resources/couponImages";
+			String uploadDir = "/resources/couponImages/";
 			imageDTO.setImagePath(uploadDir+images.get(i).getOriginalFilename());
 			
-			imageService.insert(imageDTO);	
+			imageService.insert(imageDTO);
+			
 		}
+		
+		/*------------------------------------------------------------------------------- 다운로드 쿠폰 DAO -----------------------------------------------------------------------------------------------------------*/
+
+		// 위에서 추가된 이미지 PK
+		imageDTO.setSearchCondition("getLastOne");
+		imageDTO = imageService.selectAll(imageDTO).get(0);
+		
+		int imageID = imageDTO.getImageID();
+		System.out.println("추가된 이미지 PK : " + imageID);
+		
+		provisionDownloadCouponDTO.setSearchCondition("insertAdminCouponGradeData");
+		provisionDownloadCouponDTO.setCouponID(couponID);
+		provisionDownloadCouponDTO.setImageID(imageID);
+		provisionDownloadCouponDTO.setDeployDeadline(ancDeployDeadline);
+
+		// 현재시간을 sql.timestamp에 저장
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        Timestamp currentTimestamp = Timestamp.valueOf(currentDateTime);
+		
+        // 배포 시작일에 따른 값 전달
+		if(distributeDate.before(currentTimestamp)) {
+			
+			System.out.println("배포 시작일이 현재시간보다 전");
+			
+			provisionDownloadCouponDTO.setDeployStatus("DOING");
+			
+		} else if(distributeDate.after(currentTimestamp)) {
+			
+			System.out.println("배포 시작일이 현재시간보다 후");
+			
+			provisionDownloadCouponDTO.setDeployStatus("WILL");
+			
+		}
+		
+		boolean downCouponInsert = provisionDownloadCouponService.insert(provisionDownloadCouponDTO);
+
+		if (!downCouponInsert) {
+
+			System.out.println("다운로드 쿠폰 insert 실패");
+
+			return "admin/couponDownload";
+
+		}
+
+		System.out.println("다운로드 쿠폰 insert 성공");
 
 		/*------------------------------------------------------------------------------- 쿠폰 타입 DAO -----------------------------------------------------------------------------------------------------------*/
 
 		boolean typeCouponInsertResult;
 
 		// 쿠폰 타입에 따른 추가
-		if (couponType == "PERCENTAGE") { // %쿠폰
+		if (couponType.equals("PERCENTAGE")) { // %쿠폰
 
 			PercentageCouponDTO percentageCouponDTO = new PercentageCouponDTO();
 
@@ -254,26 +301,8 @@ public class InsertDownloadCouponController {
 		}
 
 		System.out.println("타입에 따른 쿠폰 추가 성공");
+		
 
-		provisionDownloadCouponDTO.setSearchCondition("insertAdminCouponGradeData");
-		provisionDownloadCouponDTO.setCouponID(couponID);
-		// 테스트
-		provisionDownloadCouponDTO.setImageID(1);
-		provisionDownloadCouponDTO.setDeployDeadline(ancDeployDeadline);
-		// 추가했을 때 기본값이 있어야할 듯
-		provisionDownloadCouponDTO.setDeployStatus("???");
-
-		boolean downCouponInsert = provisionDownloadCouponService.insert(provisionDownloadCouponDTO);
-
-		if (!downCouponInsert) {
-
-			System.out.println("다운로드 쿠폰 insert 실패");
-
-			return "admin/couponDownload";
-
-		}
-
-		System.out.println("다운로드 쿠폰 insert 성공");
 
 		return "redirect:/couponDownload";
 	}
