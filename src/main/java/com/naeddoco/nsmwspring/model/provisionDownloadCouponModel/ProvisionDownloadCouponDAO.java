@@ -20,7 +20,7 @@ public class ProvisionDownloadCouponDAO {
 
 	// 쿠폰 다운로드 팝업시 보여줄 쿠폰 정보 출력
 	// 현재 로그인한 회원의 ID로 회원이 가지고 있지 않은 다운로드 쿠폰, 배포상태가 'DOING'인 쿠폰ID 출력
-	private static final String SELECTALL_POPUP_COUPON = "SELECT "
+	private static final String SELECTALL_POPUP_COUPON_MEMBER = "SELECT "
 															+ "PDC.PROVISION_DOWNLOAD_COUPON_ID, "
 															+ "C.COUPON_ID, "
 															+ "I.IMAGE_PATH "
@@ -36,7 +36,24 @@ public class ProvisionDownloadCouponDAO {
 															+ "WHERE MC.COUPON_ID IS NULL "
 															+ "AND PDC.DEPLOY_STATUS ='DOING'";
 	
+	// 비로그인시 보여줄 모든 다운로드 쿠폰 정보 출력
+	private static final String SELECTALL_POPUP_COUPON = "SELECT "
+														+ "PDC.PROVISION_DOWNLOAD_COUPON_ID, "
+														+ "C.COUPON_ID, "
+														+ "I.IMAGE_PATH "
+														+ "FROM "
+															+ "PROVISION_DOWNLOAD_COUPON PDC "
+														+ "JOIN "
+															+ "COUPON C ON PDC.COUPON_ID = C.COUPON_ID "
+														+ "JOIN "
+															+ "IMAGE I ON PDC.IMAGE_ID = I.IMAGE_ID "
+														+ "WHERE "
+															+ "PDC.DEPLOY_STATUS ='DOING'";
+	
 	private static final String SELECTONE = "";
+	
+	// 이미지 INSERT시 생성된 imageID 가져옴
+	private static final String SELECTONE_LAST_ID = "SELECT LAST_INSERT_ID() AS IMAGE_ID";
 
 	private static final String INSERT = "INSERT INTO PROVISION_DOWNLOAD_COUPON "
 										+ "(COUPON_ID, IMAGE_ID, DEPLOY_DEADLINE, DEPLOY_STATUS) "
@@ -48,8 +65,7 @@ public class ProvisionDownloadCouponDAO {
 	
 	// 다운로드쿠폰 정보 변경
 	private static final String UPDATE = "UPDATE PROVISION_DOWNLOAD_COUPON "
-										+ "SET DEPLOY_DEADLINE = ?, "
-										+ "DEPLOY_STATUS = ? "
+										+ "SET DEPLOY_DEADLINE = ? "
 										+ "WHERE PROVISION_DOWNLOAD_COUPON_ID = ? ";
 	
 	
@@ -96,29 +112,27 @@ public class ProvisionDownloadCouponDAO {
 
 	public ProvisionDownloadCouponDTO selectOne(ProvisionDownloadCouponDTO provisionDownloadCouponDTO) {
 		
-//		log.debug("[로그] 처리 진입");
-//		
-//		if(provisionGradeCouponDTO.getSearchCondition().equals("")) {
-//			
-//			log.debug("[로그]처리 진입");
-//			
-//			Object[] args = { provisionDownloadCouponDTO.getProvisionDownloadCouponID() };
-//
-//			try {
-//
-//				return jdbcTemplate.queryForObject(SELECTONE, args, new ProvisionDownloadCouponRowMapper());
-//
-//			} catch (Exception e) {
-//				
-//				log.debug("[로그] 예외 발생");
-//
-//				return null;
-//
-//			}
-//			
-//		}
-//		
-//		log.debug("[로그] 처리 실패");
+		log.trace("selectOne 처리 진입");
+		
+		if(provisionDownloadCouponDTO.getSearchCondition().equals("selectLastId")) {
+			
+			log.trace("selectLastId 처리 진입");
+			
+			try {
+
+				return jdbcTemplate.queryForObject(SELECTONE_LAST_ID, new selectOneImageIdRowMapper());
+
+			} catch (Exception e) {
+				
+				log.error("에러/예외 발생" + e.getMessage());
+
+				return null;
+
+			}
+			
+		}
+		
+		log.debug("[로그] 처리 실패");
 		
 		return null;
 
@@ -183,7 +197,6 @@ public class ProvisionDownloadCouponDAO {
 			log.trace("updateAdminCouponDownloadData 진입");
 
 			int result = jdbcTemplate.update(UPDATE, provisionDownloadCouponDTO.getDeployDeadline(),
-													 provisionDownloadCouponDTO.getDeployStatus(),
 													 provisionDownloadCouponDTO.getProvisionDownloadCouponID());
 
 			if(result <= 0) {
@@ -240,6 +253,27 @@ class ProvisionDownloadCouponRowMapper implements RowMapper<ProvisionDownloadCou
 		data.setProvisionDownloadCouponID(rs.getInt("PDC.PROVISION_DOWNLOAD_COUPON_ID"));
 		data.setCouponID(rs.getInt("C.COUPON_ID"));
 		data.setAncImagePath(rs.getString("I.IMAGE_PATH"));
+
+		log.trace("ProvisionDownloadCouponRowMapper 처리 완료");
+
+		return data;
+
+	}
+
+}
+
+
+@Slf4j
+class selectOneImageIdRowMapper implements RowMapper<ProvisionDownloadCouponDTO> {
+
+	@Override
+	public ProvisionDownloadCouponDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+		log.trace("selectOneImageIdRowMapper 처리 진입");
+
+		ProvisionDownloadCouponDTO data = new ProvisionDownloadCouponDTO();
+
+		data.setAncImageID(rs.getInt("IMAGE_ID"));
 
 		log.trace("ProvisionDownloadCouponRowMapper 처리 완료");
 

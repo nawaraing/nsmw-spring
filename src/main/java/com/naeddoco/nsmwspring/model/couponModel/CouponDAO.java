@@ -19,6 +19,7 @@ public class CouponDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	//
 	private static final String SELECTALL_BY_CATEGORY_NAME = "SELECT C.COUPON_ID, C.COUPON_NAME, C.EXPIRATION_DATE, C.COUPON_TYPE, CA.CATEGORY_NAME, " +
 			 												 "IF(C.COUPON_TYPE = 'WON', WC.COUPON_DISCOUNT_AMOUNT, NULL) AS DISCOUNT_AMOUNT, " +
 			 												 "IF(C.COUPON_TYPE = 'WON', WC.MIN_ORDER_AMOUNT, NULL) AS MIN_ORDER_AMOUNT, " +
@@ -276,7 +277,7 @@ public class CouponDAO {
 																		+ "AND IF(? IS NOT NULL, C.COUPON_NAME LIKE CONCAT('%', ?, '%'), 1) "
 																	+ "ORDER BY ";
 	
-	// 쿠폰 insert 시 생성된 couponID 가져옴
+	// 쿠폰 INSERT시 생성된 couponID 가져옴
 	private static final String SELECTONE_LAST_ID = "SELECT LAST_INSERT_ID() AS COUPON_ID";
 
 	// 관리자 페이지에서 쿠폰추가시 사용
@@ -299,7 +300,7 @@ public class CouponDAO {
 
 	public List<CouponDTO> selectAll(CouponDTO couponDTO) {
 
-		log.trace("CouponDTO selectAll 진입");
+		log.trace("selectAll 진입");
 
 		if (couponDTO.getSearchCondition().equals("selectAllCoupon")) {
 
@@ -313,7 +314,7 @@ public class CouponDAO {
 
 			} catch (Exception e) {
 
-				log.error("selectAllCoupon 예외/실패" + e.getLocalizedMessage());
+				log.error("selectAllCoupon 예외/실패" + e.getMessage());
 
 				return null;
 
@@ -351,14 +352,14 @@ public class CouponDAO {
 			String sqlQuery = null;
 
 			// 만료일순 정렬시(오름차순)
-			if(couponDTO.getAncSortColumnName() == "expirationDate") {  
+			if(couponDTO.getAncSortColumnName().equals("expirationDate")) {  
 				
 				log.trace("expirationDate 진입");
 				sqlQuery = query + " C.EXPIRATION_DATE ASC";
 
 			}
 			// 할인순 정렬시(쿠폰 타입별로 내림차순)
-			else if (couponDTO.getAncSortColumnName() == "discount") {
+			else if (couponDTO.getAncSortColumnName().equals("discount")) {
 
 				log.trace("discount 진입");
 				sqlQuery = query + " COUPON_TYPE, DISCOUNT DESC";
@@ -417,14 +418,14 @@ public class CouponDAO {
 			String sqlQuery = null;
 
 			// 배포현황순 정렬시(WILL/STOP/DONE순 정렬)
-			if(couponDTO.getAncSortColumnName() == "deployStatus") {  
+			if(couponDTO.getAncSortColumnName().equals("deployStatus")) {  
 
 				log.trace("deployStatus 진입");
 				sqlQuery = query + " PBC.DEPLOY_STATUS DESC";
 
 			}
 			// 할인순 정렬시(쿠폰 타입별로 내림차순)
-			else if (couponDTO.getAncSortColumnName() == "discount") {
+			else if (couponDTO.getAncSortColumnName().equals("discount")) {
 
 				log.trace("discount 진입");
 				sqlQuery = query + " COUPON_TYPE, DISCOUNT DESC";
@@ -482,21 +483,21 @@ public class CouponDAO {
 			String sqlQuery = null;
 
 			// 쿠폰 만료일순 정렬시(오름차순)
-			if(couponDTO.getAncSortColumnName() == "expirationDate") {  
+			if(couponDTO.getAncSortColumnName().equals("expirationDate")) {  
 				
 				log.trace("expirationDate 진입");
 				sqlQuery = query + " C.EXPIRATION_DATE ASC";
 
 			}
 			// 배포 마감일(오름차순)
-			else if (couponDTO.getAncSortColumnName() == "deployDeadline") {
+			else if (couponDTO.getAncSortColumnName().equals("deployDeadline")) {
 
 				log.trace("deployDeadline 진입");
 				sqlQuery = query + " PDC.DEPLOY_DEADLINE ASC";
 
 			}
 			// 할인순 정렬시(쿠폰 타입별로 내림차순)
-			else if (couponDTO.getAncSortColumnName() == "discount") {
+			else if (couponDTO.getAncSortColumnName().equals("discount")) {
 
 				log.trace("discount 진입");
 				sqlQuery = query + " COUPON_TYPE, DISCOUNT DESC";
@@ -513,7 +514,7 @@ public class CouponDAO {
 
 			try {
 
-				return (List<CouponDTO>)jdbcTemplate.query(sqlQuery, args, new selectAllGradeCouponInfoRowMapper());
+				return (List<CouponDTO>)jdbcTemplate.query(sqlQuery, args, new selectAllDownloadCouponInfoRowMapper());
 
 			} catch (Exception e) {
 
@@ -646,6 +647,7 @@ public class CouponDAO {
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
+//개발자의 편의를 위해 RowMapper 인터페이스를 사용
 @Slf4j
 class CouponRowMapper implements RowMapper<CouponDTO> {
 	
@@ -659,7 +661,6 @@ class CouponRowMapper implements RowMapper<CouponDTO> {
 
 }
 
-//개발자의 편의를 위해 RowMapper 인터페이스를 사용
 @Slf4j
 class selectCategoryNameCouponRowMapper implements RowMapper<CouponDTO> {
 	

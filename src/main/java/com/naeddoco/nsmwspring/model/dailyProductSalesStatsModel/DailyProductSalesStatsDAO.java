@@ -55,10 +55,12 @@ public class DailyProductSalesStatsDAO {
 											+ "SUM(O.BUY_QUANTITY) AS DAILY_TOTAL_QUANTITY, "
 											+ "SUM(O.PAYMENT_PRICE) AS DAILY_TOTAL_GROSS_MARGINE, "
 											+ "SUM(O.PAYMENT_PRICE) - (SUM(O.BUY_QUANTITY) * P.COST_PRICE) AS DAILY_TOTAL_NET_PROFIT "
-										+ "FROM ORDER_INFO O "
+										+ "FROM "
+											+ "ORDER_INFO O "
 										+ "JOIN BUY_INFO B ON O.BUY_INFO_ID = B.BUY_INFO_ID "
 										+ "JOIN PRODUCT P ON O.PRODUCT_ID = P.PRODUCT_ID "
-										+ "GROUP BY O.PRODUCT_ID, DATE(B.BUY_DATE)";
+										+ "GROUP BY "
+											+ "O.PRODUCT_ID, DATE(B.BUY_DATE)";
 	
 	private static final String UPDATE = "";
 

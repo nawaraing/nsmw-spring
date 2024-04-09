@@ -23,7 +23,7 @@ public class CouponCategoryDAO {
 
 	private static final String SELECTONE = "";
 	
-	// COUPON insert시 COUPON_CATEGORY에도 함께 insert
+	// COUPON INSERT시 COUPON_CATEGORY에도 함께 INSERT
 	private static final String INSERT = "INSERT INTO COUPON_CATEGORY "
 											+ "(COUPON_ID, CATEGORY_ID) "
 											+ "VALUES (?,?)";
