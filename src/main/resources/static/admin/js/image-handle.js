@@ -96,6 +96,9 @@ let deleteImageList = [];
 function deleteImage(rowNum, index, maxImageCnt) {
 	console.log('deleteImage index: ' + index);
 	
+	// 컨트롤러에게 전송하기 위한 세팅
+	$('#form-image-modal-' + rowNum).append($('#image-id-' + rowNum));
+	
 	// 하단 이미지 목록 삭제
 	$('#image-list-' + rowNum + '-image-' + index).remove();
 	

@@ -156,7 +156,7 @@
                               <!-- / 금액 제한 -->
                               <!-- 팝업 이미지 -->
                               <td>
-                                <custom:adminCouponDownloadImageModal rowNum="${status.index}" imagePath="${coupon.ancImagePath}" />
+                                <custom:adminCouponDownloadImageModal rowNum="${status.index}" imagePath="${coupon.ancImagePath}" imageID="${coupon.ancImageID}" />
                               </td>
                               <!-- / 팝업 이미지 -->
                               <!-- 배포 현황 -->

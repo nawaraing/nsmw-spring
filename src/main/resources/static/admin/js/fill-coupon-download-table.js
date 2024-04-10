@@ -91,7 +91,8 @@ function fillCouponDownloadTable(datas) {
 			modalHeader.append(h5);
 			modalHeader.append(button);
 			
-			form = $('<form method="POST" enctype="multipart/form-data" action="/couponDownload/imageUpdate">');
+			form = $('<form method="POST" enctype="multipart/form-data" action="/couponDownload/imageUpdate" id="form-image-modal-' + rowNum + '">');
+			form.append($('<input type="hidden" name="couponDownloadID" value="' + data.couponDownloadID + '"/>'))
 			modalBody = $('<div class="modal-body">').append(adminImageHandle(rowNum, data.ancImagePath));
 			
 			textCenter = $('<div class="text-center">');
@@ -106,6 +107,8 @@ function fillCouponDownloadTable(datas) {
 			form.append(modalBody);
 			modalContent.append(modalHeader);
 			modalContent.append(form);
+			console.log('ancImageID: ' + data.ancImageID);
+			modalContent.append($('<input type="hidden" id="image-id-' + rowNum + '" name="imageID" value="' + data.ancImageID + '">'));
 			
 			modalSm.append(modalContent);
 			div.append(modalSm);

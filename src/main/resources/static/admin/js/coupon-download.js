@@ -37,6 +37,7 @@ let categoryList = [];
 			couponType: $('#coupon-type-' + i).html(),
 			ancDiscount: $('#coupon-discount-' + i).html(),
 			ancAmount: $('#coupon-limit-' + i).html(),
+			ancImageID: $('#image-id-' + i).val(),
 			ancImagePath: images,
 			ancDeployStatus: $('#deploy-status-' + i).html()
 		};

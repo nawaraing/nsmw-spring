@@ -5,6 +5,7 @@
 
 <%@ attribute name="rowNum" %>
 <%@ attribute name="imagePath" %>
+<%@ attribute name="imageID" %>
 
 <script src="/resources/admin/assets/vendor/libs/jquery/jquery.js"></script>
 <script src="/resources/admin/js/checkbox.js"></script>
@@ -46,10 +47,10 @@
               id="submit-button"
               class="btn btn-success me-2"
             >저장</button>
-            
           </div>
         </div>
       </form>
+      <input type="hidden" id="image-id-${rowNum}" value="${imageID}" />
     </div>
   </div>
 </div>
