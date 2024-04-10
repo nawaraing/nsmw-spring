@@ -27,8 +27,6 @@ public class EntryCouponDownloadPageController {
 		couponDTO.setSearchCondition("selectAllDownloadCouponInfo");
 		
 		List<CouponDTO> downloadCouponList = couponService.selectAll(couponDTO);
-		
-		System.out.println("[관] 다운로드 쿠폰 리스트 : " + downloadCouponList);
 
 		model.addAttribute("couponList", downloadCouponList);
 		
