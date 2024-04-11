@@ -66,9 +66,10 @@ public class MyPageController {
 			String memberCategory = "";
 			
 			for (int i = 0; i < memberCategoryList.size(); i++) {
-				
-				memberCategory = memberCategory +"     " + memberCategoryList.get(i).getAncCategoryName();
-				
+				if (!memberCategory.equals("")) {
+					memberCategory += ", ";
+				}
+				memberCategory += memberCategoryList.get(i).getAncCategoryName();
 			}
 			
 			memberDTO.setAncCategoryName(memberCategory);
