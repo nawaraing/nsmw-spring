@@ -16,6 +16,14 @@
 	text-align: center;
 	padding: 20px;
 }
+.popup_img {
+	width: 400px;
+	height: 600px;
+	background-color: white;
+	border: 1px solid #ccc;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	text-align: center;
+}
 
 .btn {
 	position: fixed;
@@ -32,7 +40,7 @@ body {
 
 	<!-- 팝업 내용을 나타내는 div 요소 추가 -->
 	<div class="popup">
-		<a href="/couponDownload/give?couponID=${param.couponID}" target="_blank"><img src="${param.couponImagePath}"></a>
+		<a href="/couponDownload/give?couponID=${param.couponID}" target="_blank"><img src="${param.couponImagePath}" class="popup_img"></a>
 	</div>
 
 	<div class="btn">
