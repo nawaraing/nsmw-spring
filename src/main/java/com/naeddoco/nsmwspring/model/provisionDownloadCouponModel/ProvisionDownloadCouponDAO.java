@@ -82,11 +82,30 @@ public class ProvisionDownloadCouponDAO {
 
 		log.trace("selectAll 진입");
 
-		if (provisionDownloadCouponDTO.getSearchCondition().equals("selectPopupCouponDatas")) {
+		if (provisionDownloadCouponDTO.getSearchCondition().equals("selectPopupCouponDatasLogin")) {
 			
 			Object[] args = { provisionDownloadCouponDTO.getAncMemberID() };
 
-			log.trace("selectPopupCouponDatas 진입");
+			log.trace("selectPopupCouponDatasLogin 진입");
+
+			try {
+
+				return (List<ProvisionDownloadCouponDTO>) jdbcTemplate.query(SELECTALL_POPUP_COUPON_MEMBER, args, new ProvisionDownloadCouponRowMapper());
+
+			} catch (Exception e) {
+
+				log.error("selectPopupCouponDatasLogin 예외/실패 ");
+
+				return null;
+
+			}
+
+		}
+		else if (provisionDownloadCouponDTO.getSearchCondition().equals("selectPopupCouponDatasLogout")) {
+			
+			Object[] args = { provisionDownloadCouponDTO.getAncMemberID() };
+
+			log.trace("selectPopupCouponDatasLogout 진입");
 
 			try {
 
@@ -94,7 +113,7 @@ public class ProvisionDownloadCouponDAO {
 
 			} catch (Exception e) {
 
-				log.error("selectPopupCouponDatas 예외/실패 ");
+				log.error("selectPopupCouponDatasLogout 예외/실패 ");
 
 				return null;
 
