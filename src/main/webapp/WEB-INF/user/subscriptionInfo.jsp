@@ -43,6 +43,13 @@
 </head>
 <body>
 
+<style>
+    .table tbody tr:hover {
+        background-color: #f0f0f0; /* 마우스 오버 시 배경색을 변경합니다 */
+    }
+</style>
+
+
 	<!-- 구독 상세 모달 비동기 -->
 	<script>
 		function subscriptionDetail(subscriptionInfoID) {
@@ -188,19 +195,19 @@
 							<c:forEach var="subscriptionInfo" items="${subscriptionInfos}" varStatus="status">
 							    <tr>
 							        <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
-							            <p class="mb-0 mt-4">${subscriptionInfo.beginDate}</p>
+							            <p id="subscriptionDetail_${status.index}" class="mb-0 mt-4">${subscriptionInfo.beginDate}</p>
 							        </td>
 							        <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
-							            <p class="mb-0 mt-4"><fmt:formatNumber value="${subscriptionInfo.ancTotalPrice}" currencyCode="KRW" />원</p>
+							            <p id="subscriptionDetail_${status.index}" class="mb-0 mt-4"><fmt:formatNumber value="${subscriptionInfo.ancTotalPrice}" currencyCode="KRW" />원</p>
 							        </td>
 							        <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
-							            <p class="mb-0 mt-4">${subscriptionInfo.nextPaymentDate}</p>
+							            <p id="subscriptionDetail_${status.index}" class="mb-0 mt-4">${subscriptionInfo.nextPaymentDate}</p>
 							        </td>
 							        <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
-							            <p class="mb-0 mt-4">${subscriptionInfo.ancLastPaymentDate}</p>
+							            <p id="subscriptionDetail_${status.index}" class="mb-0 mt-4">${subscriptionInfo.ancLastPaymentDate}</p>
 							        </td>
 							        <td>
-							            <p class="mb-0 mt-4" id="updateAddress_${status.index}">${subscriptionInfo.subscriptionAddress} ${subscriptionInfo.subscriptionDetailAddress}</p>
+							            <p onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;" class="mb-0 mt-4" id="updateAddress_${status.index}">${subscriptionInfo.subscriptionAddress} ${subscriptionInfo.subscriptionDetailAddress}</p>
 							        </td>
 							        <td onclick='goPopup(${status.index}, ${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
 							            <a class="btn border-secondary text-primary rounded-pill mb-0 mt-3" >배송지 변경</a>
