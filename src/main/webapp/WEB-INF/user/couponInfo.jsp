@@ -96,7 +96,7 @@
 									<p class="mb-0 mt-0">${coupon.ancExpirationDate}</p>
 								</td>
 								<td>
-									<p class="mb-0 mt-0">${coupon.ancCouponType}</p>
+									<p class="mb-0 mt-0">${coupon.ancCategoryName}</p>
 								</td>
 								<td>
 									<p class="mb-0 mt-0">${coupon.couponUsage}</p>
