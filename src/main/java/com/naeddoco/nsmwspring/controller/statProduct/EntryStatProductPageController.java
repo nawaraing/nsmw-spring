@@ -13,16 +13,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.naeddoco.nsmwspring.model.dailyProductSalesStatsModel.DailyProductSalesStatsDTO;
 import com.naeddoco.nsmwspring.model.dailyProductSalesStatsModel.DailyProductSalesStatsService;
 
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class EntryStatProductPageController {
 	
 	@Autowired
 	private DailyProductSalesStatsService dailyProductSalesStatsService;
 	
 	@RequestMapping(value = "/statProduct", method = RequestMethod.GET)
-	public String entryStatProductPageController(DailyProductSalesStatsDTO dailyProductSalesStatsDTO, Model model) {
+	public String entryStatProductPageController(DailyProductSalesStatsDTO dailyProductSalesStatsDTO, Model model, HttpSession session) {
 		
-		System.out.println("[log] 일별 상품 매출통계 페이지 요청");
+		String memberID = (String) session.getAttribute("memberID");
+		
+		// 회원이 로그인 상태가 아니라면 false 반환
+		if (memberID == null) {
+			
+			log.debug("[log] InsertCart 로그아웃상태");
+			
+			return "redirect:/";
+		}
+		
+		log.debug("[log] 일별 상품 매출통계 페이지 요청");
 		
         // 현재 날짜 가져오기
         LocalDate today = LocalDate.now();
@@ -33,37 +47,33 @@ public class EntryStatProductPageController {
         Date todaySQL = Date.valueOf(today);
         Date thirtyDaysBeforeSQL = Date.valueOf(thirtyDaysBefore);
 
-        System.out.println("오늘 날짜 : " + todaySQL);
-        System.out.println("30일 전 날짜 : " + thirtyDaysBeforeSQL);
+        log.debug("오늘 날짜 : " + todaySQL);
+        log.debug("30일 전 날짜 : " + thirtyDaysBeforeSQL);
         
     	
         dailyProductSalesStatsDTO.setSearchCondition("selectAdminStatProductDatas");
         dailyProductSalesStatsDTO.setAncStartDate(thirtyDaysBeforeSQL);
         dailyProductSalesStatsDTO.setAncEndDate(todaySQL);
     	
-    	System.out.println("todaySQL 자료형 : " + todaySQL.getClass());
-    	System.out.println("thirtyDaysBeforeSQL 자료형 : " + todaySQL.getClass());
+    	log.debug("todaySQL 자료형 : " + todaySQL.getClass());
+    	log.debug("thirtyDaysBeforeSQL 자료형 : " + todaySQL.getClass());
     	
     	List<DailyProductSalesStatsDTO> dailyProductSalesStats = dailyProductSalesStatsService.selectAll(dailyProductSalesStatsDTO);
     	
     	if(dailyProductSalesStats.size() < 1) {
     		
-    		System.out.println("[log] 30일 매출 불러오기 실패");
-    		System.out.println("[log] 리스트에 담긴 index : " + dailyProductSalesStats.size());
-    		model.addAttribute("msg", "30일 매출 불러오기를 실패했습니다");
+    		log.debug("[log] 30일 매출 불러오기 실패");
+    		log.debug("[log] 리스트에 담긴 index : " + dailyProductSalesStats.size());
     		
     		return "admin/statDate";
     	}
     	
-    	System.out.println("[log] 30일 매출 불러오기 성공");
-    	System.out.println("[log] 리스트에 담긴 index : " + dailyProductSalesStats.size());
-    	for(int i = 0; i < dailyProductSalesStats.size(); i++) {
-    		System.out.println(dailyProductSalesStats.get(i));
-    	}
+    	log.debug("[log] 30일 매출 불러오기 성공");
+    	log.debug("[log] 리스트에 담긴 index : " + dailyProductSalesStats.size());
+    	
     	model.addAttribute("dailyProductSalesStats", dailyProductSalesStats);
 
 		return "/admin/statProduct"; // 장바구니 페이지로 요청
-
 	}
 
 }

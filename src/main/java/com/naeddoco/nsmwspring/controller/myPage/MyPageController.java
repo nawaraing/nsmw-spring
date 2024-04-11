@@ -32,6 +32,14 @@ public class MyPageController {
 
 		String memberID = (String) session.getAttribute("memberID");
 
+		// 회원이 로그인 상태가 아니라면 false 반환
+		if (memberID == null) {
+			
+			log.debug("[log] InsertCart 로그아웃상태");
+			
+			return "redirect:/";
+		}
+		
 		log.debug("[log] MyPageController 로그인 아이디 : " + memberID);
 
 		memberCategoryDTO.setSearchCondition("memberCategory");

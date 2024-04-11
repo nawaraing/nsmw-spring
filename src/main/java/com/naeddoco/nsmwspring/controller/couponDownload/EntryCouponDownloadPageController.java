@@ -13,7 +13,11 @@ import com.naeddoco.nsmwspring.model.categoryModel.CategoryService;
 import com.naeddoco.nsmwspring.model.couponModel.CouponDTO;
 import com.naeddoco.nsmwspring.model.couponModel.CouponService;
 
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class EntryCouponDownloadPageController {
 	
 	@Autowired
@@ -22,7 +26,17 @@ public class EntryCouponDownloadPageController {
 	private CategoryService categoryService;
 	
 	@RequestMapping(value = "/couponDownload", method = RequestMethod.GET)
-	public String entryCouponDownloadPage(CouponDTO couponDTO, CategoryDTO categoryDTO, Model model) {
+	public String entryCouponDownloadPage(CouponDTO couponDTO, CategoryDTO categoryDTO, Model model, HttpSession session) {
+		
+		String memberID = (String) session.getAttribute("memberID");
+		
+		// 회원이 로그인 상태가 아니라면 false 반환
+		if (memberID == null) {
+			
+			log.debug("[log] InsertCart 로그아웃상태");
+			
+			return "redirect:/";
+		}	
 
 		couponDTO.setSearchCondition("selectAllDownloadCouponInfo");
 		

@@ -24,8 +24,21 @@ public class ChoosePageController {
 	@RequestMapping(value = "/user/updateUserInfo", method = RequestMethod.POST)
 	public String changeInfoPage(MemberDTO memberDTO, Model model, HttpSession session, @RequestParam("where") String where) {
 		
+		
+		
 		log.debug("[changeInfoPage] 진입");
 		log.debug("where의 값 : " + where);
+		
+		String memberID = (String) session.getAttribute("memberID");
+		
+		// 회원이 로그인 상태가 아니라면 false 반환
+		if (memberID == null) {
+			
+			log.debug("[log] InsertCart 로그아웃상태");
+			
+			return "redirect:/";
+		}
+		
 		
 		// 비밀번호를 제외한 회원정보 변경
 		if(where.equals("modifyUserInfo")) {
@@ -38,7 +51,6 @@ public class ChoosePageController {
 			// 이메일 (2등분)
 			// 주소 (3등분)
 			
-			String memberID = (String) session.getAttribute("memberID");
 			
 			memberDTO.setSearchCondition("myPageMain");
 			memberDTO.setMemberID(memberID);

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.naeddoco.nsmwspring.model.dailySalesStatsModel.DailySalesStatsDTO;
 import com.naeddoco.nsmwspring.model.dailySalesStatsModel.DailySalesStatsService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -23,7 +24,17 @@ public class EntryStatDatePageController {
 	private DailySalesStatsService dailySalesStatsService;
 	
 	@RequestMapping(value = "/statDate", method = RequestMethod.GET)
-	public String entryStatDatePageController(DailySalesStatsDTO dailySalesStatsDTO, Model model) {	
+	public String entryStatDatePageController(DailySalesStatsDTO dailySalesStatsDTO, Model model, HttpSession session) {	
+		
+		String memberID = (String) session.getAttribute("memberID");
+		
+		// 회원이 로그인 상태가 아니라면 false 반환
+		if (memberID == null) {
+			
+			log.debug("[log] InsertCart 로그아웃상태");
+			
+			return "redirect:/";
+		}
 		
 		log.debug("[log] 기간별 매출통계 페이지 요청");
 		

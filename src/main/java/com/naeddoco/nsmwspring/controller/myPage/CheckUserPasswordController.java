@@ -1,4 +1,4 @@
-package com.naeddoco.nsmwspring.controller.login;
+package com.naeddoco.nsmwspring.controller.myPage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
