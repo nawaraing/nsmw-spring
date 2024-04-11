@@ -148,13 +148,83 @@
 									<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${productDetail.productID})">장바구니 추가</button>
 								</c:if>
 								<c:if test="${memberID == null}">
-									<a href="/login" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> 장바구니 추가</a>
+									<a href="user/login" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> 장바구니 추가</a>
 								</c:if>
 							</div>
 
 							<!-- 제품 추천 시작 -->
-							
-							<!-- 케러셀의 제목 -->
+
+
+							<!-- 제품 상세 -->
+							<div class="col-lg-12">
+								<!-- 하단 메뉴 -->
+								<nav>
+									<div class="nav nav-tabs mb-3">
+										<button class="nav-link active border-white border-bottom-0" type="button" role="tab" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about" aria-controls="nav-about" aria-selected="true">설명</button>
+										<button class="nav-link border-white border-bottom-0" type="button" role="tab" id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission" aria-controls="nav-mission" aria-selected="false">리뷰</button>
+									</div>
+								</nav>
+								<!-- 하단 메뉴 -->
+								<div class="tab-content mb-5">
+									<div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+
+										<div class="row bg-light align-items-center justify-content-center py-2">
+											<div class="col-6 text-center">
+												<p class="mb-0">성분</p>
+											</div>
+											<div class="col-6 text-left">
+												<p class="mb-0">${productDetail.ingredient}</p>
+											</div>
+										</div>
+										<div class="row align-items-center justify-content-center py-2">
+											<div class="col-6 text-center text-center">
+												<p class="mb-0 text-left">용법</p>
+											</div>
+											<div class="col-6 text-left">
+												<p class="mb-0">${productDetail.dosage}</p>
+											</div>
+										</div>
+										<div class="row bg-light align-items-center justify-content-center py-2">
+											<div class="col-6 text-center">
+												<p class="mb-0">소비기한</p>
+											</div>
+											<div class="col-6 text-left">
+												<p class="mb-0">${productDetail.expirationDate}</p>
+											</div>
+										</div>
+
+									</div>
+									
+									<!-- 제품상세 하단 리뷰 -->
+									<div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+										<c:if test="${empty reviewList}">
+											<c:set var="message" value="리뷰가 존재하지 않습니다." />
+											<p style="text-align: center;">
+												<c:out value="${message}" />
+											</p>
+										</c:if>
+										<c:forEach var="review" items="${reviewList}" varStatus="loop">
+											<div class="d-flex">
+												<img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+												<div class="">
+													<p class="mb-2" style="font-size: 14px;">${review.createTime}</p>
+													<div class="d-flex justify-content-between">
+														<h5 class="mt-2">${review.MID}</h5>
+														<custom:starRatePD2 score='${review.score}' index='${loop.index}' />
+													</div>
+													<p>${review.contents}</p>
+													<c:if test="${not empty review.imageName}">
+														<div class="col-lg-12">
+															<img src="img/${review.imageName}" alt="리뷰 이미지" style="max-width: 200px; max-height: 200px; margin: 5px;">
+														</div>
+													</c:if>
+												</div>
+											</div>
+										</c:forEach>
+									</div>
+									<!-- 제품상세 하단 리뷰 종료 -->
+									
+																<!-- 케러셀의 제목 -->
 							<div class="container py-5">
 								<h1 class="mb-0">추천 상품</h1>
 								<!-- 케러셀의 내용 -->
@@ -233,77 +303,6 @@
 								</div>
 							</div>
 							<!-- 케러셀 끝 -->
-								
-
-
-							<!-- 제품 상세 -->
-							<div class="col-lg-12">
-								<!-- 하단 메뉴 -->
-								<nav>
-									<div class="nav nav-tabs mb-3">
-										<button class="nav-link active border-white border-bottom-0" type="button" role="tab" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about" aria-controls="nav-about" aria-selected="true">설명</button>
-										<button class="nav-link border-white border-bottom-0" type="button" role="tab" id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission" aria-controls="nav-mission" aria-selected="false">리뷰</button>
-									</div>
-								</nav>
-								<!-- 하단 메뉴 -->
-								<div class="tab-content mb-5">
-									<div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-
-										<div class="row bg-light align-items-center justify-content-center py-2">
-											<div class="col-6 text-center">
-												<p class="mb-0">성분</p>
-											</div>
-											<div class="col-6 text-left">
-												<p class="mb-0">${productDetail.ingredient}</p>
-											</div>
-										</div>
-										<div class="row align-items-center justify-content-center py-2">
-											<div class="col-6 text-center text-center">
-												<p class="mb-0 text-left">용법</p>
-											</div>
-											<div class="col-6 text-left">
-												<p class="mb-0">${productDetail.dosage}</p>
-											</div>
-										</div>
-										<div class="row bg-light align-items-center justify-content-center py-2">
-											<div class="col-6 text-center">
-												<p class="mb-0">소비기한</p>
-											</div>
-											<div class="col-6 text-left">
-												<p class="mb-0">${productDetail.expirationDate}</p>
-											</div>
-										</div>
-
-									</div>
-									
-									<!-- 제품상세 하단 리뷰 -->
-									<div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-										<c:if test="${empty reviewList}">
-											<c:set var="message" value="리뷰가 존재하지 않습니다." />
-											<p style="text-align: center;">
-												<c:out value="${message}" />
-											</p>
-										</c:if>
-										<c:forEach var="review" items="${reviewList}" varStatus="loop">
-											<div class="d-flex">
-												<img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
-												<div class="">
-													<p class="mb-2" style="font-size: 14px;">${review.createTime}</p>
-													<div class="d-flex justify-content-between">
-														<h5 class="mt-2">${review.MID}</h5>
-														<custom:starRatePD2 score='${review.score}' index='${loop.index}' />
-													</div>
-													<p>${review.contents}</p>
-													<c:if test="${not empty review.imageName}">
-														<div class="col-lg-12">
-															<img src="img/${review.imageName}" alt="리뷰 이미지" style="max-width: 200px; max-height: 200px; margin: 5px;">
-														</div>
-													</c:if>
-												</div>
-											</div>
-										</c:forEach>
-									</div>
-									<!-- 제품상세 하단 리뷰 종료 -->
 									
 									<div class="tab-pane" id="nav-vision" role="tabpanel">
 										<p class="text-dark">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. 3</p>
