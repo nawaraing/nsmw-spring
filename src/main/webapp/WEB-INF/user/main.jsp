@@ -63,12 +63,6 @@
 	      </c:if>
 	    </c:forEach>
 	  </c:if>
-	  <c:if test="${empty downloadCouponList}">
-  	    <input type="hidden" id="image-path-0" value="/resources/couponImages/popup.jpg" />
-  	    <input type="hidden" id="coupon-id-0" value="1" />
-        <input type="hidden" id="image-path-1" value="/resources/couponImages/springCoupon.jpg" />
-  	    <input type="hidden" id="coupon-id-1" value="2" />
-	  </c:if>
 	</div>
 	<script>
         // 페이지 로드 시 실행할 함수
