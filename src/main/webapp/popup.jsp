@@ -20,8 +20,6 @@
 	width: 400px;
 	height: 600px;
 	background-color: white;
-	border: 1px solid #ccc;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 	text-align: center;
 }
 
