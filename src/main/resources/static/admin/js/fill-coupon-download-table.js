@@ -106,9 +106,9 @@ function fillCouponDownloadTable(datas) {
 			
 			form.append(modalBody);
 			modalContent.append(modalHeader);
+			form.append($('<input type="hidden" id="image-id-' + rowNum + '" name="imageID" value="' + data.ancImageID + '">'));
 			modalContent.append(form);
 			console.log('ancImageID: ' + data.ancImageID);
-			modalContent.append($('<input type="hidden" id="image-id-' + rowNum + '" name="imageID" value="' + data.ancImageID + '">'));
 			
 			modalSm.append(modalContent);
 			div.append(modalSm);
