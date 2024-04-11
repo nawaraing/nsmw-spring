@@ -56,31 +56,38 @@
 	<%-- 팝업 쿠키 관련  --%>
 	<div id="coupon-image-name">
 	  <c:if test="${not empty downloadCouponList}">
-	    <c:forEach var="data" items="${downloadCouponList}" varStatus="status">
+	    <c:forEach var="downloadCoupon" items="${downloadCouponList}" varStatus="status">
 	      <c:if test="${status.index lt 3}">
-            <input type="hidden" value="${data}"/>
+            <input type="hidden" id="image-path-${status.index}" value="${downloadCoupon.ancImagePath}"/>
+            <input type="hidden" id="coupon-id-${status.index}" value="${downloadCoupon.couponID}"/>
 	      </c:if>
 	    </c:forEach>
 	  </c:if>
 	  <c:if test="${empty downloadCouponList}">
-  	    <input type="hidden" value="popup.jpg"/>
-        <input type="hidden" value="springCoupon.jpg"/>
+  	    <input type="hidden" id="image-path-0" value="/resources/couponImages/popup.jpg" />
+  	    <input type="hidden" id="coupon-id-0" value="1" />
+        <input type="hidden" id="image-path-1" value="/resources/couponImages/springCoupon.jpg" />
+  	    <input type="hidden" id="coupon-id-1" value="2" />
 	  </c:if>
 	</div>
 	<script>
         // 페이지 로드 시 실행할 함수
         window.onload = function () {
-        	$('#coupon-image-name input').each(function(index, couponName) {
-        		console.log('couponName: ' + couponName.value);
-            	let cookieValue = getCookieValue(couponName.value);
+        	for (let i = 0; i < 3; i++) {
+	        	console.log("'#image-path-' + i: " + '#image-path-' + i);
+        		console.log('couponPopup: ' + $('#image-path-' + i).val());
+        		if ($('#image-path-' + i).val() === undefined) {
+        			break;
+        		}
+            	let cookieValue = getCookieValue($('#image-path-' + i).val());
         		console.log('cookieValue: ' + cookieValue);
             	
 	        	// 저장된 값이 false가 아니라면(null or true)
 	            if (cookieValue != "false") {
 	            	// 팝업창 실행
-            		openPopup(couponName.value);
+            		openPopup($('#image-path-' + i).val(), $('#coupon-id-' + i).val());
 	            }
-      		});
+      		}
         };
 
         // 인자로 쿠키이름을 받아 쿠키값을 반환하는 함수
@@ -107,11 +114,11 @@
             return null;
         }
 
-        function openPopup(couponImageName) {
+        function openPopup(couponImagePath, couponID) {
         	// 팝업창이 작성되어 있는 JSP파일 주소
-            var popupURL = "popup.jsp?couponImageName=" + couponImageName;
+            var popupURL = "popup.jsp?couponImagePath=" + couponImagePath + "&couponID=" + couponID;
         	// 팝업창 이름
-            var popupName = couponImageName;
+            var popupName = couponImagePath;
         	// 팝업창 너비
             var popupWidth = 458;
         	// 팝업창 높이

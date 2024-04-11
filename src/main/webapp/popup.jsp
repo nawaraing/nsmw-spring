@@ -32,11 +32,11 @@ body {
 
 	<!-- 팝업 내용을 나타내는 div 요소 추가 -->
 	<div class="popup">
-		<a href="/couponDownload/userDownload?couponDownloadID=1" target="_blank"><img src="/resources/couponImages/${param.couponImageName}" alt="${param.couponImageName}"></a>
+		<a href="/couponDownload/give?couponID=${param.couponID}" target="_blank"><img src="${param.couponImagePath}"></a>
 	</div>
 
 	<div class="btn">
-		<button onclick="closePopupAndSetCookie('${param.couponImageName}')">하루동안 안보기</button>
+		<button onclick="closePopupAndSetCookie('${param.couponImagePath}')">하루동안 안보기</button>
 	</div>
 
 		<script>
