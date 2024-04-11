@@ -20,12 +20,12 @@ import com.naeddoco.nsmwspring.model.orderInfoModel.OrderInfoDTO;
 import com.naeddoco.nsmwspring.model.orderInfoModel.OrderInfoService;
 import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryDTO;
 import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryService;
+import com.naeddoco.nsmwspring.model.provisionDownloadCouponModel.ProvisionDownloadCouponDTO;
+import com.naeddoco.nsmwspring.model.provisionDownloadCouponModel.ProvisionDownloadCouponService;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@Slf4j
 public class EntryMainPageController {
 
 	@Autowired
@@ -38,6 +38,8 @@ public class EntryMainPageController {
 	private ProductCategoryService productCategoryService;
 	@Autowired
 	private OrderInfoService orderInfoService;
+	@Autowired
+	private ProvisionDownloadCouponService provisionDownloadCouponService;
 
 	@GetMapping("/")
 	public String entryMain(HttpSession session, Model model) {
@@ -225,6 +227,29 @@ public class EntryMainPageController {
 		List<OrderInfoDTO> orderDTOList = orderInfoService.selectAll(orderInfoDTO); 
 		
 		model.addAttribute("allProducts", orderDTOList); // 메인 하단 상품 리스트 정보
+		
+		//----------------------------------------------- 쿠폰 팝업 출력 ↓ -----------------------------------------------
+		
+		List<ProvisionDownloadCouponDTO> provisionDownloadCouponDTOList = new ArrayList<ProvisionDownloadCouponDTO>();
+		
+		if(member != null) {
+			
+			ProvisionDownloadCouponDTO provisionDownloadCouponDTO = new ProvisionDownloadCouponDTO();
+			provisionDownloadCouponDTO.setSearchCondition("selectPopupCouponDatasLogin");
+			provisionDownloadCouponDTO.setAncMemberID(member);
+			
+			provisionDownloadCouponDTOList = provisionDownloadCouponService.selectAll(provisionDownloadCouponDTO);
+			
+		} else {
+			
+			ProvisionDownloadCouponDTO provisionDownloadCouponDTO = new ProvisionDownloadCouponDTO();
+			provisionDownloadCouponDTO.setSearchCondition("selectPopupCouponDatasLogout");
+			
+			provisionDownloadCouponDTOList = provisionDownloadCouponService.selectAll(provisionDownloadCouponDTO);
+			
+		}
+		
+		model.addAttribute("downloadCouponList", provisionDownloadCouponDTOList);
 		
 		return "user/main"; // main.jsp로 리턴
 
