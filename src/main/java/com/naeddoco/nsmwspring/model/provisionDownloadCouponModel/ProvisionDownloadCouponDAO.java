@@ -103,17 +103,15 @@ public class ProvisionDownloadCouponDAO {
 		}
 		else if (provisionDownloadCouponDTO.getSearchCondition().equals("selectPopupCouponDatasLogout")) {
 			
-			Object[] args = { provisionDownloadCouponDTO.getAncMemberID() };
-
 			log.trace("selectPopupCouponDatasLogout 진입");
 
 			try {
 
-				return (List<ProvisionDownloadCouponDTO>) jdbcTemplate.query(SELECTALL_POPUP_COUPON, args, new ProvisionDownloadCouponRowMapper());
+				return (List<ProvisionDownloadCouponDTO>) jdbcTemplate.query(SELECTALL_POPUP_COUPON, new ProvisionDownloadCouponRowMapper());
 
 			} catch (Exception e) {
 
-				log.error("selectPopupCouponDatasLogout 예외/실패 ");
+				log.error("selectPopupCouponDatasLogout 예외/실패 " + e.getMessage());
 
 				return null;
 
