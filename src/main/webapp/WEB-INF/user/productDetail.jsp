@@ -148,7 +148,7 @@
 									<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${productDetail.productID})">장바구니 추가</button>
 								</c:if>
 								<c:if test="${memberID == null}">
-									<a href="user/login" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> 장바구니 추가</a>
+									<a href="/login" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> 장바구니 추가</a>
 								</c:if>
 							</div>
 
