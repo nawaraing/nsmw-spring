@@ -65,7 +65,7 @@ public class EntryStatProductPageController {
     		log.debug("[log] 30일 매출 불러오기 실패");
     		log.debug("[log] 리스트에 담긴 index : " + dailyProductSalesStats.size());
     		
-    		return "admin/statDate";
+    		return "admin/statProduct";
     	}
     	
     	log.debug("[log] 30일 매출 불러오기 성공");
