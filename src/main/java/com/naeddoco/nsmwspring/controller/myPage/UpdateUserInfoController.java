@@ -13,8 +13,10 @@ import com.naeddoco.nsmwspring.model.shippingAddressModel.ShippingAddressService
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class UpdateUserInfoController {
 	
 	@Autowired
@@ -25,7 +27,7 @@ public class UpdateUserInfoController {
 	@RequestMapping(value = "/user/modifyUserInfo", method = RequestMethod.POST)
 	public String updateUserInfoController(MemberDTO memberDTO, ShippingAddressDTO shippingAddressDTO, HttpServletRequest request) {
 		
-		System.out.println("/user/modifyUserInfo 요청 성공");
+		log.debug("/user/modifyUserInfo 요청 성공");
 		
 		HttpSession session = request.getSession();
 		
@@ -35,18 +37,18 @@ public class UpdateUserInfoController {
 		String phoneNumber1 = (String) request.getParameter("phoneNumber1");
 		String phoneNumber2 = (String) request.getParameter("phoneNumber2");
 		String phoneNumber3 = (String) request.getParameter("phoneNumber3");
-		System.out.println("[전화번호 前] " + phoneNumber1);
-		System.out.println("[전화번호 中] " + phoneNumber2);
-		System.out.println("[전화번호 後] " + phoneNumber3);
+		log.debug("[전화번호 前] " + phoneNumber1);
+		log.debug("[전화번호 中] " + phoneNumber2);
+		log.debug("[전화번호 後] " + phoneNumber3);
 
 		
 		String phoneNumber = phoneNumber1 +"-"+ phoneNumber2 +"-"+ phoneNumber3;
-		System.out.println("[전화번호 完] " + phoneNumber);
+		log.debug("[전화번호 完] " + phoneNumber);
 		
 	    String email1 = (String) request.getParameter("email1");
 	    String email2 = (String) request.getParameter("email2");
-	    System.out.println("[이메일 前] " + email1);
-	    System.out.println("[이메일 後] " + email2);
+	    log.debug("[이메일 前] " + email1);
+	    log.debug("[이메일 後] " + email2);
 	    
 	    String email = email1 + "@" + email2;
 	    System.out.println("[이메일 完] " + email);
@@ -56,7 +58,7 @@ public class UpdateUserInfoController {
 	    memberDTO.setPhoneNumber(phoneNumber);
 	    memberDTO.setEmail(email);
 		
-	    System.out.println("변경할 정보 : " + memberDTO.toString());
+	    log.debug("변경할 정보 : " + memberDTO.toString());
 	    
 	    // 주소 변경
 	    String ShippingAddressID = request.getParameter("ancShippingAddressID");
@@ -67,11 +69,10 @@ public class UpdateUserInfoController {
 	    String ancShippingAddress = request.getParameter("ancShippingAddress");
 	    String ancShippingAddressDetail = request.getParameter("ancShippingAddressDetail");
 	    
-	    System.out.println("[주소PK] " + ShippingPostCode);
-		System.out.println("[우편번호] " + ancShippingPostCode);
-		System.out.println("[주소] " + ancShippingAddress);
-		System.out.println("[주소 상세] " + ancShippingAddressDetail);
-	    
+		log.debug("[주소PK] " + ShippingPostCode);
+		log.debug("[우편번호] " + ancShippingPostCode);
+		log.debug("[주소] " + ancShippingAddress);
+		log.debug("[주소 상세] " + ancShippingAddressDetail);	    
 	    
 	    shippingAddressDTO.setSearchCondition("memberAddressUpdate");
 	    shippingAddressDTO.setShippingAddressID(ancShippingAddressID);
@@ -85,20 +86,20 @@ public class UpdateUserInfoController {
 	    
 	    if(!resultMemberUpdate) {
 	    
-	    	System.out.println("[회원정보 변경] 실패");
+	    	log.debug("[회원정보 변경] 실패");
 	    	
 	    	return "redirect:/user/myPage";
 	    	
 	    }
 	    
 	    if(!resultAddressUpdate) {
-	    	
-	    	System.out.println("[회원주소 변경] 실패");
+
+	    	log.debug("[회원주소 변경] 실패");
 	    	
 	    	return "redirect:/user/myPage";
 	    }
 		
-		System.out.println("[회원정보 변경] 성공");
+		log.debug("[회원정보 변경] 성공");
 
 		return "redirect:/logout";
 	}

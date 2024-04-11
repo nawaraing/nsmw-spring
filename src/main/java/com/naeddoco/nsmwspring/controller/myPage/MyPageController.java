@@ -14,8 +14,10 @@ import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
 import com.naeddoco.nsmwspring.model.memberModel.MemberService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class MyPageController {
 
 	@Autowired
@@ -26,11 +28,11 @@ public class MyPageController {
 	@RequestMapping(value = "/user/myPage", method = RequestMethod.GET)
 	public String myPage(MemberDTO memberDTO, MemberCategoryDTO memberCategoryDTO, HttpSession session, Model model) {
 
-		System.out.println("[log] MyPageController 진입");
+		log.debug("[log] MyPageController 진입");
 
 		String memberID = (String) session.getAttribute("memberID");
 
-		System.out.println("[log] MyPageController 로그인 아이디 : " + memberID);
+		log.debug("[log] MyPageController 로그인 아이디 : " + memberID);
 
 		memberCategoryDTO.setSearchCondition("memberCategory");
 		memberCategoryDTO.setMemberID(memberID);
@@ -40,18 +42,18 @@ public class MyPageController {
 		memberDTO.setMemberID(memberID);
 		memberDTO = memberService.selectOne(memberDTO);
 		
-		System.out.println("[myPage] memberDTO 정보 : " + memberDTO.getPhoneNumber());
-		System.out.println("[myPage] memberDTO 정보 : " + memberDTO.getAncShippingAddressID());
+		log.debug("[myPage] memberDTO 정보 : " + memberDTO.getPhoneNumber());
+		log.debug("[myPage] memberDTO 정보 : " + memberDTO.getAncShippingAddressID());
 
 		if (memberCategoryList.size() < 1) {
 			
-			System.out.println("[MyPageController] 회원 카테고리 없음");
+			log.debug("[MyPageController] 회원 카테고리 없음");
 
 			memberDTO.setAncCategoryName("");
 			
 		} else {
 			
-			System.out.println("[MyPageController] 회원 카테고리 있음 ");
+			log.debug("[MyPageController] 회원 카테고리 있음");
 			
 			String memberCategory = "";
 			
@@ -63,7 +65,7 @@ public class MyPageController {
 			
 			memberDTO.setAncCategoryName(memberCategory);
 			
-			System.out.println("회원 카테고리 : " + memberDTO.getAncCategoryName());
+			log.debug("회원 카테고리 : " + memberDTO.getAncCategoryName());
 			
 		}
 

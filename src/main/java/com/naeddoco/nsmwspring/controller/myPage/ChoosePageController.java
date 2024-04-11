@@ -11,25 +11,26 @@ import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
 import com.naeddoco.nsmwspring.model.memberModel.MemberService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class ChoosePageController {
 	
 	@Autowired
 	private MemberService memberService;
 	
-	// 사용자가 입력한 버튼값에 따른 페이지 이동
+	// 사용자가 입력한 버튼값에 따른 페이지 이동(회원정보 변경)
 	@RequestMapping(value = "/user/updateUserInfo", method = RequestMethod.POST)
 	public String changeInfoPage(MemberDTO memberDTO, Model model, HttpSession session, @RequestParam("where") String where) {
 		
-		System.out.println("[changeInfoPage] 진입");
-		
-		System.out.println("where의 값 : " + where);
+		log.debug("[changeInfoPage] 진입");
+		log.debug("where의 값 : " + where);
 		
 		// 비밀번호를 제외한 회원정보 변경
 		if(where.equals("modifyUserInfo")) {
 			
-			System.out.println("[modifyUserInfo] 진입");
+			log.debug("[modifyUserInfo] 진입");
 			
 			// 처음에 로드될 때 변경할 정보들 보여줘야함
 			// 이름
@@ -44,21 +45,21 @@ public class ChoosePageController {
 			memberDTO = memberService.selectOne(memberDTO);
 			
 			// 회원의 전화번호
-			System.out.println("[회원정보변경] 회원ID로 검색한 회원 전화번호 " + memberDTO.getPhoneNumber());
+			log.debug("[회원정보변경] 회원ID로 검색한 회원 전화번호 " + memberDTO.getPhoneNumber());
 	        String phoneNumber = memberDTO.getPhoneNumber();
 	        
 	        // 좌 우 공백제거
 	        phoneNumber = phoneNumber.trim();
 	        
-	        System.out.println("[회원정보변경] 회원ID로 검색한 회원 전화번호 좌우 공백제거 " + phoneNumber);
+	        log.debug("[회원정보변경] 회원ID로 검색한 회원 전화번호 좌우 공백제거 " + phoneNumber);
 	        
 	        // 전화번호 분리 후 저장
 	        String phoneNumber1 = phoneNumber.substring(0, 3);
 	        String phoneNumber2 = phoneNumber.substring(4, 8);
 	        String phoneNumber3 = phoneNumber.substring(9);
-			System.out.println("[회원정보변경][전화번호 前] " + phoneNumber1);
-			System.out.println("[회원정보변경][전화번호 中] " + phoneNumber2);
-			System.out.println("[회원정보변경][전화번호 後] " + phoneNumber3);
+			log.debug("[회원정보변경][전화번호 前] " + phoneNumber1);
+			log.debug("[회원정보변경][전화번호 中] " + phoneNumber2);
+			log.debug("[회원정보변경][전화번호 後] " + phoneNumber3);
 	        
 	        // 회원의 이메일
 	        String email = memberDTO.getEmail();
@@ -80,7 +81,7 @@ public class ChoosePageController {
 			
 			model.addAttribute("memberInfo", memberDTO)	;	
 			
-			System.out.println("[회원정보변경] 로드 시 출력될 회원 정보 : " + memberDTO.toString());
+			log.debug("[회원정보변경] 로드 시 출력될 회원 정보 : " + memberDTO.toString());
 			
 			model.addAttribute("pageValue", "개인정보수정");
 			
@@ -90,7 +91,7 @@ public class ChoosePageController {
 		// 회원 비밀번호 변경
 		else if(where.equals("modifyUserPassword")) {
 			
-			System.out.println("[modifyUserPassword] 진입");
+			log.debug("[modifyUserPassword] 진입");
 			
 			// 정보없이 이동해서 거기서 세션에서 memberID 입력받아서 사용자가 입력한 pw가 유효성 검사를 통과하면 변경
 			

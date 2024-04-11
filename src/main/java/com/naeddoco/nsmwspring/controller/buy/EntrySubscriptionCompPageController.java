@@ -24,8 +24,10 @@ import com.naeddoco.nsmwspring.model.subscriptionInfoProductModel.SubscriptionIn
 import com.naeddoco.nsmwspring.model.subscriptionPolicyModel.SubscriptionPolicyDTO;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class EntrySubscriptionCompPageController {
 
 	@Autowired
@@ -51,17 +53,16 @@ public class EntrySubscriptionCompPageController {
 		
 		/*------------------------------------------------------------------ 구독 내역(마이페이지) 추가 ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-		System.out.println("구독 완료 페이지 요청");
-		System.out.println("@RequestParam으로 받은 값");
-		System.out.println("상품 PK : " + productID.toString() + "자료형 : " + productID.get(0).getClass());
-		System.out.println("상품 수량 : " + productQuantity.toString() + "자료형 : " + productQuantity.get(0).getClass());
-		System.out.println("상품 단가 : " + salePrice.toString() + "자료형 : " + salePrice.get(0).getClass());
-		System.out.println("카트 번호 : " + cartID.toString() + "자료형 : " + cartID.get(0).getClass());
+		log.debug("구독 완료 페이지 요청");
+		log.debug("@RequestParam으로 받은 값");
+		log.debug("상품 PK : " + productID.toString() + "자료형 : " + productID.get(0).getClass());
+		log.debug("상품 단가 : " + salePrice.toString() + "자료형 : " + salePrice.get(0).getClass());
+		log.debug("카트 번호 : " + cartID.toString() + "자료형 : " + cartID.get(0).getClass());
 		
 		// 회원 아이디 저장
 		String memberID = (String) session.getAttribute("memberID");
 		subscriptionInfoDTO.setMemberID(memberID);
-		System.out.println("[구독 insert] 회원 ID : " + subscriptionInfoDTO.getMemberID());
+		log.debug("[구독 insert] 회원 ID : " + subscriptionInfoDTO.getMemberID());
 		
 		// 구독 시작일 저장	
         // 현재 시간을 포함하는 java.util.Date 객체 생성
@@ -70,13 +71,13 @@ public class EntrySubscriptionCompPageController {
         // java.util.Date를 java.sql.Timestamp로 변환
         Timestamp beginDate = new Timestamp(currentDate.getTime());   
         subscriptionInfoDTO.setBeginDate(beginDate);
-        System.out.println("[구독 insert] 현재 시간: " + subscriptionInfoDTO.getBeginDate());
+        log.debug("[구독 insert] 현재 시간: " + subscriptionInfoDTO.getBeginDate());
         
         // 배송지
-        System.out.println("[구독 insert] 구독 상품을 배송지 /Command객체/: " + subscriptionInfoDTO.getSubscriptionPostCode() + " // " + subscriptionInfoDTO.getSubscriptionAddress() + " // " + subscriptionInfoDTO.getSubscriptionDetailAddress());
+        log.debug("[구독 insert] 구독 상품을 배송지 /Command객체/: " + subscriptionInfoDTO.getSubscriptionPostCode() + " // " + subscriptionInfoDTO.getSubscriptionAddress() + " // " + subscriptionInfoDTO.getSubscriptionDetailAddress());
          
         // 구독 기간
-        System.out.println("[구독 insert] 구독 기간 : " + subscriptionInfoDTO.getSubscriptionClosingTimes()+"개월");
+        log.debug("[구독 insert] 구독 기간 : " + subscriptionInfoDTO.getSubscriptionClosingTimes()+"개월");
         
         // DAO 분기 저장
         subscriptionInfoDTO.setSearchCondition("insertSubscriptionData");
@@ -85,12 +86,12 @@ public class EntrySubscriptionCompPageController {
         
         if(!subscriptionInfoResult) {
         	
-        	System.out.println("[구독 insert] 실패");
+        	log.debug("[구독 insert] 실패");
         	
         	return "redirect:/cart";
         }
         
-        System.out.println("[구독 insert] 성공");
+        log.debug("[구독 insert] 성공");
         
         /*------------------------------------------------------------ 구독 상세 내역 추가 및 장바구니 제거 ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
         
@@ -125,12 +126,12 @@ public class EntrySubscriptionCompPageController {
         }
         
         if(subscriptionCnt < 0) {
-        	System.out.println("[구독 상품 insert] 실패");
+        	log.debug("[구독 상품 insert] 실패");
         	
         	return "redirect:/cart";
         }
         
-        System.out.println("[구독 성공] 구독 상품 정보 추가 수 : " + subscriptionCnt);  
+        log.debug("[구독 성공] 구독 상품 정보 추가 수 : " + subscriptionCnt);
         
         /*------------------------------------------------------------------ 구매 내역 추가 ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
         
@@ -149,12 +150,12 @@ public class EntrySubscriptionCompPageController {
         
         if(!buyInfoResult) {
         	
-        	System.out.println("[구매내역 insert] 추가 실패");
+        	log.debug("[구매내역 insert] 추가 실패");
         	
         	return "redirect:/cart";
         }
         
-        System.out.println("[구매내역 insert] 추가 성공");
+        log.debug("[구매내역 insert] 추가 성공");
                      
         
         /*------------------------------------------------------------------ 구매 상세 추가 ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -162,7 +163,7 @@ public class EntrySubscriptionCompPageController {
         // 구매 내역의 MAX PK값
         buyInfoDTO.setSearchCondition("insertSubscriptionData");        
         int maxBuyNum = buyInfoService.selectOne(buyInfoDTO).getMaxPk();
-        System.out.println("구매 내역에서 MAX PK : " + maxBuyNum);
+        log.debug("구매 내역에서 MAX PK : " + maxBuyNum);
         
         orderInfoDTO.setBuyInfoID(maxBuyNum);
         
@@ -180,23 +181,22 @@ public class EntrySubscriptionCompPageController {
         	
         	// 지불 가격
         	orderInfoDTO.setPaymentPrice(productQuantity.get(orderCnt) * salePrice.get(orderCnt));
-        	System.out.println("구매 수량 : " + orderInfoDTO.getBuyQuantity());
-        	System.out.println("상품 단가 : " + salePrice.get(orderCnt));
-        	System.out.println("지불 가격 : " + orderInfoDTO.getPaymentPrice());
+        	log.debug("구매 수량 : " + orderInfoDTO.getBuyQuantity());
+        	log.debug("상품 단가 : " + salePrice.get(orderCnt));
+        	log.debug("지불 가격 : " + orderInfoDTO.getPaymentPrice());
         	
         	orderInfoService.insert(orderInfoDTO);
         }
         
         if(orderCnt < 0) {
-        	System.out.println("[구매 상품 insert] 실패");
+        	
+        	log.debug("[구매 상품 insert] 실패");
         	
         	return "redirect:/cart";
         }
         
-        System.out.println("[구매 상품 insert] 성공 : " + orderCnt + "개");
+        log.debug("[구매 상품 insert] 성공 : " + orderCnt + "개");
         
-
-    
 		
         model.addAttribute("subscriptionID", maxSubscriptionNum);
         

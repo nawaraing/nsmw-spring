@@ -14,11 +14,13 @@ import com.naeddoco.nsmwspring.model.productModel.ProductDTO;
 import com.naeddoco.nsmwspring.model.productModel.ProductService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 // 장바구니에 상품을 추가하는 컨트롤러
 
 @Controller
-public class InsertCartController {
+@Slf4j
+public class AncInsertCartController {
 	
 	@Autowired
 	private CartService cartService;
@@ -26,23 +28,23 @@ public class InsertCartController {
 	private ProductService productService;
 
 	@RequestMapping(value = "/insertCart", method = RequestMethod.POST)
-	public @ResponseBody String insertCart(CartDTO cartDTO, ProductDTO productDTO, Model model, HttpSession session, 
+	public @ResponseBody String ancInsertCart (CartDTO cartDTO, ProductDTO productDTO, Model model, HttpSession session, 
 			 								@RequestParam("productID") int productID,
 			 								@RequestParam("stock") int productQuantity) {	
 		
-		System.out.println("[log] 메인페이지 InsertCart 진입");
+		log.debug("[log] 메인페이지 InsertCart 진입");
 		
 		
 		// 세션에 있는 사용자 아이디 저장
 		String memberID = (String) session.getAttribute("memberID");
 		
 		// 로그인한 사용자 받아오기 (필수)
-		System.out.println("[log] InsertCart 회원아이디 : " + memberID);
+		log.debug("[log] InsertCart 회원아이디 : " + memberID);
 		
 		// 회원이 로그인 상태가 아니라면 false 반환
 		if (memberID == null) {
 			
-			System.out.println("[log] InsertCart 로그아웃상태");
+			log.debug("[log] InsertCart 로그아웃상태");
 			
 			return "true";
 		}				
@@ -57,7 +59,7 @@ public class InsertCartController {
 		
 		if(productStock == null || productDTO.getStock() < 1) {
 
-			System.out.println("[log] InsertCart 재고없음");
+			log.debug("[log] InsertCart 재고없음");
 			
 			return "false";
 			
@@ -65,9 +67,9 @@ public class InsertCartController {
 		
 		// 상품의 재고가 수량보다 적다면 실패
 		if (productQuantity > productDTO.getStock()) {
-			System.out.println("[log] InsertCart 선택한 상품의 재고 부족으로 실패");
-			System.out.print("[log] InsertCart 상품 재고 : " + productDTO.getStock() + " < ");
-			System.out.println("[log] InsertCart 선택 수량 : " + productQuantity);
+			
+			log.debug("[log] InsertCart 선택한 상품의 재고 부족으로 실패" + productDTO.getStock() + " < " + productQuantity);
+			
 			return "false";
 		}
 	
@@ -84,7 +86,7 @@ public class InsertCartController {
 		// 장바구니에 없는 상품이라면 추가
 		if (cartDTO == null) {
 			
-			System.out.println("[log] InsertCart 장바구니에 없는 상품");
+			log.debug("[log] InsertCart 장바구니에 없는 상품");
 			
 			cartDTO = new CartDTO();
 			cartDTO.setSearchCondition("insertProductData");
@@ -98,25 +100,29 @@ public class InsertCartController {
 //			} else {
 //				return "false";
 //			}
+			
+			// 메서드의 실행결과를 문자열로 반환
 			return String.valueOf(cartService.insert(cartDTO));
 			
 			// 장바구니에 있는 상품이라면 수량 없데이트
 		} else {
 			
-			System.out.println("[log] InsertCart 장바구니 확인");
-			System.out.println("[log] InsertCart [상품번호] " + cartDTO.getProductID());
-			System.out.println("[log] InsertCart [담긴수량] " + cartDTO.getProductQuantity());
+			log.debug("[log] InsertCart 장바구니 확인");
+			log.debug("[log] InsertCart [상품번호] " + cartDTO.getProductID());
+			log.debug("[log] InsertCart [담긴수량] " + cartDTO.getProductQuantity());
 			
 			cartDTO.setSearchCondition("updateProductData");
 			cartDTO.setProductQuantity(productQuantity);
 
-			System.out.println("[log] InsertCart 변경될 장바구니 정보 : " + cartDTO);
+			log.debug("[log] InsertCart 변경될 장바구니 정보 : " + cartDTO);
 						
 //			if (cartService.update(cartDTO)) {
 //				return "true";
 //			} else {
 //				return "false";
 //			}
+			
+			// 메서드의 실행결과를 문자열로 반환
 			return String.valueOf(cartService.update(cartDTO)); 
 		}
 

@@ -37,30 +37,27 @@ public class JoinController {
 	@Autowired
 	private ShippingAddressService shippingAddressService;
 	
+	// 회원가입 페이지로 이동
 	@RequestMapping(value = "/joinPage", method = RequestMethod.GET)
 	public String joinPage() {
 		
-		System.out.println("[log] JoinController 회원가입 페이지로 이동");
-		log.debug("JoinController 회원가입 페이지로 이동");
+		log.debug("[log] JoinController 회원가입 페이지로 이동");
 		
 		return "user/join";
 		
 	}
 	
+	// 회원가입 로직
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String join(MemberDTO memberDTO, MemberCategoryDTO memberCategoryDTO, ShippingAddressDTO shippingAddressDTO, HttpServletRequest request) {
 		
 		log.debug("JoinController 회원가입");
 
-		System.out.println("[JOIN] ID : " + memberDTO.getMemberID());
-		System.out.println("[JOIN] 이름 : " + memberDTO.getMemberName());
-//		String MID = request.getParameter("MID");
-//		String mName = request.getParameter("mName");
+		log.debug("[JOIN] ID : " + memberDTO.getMemberID());
+		log.debug("[JOIN] 이름 : " + memberDTO.getMemberName());
 
 		// 비밀번호 체크하는 로직 -> View 담당
-		System.out.println("[JOIN] PW : " + memberDTO.getMemberPassword());
-//		String mPassword = request.getParameter("mPassword1");
-		//		String mPassword2 = request.getParameter("mPassword2");
+		log.debug("[JOIN] PW : " + memberDTO.getMemberPassword());
 
 		// dob format: yyyy-MM-dd
 		String year = request.getParameter("year");
@@ -106,26 +103,25 @@ public class JoinController {
 		    
 		    java.sql.Date sqlDateOfBirth = new java.sql.Date(utilDateOfBirth.getTime());
 
+			// 생년월일 조합 후 저장
 		    memberDTO.setDayOfBirth(sqlDateOfBirth);
 
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		System.out.println("[JOIN] 생년월일 : " + memberDTO.getDayOfBirth());
-		// 생년월일 조합 후 저장
 		
-//		String email = email1+"@"+email2;
+		log.debug("[JOIN] 생년월일 : " + memberDTO.getDayOfBirth());
+		
 		String email = request.getParameter("email1") + "@" + request.getParameter("email2");
 		memberDTO.setEmail(email);
-		System.out.println("[JOIN] 이메일 : " + memberDTO.getEmail());
+		log.debug("[JOIN] 이메일 : " + memberDTO.getEmail());
 		
 //		String phoneNumber = phoneNum1+ "-" + phoneNum2 + "-" + phoneNum3;
 		String phoneNumber = request.getParameter("phoneNum1") + "-" + request.getParameter("phoneNum2") + "-" + request.getParameter("phoneNum3");
 		memberDTO.setPhoneNumber(phoneNumber);
-		System.out.println("[JOIN] 전화번호 : " + memberDTO.getPhoneNumber());
+		log.debug("[JOIN] 전화번호 : " + memberDTO.getPhoneNumber());
 		
-		System.out.println("[JOIN] 성별 : " + memberDTO.getGender());
-//		String gender = request.getParameter("gender");
+		log.debug("[JOIN] 성별 : " + memberDTO.getGender());
 		
 		// 회원 가입
 		memberDTO.setSearchCondition("join");			
@@ -134,18 +130,17 @@ public class JoinController {
 		// 회원가입 실패
 		if(!joinResult) {
 			
+			log.debug("회원가입 실패");
+			
 			return "redirect:/terms";
 			
 		}
 		
-		System.out.println("※※※※※[회원가입 성공]※※※※※");
+		log.debug("※※※※※[회원가입 성공]※※※※※");
 
-		System.out.println("[JOIN_ADDRESS] 우편번호 : " + shippingAddressDTO.getShippingPostcode());
-		System.out.println("[JOIN_ADDRESS] 도로주소 : " + shippingAddressDTO.getShippingAddress());
-		System.out.println("[JOIN_ADDRESS] 상세주소 : " + shippingAddressDTO.getShippingDetailAddress());
-//		String zipNo = request.getParameter("zipNo");
-//		String roadAddrPart1 = request.getParameter("roadAddrPart1");
-//		String addrDetail = request.getParameter("addrDetail");
+		log.debug("[JOIN_ADDRESS] 우편번호 : " + shippingAddressDTO.getShippingPostcode());
+		log.debug("[JOIN_ADDRESS] 도로주소 : " + shippingAddressDTO.getShippingAddress());
+		log.debug("[JOIN_ADDRESS] 상세주소 : " + shippingAddressDTO.getShippingDetailAddress());
 		
 		shippingAddressDTO.setSearchCondition("joinShippingAddress");
 		boolean addressResult = shippingAddressService.insert(shippingAddressDTO);
@@ -153,11 +148,13 @@ public class JoinController {
 		// 배송지 추가 오류
 		if(!addressResult) {
 			
+			log.debug("배송지 추가 실패");
+			
 			return "redirect:/main";
 			
 		}
 		
-		System.out.println("※※※※※[배송지 추가 성공]※※※※※");
+		log.debug("※※※※※[배송지 추가 성공]※※※※※");
 				
 
 		ArrayList<Integer> healthList = new ArrayList<>();
@@ -194,7 +191,8 @@ public class JoinController {
 			healthList.add(8);
 		}
 		
-		String kakaoId = request.getParameter("kakaoId");
+		// SNS 로그인
+//		String kakaoId = request.getParameter("kakaoId");
 
 		String memberID = request.getParameter("memberID");
 		
@@ -204,37 +202,35 @@ public class JoinController {
 			memberCategoryDTO.setCategoryID(healthList.get(i));		
 			memberCategoryService.insert(memberCategoryDTO);
 			
-			System.out.println("※※※※※[회원 건강상태 추가 " + (i+1) + "개 성공]※※※※※");
+			log.debug("※※※※※[회원 건강상태 추가 " + (i+1) + "개 성공]※※※※※");
 		}
 	
 		
 		return "redirect:/";	
 	}
 	
+	
+	// 회원가입 시 아이디 중복확인
 	@RequestMapping(value = "/checkID", method = RequestMethod.POST)
 	public @ResponseBody String checkID(MemberDTO memberDTO) {
 		
-		System.out.println("[log] 아이디 중복확인 : " + memberDTO.getMemberID());
-		log.debug("[log] 아이디 중복확인");
-		
-		//V로부터 MID 가져오기
-//		String MID = request.getParameter("MID");
-//		MemberDTO mDTO = new MemberDTO();
-//		MemberDAO mDAO = new MemberDAO();
-		
+		log.debug("[log] 아이디 중복확인 : " + memberDTO.getMemberID());
+				
 		//DB에서 중복된 ID가 있는지 확인
 		memberDTO.setSearchCondition("idDuplicationCheck");
 		memberDTO = memberService.selectOne(memberDTO); 
 		
 		//V에서 모달에 띄워줄 정보 보내기
 		//mDTO가 null이면 중복된 아이디가 없다는 의미
-		if(memberDTO == null) {			
-			//suc -> 성공
-//			out.print("suc");			
+		if(memberDTO == null) { //suc -> 성공			
+			
+			log.debug("사용가능한 아이디");
+			
 			return "suc";
-		}else {
-			//fail -> 실패
-//			out.print("fail");		
+		}else { //fail -> 실패
+			
+			log.debug("중복된 아이디");
+			
 			return "fail";
 		}
 	}
@@ -246,13 +242,12 @@ public class JoinController {
 									@RequestParam("phoneNum2") String phoneNum2,
 									@RequestParam("phoneNum3") String phoneNum3){
 		
-		System.out.println("[CheckTel] 인증번호 발송 진입");
-	
+		log.debug("[CheckTel] 인증번호 발송 진입");
 		
 		//받아온 연락처 010,XXXX,XXXX -> 010XXXXXXXX 형식으로 합치기
 		String combinedPhoneNumber = phoneNum1 + phoneNum2 + phoneNum3;
 		
-		System.out.println("[CheckTel] 입력받은 전화번호 : " + combinedPhoneNumber);
+		log.debug("[CheckTel] 입력받은 전화번호 : " + combinedPhoneNumber);
 		
 		//5자리의 인증번호 랜덤으로 생성
 		Random random  = new Random();
@@ -265,7 +260,7 @@ public class JoinController {
             authNum += ranNum;
         }
         
-        System.out.println("[CheckTel] 생성된 인증번호 : " + authNum);
+        log.debug("[CheckTel] 생성된 인증번호 : " + authNum);
         
         //coolsms API를 사용하여 sms 발송
 		DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSIRGLICTR0VZBW", "KPT4Q2B8FIEZWSXLR4PRD3NTXDUKEQMM", "https://api.coolsms.co.kr");
@@ -276,20 +271,18 @@ public class JoinController {
 
 		try {
 		  messageService.send(message);
-		} catch (NurigoMessageNotReceivedException exception) {
-		  // 발송에 실패한 메시지 목록을 확인 가능!
-		  System.out.println(exception.getFailedMessageList());
-		  System.out.println(exception.getMessage());
+		} catch (NurigoMessageNotReceivedException exception) { // 발송에 실패한 메시지 목록을 확인 가능!
+		  
+		  log.debug(authNum, exception.getFailedMessageList());
+		  log.debug(exception.getMessage());
+		  
 		} catch (Exception exception) {
-		  System.out.println(exception.getMessage());
+			
+		  log.debug(exception.getMessage());
+		  
 		}
-		
-		//생성된 인증번호 전달
-//		PrintWriter out = response.getWriter();
-//		out.print(authNum);	
-		
-		return authNum;
-		
+				
+		return authNum;	
 	}
 
 }

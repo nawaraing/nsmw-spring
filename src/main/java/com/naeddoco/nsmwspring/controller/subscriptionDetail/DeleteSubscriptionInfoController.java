@@ -13,10 +13,12 @@ import com.naeddoco.nsmwspring.model.subscriptionInfoProductModel.SubscriptionIn
 import com.naeddoco.nsmwspring.model.subscriptionInfoProductModel.SubscriptionInfoProductDTO;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 // 사용자가 구독을 삭제하는 컨트롤러
 
 @Controller
+@Slf4j
 public class DeleteSubscriptionInfoController {
 	
 	@Autowired
@@ -29,15 +31,16 @@ public class DeleteSubscriptionInfoController {
 										 Model model,
 										 @RequestParam("subscriptionInfoID") int subscriptionInfoID) {
 		
-		System.out.println("구독 PK : " + subscriptionInfoID);
-		int tempID = subscriptionInfoID;
-		System.out.println("tempID : " + tempID);
+		log.debug("구독 취소 Controller");
+		log.debug("구독 PK : " + subscriptionInfoID);
 		
 		// -----------------------------------------------세션 확인 ↓-----------------------------------------------
 
 		String memberID = (String) session.getAttribute("memberID"); // 세션에서 유저 아이디 습득
 
 		if (memberID == null) { // 세션에 유저 아이디가 없을 시
+			
+			log.debug("세션 만료된 ID");
 
 			return "redirect:/"; // 메인 페이지로 강제 이동
 
@@ -48,18 +51,34 @@ public class DeleteSubscriptionInfoController {
 		SubscriptionInfoDTO subscriptionInfoDTO = new SubscriptionInfoDTO();
 		
 		subscriptionInfoDTO.setSearchCondition("deleteSubscriptionData");
-		subscriptionInfoDTO.setSubscriptionInfoID(tempID);
+		subscriptionInfoDTO.setSubscriptionInfoID(subscriptionInfoID);
 		
-		subscriptionInfoService.delete(subscriptionInfoDTO);
+		boolean deleteSubscriptionInfoResult = subscriptionInfoService.delete(subscriptionInfoDTO);
+		
+		if(!deleteSubscriptionInfoResult) {
+			
+			log.debug("구독 삭제 실패");
+			
+		}
+		
+		log.debug("구독 삭제 성공");
 		
 		// -----------------------------------------------구독 상품 데이터 삭제 ↓-----------------------------------------------
 		
 		SubscriptionInfoProductDTO subscriptionInfoProductDTO = new SubscriptionInfoProductDTO();
 		
 		subscriptionInfoProductDTO.setSearchCondition("deleteSubscriptionData");
-		subscriptionInfoProductDTO.setSubscriptionInfoID(tempID);
+		subscriptionInfoProductDTO.setSubscriptionInfoID(subscriptionInfoID);
 		
-		subscriptionInfoProductService.delete(subscriptionInfoProductDTO);
+		boolean deleteSubscriptionProductResult = subscriptionInfoProductService.delete(subscriptionInfoProductDTO);
+		
+		if(!deleteSubscriptionProductResult) {
+			
+			log.debug("구독 상세 삭제 실패");
+			
+		}
+		
+		log.debug("구독 상세 삭제 성공");
 		
 		return "redirect:/subscriptionDetail";
 		

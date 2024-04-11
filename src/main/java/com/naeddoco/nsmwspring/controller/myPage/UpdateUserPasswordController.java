@@ -11,8 +11,10 @@ import com.naeddoco.nsmwspring.model.memberModel.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class UpdateUserPasswordController {
 	
 	@Autowired
@@ -21,7 +23,7 @@ public class UpdateUserPasswordController {
 	@RequestMapping(value = "/user/modifyUserPassword", method = RequestMethod.POST)
 	public String updateUserPasswordController(MemberDTO memberDTO, HttpServletRequest request) {
 		
-		System.out.println("/user/modifyUserPassword 요청 성공");
+		log.debug("/user/modifyUserPassword 요청 성공");
 		
 		HttpSession session = request.getSession();
 		
@@ -34,19 +36,19 @@ public class UpdateUserPasswordController {
 	    memberDTO.setMemberID(memberID);
 	    memberDTO.setMemberPassword(memberPassword);
 		
-	    System.out.println("변경할 PW : " + memberPassword);
+	    log.debug("변경할 PW : " + memberPassword);
 	    
 	    boolean result = memberService.update(memberDTO);
 	    
 	    if(!result) {
 	    
-	    	System.out.println("[회원정보 변경] 실패");
+	    	log.debug("[회원정보 변경] 실패");
 	    	
 	    	return "/user/myPage";
 	    	
 	    }
 		
-		System.out.println("[회원정보 변경] 성공");
+		log.debug("[회원정보 변경] 성공");
 
 		return "redirect:/logout";
 	}

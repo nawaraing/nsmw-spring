@@ -12,8 +12,10 @@ import com.naeddoco.nsmwspring.model.memberCouponModel.MemberCouponDTO;
 import com.naeddoco.nsmwspring.model.memberCouponModel.MemberCouponService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class EntryCouponPageController {
 	
 	@Autowired
@@ -30,7 +32,7 @@ public class EntryCouponPageController {
 		
 		List<MemberCouponDTO> myCouponList= memberCouponService.selectAll(memberCouponDTO);
 		
-		System.out.println("내 쿠폰 목록 : " + myCouponList);
+		log.debug("내 쿠폰 목록 : " + myCouponList);
 		
 		model.addAttribute("myCouponList", myCouponList);
 		

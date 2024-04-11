@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.naeddoco.nsmwspring.model.dailySalesStatsModel.DailySalesStatsDTO;
 import com.naeddoco.nsmwspring.model.dailySalesStatsModel.DailySalesStatsService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class EntryDashboardPageController {
 	
 	@Autowired
@@ -19,7 +22,7 @@ public class EntryDashboardPageController {
 	@GetMapping("/dashboard")
 	public String dashboardPage(DailySalesStatsDTO dailySalesStatsDTO, Model model) {
 		
-		System.out.println("[log] Controller dashboardPage요청");
+		log.debug("[log] Controller dashboardPage요청");
 		
 		dailySalesStatsDTO.setSearchCondition("selectDashboardDatas");
 		

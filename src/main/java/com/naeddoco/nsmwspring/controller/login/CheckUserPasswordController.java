@@ -12,41 +12,53 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
 import com.naeddoco.nsmwspring.model.memberModel.MemberService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class CheckUserPasswordController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	/*
+	 * 마이페이지-개인정보수정/비밀번호변경 선택시 현재 비밀번호를 입력하는 페이지로 이동
+	 */
+	
+	@GetMapping("/checkUserPassword")
+	public String checkUserPasswordPage() {
+
+		return "checkUserPassword";
+		
+	}
 
 	/*
 	 * 마이페이지-개인정보수정/비밀번호변경 선택시 현재 비밀번호 일치여부 확인 로직
 	 */
 	
 	@PostMapping("/checkUserPassword")
-	public String temp(@RequestParam String where, MemberDTO memberDTO, Model model) {
-		
-		// 데이터를 저장후 반환하는 객체로 싱글톤 대상이 아님
-		MemberDTO mDTO = new MemberDTO();		
+	public String CheckUserPassword (@RequestParam String where, MemberDTO memberDTO, Model model) {	
 		
 		// V에서 입력에 따른 이동 경로
 		String getPath = where;
 		
 		memberDTO.setSearchCondition("비밀번호확인");	
-		mDTO = memberService.selectOne(memberDTO);
+		memberDTO = memberService.selectOne(memberDTO);
 		
 		// 일치하는 row가 있다면
 		if(memberDTO != null) {
-			System.out.println("[log] CheckUserPasswordController 비밀번호 일치!");
+			
+			log.debug("[log] CheckUserPasswordController 비밀번호 일치!");
 			
 			// where값에 따른 경로 설정
 			if (getPath.equals("modifyUserInfo")) {
 
-				// ???으로 이동
+				// 회원정보 변경으로 이동
 				return "modifyUserInfoPage";
 			
 			} else if (getPath.equals("modifyUserPassword")) {
 
-				// ???으로 이동
+				// 비밀번호 변경으로 이동
 				return "modifyUserPasswordPage";			
 			}
 
@@ -56,7 +68,7 @@ public class CheckUserPasswordController {
 		
 		// 일치하는 row가 없다면
 
-		System.out.println("[log] CheckUserPasswordController 비밀번호 불일치");
+		log.debug("[log] CheckUserPasswordController 비밀번호 불일치");
 		
 		// 비밀번호 불일치 결과 전달
 		model.addAttribute("checkResult", false);
@@ -65,13 +77,4 @@ public class CheckUserPasswordController {
 		return "checkUserPasswordPage";
 	}
 	
-	
-	/*
-	 * 마이페이지-개인정보수정/비밀번호변경 선택시 현재 비밀번호를 입력하는 페이지로 이동
-	 */
-	@GetMapping("/checkUserPassword")
-	public String test() {
-
-		return "checkUserPassword";
-	}
 }

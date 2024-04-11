@@ -14,8 +14,10 @@ import com.naeddoco.nsmwspring.model.shippingAddressModel.ShippingAddressDTO;
 import com.naeddoco.nsmwspring.model.shippingAddressModel.ShippingAddressService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class CheckUserPassword {
 	
 	@Autowired
@@ -25,9 +27,8 @@ public class CheckUserPassword {
 	@RequestMapping(value = "user/checkUserPasswordPage", method = RequestMethod.GET)
 	public String checkUserPasswordPage(@RequestParam("where") String where, Model model) {
 		
-		System.out.println("[checkUserPasswordPage] 진입");
-		
-		System.out.println("where의 값 : " + where);
+		log.debug("[checkUserPasswordPage] 진입");
+		log.debug("where의 값 : " + where);
 
 		model.addAttribute("where", where);
 		
@@ -40,12 +41,12 @@ public class CheckUserPassword {
 	public @ResponseBody String ancCheckUserPassword(MemberDTO memberDTO, Model model, HttpSession session,
 															@RequestParam("memberPassword") String memberPassword) {
 		
-		System.out.println("[ancCheckUserPassword] 진입");
+		log.debug("[ancCheckUserPassword] 진입");
 
 		String memberID = (String) session.getAttribute("memberID");
 		
-		System.out.println("[회원ID] " + memberID);
-		System.out.println("[회원PW] " + memberPassword);
+		log.debug("[회원ID] " + memberID);
+		log.debug("[회원PW] " + memberPassword);
 		
 		memberDTO.setSearchCondition("memberLogin");
 		memberDTO.setMemberID(memberID);
@@ -54,15 +55,15 @@ public class CheckUserPassword {
 		
 		if( memberDTO == null ) {
 			
-			System.out.println("fail 반환");
+			log.debug("fail 반환");
 			
 			return "fail";
 			
 		}
 		
-		System.out.println("회원정보 : " + memberDTO.toString());
+		log.debug("회원정보 : " + memberDTO.toString());
 
-		System.out.println("suc 반환");
+		log.debug("suc 반환");
 		
 		return "suc";
 	}
