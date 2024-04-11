@@ -62,13 +62,13 @@ public class MemberCouponDAO {
 															+ "MC.COUPON_USAGE ASC, C.EXPIRATION_DATE ASC";
 	
 	// 구매페이지에서 사용가능한 쿠폰 조회시 사용
-	// 카테고리, 쿠폰사용여부 확인 필요
+	// 카테고리, 쿠폰 사용여부 확인 필요
 	private static final String SELECTALL_MY_COUPON_BY_BUY_PAGE = "";
 			
 	private static final String SELECTONE = "";
 	
 	// DOWNLOAD쿠폰(팝업), GRADE쿠폰, BATCH쿠폰 INSERT시 사용
-	private static final String INSERT = "INSERT INTO MEMBER_COUPON (MEMBER_ID, COUPON_ID) values (?,?)";
+	private static final String INSERT = "INSERT INTO MEMBER_COUPON (MEMBER_ID, COUPON_ID) VALUES (?,?)";
 	
 	private static final String UPDATE = "";
 	
@@ -197,8 +197,6 @@ class SelectAllMemberCouponRowMapper implements RowMapper<MemberCouponDTO> {
 		data.setAncCategoryName(rs.getString("CATEGORY_NAME"));
 		data.setAncDiscount(rs.getInt("DISCOUNT"));
 		data.setAncAmount(rs.getInt("AMOUNT_LIMIT"));
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		log.debug("MEMBER_COUPON_ID: " + rs.getInt("MC.MEMBER_COUPON_ID"));
 		log.debug("COUPON_ID: " + rs.getString("MC.COUPON_ID"));

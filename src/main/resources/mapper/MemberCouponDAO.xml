@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.naeddoco.nsmwspring.model.memberCouponModel.IMemberCouponDAO">
+	<select id="selectAll" resultMap="mypageAllCoupon">
+		SELECT DISTINCT 
+			MC.MEMBER_COUPON_ID, 
+			MC.COUPON_ID, 
+			MC.COUPON_USAGE, 
+			C.COUPON_NAME, 
+			C.EXPIRATION_DATE, 
+			C.COUPON_TYPE, 
+			CONCAT((SELECT GROUP_CONCAT(CA.CATEGORY_NAME SEPARATOR ';') 
+				FROM CATEGORY CA 
+				JOIN COUPON_CATEGORY CC 
+				ON CA.CATEGORY_ID = CC.CATEGORY_ID 
+				WHERE C.COUPON_ID = CC.COUPON_ID)) AS CATEGORY_NAME, 
+			CASE 
+				WHEN W.WON_COUPON_ID IS NOT NULL THEN W.COUPON_DISCOUNT_AMOUNT 
+				WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.COUPON_DISCOUNT_RATE 
+			END AS DISCOUNT, 
+			CASE 
+				WHEN W.WON_COUPON_ID IS NOT NULL THEN W.MIN_ORDER_AMOUNT 
+				WHEN P.PERCENTAGE_COUPON_ID IS NOT NULL THEN P.MAX_DISCOUNT_AMOUNT 
+			END AS AMOUNT_LIMIT 
+			FROM 
+				MEMBER_COUPON MC 
+			JOIN 
+				COUPON C ON MC.COUPON_ID = C.COUPON_ID 
+			LEFT JOIN 
+				WON_COUPON W ON C.COUPON_ID = W.COUPON_ID 
+			LEFT JOIN 
+				PERCENTAGE_COUPON P ON C.COUPON_ID = P.COUPON_ID 
+			JOIN 
+				COUPON_CATEGORY CC ON C.COUPON_ID = CC.COUPON_ID 
+			JOIN 
+				CATEGORY CAT ON CAT.CATEGORY_ID = CC.CATEGORY_ID 
+			WHERE 
+				MC.MEMBER_ID = #{memberID} 
+			ORDER BY 
+				MC.COUPON_USAGE ASC, C.EXPIRATION_DATE ASC
+	</select>
+	
+	<insert id="insert" parameterType="com.naeddoco.nsmwspring.model.memberCouponModel.IMemberCouponDAO">
+		INSERT INTO MEMBER_COUPON (MEMBER_ID, COUPON_ID) VALUES (#{memberID}, #{couponID})
+    </insert>
+    
+    <resultMap id="mypageAllCoupon" type="com.naeddoco.nsmwspring.model.memberCouponModel.MemberCouponDTO">
+       	<result column= "MEMBER_COUPON_ID" property="memberCouponID" jdbcType="INTEGER" javaType="int"/>
+  		<result column= "COUPON_ID" property="couponID" jdbcType="INTEGER" javaType="int"/>
+  		<result column= "COUPON_USAGE" property="couponUsage" jdbcType="VARCHAR" javaType="String"/>
+  		<result column= "COUPON_NAME" property="ancCouponName" jdbcType="VARCHAR" javaType="String"/>
+  		<result column= "EXPIRATION_DATE" property="ancExpirationDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+  		<result column= "COUPON_TYPE" property="ancCouponType" jdbcType="VARCHAR" javaType="String"/>
+  		<result column= "CATEGORY_NAME" property="ancCategoryName" jdbcType="VARCHAR" javaType="String"/>
+  		<result column= "DISCOUNT" property="ancDiscount" jdbcType="INTEGER" javaType="int"/>
+  		<result column= "AMOUNT_LIMIT" property="ancAmount" jdbcType="INTEGER" javaType="int"/>
+    </resultMap>
+    
+
+</mapper>
