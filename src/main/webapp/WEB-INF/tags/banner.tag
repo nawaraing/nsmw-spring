@@ -77,7 +77,7 @@
 	</div> --%>
 	
 <div class="div-banner">
-	<div class="banner-item" onclick="window.open('https://github.com/NaeDdoCo', '_blank');">     
+	<div class="banner-item" onclick="window.open('https://github.com/NaeDdoCo/nsmw-spring', '_blank');">     
 		<img src="/resources/commonImages/banner.jpg" alt="배너이미지">
 	</div>
 </div>
