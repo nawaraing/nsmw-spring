@@ -56,7 +56,7 @@ public class EntrySubscriptionDetailPageController {
 			
 		}
 		
-		log.debug("구독 상품 selectAll 성공 : " + subscriptionDTOList.get(0));
+		log.debug("구독 상품 selectAll 성공 : " + subscriptionDTOList);
 		
 		model.addAttribute("subscriptionInfos", subscriptionDTOList);
 		
