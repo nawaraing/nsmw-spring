@@ -26,17 +26,16 @@ public class ImageDAO {
 	private static final String SELECTONE_IMAGE = "SELECT IMAGE_ID, IMAGE_PATH FROM IMAGE WHERE IMAGE_ID = ?";
 	
 	// 쿠폰 이미지 삭제 후 다운로드 쿠폰 UPDATE시 필요
-	private static final String SELECTONE_IMAGE_ID = "SELECT IMAGE_ID FROM IMAGE WHERE IMAGE_PATH  = ? ";
+	//private static final String SELECTONE_IMAGE_ID = "SELECT IMAGE_ID FROM IMAGE WHERE IMAGE_PATH = ? ";
 	
 	// 이미지 경로 데이터를 추가하는 쿼리문
 	private static final String INSERT = "INSERT INTO IMAGE (IMAGE_PATH) VALUES (?)";
 	
-	private static final String UPDATE = "";
-	
 	// 이미지ID로 데이터 삭제
 	private static final String DELETE = "DELETE FROM IMAGE WHERE IMAGE_ID = ?";
 	
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/		
+	
+/*-----------------------------------[ selectAll ] ---------------------------------------------------------------------------------------------------------*/		
 	
 	public List<ImageDTO> selectAll(ImageDTO imageDTO) {
 		
@@ -66,7 +65,7 @@ public class ImageDAO {
 		
 	}
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+/*-----------------------------------[ selectOne ] ---------------------------------------------------------------------------------------------------------*/	
 
 	public ImageDTO selectOne(ImageDTO imageDTO) {
 		
@@ -80,7 +79,7 @@ public class ImageDAO {
 			
 			try {
 			
-				return jdbcTemplate.queryForObject(SELECTONE_IMAGE, args, new iamgeRowMapper());
+				return jdbcTemplate.queryForObject(SELECTONE_IMAGE, args, new imageRowMapper());
 		
 			} catch (Exception e) {
 				
@@ -90,15 +89,16 @@ public class ImageDAO {
 
 			} 	
 			
-		} else if(imageDTO.getSearchCondition().equals("getImagePath")) {
+		} 
+		/* else if(imageDTO.getSearchCondition().equals("getImagePath")) {
 			
 			log.debug("getImagePath 진입");
 			
-			Object[] args = { imageDTO.getImageID() };
+			Object[] args = { imageDTO.getImagePath() };
 			
 			try {
 			
-				return jdbcTemplate.queryForObject(SELECTONE_IMAGE, args, new iamgeRowMapper());
+				return jdbcTemplate.queryForObject(SELECTONE_IMAGE_ID, args, new imageIDRowMapper());
 		
 			} catch (Exception e) {
 				
@@ -108,15 +108,15 @@ public class ImageDAO {
 
 			} 	
 			
-		}
+		}*/
 		
-		log.debug("selectOne 실패");
+		log.error("selectOne 실패");
 		
 		return null;
 			
 	}
 	
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+/*-----------------------------------[ insert ] ---------------------------------------------------------------------------------------------------------*/	
 
 	public boolean insert(ImageDTO imageDTO) {
 		
@@ -134,7 +134,7 @@ public class ImageDAO {
 				
 				if(result <= 0) {
 					
-					log.trace("insertProductByAdmin 실패");
+					log.error("insertProductByAdmin 실패");
 				
 					return false;
 				
@@ -142,7 +142,7 @@ public class ImageDAO {
 			
 			} catch (Exception e) {
 				
-				log.trace("insertProductByAdmin 예외발생");
+				log.error("insertProductByAdmin 예외발생");
 
 				return false;
 
@@ -152,40 +152,25 @@ public class ImageDAO {
 			
 			return true;
 			
-			
 		}
 		
-		log.trace("insert 성공");
+		log.error("insert 실패");
 		
 		return false;
 		
 	}
-	
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
 
-	public boolean update(ImageDTO imageDTO) {
-
-//		int result = jdbcTemplate.update(UPDATE);
-		
-//		if(result <= 0) {
-		
-			return false;
-			
-//		}
-			
-//		log.debug("update 성공");
-			
-//		return true;
-			
-	}
-	
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+/*-----------------------------------[ delete ] ---------------------------------------------------------------------------------------------------------*/	
 
 	public boolean delete(ImageDTO imageDTO) {
+		
+		log.trace("delete 진입");
 		
 		int result = 0;
 		
 		if(imageDTO.getSearchCondition().equals("deleteAdminProductImageDatas")) {
+			
+			log.trace("deleteAdminProductImageDatas 진입");
 			
 			try {
 				
@@ -193,7 +178,7 @@ public class ImageDAO {
 				
 				if(result <= 0) {
 					
-					log.debug("deleteAdminProductImageDatas 실패");
+					log.error("deleteAdminProductImageDatas 실패");
 			
 					return false;
 				
@@ -201,7 +186,7 @@ public class ImageDAO {
 			
 			} catch (Exception e) {
 				
-				log.debug("deleteAdminProductImageDatas 예외 발생");
+				log.error("deleteAdminProductImageDatas 예외 발생");
 				
 				return false;
 				
@@ -209,7 +194,7 @@ public class ImageDAO {
 			
 		}	
 			
-		log.debug("delete 성공");
+		log.trace("delete 성공");
 			
 		return true;
 			
@@ -217,7 +202,7 @@ public class ImageDAO {
 	
 }
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+/*-----------------------------------[ RowMapper ] ---------------------------------------------------------------------------------------------------------*/	
 
 //개발자의 편의를 위해 RowMapper 인터페이스를 사용
 class getLastOneRowMapper implements RowMapper<ImageDTO> {
@@ -235,7 +220,7 @@ class getLastOneRowMapper implements RowMapper<ImageDTO> {
 	
 }
 
-class iamgeRowMapper implements RowMapper<ImageDTO> {
+class imageRowMapper implements RowMapper<ImageDTO> {
 	
 	@Override
 	public ImageDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -250,3 +235,19 @@ class iamgeRowMapper implements RowMapper<ImageDTO> {
 	}
 	
 }
+
+/*
+class imageIDRowMapper implements RowMapper<ImageDTO> {
+	
+	@Override
+	public ImageDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		ImageDTO imageDTO = new ImageDTO();
+		
+		imageDTO.setImageID(rs.getInt("IMAGE_ID"));
+		
+		return imageDTO;
+		
+	}
+	
+}*/

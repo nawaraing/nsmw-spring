@@ -33,13 +33,6 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public boolean update(ImageDTO imageDTO) {
-		
-		return ImageDAO.update(imageDTO);
-		
-	}
-
-	@Override
 	public boolean delete(ImageDTO imageDTO) {
 		
 		return ImageDAO.delete(imageDTO);
