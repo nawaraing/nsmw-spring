@@ -45,7 +45,7 @@ public class EntryProductListPageController {
 		productDTO.setSearchCondition("selectAdminProductListDatas"); // 쿼리 분기명 set
 		productDTO.setSearchKeyword("%%"); // 검색 키워드 set
 		productDTO.setSortColumnName("REGISTER_DATE"); // 정렬할 컬럼명 set
-		productDTO.setSortMode("ASC"); // 정렬 방식 set
+		productDTO.setSortMode("DESC"); // 정렬 방식 set
 		
 		List<ProductDTO> productDTOList = productService.selectAll(productDTO);
 		
