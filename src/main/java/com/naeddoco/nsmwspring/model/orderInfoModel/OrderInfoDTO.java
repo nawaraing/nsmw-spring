@@ -25,6 +25,8 @@ public class OrderInfoDTO {
 	
 	private int ancProductID;
 	
+	private int ancLimit;
+	
 	@Override
 	public String toString() {
 		

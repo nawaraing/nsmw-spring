@@ -222,7 +222,7 @@ public class EntryMainPageController {
 		//----------------------------------------------- 하단 제품 출력 ↓ -----------------------------------------------
 		
 		OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
-		orderInfoDTO.setSearchCondition("getBestEight");
+		orderInfoDTO.setSearchCondition("getRecentAddedProduct");
 		
 		List<OrderInfoDTO> orderDTOList = orderInfoService.selectAll(orderInfoDTO); 
 		

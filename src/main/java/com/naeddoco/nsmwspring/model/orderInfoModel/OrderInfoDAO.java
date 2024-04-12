@@ -29,6 +29,16 @@ public class OrderInfoDAO {
 			                                               "ORDER BY cnt DESC " +
 			                                               "LIMIT 8";
 	
+	// 최근에 추가된 상품 정보를 조회하는 쿼리
+	private static final String SELECTALL_RECENT_ADDED_PRODUCT = "SELECT P.PRODUCT_ID, P.PRODUCT_NAME, P.PRODUCT_DETAIL, P.SALE_PRICE, C.CATEGORY_NAME, I.IMAGE_PATH " +
+			                                                     "FROM PRODUCT P " +
+			                                                     "JOIN PRODUCT_CATEGORY PC ON P.PRODUCT_ID = PC.PRODUCT_ID " +
+			                                                     "JOIN CATEGORY C ON PC.CATEGORY_ID = C.CATEGORY_ID " +
+			                                                     "JOIN PRODUCT_IMAGE PI ON P.PRODUCT_ID = PI.PRODUCT_ID " +
+			                                                     "JOIN IMAGE I ON PI.IMAGE_ID = I.IMAGE_ID " +
+			                                                     "ORDER BY REGISTER_DATE DESC " +
+			                                                     "LIMIT 8";
+	
 	// 사용자가 산 상품과 동일한 상품이 포함되어 있는 구매내역을 랜덤으로 가져오는 쿼리
 	private static final String SELECT_RANDOM_MEMBER_IDS = "SELECT DISTINCT B.MEMBER_ID " +
                                                            "FROM ORDER_INFO O " +
@@ -81,6 +91,22 @@ public class OrderInfoDAO {
 			}catch (Exception e) {
 				
 				log.error("getBestEight 예외 발생");
+				
+				return null;
+				
+			}
+			
+		} else if(orderInfoDTO.getSearchCondition().equals("getRecentAddedProduct")) {
+			
+			log.debug("getRecentAddedProduct 진입");
+			
+			try {
+				
+				return (List<OrderInfoDTO>) jdbcTemplate.query(SELECTALL_RECENT_ADDED_PRODUCT, new GetRencetAddedProductRowMapper());
+
+			}catch (Exception e) {
+				
+				log.error("getRecentAddedProduct 예외 발생");
 				
 				return null;
 				
@@ -181,6 +207,30 @@ class GetBestEightRowMapper implements RowMapper<OrderInfoDTO> {
 		orderInfoDTO.setAncImagePath(rs.getString("I.IMAGE_PATH"));
 		
 		log.debug("GetBestEightRowMapper 완료");
+
+		return orderInfoDTO;
+
+	}
+}
+
+@Slf4j
+class GetRencetAddedProductRowMapper implements RowMapper<OrderInfoDTO> {
+
+	@Override
+	public OrderInfoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		log.debug("GetRencetAddedProductRowMapper 처리 진입");
+		
+		OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
+		
+		orderInfoDTO.setProductID(rs.getInt("P.PRODUCT_ID"));
+		orderInfoDTO.setAncProductName(rs.getString("P.PRODUCT_NAME"));
+		orderInfoDTO.setAncProductDetail(rs.getString("P.PRODUCT_DETAIL"));
+		orderInfoDTO.setAncSalePrice(rs.getString("P.SALE_PRICE"));
+		orderInfoDTO.setAncCategoryName(rs.getString("C.CATEGORY_NAME"));
+		orderInfoDTO.setAncImagePath(rs.getString("I.IMAGE_PATH"));
+		
+		log.debug("GetRencetAddedProductRowMapper 완료");
 
 		return orderInfoDTO;
 
