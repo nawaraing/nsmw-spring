@@ -72,9 +72,10 @@
 					<thead>
 						<tr>
 							<th scope="col">쿠폰이름</th>
-							<th scope="col">할인율</th>
 							<th scope="col">만료일</th>
 							<th scope="col">카테고리</th>
+							<th scope="col">할인율</th>
+							<th scope="col">사용조건</th>
 							<th scope="col">사용여부</th>
 						</tr>
 					</thead>
@@ -85,18 +86,26 @@
 									<p class="mb-0 mt-0">${coupon.ancCouponName}</p>
 								</td>
 								<td>
-									<c:if test="${coupon.ancCouponType eq 'WON'}">
-									    <p id="wonCoupon" class="mb-0 mt-0">${coupon.ancDiscount}원</p>
-									</c:if>
-									<c:if test="${coupon.ancCouponType ne 'WON'}">
-									    <p id="pCoupon" class="mb-0 mt-0">${coupon.ancDiscount}%</p>
-									</c:if>
-								</td>
-								<td>
 									<p class="mb-0 mt-0">${coupon.ancExpirationDate}</p>
 								</td>
 								<td>
 									<p class="mb-0 mt-0">${coupon.ancCategoryName}</p>
+								</td>
+								<td>
+									<c:if test="${coupon.ancCouponType eq 'WON'}">
+									    <p class="mb-0 mt-0">${coupon.ancDiscount}원</p>
+									</c:if>
+									<c:if test="${coupon.ancCouponType ne 'WON'}">
+									    <p class="mb-0 mt-0">${coupon.ancDiscount}%</p>
+									</c:if>
+								</td>
+								<td>
+									<c:if test="${coupon.ancCouponType eq 'WON'}">
+									    <p class="mb-0 mt-0">${coupon.ancAmount}원 이상 구매 시 사용가능</p>
+									</c:if>
+									<c:if test="${coupon.ancCouponType ne 'WON'}">
+									    <p class="mb-0 mt-0">최대 ${coupon.ancAmount}원 까지 할인가능</p>
+									</c:if>
 								</td>
 								<td>
 									<p class="mb-0 mt-0">${coupon.couponUsage}</p>
