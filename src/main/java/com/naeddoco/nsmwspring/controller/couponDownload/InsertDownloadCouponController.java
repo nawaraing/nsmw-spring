@@ -31,7 +31,10 @@ import com.naeddoco.nsmwspring.model.provisionDownloadCouponModel.ProvisionDownl
 import com.naeddoco.nsmwspring.model.wonCoupon.WonCouponDTO;
 import com.naeddoco.nsmwspring.model.wonCoupon.WonCouponService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class InsertDownloadCouponController {
 
 	@Autowired
@@ -51,6 +54,7 @@ public class InsertDownloadCouponController {
 
 	@RequestMapping(value = "/couponDownload/insert", method = RequestMethod.POST)
 	public String insertDownloadCouponController(@RequestParam("images") List<MultipartFile> images, // 이미지
+			@RequestParam("imagePaths") List<String> imagePaths, // 이미지 이름
 			@RequestParam("couponName") String couponName, // 쿠폰 이름
 			@RequestParam("distributeDate") String distributeDateStr, // 쿠폰 배포 시작일
 			@RequestParam("ancDeployDeadline") String ancDeployDeadlineStr, // 쿠폰 배포 마감일
@@ -59,8 +63,9 @@ public class InsertDownloadCouponController {
 			@RequestParam("coupon-type") String couponType, // 할인 방식
 			@RequestParam("ancDiscount") int ancDiscount, // 할인율
 			@RequestParam("ancAmount") int ancAmount // 제한금액
-
-	) {
+			)  {
+		
+		log.debug("[다운로드 쿠폰Insert] Controller 진입");
 
 		CouponDTO couponDTO = new CouponDTO();
 		CategoryDTO categoryDTO = new CategoryDTO();
@@ -68,23 +73,31 @@ public class InsertDownloadCouponController {
 		ProvisionDownloadCouponDTO provisionDownloadCouponDTO = new ProvisionDownloadCouponDTO();
 
 		/*------------------------------------------------------------------------------- 쿠폰 DAO -----------------------------------------------------------------------------------------------------------*/
-		System.out.println("[다운로드 쿠폰Insert] Controller 진입");
+		
 		int i = 0;
+		
 		for (i = 0; i < images.size(); i++) {
-			System.out.println("쿠폰 이미지 : + " + images.get(i));
+			
+			log.debug("쿠폰 이미지 : + " + images.get(i));
+			
 		}
-		System.out.println("선택된 이미지 수 : " + i);
-		System.out.println("쿠폰이름 : " + couponName);
-		System.out.println("배포일 : " + distributeDateStr);
-		System.out.println("마감일 : " + ancDeployDeadlineStr);
-		System.out.println("만료일 : " + expirationDateStr);
+		
+		log.debug("선택된 이미지 수 : " + i);
+		log.debug("쿠폰이름 : " + couponName);
+		log.debug("배포일 : " + distributeDateStr);
+		log.debug("마감일 : " + ancDeployDeadlineStr);
+		log.debug("만료일 : " + expirationDateStr);
+		
 		for (i = 0; i < categoryNames.size(); i++) {
-			System.out.println("카테고리 : " + categoryNames.get(i));
+			
+			log.debug("카테고리 : " + categoryNames.get(i));
+			
 		}
-		System.out.println("선택된 카테고리 수 : " + i);
-		System.out.println("할인방식 : " + couponType);
-		System.out.println("할인율 : " + ancDiscount);
-		System.out.println("리미트 : " + ancAmount);
+		
+		log.debug("선택된 카테고리 수 : " + i);
+		log.debug("할인방식 : " + couponType);
+		log.debug("할인율 : " + ancDiscount);
+		log.debug("리미트 : " + ancAmount);
 
 		// HTML에서 String으로 받기때문에 파싱
 
@@ -107,7 +120,9 @@ public class InsertDownloadCouponController {
 			expirationDate = new Timestamp(utilexpirationDate.getTime());
 
 		} catch (ParseException e) {
-			System.out.println("Timestamp 변환 실패: " + e.getMessage());
+			
+			log.debug("Timestamp 변환 실패: " + e.getMessage());
+			
 		}
 
 		// 쿠폰테이블에 저장
@@ -119,13 +134,14 @@ public class InsertDownloadCouponController {
 		boolean couponInsertResult = couponService.insert(couponDTO);
 
 		if (!couponInsertResult) {
-			System.out.println("[쿠폰Insert] 실패");
+			
+			log.debug("[쿠폰Insert] 실패");
 
 			return "admin/couponDownload";
 		}
 
-		System.out.println("[쿠폰Insert] 성공");
-
+		log.debug("[쿠폰Insert] 성공");
+		
 		/*------------------------------------------------------------------------------- 쿠폰 카테고리 DAO -----------------------------------------------------------------------------------------------------------*/
 
 		// 위에서 추가된 쿠폰의 PK
@@ -133,7 +149,7 @@ public class InsertDownloadCouponController {
 		couponDTO = couponService.selectOne(couponDTO);
 
 		int couponID = couponDTO.getCouponID();
-		System.out.println("쿠폰ID : " + couponID);
+		log.debug("쿠폰ID : " + couponID);
 
 		List<CategoryDTO> categoryList = categoryService.selectAll(categoryDTO);
 
@@ -161,7 +177,7 @@ public class InsertDownloadCouponController {
 
 		for (i = 0; i < categoryNum.size(); i++) {
 
-			System.out.println("쿠폰 카테고리 추가 categoryNum.get(i) : " + categoryNum.get(i));
+			log.debug("쿠폰 카테고리 추가 categoryNum.get(i) : " + categoryNum.get(i));
 			
 			couponCategoryDTO.setCategoryID(categoryNum.get(i));
 
@@ -170,13 +186,13 @@ public class InsertDownloadCouponController {
 
 		if (!couponCategoryResult) {
 
-			System.out.println("쿠폰카테고리 추가 실패");
-
+			log.debug("쿠폰카테고리 추가 실패");
+			
 			return "admin/couponDownload";
 
 		}
 
-		System.out.println("쿠폰카테고리 추가 성공 [" + categoryNum + "]");
+		log.debug("쿠폰카테고리 추가 성공 [" + categoryNum + "]");
 
 		/*------------------------------------------------------------------------------- 이미지 DAO -----------------------------------------------------------------------------------------------------------*/
 
@@ -184,7 +200,7 @@ public class InsertDownloadCouponController {
 		
 		for (i = 0; i < images.size(); i++) {
 			
-			System.out.println((i+1) + "번 이미지 이름 : " + images.get(i).getOriginalFilename());
+			log.debug((i+1) + "번 이미지 이름 : " + images.get(i).getOriginalFilename());
 			
 			imageDTO.setSearchCondition("insertProductByAdmin");
 
@@ -201,16 +217,18 @@ public class InsertDownloadCouponController {
 					dir.mkdirs();
 				}
 				// 파일 저장
-				filePath = absolutePath + "/" + images.get(i).getOriginalFilename();
+				filePath = absolutePath + "/" + imagePaths.get(i);
 				File dest = new File(filePath);
 				images.get(i).transferTo(dest);
 
 			} catch (IOException e) {
-				System.out.println("Failed to save file: " + e.getMessage());
+				
+				log.debug("local에 이미지 저장 실패 : " + e.getMessage());;
+				
 			}
 			// DB에 저장할 Path
 			String uploadDir = "/resources/couponImages/";
-			imageDTO.setImagePath(uploadDir+images.get(i).getOriginalFilename());
+			imageDTO.setImagePath(uploadDir+imagePaths.get(i));
 			
 			imageService.insert(imageDTO);
 			
@@ -223,7 +241,7 @@ public class InsertDownloadCouponController {
 		imageDTO = imageService.selectAll(imageDTO).get(0);
 		
 		int imageID = imageDTO.getImageID();
-		System.out.println("추가된 이미지 PK : " + imageID);
+		log.debug("추가된 이미지 PK : " + imageID);
 		
 		provisionDownloadCouponDTO.setSearchCondition("insertAdminCouponGradeData");
 		provisionDownloadCouponDTO.setCouponID(couponID);
@@ -237,13 +255,13 @@ public class InsertDownloadCouponController {
         // 배포 시작일에 따른 값 전달
 		if(distributeDate.before(currentTimestamp)) {
 			
-			System.out.println("배포 시작일이 현재시간보다 전");
+			log.debug("배포 시작일이 현재시간보다 전");
 			
 			provisionDownloadCouponDTO.setDeployStatus("DOING");
 			
 		} else if(distributeDate.after(currentTimestamp)) {
 			
-			System.out.println("배포 시작일이 현재시간보다 후");
+			log.debug("배포 시작일이 현재시간보다 후");;
 			
 			provisionDownloadCouponDTO.setDeployStatus("WILL");
 			
@@ -253,13 +271,13 @@ public class InsertDownloadCouponController {
 
 		if (!downCouponInsert) {
 
-			System.out.println("다운로드 쿠폰 insert 실패");
+			log.debug("다운로드 쿠폰 insert 실패");
 
 			return "admin/couponDownload";
 
 		}
 
-		System.out.println("다운로드 쿠폰 insert 성공");
+		log.debug("다운로드 쿠폰 insert 성공");
 
 		/*------------------------------------------------------------------------------- 쿠폰 타입 DAO -----------------------------------------------------------------------------------------------------------*/
 
@@ -270,7 +288,8 @@ public class InsertDownloadCouponController {
 
 			PercentageCouponDTO percentageCouponDTO = new PercentageCouponDTO();
 
-			System.out.println("[다운로드 쿠폰] 쿠폰타입 : " + couponType);
+			log.debug("[다운로드 쿠폰] 쿠폰타입 : " + couponType);
+			
 			percentageCouponDTO.setSearchCondition("insertAdminCouponData");
 			percentageCouponDTO.setCouponID(couponID);
 			percentageCouponDTO.setCouponDiscountRate(ancDiscount);
@@ -282,7 +301,7 @@ public class InsertDownloadCouponController {
 
 			WonCouponDTO wonCouponDTO = new WonCouponDTO();
 
-			System.out.println("[다운로드 쿠폰] 쿠폰타입 : " + couponType);
+			log.debug("[다운로드 쿠폰] 쿠폰타입 : " + couponType);
 
 			wonCouponDTO.setSearchCondition("insertAdminCouponData");
 			wonCouponDTO.setCouponID(couponID);
@@ -295,12 +314,12 @@ public class InsertDownloadCouponController {
 
 		if (!typeCouponInsertResult) {
 
-			System.out.println("타입에 따른 쿠폰 추가 실패");
+			log.debug("타입에 따른 쿠폰 추가 실패");
 
 			return "admin/couponDownload";
 		}
 
-		System.out.println("타입에 따른 쿠폰 추가 성공");
+		log.debug("타입에 따른 쿠폰 추가 성공");
 		
 
 

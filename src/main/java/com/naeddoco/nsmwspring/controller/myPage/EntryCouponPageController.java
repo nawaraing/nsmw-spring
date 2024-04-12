@@ -50,11 +50,11 @@ public class EntryCouponPageController {
 
 				if (myCouponList.get(i).getCouponUsage().equals("UNUSE")) {
 
-					myCouponList.get(i).setCouponUsage("미사용");
+					myCouponList.get(i).setCouponUsage("사용가능");
 
 				} else if (myCouponList.get(i).getCouponUsage().equals("USE")) {
 
-					myCouponList.get(i).setCouponUsage("사용");
+					myCouponList.get(i).setCouponUsage("사용완료");
 
 				}
 				

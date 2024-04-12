@@ -375,11 +375,11 @@
 								<input class="form-control p-3 border-secondary" type="number" name="day" id="day" placeholder="dd" oninput="limitNumLength(this, 2)" onblur="checkMinLength(this, 2)">
 							</div>
 							<div class="col-lg-6">
-								<input class="form-check-input p-3 border-secondary" type="radio" name="gender" value="남" checked="checked">
+								<input class="form-check-input p-3 border-secondary" type="radio" name="gender" value="MALE" checked="checked">
 								<p>남자</p>
 							</div>
 							<div class="col-lg-6">
-								<input class="form-check-input p-3 border-secondary" type="radio" name="gender" value="여">
+								<input class="form-check-input p-3 border-secondary" type="radio" name="gender" value="FEMALE">
 								<p>여자</p>
 							</div>
 							<div class="col-lg-2">

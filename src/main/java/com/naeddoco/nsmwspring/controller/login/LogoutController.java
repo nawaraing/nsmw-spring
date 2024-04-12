@@ -19,6 +19,7 @@ public class LogoutController {
 	public String loginPage(HttpSession session) {
 
 		session.removeAttribute("memberID"); // 세션에서 유저 아이디 삭제
+		session.removeAttribute("authority"); // 세션에서 유저 권한 삭제
 		
 		return "redirect:/";
 		

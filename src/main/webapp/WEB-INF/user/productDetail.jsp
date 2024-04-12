@@ -226,7 +226,7 @@
 									
 																<!-- 케러셀의 제목 -->
 							<div class="container py-5">
-								<h1 class="mb-0">추천 상품</h1>
+								<h1 class="mb-0">함께 보기</h1>
 								<!-- 케러셀의 내용 -->
 								<div class="owl-carousel vegetable-carousel owl-theme">
 					<!-- ProductCategoryDTO // recommandProductsByPC -->
@@ -239,7 +239,6 @@
 									<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.ancCategoryName}</div>
 									<div class="p-4 rounded-bottom">
 										<h4 style="text-align: center;">${data.ancProductName}</h4>
-										<custom:starRateMain1 score='3' index='${loop.index}'/>
 										<div class="line-clamp my-2">
 											<p>${data.ancProductDetail}</p>
 										</div>
@@ -275,7 +274,6 @@
 									<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.ancCategoryName}</div>
 									<div class="p-4 rounded-bottom">
 										<h4 style="text-align: center;">${data.ancProductName}</h4>
-										<custom:starRateMain1 score='3' index='${loop.index}'/>
 										<div class="line-clamp my-2">
 											<p>${data.ancProductDetail}</p>
 										</div>

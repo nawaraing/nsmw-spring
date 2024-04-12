@@ -23,15 +23,15 @@ public class EntryDashboardPageController {
 	@GetMapping("/dashboard")
 	public String dashboardPage(DailySalesStatsDTO dailySalesStatsDTO, Model model, HttpSession session) {
 		
-		String memberID = (String) session.getAttribute("memberID");
+		String authority = (String) session.getAttribute("authority");
 		
 		// 회원이 로그인 상태가 아니라면 false 반환
-		if (memberID == null) {
+		if (!authority.equals("ADMIN")) {
 			
-			log.debug("[log] InsertCart 로그아웃상태");
+			log.debug("회원 등급이 관리자(ADMIN)가 아니여서 메인페이지로 이동");
 			
 			return "redirect:/";
-		}
+		}	
 		
 		log.debug("[log] Controller dashboardPage요청");
 		

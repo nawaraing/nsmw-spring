@@ -1,5 +1,6 @@
 package com.naeddoco.nsmwspring.controller.subscriptionDetail;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
-import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoService;
 import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoDTO;
+import com.naeddoco.nsmwspring.model.subscriptionInfoModel.SubscriptionInfoService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -50,19 +50,21 @@ public class EntrySubscriptionDetailPageController {
 		
 		List<SubscriptionInfoDTO> subscriptionDTOList = subscriptionService.selectAll(subscriptionDTO);
 		
-		if(subscriptionDTOList == null) {
+		if(subscriptionDTOList != null) {
 			
-			log.debug("구독 상품 없음");
+			log.debug("구독 상품 selectAll 성공 : " + subscriptionDTOList);
+			
+			model.addAttribute("subscriptionInfos", subscriptionDTOList);
+			
+			model.addAttribute("pageValue", "구독내역");
+			
+			return "user/subscriptionInfo";
 			
 		}
 		
-		log.debug("구독 상품 selectAll 성공 : " + subscriptionDTOList);
+		log.debug("구독 상품 없음");
 		
-		model.addAttribute("subscriptionInfos", subscriptionDTOList);
-		
-		model.addAttribute("pageValue", "구독내역");
-		
-		return "user/subscriptionInfo";
+		return "redirect:/user/myPage";
 
 	}
 

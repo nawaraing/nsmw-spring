@@ -12,10 +12,12 @@ import com.naeddoco.nsmwspring.model.memberModel.MemberService;
 import com.naeddoco.nsmwspring.model.memberModel.MemberDTO;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 // 회원목록에 진입하는 컨트롤러
 
 @Controller
+@Slf4j
 public class EntryMemberListPageController {
 	
 	@Autowired
@@ -26,13 +28,15 @@ public class EntryMemberListPageController {
 
 		//-----------------------------------------------세션 확인 ↓-----------------------------------------------
 
-		String memberID = (String) session.getAttribute("memberID"); // 세션에 있는 유저 아이디 습득
-
-		if (memberID == null) { // 세션에 유저 아이디가 없을 시
-
-			return "redirect:/"; // 메인 페이지로 강제 이동
-
-		}
+		String authority = (String) session.getAttribute("authority");
+		
+		// 회원이 로그인 상태가 아니라면 false 반환
+		if (!authority.equals("ADMIN")) {
+			
+			log.debug("회원 등급이 관리자(ADMIN)가 아니여서 메인페이지로 이동");
+			
+			return "redirect:/";
+		}	
 		
 		//-----------------------------------------------회원 정보 습득 ↓-----------------------------------------------
 		

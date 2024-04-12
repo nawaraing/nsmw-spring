@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="custom" %>
 <!DOCTYPE html>
@@ -79,40 +80,44 @@
 							<th scope="col">사용여부</th>
 						</tr>
 					</thead>
-					<tbody>
-						<c:forEach var="coupon" items="${myCouponList}">
-							<tr>
-								<td>
-									<p class="mb-0 mt-0">${coupon.ancCouponName}</p>
-								</td>
-								<td>
-									<p class="mb-0 mt-0">${coupon.ancExpirationDate}</p>
-								</td>
-								<td>
-									<p class="mb-0 mt-0">${coupon.ancCategoryName}</p>
-								</td>
-								<td>
-									<c:if test="${coupon.ancCouponType eq 'WON'}">
-									    <p class="mb-0 mt-0">${coupon.ancDiscount}원</p>
-									</c:if>
-									<c:if test="${coupon.ancCouponType ne 'WON'}">
-									    <p class="mb-0 mt-0">${coupon.ancDiscount}%</p>
-									</c:if>
-								</td>
-								<td>
-									<c:if test="${coupon.ancCouponType eq 'WON'}">
-									    <p class="mb-0 mt-0">${coupon.ancAmount}원 이상 구매 시 사용가능</p>
-									</c:if>
-									<c:if test="${coupon.ancCouponType ne 'WON'}">
-									    <p class="mb-0 mt-0">최대 ${coupon.ancAmount}원 까지 할인가능</p>
-									</c:if>
-								</td>
-								<td>
-									<p class="mb-0 mt-0">${coupon.couponUsage}</p>
-								</td>
-							</tr>
-						</c:forEach>
-					</tbody>
+						<tbody>
+						    <c:forEach var="coupon" items="${myCouponList}">
+						        <tr>
+						            <td>
+						                <p class="mb-0 mt-0">${coupon.ancCouponName}</p>
+						            </td>
+						            <td>
+						                <p class="mb-0 mt-0">
+						                    <fmt:formatDate value="${coupon.ancExpirationDate}" pattern="yyyy-MM-dd HH:mm" />
+						                </p>
+						            </td>
+						            <td>
+						                <p class="mb-0 mt-0">${coupon.ancCategoryName}</p>
+						            </td>
+									<td>
+									    <c:if test="${coupon.ancCouponType eq 'WON'}">
+									        <p class="mb-0 mt-0">
+									            <fmt:formatNumber value="${coupon.ancDiscount}" type="number" groupingUsed="true"/>원
+									        </p>
+									    </c:if>
+									    <c:if test="${coupon.ancCouponType ne 'WON'}">
+									        <p class="mb-0 mt-0">${coupon.ancDiscount}%</p>
+									    </c:if>
+									</td>
+						            <td>
+						                <c:if test="${coupon.ancCouponType eq 'WON'}">
+						                    <p class="mb-0 mt-0">최소 <fmt:formatNumber value="${coupon.ancAmount}" type="number" groupingUsed="true"/>원 구매</p>
+						                </c:if>
+						                <c:if test="${coupon.ancCouponType ne 'WON'}">
+						                    <p class="mb-0 mt-0">최대 <fmt:formatNumber value="${coupon.ancAmount}" type="number" groupingUsed="true"/>원 할인</p>
+						                </c:if>
+						            </td>
+						            <td>
+						                <p class="mb-0 mt-0">${coupon.couponUsage}</p>
+						            </td>
+						        </tr>
+						    </c:forEach>
+						</tbody>
 				</table>
 			</div>
 		</div>

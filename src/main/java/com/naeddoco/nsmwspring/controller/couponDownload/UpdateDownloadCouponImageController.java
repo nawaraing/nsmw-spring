@@ -17,8 +17,11 @@ import com.naeddoco.nsmwspring.model.imageModel.ImageService;
 import com.naeddoco.nsmwspring.model.provisionDownloadCouponModel.ProvisionDownloadCouponDTO;
 import com.naeddoco.nsmwspring.model.provisionDownloadCouponModel.ProvisionDownloadCouponService;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 @Controller
+@Slf4j
 public class UpdateDownloadCouponImageController {
 
 	@Autowired
@@ -33,73 +36,77 @@ public class UpdateDownloadCouponImageController {
 			@RequestParam("imageID") int imageID) {
 		
 		// 0. 넘겨받은 파라미터 값
-		System.out.println("images : " + images);
-		System.out.println("imagePaths : " + imagePaths);
-		System.out.println("couponDownloadID : " + couponDownloadID);
-		System.out.println("imageID : " + imageID);		
-
-		// 1-1. 기존 이미지 삭제
+		log.debug("images : " + images);
+		log.debug("imagePaths : " + imagePaths);
+		log.debug("couponDownloadID : " + couponDownloadID);
+		log.debug("imageID : " + imageID);
 		
 		ImageDTO imageDTO = new ImageDTO();
 		
-		imageDTO.setSearchCondition("getImagePath");
-		imageDTO.setImageID(imageID);
 		
-		boolean deleteResult = imageService.delete(imageDTO);
-		
-		if(!deleteResult) {
-			
-			System.out.println("이미지 테이블 : 이미지path 삭제 실패");
-			
-			return "admin/couponDownload";
-			
-		}
-		
-		System.out.println("이미지 테이블 : 이미지path 삭제 성공");
-		
-		
-		// 1-2. local 이미지 파일 삭제
+		// 1-1. local 이미지 파일 삭제
 		
 		// 상대경로
 		String relativePath = "/src/main/resources/static/couponImages";
 		// 절대경로
 		String absolutePath = System.getProperty("user.dir") + relativePath;
 		
+		// 이미지ID로 이미지 경로 찾기
 		imageDTO.setSearchCondition("deleteAdminProductImageDatas");
 		imageDTO.setImageID(imageID);
 		
 		imageDTO = imageService.selectOne(imageDTO);
 		
-		System.out.println("imageDTO : " + imageDTO);
+		if(imageDTO != null) {
+			
+			// 이미지 경로
+			String filepath = imageDTO.getImagePath();
+			log.debug("filepath : " + filepath);
+			
+			// 경로에서 이미지 이름
+			String filename = filepath.substring(filepath.lastIndexOf("/") + 1);
+			log.debug("filename : " + filename);
+			
+		    Path path = Paths.get(absolutePath + "/" + filename);
+		    
+		    File file = path.toFile();
+		    
+		    log.debug("file객체에 저장된 데이터 : " + file);
+		   
+		    if (file.exists()) {
+		    	
+		        if (!file.delete()) {
+		        	
+		        	log.debug("local 이미지 : 이미지 삭제 실패");
+		            
+		        }
+		        
+		        log.debug("local 이미지 : 이미지 삭제 성공");
+		        
+		    } else {
+		    	
+		    	log.debug("local 이미지 : 이미지 삭제 실패(기존 이미지 없음)");
+		        
+		    }
+			
+		}
 		
-		String filepath = imageDTO.getImagePath();
-		System.out.println("filepath : " + filepath);
+		// 1-2. 기존 이미지 삭제
 		
-		String filename = filepath.substring(filepath.lastIndexOf("/") + 1);
-		System.out.println("filename : " + filename);
-
+		imageDTO.setSearchCondition("deleteAdminProductImageDatas");
+		imageDTO.setImageID(imageID);
 		
-	    Path path = Paths.get(absolutePath + "/" + filename);
-	    
-	    File file = path.toFile();
-	    
-	    System.out.println("file객체에 저장된 데이터 : " + file);
-	   
-	    if (file.exists()) {
-	    	
-	        if (!file.delete()) {
-	        	
-	        	System.out.println("local 이미지 : 이미지 삭제 실패");
-	            
-	        }
-	        
-	        System.out.println("local 이미지 : 이미지 삭제 성공");
-	        
-	    } else {
-	    	
-	    	System.out.println("local 이미지 : 이미지 삭제 실패(기존 이미지 없음)");
-	        
-	    }
+		boolean deleteResult = imageService.delete(imageDTO);
+		
+		if(!deleteResult) {
+			
+			log.debug("이미지 테이블 : 이미지path 삭제 실패");
+			
+			return "admin/couponDownload";
+			
+		}
+		
+		log.debug("이미지 테이블 : 이미지path 삭제 성공");
 		
 		
 		// 2. 입력받은 이미지 저장
@@ -115,28 +122,30 @@ public class UpdateDownloadCouponImageController {
 				dir.mkdirs();
 			}
 			// 파일 저장
-			filePath = absolutePath + "/" + images.getOriginalFilename();
+			filePath = absolutePath + "/" + imagePaths;
 			File dest = new File(filePath);
 			images.transferTo(dest);
 
 		} catch (IOException e) {
-			System.out.println("Failed to save file: " + e.getMessage());
+			
+			log.debug("local에 이미지 저장 예외발생 : " + e.getMessage());
+			
 		}
 		// DB에 저장할 Path
 		String uploadDir = "/resources/couponImages/";
-		imageDTO.setImagePath(uploadDir + images.getOriginalFilename());
+		imageDTO.setImagePath(uploadDir + imagePaths);
 
 		boolean insertResult = imageService.insert(imageDTO);
 		
 		if(!insertResult) {
 			
-			System.out.println("이미지 추가 실패");
+			log.debug("이미지 추가 실패");
 			
 			return "admin/couponDownload";
 			
 		}
 		
-		System.out.println("이미지 추가 성공");
+		log.debug("이미지 추가 성공");
 
 		// 3. 해당 쿠폰의 이미지 값 변경(방금 추가된 값)
 		
@@ -145,7 +154,6 @@ public class UpdateDownloadCouponImageController {
 		imageDTO = imageService.selectAll(imageDTO).get(0);
 		
 		int maxImageID = imageDTO.getImageID();
-		System.out.println("추가된 이미지 PK : " + imageID);
 		
 		ProvisionDownloadCouponDTO provisionDownloadCouponDTO = new ProvisionDownloadCouponDTO();
 		
@@ -157,13 +165,13 @@ public class UpdateDownloadCouponImageController {
 		
 		if(!updateResult) {
 			
-			System.out.println("다운로드 쿠폰 이미지 변경 실패");
+			log.debug("다운로드 쿠폰 이미지 변경 실패");
 			
 			return "admin/couponDownload";
 			
 		}
 		
-		System.out.println("다운로드 쿠폰 이미지 변경 성공");
+		log.debug("다운로드 쿠폰 이미지 변경 성공");
 
 		return "redirect:/couponDownload";
 	}

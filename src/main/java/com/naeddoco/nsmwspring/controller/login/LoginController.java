@@ -62,6 +62,7 @@ public class LoginController {
 				log.debug("[log] Controller USER 로그인");
 
 				session.setAttribute("memberID", memberDTO.getMemberID());
+				session.setAttribute("authority", memberDTO.getAuthority());
 
 				// 메인페이지로 이동
 				return "redirect:/";
@@ -73,6 +74,7 @@ public class LoginController {
 				log.debug("[log] Controller Admin 로그인");
 
 				session.setAttribute("memberID", memberDTO.getMemberID());
+				session.setAttribute("authority", memberDTO.getAuthority());
 
 				// 관리자 메인페이지로 이동
 				return "redirect:/dashboard";

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="custom" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,7 +76,7 @@
 		                    tableHtml += '<tr>';
 		                    tableHtml += '<td>' + subscriptionInfo.ancProductName + '</td>';
 		                    tableHtml += '<td>' + subscriptionInfo.quantity + '</td>';
-		                    tableHtml += '<td>' + subscriptionInfo.purchasePrice.toLocaleString('ko-KR') + '</td>';
+		                    tableHtml += '<td>' + subscriptionInfo.purchasePrice.toLocaleString('ko-KR')+'원' + '</td>';
 		                    tableHtml += '</tr>';
 		                });
 	
@@ -192,31 +193,41 @@
 						</tr>
 					</thead>
 						<tbody>
-							<c:forEach var="subscriptionInfo" items="${subscriptionInfos}" varStatus="status">
-							    <tr>
-							        <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
-							            <p id="subscriptionDetail_${status.index}" class="mb-0 mt-4">${subscriptionInfo.beginDate}</p>
-							        </td>
-							        <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
-							            <p id="subscriptionDetail_${status.index}" class="mb-0 mt-4"><fmt:formatNumber value="${subscriptionInfo.ancTotalPrice}" currencyCode="KRW" />원</p>
-							        </td>
-							        <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
-							            <p id="subscriptionDetail_${status.index}" class="mb-0 mt-4">${subscriptionInfo.nextPaymentDate}</p>
-							        </td>
-							        <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
-							            <p id="subscriptionDetail_${status.index}" class="mb-0 mt-4">${subscriptionInfo.ancLastPaymentDate}</p>
-							        </td>
-							        <td>
-							            <p onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;" class="mb-0 mt-4" id="updateAddress_${status.index}">${subscriptionInfo.subscriptionAddress} ${subscriptionInfo.subscriptionDetailAddress}</p>
-							        </td>
-							        <td onclick='goPopup(${status.index}, ${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
-							            <a class="btn border-secondary text-primary rounded-pill mb-0 mt-3" >배송지 변경</a>
-							        </td>
-							        <td>
-							            <a class="btn border-secondary text-primary rounded-pill mb-0 mt-3" onclick='location.href="/subscriptionDetail/delete?subscriptionInfoID=${subscriptionInfo.subscriptionInfoID}";'>구독 취소</a>                                
-							        </td>
-							    </tr>
-							</c:forEach>
+						    <c:forEach var="subscriptionInfo" items="${subscriptionInfos}" varStatus="status">
+						        <tr>
+						            <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
+						                <p id="subscriptionDetail_${status.index}" class="mb-0 mt-4">
+						                    <fmt:formatDate value="${subscriptionInfo.beginDate}" pattern="yyyy-MM-dd" />
+						                </p>
+						            </td>
+						            <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
+						                <p id="subscriptionDetail_${status.index}" class="mb-0 mt-4">
+						                    <fmt:formatNumber value="${subscriptionInfo.ancTotalPrice}" currencyCode="KRW" />원
+						                </p>
+						            </td>
+						            <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
+						                <p id="subscriptionDetail_${status.index}" class="mb-0 mt-4">
+						                    <fmt:formatDate value="${subscriptionInfo.nextPaymentDate}" pattern="yyyy-MM-dd" />
+						                </p>
+						            </td>
+						            <td onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
+						                <p id="subscriptionDetail_${status.index}" class="mb-0 mt-4">
+						                    <fmt:formatDate value="${subscriptionInfo.ancLastPaymentDate}" pattern="yyyy-MM-dd" />
+						                </p>
+						            </td>
+						            <td>
+						                <p onclick='subscriptionDetail(${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;" class="mb-0 mt-4" id="updateAddress_${status.index}">
+						                    ${subscriptionInfo.subscriptionAddress} ${subscriptionInfo.subscriptionDetailAddress}
+						                </p>
+						            </td>
+						            <td onclick='goPopup(${status.index}, ${subscriptionInfo.subscriptionInfoID})' style="cursor: pointer;">
+						                <a class="btn border-secondary text-primary rounded-pill mb-0 mt-3" >배송지 변경</a>
+						            </td>
+						            <td>
+						                <a class="btn border-secondary text-primary rounded-pill mb-0 mt-3" onclick='location.href="/subscriptionDetail/delete?subscriptionInfoID=${subscriptionInfo.subscriptionInfoID}";'>구독 취소</a>
+						            </td>
+						        </tr>
+						    </c:forEach>
 						</tbody>
 				</table>
 			</div>

@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-public class MyPageController {
+public class EntryMyPageController {
 
 	@Autowired
 	private MemberService memberService;
@@ -26,7 +26,7 @@ public class MyPageController {
 	private MemberCategoryService memberCategoryService;
 
 	@RequestMapping(value = "/user/myPage", method = RequestMethod.GET)
-	public String myPage(MemberDTO memberDTO, MemberCategoryDTO memberCategoryDTO, HttpSession session, Model model) {
+	public String entryMyPage (MemberDTO memberDTO, MemberCategoryDTO memberCategoryDTO, HttpSession session, Model model) {
 
 		log.debug("[log] MyPageController 진입");
 
@@ -52,14 +52,26 @@ public class MyPageController {
 		
 		log.debug("[myPage] memberDTO 정보 : " + memberDTO.getPhoneNumber());
 		log.debug("[myPage] memberDTO 정보 : " + memberDTO.getAncShippingAddressID());
-
-		if (memberCategoryList.size() < 1) {
+		
+		if (memberDTO.getGender() != null) {
 			
-			log.debug("[MyPageController] 회원 카테고리 없음");
-
-			memberDTO.setAncCategoryName("");
+			if(memberDTO.getGender().equals("MALE")) {
+				
+				memberDTO.setGender("남");
+				
+			} else if (memberDTO.getGender().equals("FEMALE")) {
+				
+				memberDTO.setGender("여");
+				
+			}
 			
 		} else {
+			
+			log.debug("회원 성별이 없거나 남, 여 외 다른 값");
+			
+		}
+
+		if (memberDTO.getAncCategoryName() != null) {
 			
 			log.debug("[MyPageController] 회원 카테고리 있음");
 			
@@ -74,7 +86,13 @@ public class MyPageController {
 			
 			memberDTO.setAncCategoryName(memberCategory);
 			
-			log.debug("회원 카테고리 : " + memberDTO.getAncCategoryName());
+			log.debug("회원 카테고리 : " + memberDTO.getAncCategoryName());			
+			
+		} else {
+						
+			log.debug("[MyPageController] 회원 카테고리 없음");
+
+			memberDTO.setAncCategoryName("관심 카테고리가 없습니다.");
 			
 		}
 
