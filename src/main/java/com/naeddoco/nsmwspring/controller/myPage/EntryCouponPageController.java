@@ -78,7 +78,7 @@ public class EntryCouponPageController {
 
 		model.addAttribute("myCouponList", myCouponList);
 
-		model.addAttribute("pageValue", "쿠폰 관리");
+		model.addAttribute("pageValue", "쿠폰관리");
 
 		return "/user/couponInfo";
 	}
