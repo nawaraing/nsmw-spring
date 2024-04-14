@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-
 import lombok.extern.slf4j.Slf4j;
 
 @Repository("imageDAO")
@@ -25,9 +24,6 @@ public class ImageDAO {
 	// 이미지 데이터를 가져오는 쿼리문
 	private static final String SELECTONE_IMAGE = "SELECT IMAGE_ID, IMAGE_PATH FROM IMAGE WHERE IMAGE_ID = ?";
 	
-	// 쿠폰 이미지 삭제 후 다운로드 쿠폰 UPDATE시 필요
-	//private static final String SELECTONE_IMAGE_ID = "SELECT IMAGE_ID FROM IMAGE WHERE IMAGE_PATH = ? ";
-	
 	// 이미지 경로 데이터를 추가하는 쿼리문
 	private static final String INSERT = "INSERT INTO IMAGE (IMAGE_PATH) VALUES (?)";
 	
@@ -39,11 +35,11 @@ public class ImageDAO {
 	
 	public List<ImageDTO> selectAll(ImageDTO imageDTO) {
 		
-		log.debug("selectAll 진입");
+		log.trace("selectAll 진입");
 		
 		if(imageDTO.getSearchCondition().equals("getLastOne")) {
 			
-			log.debug("getLastOne 진입");
+			log.trace("getLastOne 진입");
 		
 			try {
 			
@@ -51,16 +47,13 @@ public class ImageDAO {
 		
 			} catch (Exception e) {
 				
-				log.debug("getLastOne 예외 발생");
-
+				log.error("getLastOne 예외 발생");
 				return null;
 
 			} 	
-		
 		} 
 			
-		log.debug("selectAll 실패");
-		
+		log.error("selectAll 실패");
 		return null;
 		
 	}
@@ -83,35 +76,14 @@ public class ImageDAO {
 		
 			} catch (Exception e) {
 				
-				log.debug("deleteAdminProductImageDatas 예외 발생");
-
+				log.error("deleteAdminProductImageDatas 예외 발생");
 				return null;
 
 			} 	
 			
 		} 
-		/* else if(imageDTO.getSearchCondition().equals("getImagePath")) {
-			
-			log.debug("getImagePath 진입");
-			
-			Object[] args = { imageDTO.getImagePath() };
-			
-			try {
-			
-				return jdbcTemplate.queryForObject(SELECTONE_IMAGE_ID, args, new imageIDRowMapper());
-		
-			} catch (Exception e) {
-				
-				log.debug("getImagePath 예외 발생");
-
-				return null;
-
-			} 	
-			
-		}*/
 		
 		log.error("selectOne 실패");
-		
 		return null;
 			
 	}
@@ -135,7 +107,6 @@ public class ImageDAO {
 				if(result <= 0) {
 					
 					log.error("insertProductByAdmin 실패");
-				
 					return false;
 				
 				}
@@ -143,19 +114,16 @@ public class ImageDAO {
 			} catch (Exception e) {
 				
 				log.error("insertProductByAdmin 예외발생");
-
 				return false;
 
 			} 	
 			
 			log.trace("insertProductByAdmin 성공");
-			
 			return true;
 			
 		}
 		
 		log.error("insert 실패");
-		
 		return false;
 		
 	}
@@ -179,7 +147,6 @@ public class ImageDAO {
 				if(result <= 0) {
 					
 					log.error("deleteAdminProductImageDatas 실패");
-			
 					return false;
 				
 				}
@@ -187,7 +154,6 @@ public class ImageDAO {
 			} catch (Exception e) {
 				
 				log.error("deleteAdminProductImageDatas 예외 발생");
-				
 				return false;
 				
 			}
@@ -195,7 +161,6 @@ public class ImageDAO {
 		}	
 			
 		log.trace("delete 성공");
-			
 		return true;
 			
 	}	
@@ -204,7 +169,7 @@ public class ImageDAO {
 
 /*-----------------------------------[ RowMapper ] ---------------------------------------------------------------------------------------------------------*/	
 
-//개발자의 편의를 위해 RowMapper 인터페이스를 사용
+@Slf4j
 class getLastOneRowMapper implements RowMapper<ImageDTO> {
 	
 	@Override
@@ -212,7 +177,11 @@ class getLastOneRowMapper implements RowMapper<ImageDTO> {
 		
 		ImageDTO imageDTO = new ImageDTO();
 		
+		log.trace("getLastOneRowMapper 진입");
+		
 		imageDTO.setImageID(rs.getInt("IMAGE_ID"));
+		
+		log.trace("getLastOneRowMapper 완료");
 		
 		return imageDTO;
 		
@@ -220,6 +189,7 @@ class getLastOneRowMapper implements RowMapper<ImageDTO> {
 	
 }
 
+@Slf4j
 class imageRowMapper implements RowMapper<ImageDTO> {
 	
 	@Override
@@ -227,27 +197,15 @@ class imageRowMapper implements RowMapper<ImageDTO> {
 		
 		ImageDTO imageDTO = new ImageDTO();
 		
+		log.trace("imageRowMapper 진입");
+		
 		imageDTO.setImageID(rs.getInt("IMAGE_ID"));
 		imageDTO.setImagePath(rs.getString("IMAGE_PATH"));
+		
+		log.trace("imageRowMapper 완료");
 		
 		return imageDTO;
 		
 	}
 	
 }
-
-/*
-class imageIDRowMapper implements RowMapper<ImageDTO> {
-	
-	@Override
-	public ImageDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-		
-		ImageDTO imageDTO = new ImageDTO();
-		
-		imageDTO.setImageID(rs.getInt("IMAGE_ID"));
-		
-		return imageDTO;
-		
-	}
-	
-}*/

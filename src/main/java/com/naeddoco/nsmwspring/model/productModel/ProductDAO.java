@@ -105,15 +105,16 @@ public class ProductDAO {
 														    "SALE_STATE = ? " +
 														    "WHERE PRODUCT_ID = ?";
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
+/*-----------------------------------[ selectAll ] ---------------------------------------------------------------------------------------------------------*/	
+	
 	public List<ProductDTO> selectAll(ProductDTO productDTO) {
 
-		log.debug("selectAll 진입");
+		log.trace("selectAll 진입");
 
 		if (productDTO.getSearchCondition().equals("getLastOne")) {
 
-			log.debug("getLastOne 진입");
+			log.trace("getLastOne 진입");
 
 			try {
 
@@ -129,7 +130,7 @@ public class ProductDAO {
 
 		} else if(productDTO.getSearchCondition().equals("selectAdminProductListDatas")) {
 			
-			log.debug("selectAdminProductListDatas 진입");
+			log.trace("selectAdminProductListDatas 진입");
 			
 			String sqlQuery = SELECTALL_CHAR_SEARCH;
 			
@@ -158,15 +159,16 @@ public class ProductDAO {
 
 	}
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
+	
+/*-----------------------------------[ selectOne ] ---------------------------------------------------------------------------------------------------------*/	
+	
 	public ProductDTO selectOne(ProductDTO productDTO) {
 		
-		log.debug("selectOne 진입");
+		log.trace("selectOne 진입");
 		
 		if(productDTO.getSearchCondition().equals("getProductDetail")) {
 			
-			log.debug("getProductDetail 진입");
+			log.trace("getProductDetail 진입");
 			
 			Object[] args = { productDTO.getProductID() };
 
@@ -190,17 +192,17 @@ public class ProductDAO {
 
 	}
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
+/*-----------------------------------[ insert ] ------------------------------------------------------------------------------------------------------------*/
+	
 	public boolean insert(ProductDTO productDTO) {
 
-		log.debug("insert 진입");
+		log.trace("insert 진입");
 
 		int result = 0;
 
 		if (productDTO.getSearchCondition().equals("crawlProduct")) {
 			
-			log.debug("crawlProduct 진입");
+			log.trace("crawlProduct 진입");
 
 			try {
 			
@@ -232,13 +234,13 @@ public class ProductDAO {
 
 			}
 			
-			log.debug("crawlProduct 성공");
+			log.trace("crawlProduct 성공");
 
 			return true;
 			
 		} else if(productDTO.getSearchCondition().equals("insertProductByAdmin")) {
 			
-			log.debug("insertProductByAdmin 진입");
+			log.trace("insertProductByAdmin 진입");
 
 			try {
 			
@@ -270,7 +272,7 @@ public class ProductDAO {
 
 			}
 			
-			log.debug("insertProductByAdmin 성공");
+			log.trace("insertProductByAdmin 성공");
 
 			return true;
 			
@@ -282,8 +284,9 @@ public class ProductDAO {
 
 	}
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
+/*-----------------------------------[ update ] ------------------------------------------------------------------------------------------------------------*/
+	
 	public boolean update(ProductDTO productDTO) {
 		
 		log.debug("update 진입");
@@ -324,7 +327,7 @@ public class ProductDAO {
 
 			}
 			
-			log.error("updateAdminProductListData 성공");
+			log.trace("updateAdminProductListData 성공");
 			
 			return true;
 
@@ -354,7 +357,7 @@ public class ProductDAO {
 
 			}
 			
-			log.error("updateSaleState 성공");
+			log.trace("updateSaleState 성공");
 			
 			return true;
 			
@@ -369,7 +372,7 @@ public class ProductDAO {
 
 }
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------[ RowMapper ] ---------------------------------------------------------------------------------------------------------*/
 
 @Slf4j
 class getLastOneRowMapper implements RowMapper<ProductDTO> {
@@ -377,13 +380,13 @@ class getLastOneRowMapper implements RowMapper<ProductDTO> {
 	@Override
 	public ProductDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-		log.debug("getLastOneRowMapper 진입");
+		log.trace("getLastOneRowMapper 진입");
 
 		ProductDTO productDTO = new ProductDTO();
 
 		productDTO.setProductID(rs.getInt("PRODUCT_ID"));
 
-		log.debug("getLastOneRowMapper 완료");
+		log.trace("getLastOneRowMapper 완료");
 
 		return productDTO;
 
@@ -397,7 +400,7 @@ class getProductDetailRowMapper implements RowMapper<ProductDTO> {
 	@Override
 	public ProductDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
-		log.debug("getProductDetailRowMapper 진입");
+		log.trace("getProductDetailRowMapper 진입");
 
 		ProductDTO productDTO = new ProductDTO();
 		
@@ -417,7 +420,7 @@ class getProductDetailRowMapper implements RowMapper<ProductDTO> {
 		productDTO.setAncCategoryName(rs.getString("CA.CATEGORY_NAME"));
 		productDTO.setAncImagePath(rs.getString("I.IMAGE_PATH"));
 		
-		log.debug("getProductDetailRowMapper 완료");
+		log.trace("getProductDetailRowMapper 완료");
 
 		return productDTO;
 
@@ -431,7 +434,7 @@ class selectAllCharSearchRowMapper implements RowMapper<ProductDTO> {
 	@Override
 	public ProductDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
-		log.debug("selectAllProductRowMapper 진입");
+		log.trace("selectAllProductRowMapper 진입");
 
 		ProductDTO productDTO = new ProductDTO();
 		
@@ -451,7 +454,7 @@ class selectAllCharSearchRowMapper implements RowMapper<ProductDTO> {
 		productDTO.setAncCategoryName(rs.getString("CATEGORIES"));
 		productDTO.setAncImagePath(rs.getString("IMAGE_PATHS"));
 		
-		log.debug("selectAllProductRowMapper 완료");
+		log.trace("selectAllProductRowMapper 완료");
 
 		return productDTO;
 

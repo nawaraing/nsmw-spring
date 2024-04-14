@@ -34,13 +34,16 @@ public class MemberCategoryDAO {
 										 "?, " +
 										 "? )";
 
+	
+/*-----------------------------------[ selectAll ] ---------------------------------------------------------------------------------------------------------*/	
+
 	public List<MemberCategoryDTO> selectAll(MemberCategoryDTO memberCategoryDTO) {
 
-		log.debug("selectAll 진입");
+		log.trace("selectAll 진입");
 
 		if (memberCategoryDTO.getSearchCondition().equals("memberCategory")) {
 
-			log.debug("memberCategory 진입");
+			log.trace("memberCategory 진입");
 
 			Object args[] = { memberCategoryDTO.getMemberID() };
 
@@ -51,7 +54,6 @@ public class MemberCategoryDAO {
 			} catch (Exception e) {
 
 				log.error("memberCategory 예외 발생");
-
 				return null;
 
 			}
@@ -59,20 +61,19 @@ public class MemberCategoryDAO {
 		}
 		
 		log.error("selectAll 실패");
-
 		return null;
 
 	}
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------[ insert ] ------------------------------------------------------------------------------------------------------------*/
 	
 	public boolean insert(MemberCategoryDTO memberCategoryDTO) {
 	
-		log.debug("insert 진입");
+		log.trace("insert 진입");
 		
 		if (memberCategoryDTO.getSearchCondition().equals("joinMemberCategory")) {
 			
-			log.debug("joinMemberCategory 진입");
+			log.trace("joinMemberCategory 진입");
 			
 			int result = 0;
 			
@@ -83,7 +84,6 @@ public class MemberCategoryDAO {
 			} catch (Exception e) {
 
 				log.error("joinMemberCategory 예외 발생");
-
 				return false;
 
 			}
@@ -91,40 +91,38 @@ public class MemberCategoryDAO {
 			if (result <= 0) {
 				
 				log.error("joinMemberCategory 실패");
-				
 				return false;
 				
 			}
 			
-			log.debug("joinMemberCategory 성공");
-			
+			log.trace("joinMemberCategory 성공");
 			return true;
 			
 		}
 		
-		log.debug("insert 실패");
-		
+		log.error("insert 실패");
 		return false;
 		
 	}
 
 }
 
-//개발자의 편의를 위해 RowMapper 인터페이스를 사용
+/*-----------------------------------[ RowMapper ] ---------------------------------------------------------------------------------------------------------*/
+
 @Slf4j
 class MemberCategoryRowMapper implements RowMapper<MemberCategoryDTO> {
 	
 	@Override
 	public MemberCategoryDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
-		log.debug("MemberCategoryRowMappe 진입");
+		log.trace("MemberCategoryRowMappe 진입");
 		
 		MemberCategoryDTO memberCategoryDTO = new MemberCategoryDTO();
 		
 		memberCategoryDTO.setCategoryID(rs.getInt("C.CATEGORY_ID"));
 		memberCategoryDTO.setAncCategoryName(rs.getString("C.CATEGORY_NAME"));
 		
-		log.debug("MemberCategoryRowMappe 완료");
+		log.trace("MemberCategoryRowMappe 완료");
 		
 		return memberCategoryDTO;
 	}

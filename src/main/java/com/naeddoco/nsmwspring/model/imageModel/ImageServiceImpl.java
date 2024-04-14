@@ -13,30 +13,22 @@ public class ImageServiceImpl implements ImageService {
 	
 	@Override
 	public List<ImageDTO> selectAll(ImageDTO imageDTO) {
-		
 		return ImageDAO.selectAll(imageDTO);
-		
 	}
 
 	@Override
 	public ImageDTO selectOne(ImageDTO imageDTO) {
-		
 		return ImageDAO.selectOne(imageDTO);
-		
 	}
 
 	@Override
 	public boolean insert(ImageDTO imageDTO) {
-		
 		return ImageDAO.insert(imageDTO);
-		
 	}
 
 	@Override
 	public boolean delete(ImageDTO imageDTO) {
-		
 		return ImageDAO.delete(imageDTO);
-		
 	}
 
 }

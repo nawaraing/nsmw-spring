@@ -63,19 +63,15 @@ public class MemberCouponDAO {
 	
 	// 구매페이지에서 사용가능한 쿠폰 조회시 사용
 	// 카테고리, 쿠폰 사용여부 확인 필요
-	private static final String SELECTALL_MY_COUPON_BY_BUY_PAGE = "";
+	//private static final String SELECTALL_MY_COUPON_BY_BUY_PAGE = "";
 			
-	private static final String SELECTONE = "";
-	
 	// DOWNLOAD쿠폰(팝업), GRADE쿠폰, BATCH쿠폰 INSERT시 사용
 	private static final String INSERT = "INSERT INTO MEMBER_COUPON (MEMBER_ID, COUPON_ID) VALUES (?,?)";
 	
-	private static final String UPDATE = "";
 	
-	private static final String DELETE = "";
-	
-	
-// --------------------------------------------------------------------------------------------------------------------------------
+
+/*-----------------------------------[ selectAll ] ---------------------------------------------------------------------------------------------------------*/	
+
 	public List<MemberCouponDTO> selectAll(MemberCouponDTO memberCouponDTO) {
 		
 		log.trace("selectAll 진입");
@@ -92,7 +88,6 @@ public class MemberCouponDAO {
 			} catch (Exception e) {
 
 				log.error("selectAllMyCoupon 예외/실패" + e.getMessage(), e);
-
 				return null;
 
 			}
@@ -100,24 +95,12 @@ public class MemberCouponDAO {
 		}
 
 		log.error("selectAll 실패");
-
 		return null;
 
 	}
 
-	public MemberCouponDTO selectOne(MemberCouponDTO memberCouponDTO) {
-
-//		Object[] args = { gradeDTO.getGradeID() };
-//		log.debug("selectOne start");
-//	
-//		try {
-//			return jdbcTemplate.queryForObject(SELECTONE, args, new MemberCouponRowMapper());
-//		} catch (Exception e) {
-//			log.debug("selectOne 예외처리");
-			return null;
-//		}
-	}
-
+	
+/*-----------------------------------[ insert ] ------------------------------------------------------------------------------------------------------------*/
 	
 	public boolean insert(MemberCouponDTO memberCouponDTO) {
 	
@@ -135,32 +118,10 @@ public class MemberCouponDAO {
 		return true;
 	}
 
-	
-	public boolean update(MemberCouponDTO memberCouponDTO) {
-
-//		int result = jdbcTemplate.update(UPDATE);
-//		if(result <= 0) {
-//			log.debug("update 실패");
-			return false;
-//		}
-//		log.debug("update 성공");
-//		return true;
-	}
-
-	
-	public boolean delete(MemberCouponDTO memberCouponDTO) {
-		
-//		int result = jdbcTemplate.update(DELETE);
-//		if(result <= 0) {
-//			log.debug("delete 성공");
-			return false;
-//		}
-//		log.debug("delete 성공");
-//		return true;
-	}	
 }
 
-//개발자의 편의를 위해 RowMapper 인터페이스를 사용
+/*-----------------------------------[ RowMapper ] ---------------------------------------------------------------------------------------------------------*/
+
 @Slf4j
 class MemberCouponRowMapper implements RowMapper<MemberCouponDTO> {
 	@Override
@@ -172,10 +133,10 @@ class MemberCouponRowMapper implements RowMapper<MemberCouponDTO> {
 		data.setCouponID(rs.getInt("COUPON_ID"));
 		data.setCouponUsage(rs.getString("COUPON_USAGE"));
 			
-		log.debug(Integer.toString(rs.getInt("MEMBER_COUPON_ID")));
-		log.debug(rs.getString("MEMBER_ID"));
-		log.debug(Integer.toString(rs.getInt("COUPON_ID")));
-		log.debug(rs.getString(rs.getInt("COUPON_USAGE")));
+		log.debug("MEMBER_COUPON_ID : " + Integer.toString(rs.getInt("MEMBER_COUPON_ID")));
+		log.debug("MEMBER_ID : " + rs.getString("MEMBER_ID"));
+		log.debug("COUPON_ID : " + Integer.toString(rs.getInt("COUPON_ID")));
+		log.debug("COUPON_USAGE : " + rs.getString(rs.getInt("COUPON_USAGE")));
 		
 		return data;
 	}

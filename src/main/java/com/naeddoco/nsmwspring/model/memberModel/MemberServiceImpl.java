@@ -31,9 +31,4 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.update(memberDTO);
 	}
 
-	@Override
-	public boolean delete(MemberDTO memberDTO) {
-		return memberDAO.delete(memberDTO);
-	}
-
 }

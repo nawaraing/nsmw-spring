@@ -165,10 +165,11 @@ public class MemberDAO {
 //	// 비밀번호번경
 //	// 해당 회원의 비밀번호를 변경한다
 //	private static final String UPDATE_MEMBER_PW = "UPDATE MEMBER SET M_PASSWORD=? WHERE M_ID=?";
-//	
-//	private static final String DELETE = "";
 
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+	
+	
+/*-----------------------------------[ selectAll ] ---------------------------------------------------------------------------------------------------------*/	
+
 	
 	public List<MemberDTO> selectAll(MemberDTO memberDTO) {
 		
@@ -239,7 +240,8 @@ public class MemberDAO {
 
 	}
 
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+/*-----------------------------------[ selectOne ] ---------------------------------------------------------------------------------------------------------*/	
+
 	
 	public MemberDTO selectOne(MemberDTO memberDTO) {
 
@@ -347,7 +349,8 @@ public class MemberDAO {
 
 	}
 
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+/*-----------------------------------[ insert ] ------------------------------------------------------------------------------------------------------------*/
+
 	
 	public boolean insert(MemberDTO memberDTO) {
 		log.trace("insert 진입");
@@ -378,7 +381,7 @@ public class MemberDAO {
 	}
 
 
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/	
+/*-----------------------------------[ update ] ------------------------------------------------------------------------------------------------------------*/
 	
 
 	public boolean update(MemberDTO memberDTO) {
@@ -447,22 +450,17 @@ public class MemberDAO {
 
 	}
 	
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-	public boolean delete(MemberDTO memberDTO) {
-
-		return false;
-
-	}
-	
 }
 
-// 개발자의 편의를 위해 RowMapper 인터페이스를 사용
+/*-----------------------------------[ RowMapper ] ---------------------------------------------------------------------------------------------------------*/
+
+
 @Slf4j
 class MemberRowMapper implements RowMapper<MemberDTO> {
 
 	@Override
 	public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
 		log.trace("MemberRowMapper 진입");
 		
 		MemberDTO data = new MemberDTO();
@@ -477,16 +475,8 @@ class MemberRowMapper implements RowMapper<MemberDTO> {
 		data.setAuthority(rs.getString("AUTHORITY"));
 		data.setMemberState(rs.getString("MEMBER_STATE"));
 
-		log.debug(rs.getString("MEMBER_ID"));
-		log.debug(rs.getString("MEMBER_PASSWORD"));
-		log.debug(rs.getString("MEMBER_NAME"));
-		log.debug(rs.getString("DAY_OF_BIRTH"));
-		log.debug(rs.getString("GENDER"));
-		log.debug(rs.getString("PHONE_NUMBER"));
-		log.debug(rs.getString("EMAIL"));
-		log.debug(rs.getString("AUTHORITY"));
-		log.debug(rs.getString("MEMBER_STATE"));
-
+		log.trace("MemberRowMapper 완료");
+		
 		return data;
 
 	}
@@ -498,6 +488,7 @@ class MemberLoginRowMapper implements RowMapper<MemberDTO> {
 
 	@Override
 	public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
 		log.trace("MemberLoginRowMapper 진입");
 
 		MemberDTO data = new MemberDTO();
@@ -507,6 +498,8 @@ class MemberLoginRowMapper implements RowMapper<MemberDTO> {
 
 		log.debug(rs.getString("MEMBER_ID"));
 		log.debug(rs.getString("AUTHORITY"));
+		
+		log.trace("MemberLoginRowMapper 완료");
 
 		return data;
 
@@ -519,6 +512,7 @@ class SelectMemberInfoRowMapper implements RowMapper<MemberDTO> {
 
 	@Override
 	public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
 		log.trace("selectMemberInfoRowMapper 진입");
 
 		MemberDTO memberDTO = new MemberDTO();
@@ -529,6 +523,8 @@ class SelectMemberInfoRowMapper implements RowMapper<MemberDTO> {
 		memberDTO.setAncShippingPostCode(rs.getInt("SA.SHIPPING_POSTCODE"));
 		memberDTO.setAncShippingAddress(rs.getString("SA.SHIPPING_ADDRESS"));
 		memberDTO.setAncShippingAddressDetail(rs.getString("SA.SHIPPING_DETAIL_ADDRESS"));
+		
+		log.trace("selectMemberInfoRowMapper 완료");
 
 		return memberDTO;
 
@@ -548,6 +544,8 @@ class IdDuplicationCheckRowMapper implements RowMapper<MemberDTO> {
 
 		data.setMemberID(rs.getString("MEMBER_ID"));
 
+		log.trace("IdDuplicationCheckRowMapper 완료");
+		
 		return data;
 
 	}
@@ -621,7 +619,7 @@ class joinMemberInfoRowMapper implements RowMapper<MemberDTO> {
    @Override
    public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-      log.debug("joinMemberInfoRowMapper 진입");
+      log.trace("joinMemberInfoRowMapper 진입");
 
       MemberDTO memberDTO = new MemberDTO();
       
@@ -637,7 +635,7 @@ class joinMemberInfoRowMapper implements RowMapper<MemberDTO> {
       memberDTO.setAncGradeName(rs.getString("G.GRADE_NAME"));
       memberDTO.setAncCategoryName(rs.getString("CATEGORIES"));
       
-      log.debug("joinMemberInfoRowMapper 완료");
+      log.trace("joinMemberInfoRowMapper 완료");
       
       return memberDTO;
 
@@ -651,13 +649,13 @@ class getAuthorityRowMapper implements RowMapper<MemberDTO> {
    @Override
    public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-      log.debug("getAuthorityRowMapper 진입");
+      log.trace("getAuthorityRowMapper 진입");
 
       MemberDTO memberDTO = new MemberDTO();
       
      memberDTO.setAuthority(rs.getString("AUTHORITY"));
       
-      log.debug("getAuthorityRowMapper 완료");
+      log.trace("getAuthorityRowMapper 완료");
       
       return memberDTO;
 
