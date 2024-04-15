@@ -70,7 +70,7 @@ public class UpdateProductImageController {
 			int imageID = p.getImageID();
 				
 			ImageDTO imageDTO = new ImageDTO();	
-			imageDTO.setSearchCondition("getImagePath");
+			imageDTO.setSearchCondition("deleteAdminProductImageDatas");
 			imageDTO.setImageID(imageID);
 				
 			imageDTO = imageService.selectOne(imageDTO);
