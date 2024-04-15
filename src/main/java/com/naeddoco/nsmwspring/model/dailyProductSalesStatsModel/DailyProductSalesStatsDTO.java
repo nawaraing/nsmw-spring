@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class DailyProductSalesStatsDTO {
+	
 	private int dailyProductSalesStatsID; 		// 일별 상품 통계 아이디
 	private int productID;						// 상품 아이디
 	private Date dailyTotalCalculateDate; 		// 통계일

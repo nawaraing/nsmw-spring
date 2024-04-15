@@ -13,10 +13,9 @@ public class BuyInfoServiceImpl implements BuyInfoService{
 	
 	@Override
 	public List<BuyInfoDTO> selectAll(BuyInfoDTO buyInfoDTO) {
-		
 		return buyInfoDAO.selectAll(buyInfoDTO);
-		
 	}
+	
 	@Override
 	public BuyInfoDTO selectOne(BuyInfoDTO buyInfoDTO) {
 		return buyInfoDAO.selectOne(buyInfoDTO);
@@ -24,10 +23,7 @@ public class BuyInfoServiceImpl implements BuyInfoService{
 
 	@Override
 	public boolean insert(BuyInfoDTO buyInfoDTO) {
-		
 		return buyInfoDAO.insert(buyInfoDTO);
-		
 	}
-
 
 }

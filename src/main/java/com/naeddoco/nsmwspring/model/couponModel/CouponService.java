@@ -4,6 +4,7 @@ import java.util.List;
 
 
 public interface CouponService {
+	
 	public List<CouponDTO> selectAll(CouponDTO couponDTO);
 	public CouponDTO selectOne(CouponDTO couponDTO);
 	public boolean insert(CouponDTO couponDTO);

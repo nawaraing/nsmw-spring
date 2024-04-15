@@ -33,8 +33,8 @@ public class CartDAO {
 												 "WHERE P.SALE_STATE = 'SALES' AND C.MEMBER_ID = ?";
 												
 	//장바구니에 해당 상품 추가시 장바구니에 중복 상품이 있는지 확인
-	//결과가 반환되면 중복상품 존재 -> update
-	//없다면 존재하지 않음 -> insert
+	//결과가 반환되면 중복상품 존재 -> UPDATE
+	//없다면 존재하지 않음 -> INSERT
 	private static final String SELECTONE_CART = "SELECT CART_ID, MEMBER_ID, PRODUCT_ID, PRODUCT_QUANTITY "
 												+ "FROM CART WHERE MEMBER_ID = ? "
 												+ "AND PRODUCT_ID = ?";
@@ -52,12 +52,12 @@ public class CartDAO {
 	
 	public List<CartDTO> selectAll(CartDTO cartDTO) {
 		
-		log.debug("selectAll 진입");
+		log.trace("selectAll 진입");
 
 		//회원아이디로 장바구니 목록 조회
 		if (cartDTO.getSearchCondition().equals("selectCartDatas")) {
 			
-			log.debug("selectCartDatas 진입");
+			log.trace("selectCartDatas 진입");
 			
 			Object[] args = { cartDTO.getMemberID() };
 			
@@ -67,14 +67,14 @@ public class CartDAO {
 			
 			} catch (Exception e) {
 				
-				log.debug("selectCartDatas 예외 발생");
+				log.error("selectCartDatas 예외 발생");
 				
 				return null;
 			}
 			
 		}
 		
-		log.debug("selectAll 실패");
+		log.error("selectAll 실패");
 		
 		return null;
 		
@@ -84,12 +84,12 @@ public class CartDAO {
 	
 	public CartDTO selectOne(CartDTO cartDTO) {
 		
-		log.debug("selectOne 진입");
+		log.trace("selectOne 진입");
 
 		//장바구니 중복상품 확인
 		if (cartDTO.getSearchCondition().equals("checkCartProductData")) {
 			
-			log.debug("checkCartProductData 진입");
+			log.trace("checkCartProductData 진입");
 			
 			Object[] args = { cartDTO.getMemberID(), cartDTO.getProductID() };
 
@@ -99,7 +99,7 @@ public class CartDAO {
 				
 			} catch (Exception e) {
 				
-				log.debug("checkCartProductData 예외 발생");
+				log.error("checkCartProductData 예외 발생");
 				
 				return null;
 				
@@ -107,7 +107,7 @@ public class CartDAO {
 			
 		}
 		
-		log.debug("selectOne 실패");
+		log.error("selectOne 실패");
 		
 		return null;
 		
@@ -117,24 +117,24 @@ public class CartDAO {
 	
 	public boolean insert(CartDTO cartDTO) {
 		
-		log.debug("insert 진입");
+		log.trace("insert 진입");
 		
 		//장바구니 신규 추가
 		if (cartDTO.getSearchCondition().equals("insertProductData")) {
 			
-			log.debug("insertProductData 진입");
+			log.trace("insertProductData 진입");
 			
 			int result = jdbcTemplate.update(INSERT_CART, cartDTO.getMemberID(), cartDTO.getProductID(), cartDTO.getProductQuantity());
 			
 			if(result <= 0) {
 				
-				log.debug("insertProductData 실패");
+				log.error("insertProductData 실패");
 				
 				return false;
 				
 			}
 			
-			log.debug("insertProductData 성공");
+			log.error("insertProductData 성공");
 			
 			return true;
 			
@@ -150,20 +150,20 @@ public class CartDAO {
 	
 	public boolean update(CartDTO cartDTO) {
 		
-		log.debug("update 진입");
+		log.trace("update 진입");
 		
 		//장바구니 중복상품 수량 추가
 		int result = jdbcTemplate.update(UPDATE_CART_QTY_ADD, cartDTO.getProductQuantity(), cartDTO.getCartID());
 		
 		if(result <= 0) {
 			
-			log.debug("updateProductData 실패");
+			log.error("updateProductData 실패");
 			
 			return false;
 			
 		}
 		
-		log.debug("updateProductData 성공");
+		log.trace("updateProductData 성공");
 		
 		return true;
 		
@@ -173,11 +173,11 @@ public class CartDAO {
 	
 	public boolean delete(CartDTO cartDTO) {
 		
-		log.debug("delete 진입");
+		log.trace("delete 진입");
 		
 		if(cartDTO.getSearchCondition().equals("deleteCart")) {
 			
-			log.debug("deleteCart 진입");
+			log.trace("deleteCart 진입");
 			
 			int result = 0;
 			
@@ -187,7 +187,7 @@ public class CartDAO {
 			
 			} catch (Exception e) {
 				
-				log.debug("deleteCart 예외 발생");
+				log.error("deleteCart 예외 발생");
 				
 				return false;
 				
@@ -195,19 +195,19 @@ public class CartDAO {
 			
 			if(result <= 0) {
 				
-				log.debug("deleteCart 실패");
+				log.error("deleteCart 실패");
 				
 				return false;
 				
 			}
 			
-			log.debug("deleteCart 성공");
+			log.trace("deleteCart 성공");
 			
 			return true;
 			
 		}
 		
-		log.debug("delete 실패");
+		log.error("delete 실패");
 		
 		return false;
 			

@@ -2,7 +2,6 @@ package com.naeddoco.nsmwspring.model.wonCoupon;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,12 +17,8 @@ public class WonCouponDAO {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
-	private static final String SELECTALL = "";
-
-	private static final String SELECTONE = "";
 	
-	//COUPON insert시 같이 insert
+	//COUPON INSERT시 같이 INSERT
 	private static final String INSERT = "INSERT INTO WON_COUPON "
 									+ "(COUPON_ID, COUPON_DISCOUNT_AMOUNT, MIN_ORDER_AMOUNT) "
 									+ "VALUES (?,?,?)";
@@ -35,29 +30,9 @@ public class WonCouponDAO {
 											+ "MIN_ORDER_AMOUNT = ? "
 										+ "WHERE WON_COUPON_ID = ?";
 	
-	private static final String DELETE = "";
-	
-//------------------------------------------------------------------------------------------------
-	public List<WonCouponDTO> selectAll(WonCouponDTO wonCouponDTO) {
-		log.debug("selectAll start");
-		return (List<WonCouponDTO>)jdbcTemplate.query(SELECTALL, new WonCouponRowMapper());
-	}
 
-	
-	public WonCouponDTO selectOne(WonCouponDTO wonCouponDTO) {
+/*-----------------------------------[ insert ] ------------------------------------------------------------------------------------------------------------*/
 
-//		Object[] args = { wonCouponDTO.getWonCouponID()};
-//		log.debug("selectOne start");
-//	
-//		try {
-//			return jdbcTemplate.queryForObject(SELECTONE, args, new WonCouponRowMapper());
-//		} catch (Exception e) {
-//			log.debug("selectOne 예외처리");
-			return null;
-//		}
-	}
-
-	
 	public boolean insert(WonCouponDTO wonCouponDTO) {
 		log.trace("insert 진입");
 
@@ -84,6 +59,8 @@ public class WonCouponDAO {
 		return false;
 	}
 	
+/*-----------------------------------[ update ] ------------------------------------------------------------------------------------------------------------*/
+
 	public boolean update(WonCouponDTO wonCouponDTO) {
 		log.trace("update 진입");
 
@@ -109,21 +86,10 @@ public class WonCouponDAO {
 		log.error("update 실패");
 		return false;
 	}
-
-	
-	public boolean delete(WonCouponDTO wonCouponDTO) {
-		
-//		int result = jdbcTemplate.update(DELETE);
-//		if(result <= 0) {
-//			log.debug("delete 성공");
-			return false;
-//		}
-//		log.debug("delete 성공");
-//		return true;
-	}	
 }
 
-//개발자의 편의를 위해 RowMapper 인터페이스를 사용
+/*-----------------------------------[ RowMapper ] ---------------------------------------------------------------------------------------------------------*/
+
 @Slf4j
 class WonCouponRowMapper implements RowMapper<WonCouponDTO> {
 	@Override

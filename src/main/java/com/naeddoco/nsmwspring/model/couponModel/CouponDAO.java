@@ -2,7 +2,6 @@ package com.naeddoco.nsmwspring.model.couponModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ public class CouponDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	//
 	private static final String SELECTALL_BY_CATEGORY_NAME = "SELECT C.COUPON_ID, C.COUPON_NAME, C.EXPIRATION_DATE, C.COUPON_TYPE, CA.CATEGORY_NAME, " +
 			 												 "IF(C.COUPON_TYPE = 'WON', WC.COUPON_DISCOUNT_AMOUNT, NULL) AS DISCOUNT_AMOUNT, " +
 			 												 "IF(C.COUPON_TYPE = 'WON', WC.MIN_ORDER_AMOUNT, NULL) AS MIN_ORDER_AMOUNT, " +
@@ -224,13 +222,13 @@ public class CouponDAO {
 																		+ "PERCENTAGE_COUPON P ON C.COUPON_ID = P.COUPON_ID "
 																	+ "LEFT JOIN "
 																		+ "WON_COUPON W ON C.COUPON_ID = W.COUPON_ID "
-																	+ "LEFT JOIN "
+																	+ "JOIN "
 																		+ "COUPON_CATEGORY CC ON C.COUPON_ID = CC.COUPON_ID "
 																	+ "LEFT JOIN "
 																		+ "CATEGORY CAT ON CC.CATEGORY_ID = CAT.CATEGORY_ID "
 																	+ "JOIN "
 																		+ "PROVISION_DOWNLOAD_COUPON PDC ON PDC.COUPON_ID = C.COUPON_ID "
-																	+ "LEFT JOIN "
+																	+ "JOIN "
 																		+ "IMAGE I ON I.IMAGE_ID = PDC.IMAGE_ID "
 																	+ "ORDER BY "
 																		+ "FIELD(PDC.DEPLOY_STATUS, 'WILL', 'DOING', 'STOP', 'DONE') ";		
@@ -284,6 +282,7 @@ public class CouponDAO {
 	private static final String INSERT = "INSERT INTO COUPON (COUPON_NAME, DISTRIBUTE_DATE, EXPIRATION_DATE, COUPON_TYPE) "
 											+ "VALUES (?,?,?,?)";
 
+	// 
 	private static final String UPDATE = "UPDATE COUPON "
 										+ "SET COUPON_NAME = ?,"
 											+ "EXPIRATION_DATE = ?,"
@@ -296,7 +295,7 @@ public class CouponDAO {
 	private static final String DELETE = "DELETE FROM COUPON"
 										+ "WHERE COUPON_ID = ?";
 	
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------[ selectAll ] ---------------------------------------------------------------------------------------------------------*/	
 
 	public List<CouponDTO> selectAll(CouponDTO couponDTO) {
 
@@ -315,7 +314,6 @@ public class CouponDAO {
 			} catch (Exception e) {
 
 				log.error("selectAllCoupon 예외/실패" + e.getMessage());
-
 				return null;
 
 			}
@@ -332,7 +330,6 @@ public class CouponDAO {
 			} catch (Exception e) {
 
 				log.error("selectAllCouponInfo 예외/실패");
-
 				return null;
 
 			}
@@ -373,7 +370,6 @@ public class CouponDAO {
 
 			}
 
-
 			try {
 
 				return (List<CouponDTO>)jdbcTemplate.query(sqlQuery, args, new selectAllGradeCouponInfoRowMapper());
@@ -381,7 +377,6 @@ public class CouponDAO {
 			} catch (Exception e) {
 
 				log.error("selectAllSearchAndSort 예외/실패");
-
 				return null;
 
 			}
@@ -398,7 +393,6 @@ public class CouponDAO {
 			} catch (Exception e) {
 
 				log.error("selectAllBatchCouponInfo 예외/실패");
-
 				return null;
 
 			}
@@ -446,7 +440,6 @@ public class CouponDAO {
 			} catch (Exception e) {
 
 				log.error("selectAllSearchAndSortBatch 예외/실패");
-
 				return null;
 
 			}
@@ -463,7 +456,6 @@ public class CouponDAO {
 			} catch (Exception e) {
 
 				log.error("selectAllDownloadCouponInfo 예외/실패 ");
-
 				return null;
 
 			}
@@ -477,7 +469,7 @@ public class CouponDAO {
 							 couponDTO.getAncSearchKeyword()};
 
 			// 쿠폰명 검색은 기본 적용
-			// 검색 키워드가 없더라도 정상작동되는 쿼리문
+			// 검색 키워드가 없더라도 기본적으로 실행되는 쿼리문
 			String query = SELECTALL_SEARCH_AND_SORT_BY_DOWNLOAD;
 
 			String sqlQuery = null;
@@ -511,7 +503,6 @@ public class CouponDAO {
 
 			}
 
-
 			try {
 
 				return (List<CouponDTO>)jdbcTemplate.query(sqlQuery, args, new selectAllDownloadCouponInfoRowMapper());
@@ -519,22 +510,17 @@ public class CouponDAO {
 			} catch (Exception e) {
 
 				log.error("selectAllSearchAndSortDownload 예외/실패");
-
 				return null;
 
 			}
-
 		}
 		
-		
-
 		log.error("selectAll 실패");
-
 		return null;
 
 	}
 
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------[ selectOne ] ---------------------------------------------------------------------------------------------------------*/
 
 	public CouponDTO selectOne(CouponDTO couponDTO) {
 
@@ -551,31 +537,30 @@ public class CouponDAO {
 			} catch (Exception e) {
 				
 				log.error("selectLastId 예외/실패");
-
 				return null;
 
 			}
-			
 		}
 		
 		log.error("selectOne 처리 실패");
-		
 		return null;
 				
 	}
 
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------[ insert ] ------------------------------------------------------------------------------------------------------------*/
 
 	public boolean insert(CouponDTO couponDTO) {
 
 		log.trace("insert 진입");
+		
 		if(couponDTO.getSearchCondition().equals("insertAdminCouponData")) {
 			
 			log.trace("insertAdminCouponData 진입");
+			
 			int result = jdbcTemplate.update(INSERT, couponDTO.getCouponName(), 
-					couponDTO.getDistributeDate(), 
-					couponDTO.getExpirationDate(), 
-					couponDTO.getCouponType());
+													 couponDTO.getDistributeDate(), 
+													 couponDTO.getExpirationDate(), 
+													 couponDTO.getCouponType());
 
 			if(result <= 0) {
 				log.error("insertAdminCouponData 실패");
@@ -591,20 +576,23 @@ public class CouponDAO {
 		return false;
 	}
 
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------[ update ] ------------------------------------------------------------------------------------------------------------*/
 
 	public boolean update(CouponDTO couponDTO) {
 
 		log.trace("update 진입");
+		
 		if(couponDTO.getSearchCondition().equals("updateAdminCouponGradeData")) {
 			
 			log.trace("updateAdminCouponGradeData 진입");
+			
 			int result = jdbcTemplate.update(UPDATE, couponDTO.getCouponName(), 
-													couponDTO.getExpirationDate(), 
-													couponDTO.getCouponType(),
-													couponDTO.getCouponID());
+													 couponDTO.getExpirationDate(), 
+													 couponDTO.getCouponType(),
+													 couponDTO.getCouponID());
 
 			if(result <= 0) {
+				
 				log.error("updateAdminCouponGradeData 실패");
 				return false;
 			}
@@ -618,9 +606,10 @@ public class CouponDAO {
 		return false;
 	}
 	
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------[ delete ] ------------------------------------------------------------------------------------------------------------*/
 
 	public boolean delete(CouponDTO couponDTO) {
+	
 		log.trace("delete 진입");
 
 		if (couponDTO.getSearchCondition().equals("deleteAdminCouponGradeData")) {
@@ -645,21 +634,7 @@ public class CouponDAO {
 
 }
 
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-//개발자의 편의를 위해 RowMapper 인터페이스를 사용
-@Slf4j
-class CouponRowMapper implements RowMapper<CouponDTO> {
-	
-	@Override
-	public CouponDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-		
-		CouponDTO data = new CouponDTO();
-
-		return data;
-	}
-
-}
+/*-----------------------------------[ RowMapper ] ---------------------------------------------------------------------------------------------------------*/
 
 @Slf4j
 class selectCategoryNameCouponRowMapper implements RowMapper<CouponDTO> {
@@ -669,6 +644,8 @@ class selectCategoryNameCouponRowMapper implements RowMapper<CouponDTO> {
 		
 		CouponDTO data = new CouponDTO();
 
+		log.trace("selectCategoryNameCouponRowMapper 진입");
+		
 		data.setCouponID(rs.getInt("C.COUPON_ID"));
 		data.setCouponName(rs.getString("C.COUPON_NAME"));
 		data.setExpirationDate(rs.getTimestamp("EXPIRATION_DATE"));
@@ -679,6 +656,8 @@ class selectCategoryNameCouponRowMapper implements RowMapper<CouponDTO> {
 		data.setAncDiscountRate(rs.getInt("DISCOUNT_RATE"));
 		data.setAncMaxDiscountAmount(rs.getInt("MAX_DISCOUNT_AMOUNT"));
 
+		log.trace("selectCategoryNameCouponRowMapper 완료");
+		
 		return data;
 	}
 
@@ -692,8 +671,12 @@ class selectOneCouponIdRowMapper implements RowMapper<CouponDTO> {
 		
 		CouponDTO data = new CouponDTO();
 
+		log.trace("selectOneCouponIdRowMapper 진입");
+		
 		data.setCouponID(rs.getInt("COUPON_ID"));
 
+		log.trace("selectOneCouponIdRowMapper 완료");
+		
 		return data;
 	}
 
@@ -707,6 +690,8 @@ class selectAllGradeCouponInfoRowMapper implements RowMapper<CouponDTO> {
 		
 		CouponDTO data = new CouponDTO();
 
+		log.trace("selectAllGradeCouponInfoRowMapper 진입");
+		
 		data.setAncProvisionGradeCouponID(rs.getInt("PC.PROVISION_GRADE_COUPON_ID"));
 		data.setCouponID(rs.getInt("C.COUPON_ID"));
 		data.setCreateDate(rs.getTimestamp("C.CREATE_DATE"));
@@ -720,11 +705,12 @@ class selectAllGradeCouponInfoRowMapper implements RowMapper<CouponDTO> {
 		data.setAncDeployBase(rs.getString("PC.DEPLOY_BASE"));
 		data.setAncCategoryName(rs.getString("G.GRADE_NAME"));
 		
+		log.trace("selectAllGradeCouponInfoRowMapper 완료");
+		
 		return data;
 	}
 
 }
-
 
 @Slf4j
 class selectAllBatchCouponInfoRowMapper implements RowMapper<CouponDTO> {
@@ -733,6 +719,8 @@ class selectAllBatchCouponInfoRowMapper implements RowMapper<CouponDTO> {
 	public CouponDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 		CouponDTO data = new CouponDTO();
+
+		log.trace("selectAllBatchCouponInfoRowMapper 진입");
 
 		data.setAncProvisionBatchCouponID(rs.getInt("PBC.PROVISION_BATCH_COUPON_ID"));
 		data.setCouponID(rs.getInt("C.COUPON_ID"));
@@ -746,6 +734,8 @@ class selectAllBatchCouponInfoRowMapper implements RowMapper<CouponDTO> {
 		data.setAncAmount(rs.getInt("AMOUNT_LIMIT"));
 		data.setAncDeployStatus(rs.getString("PBC.DEPLOY_STATUS"));
 		
+		log.trace("selectAllBatchCouponInfoRowMapper 완료");
+		
 		return data;
 	}
 
@@ -758,6 +748,8 @@ class selectAllDownloadCouponInfoRowMapper implements RowMapper<CouponDTO> {
 	public CouponDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 		CouponDTO data = new CouponDTO();
+
+		log.trace("selectAllDownloadCouponInfoRowMapper 진입");
 
 		data.setAncProvisionDownloadCouponID(rs.getInt("PDC.PROVISION_DOWNLOAD_COUPON_ID"));
 		data.setCouponID(rs.getInt("C.COUPON_ID")); 
@@ -773,6 +765,8 @@ class selectAllDownloadCouponInfoRowMapper implements RowMapper<CouponDTO> {
 		data.setAncDeployDeadline(rs.getTimestamp("PDC.DEPLOY_DEADLINE"));
 		data.setAncImageID(rs.getInt("I.IMAGE_ID"));
 		data.setAncImagePath(rs.getString("I.IMAGE_PATH"));
+		
+		log.trace("selectAllDownloadCouponInfoRowMapper 완료");
 		
 		return data;
 	}

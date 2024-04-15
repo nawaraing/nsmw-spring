@@ -54,11 +54,11 @@ public class BuyInfoDAO {
 
 	public List<BuyInfoDTO> selectAll(BuyInfoDTO buyInfoDTO) {
 
-		log.debug("selectAll 진입");
+		log.trace("selectAll 진입");
 
 		if (buyInfoDTO.getSearchCondition().equals("getProductIDs")) {
 			
-			log.debug("getProductIDs 진입");
+			log.trace("getProductIDs 진입");
 			
 			Object args[] = { buyInfoDTO.getMemberID() };
 			
@@ -76,7 +76,7 @@ public class BuyInfoDAO {
 
 		} else if(buyInfoDTO.getSearchCondition().equals("getNotBuyProduct")) {
 			
-			log.debug("getNotBuyProduct 진입");
+			log.trace("getNotBuyProduct 진입");
 			
 			Object args[] = { buyInfoDTO.getMemberID() };
 			
@@ -95,7 +95,7 @@ public class BuyInfoDAO {
 			
 		}
 		
-		log.debug("selectAll 실패");
+		log.error("selectAll 실패");
 		
 		return null;
 
@@ -105,11 +105,11 @@ public class BuyInfoDAO {
 
 	public BuyInfoDTO selectOne(BuyInfoDTO buyInfoDTO) {
 		
-		log.debug("selectOne 진입");
+		log.trace("selectOne 진입");
 
 		if(buyInfoDTO.getSearchCondition().equals("insertSubscriptionData")) {
 			
-			log.debug("insertSubscriptionData 진입");
+			log.trace("insertSubscriptionData 진입");
 		
 			try {
 				
@@ -117,7 +117,7 @@ public class BuyInfoDAO {
 				
 			} catch (Exception e) {
 				
-				log.debug("insertSubscriptionData 예외처리");
+				log.error("insertSubscriptionData 예외처리");
 				
 				return null;
 				
@@ -125,7 +125,7 @@ public class BuyInfoDAO {
 			
 		}
 		
-		log.debug("selectOne 실패");
+		log.error("selectOne 실패");
 		
 		return null;
 		
@@ -135,13 +135,13 @@ public class BuyInfoDAO {
 
 	public boolean insert(BuyInfoDTO buyInfoDTO) {
 
-		log.debug("insert 진입");
+		log.trace("insert 진입");
 
 		int result = 0;
 
 		if (buyInfoDTO.getSearchCondition().equals("insertSubscriptionData")) {
 			
-			log.debug("insertSubscriptionData 진입");
+			log.trace("insertSubscriptionData 진입");
 
 			try {
 			
@@ -154,7 +154,7 @@ public class BuyInfoDAO {
 
 			} catch (Exception e) {
 			
-				log.debug("insertSubscriptionData 예외 발생");
+				log.error("insertSubscriptionData 예외 발생");
 
 				return false;
 
@@ -162,19 +162,19 @@ public class BuyInfoDAO {
 			
 			if (result <= 0) {
 				
-				log.debug("insertSubscriptionData 실패");
+				log.error("insertSubscriptionData 실패");
 
 				return false;
 
 			}
 			
-			log.debug("insertSubscriptionData 성공");
+			log.trace("insertSubscriptionData 성공");
 
 			return true;
 			
 		}
 		
-		log.debug("insert 실패");
+		log.error("insert 실패");
 		
 		return false;
 
@@ -190,13 +190,13 @@ class getProductIDsRowMapper implements RowMapper<BuyInfoDTO> {
 	@Override
 	public BuyInfoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
-		log.debug("getProductIDsRowMapper 진입");
+		log.trace("getProductIDsRowMapper 진입");
 		
 		BuyInfoDTO buyInfoDTO = new BuyInfoDTO();
 		
 		buyInfoDTO.setAncProductID(rs.getInt("O.PRODUCT_ID"));
 		
-		log.debug("getProductIDsRowMapper 완료");
+		log.trace("getProductIDsRowMapper 완료");
 
 		return buyInfoDTO;
 
@@ -210,13 +210,13 @@ class selectMaxPKRowMapper implements RowMapper<BuyInfoDTO> {
 	@Override
 	public BuyInfoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
-		log.debug("selectMaxPKRowMapper 진입");
+		log.trace("selectMaxPKRowMapper 진입");
 		
 		BuyInfoDTO buyInfoDTO = new BuyInfoDTO();
 		
 		buyInfoDTO.setMaxPk(rs.getInt("MAX_PK"));
 
-		log.debug("selectMaxPKRowMapper 완료");
+		log.trace("selectMaxPKRowMapper 완료");
 		
 		return buyInfoDTO;
 
@@ -230,7 +230,7 @@ class GetNotBuyProductRowMapper implements RowMapper<BuyInfoDTO> {
 	@Override
 	public BuyInfoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
-		log.debug("GetNotBuyProductRowMapper 진입");
+		log.trace("GetNotBuyProductRowMapper 진입");
 		
 		BuyInfoDTO buyInfoDTO = new BuyInfoDTO();
 		
@@ -241,7 +241,7 @@ class GetNotBuyProductRowMapper implements RowMapper<BuyInfoDTO> {
 		buyInfoDTO.setAncCategoryName(rs.getString("C.CATEGORY_NAME"));
 		buyInfoDTO.setAncImagePath(rs.getString("I.IMAGE_PATH"));
 
-		log.debug("GetNotBuyProductRowMapper 완료");
+		log.trace("GetNotBuyProductRowMapper 완료");
 		
 		return buyInfoDTO;
 

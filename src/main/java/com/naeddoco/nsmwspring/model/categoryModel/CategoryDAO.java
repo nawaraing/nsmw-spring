@@ -27,8 +27,8 @@ public class CategoryDAO {
 	private static final String SELECTONE = "SELECT CATEGORY_ID, CATEGORY_NAME FROM CATEGORY WHERE CATEGORY_NAME = ?";
 	
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
+/*-----------------------------------[ selectAll ] ---------------------------------------------------------------------------------------------------------*/	
+	
 	public List<CategoryDTO> selectAll(CategoryDTO categoryDTO) {
 
 		log.trace("selectAll 진입");
@@ -39,14 +39,13 @@ public class CategoryDAO {
 		} catch (Exception e) {
 
 			log.error("selectAll 예외/실패");
-
 			return null;
 
 		}
 
 	}
 
-	
+/*-----------------------------------[ selectOne ] ---------------------------------------------------------------------------------------------------------*/	
 
 	public CategoryDTO selectOne(CategoryDTO categoryDTO) {
 
@@ -58,13 +57,13 @@ public class CategoryDAO {
 		} catch (Exception e) {
 			
 			log.error("selectOne 예외/실패");
-			
 			return null;
 
 		}
 	}
-
 }
+
+/*-----------------------------------[ RowMapper ] ---------------------------------------------------------------------------------------------------------*/
 
 @Slf4j
 // 개발자의 편의를 위해 RowMapper 인터페이스를 사용
@@ -80,7 +79,7 @@ class categoryRowMapper implements RowMapper<CategoryDTO> {
 		categoryDTO.setCategoryID(rs.getInt("CATEGORY_ID"));
 		categoryDTO.setCategoryName(rs.getString("CATEGORY_NAME"));
 		
-		log.debug("categoryRowMapper 완료");
+		log.trace("categoryRowMapper 완료");
 		
 		return categoryDTO;
 
