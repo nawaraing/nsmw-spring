@@ -242,7 +242,7 @@
 					<c:if test="${not empty recommandProductsByBI}">
 						<c:forEach var="data" items="${recommandProductsByBI}" varStatus="loop">					
 								<div class="border border-primary rounded position-relative vesitable-item">
-									<div class="vesitable-img" onclick='location.href="/productDetail?productID=${data.ancProductID}";'>
+									<div class="vesitable-img" onclick='location.href="/productDetail?productID=${data.productID}";'>
 										<img src="${data.ancImagePath}" class="img-fluid w-100 rounded-top">
 									</div>
 									<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.ancCategoryName}</div>
@@ -260,7 +260,7 @@
 											</div>
 											<c:if test="${not empty memberID}">
 												<div class="row">
-													<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${data.ancProductID})">장바구니 추가</button>
+													<button class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addItemToCart(${data.productID})">장바구니 추가</button>
 												</div>
 											</c:if>
 											<c:if test="${empty memberID}">
