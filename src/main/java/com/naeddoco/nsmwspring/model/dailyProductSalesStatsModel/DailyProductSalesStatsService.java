@@ -5,4 +5,5 @@ import java.util.List;
 public interface DailyProductSalesStatsService {
 	
 	public List<DailyProductSalesStatsDTO> selectAll(DailyProductSalesStatsDTO dailyProductSalesStatsDTO);
+	public boolean insert(DailyProductSalesStatsDTO dailyProductSalesStatsDTO);
 }

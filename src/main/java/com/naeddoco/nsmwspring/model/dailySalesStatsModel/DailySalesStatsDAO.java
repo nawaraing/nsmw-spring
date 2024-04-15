@@ -10,6 +10,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.naeddoco.nsmwspring.model.couponModel.CouponDTO;
+import com.naeddoco.nsmwspring.model.dailyProductSalesStatsModel.DailyProductSalesStatsDTO;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Repository("dailySalesStatsDAO")
@@ -56,7 +59,21 @@ public class DailySalesStatsDAO {
 										+ "FROM DAILY_PRODUCT_SALES_STATS "
 										+ "WHERE DAILY_TOTAL_CALCULATE_DATE = DATE_SUB(CURDATE(), INTERVAL 1 DAY) "
 										+ "GROUP BY DAILY_TOTAL_CALCULATE_DATE"; */
-
+	
+	//샘플데이터 추가시 사용
+	private static final String INSERT_SAMPLE_DATA = "INSERT INTO DAILY_SALES_STATS "
+														+ "(DAILY_TOTAL_CALCULATE_DATE, DAILY_TOTAL_GROSS_MARGINE, DAILY_TOTAL_NET_PROFIT) "
+													+ "SELECT "
+														+ "DAILY_TOTAL_CALCULATE_DATE, "
+														+ "SUM(DAILY_TOTAL_GROSS_MARGINE), "
+														+ "SUM(DAILY_TOTAL_NET_PROFIT) "
+													+ "FROM "
+														+ "DAILY_PRODUCT_SALES_STATS "
+													+ "WHERE "
+														+ "DAILY_TOTAL_CALCULATE_DATE = ? "
+													+ "GROUP BY "
+														+ "DAILY_TOTAL_CALCULATE_DATE";
+	
 
 /*-----------------------------------[ selectAll ] ---------------------------------------------------------------------------------------------------------*/	
 
@@ -96,6 +113,40 @@ public class DailySalesStatsDAO {
 
 		log.error("selectAll 실패");
 		return null;
+	}
+	
+	
+/*-----------------------------------[ insert ] ------------------------------------------------------------------------------------------------------------*/
+	
+	
+	public boolean insert(DailySalesStatsDTO dailySalesStatsDTO) {
+
+		log.trace("insert 진입");
+
+		int result = 0;
+
+		try {
+
+			result = jdbcTemplate.update(INSERT_SAMPLE_DATA, 
+										dailySalesStatsDTO.getDailyTotalCalculateDate());
+
+		} catch (Exception e) {
+
+			log.error("insert 예외 발생");
+			return false;
+
+		}
+
+		if (result <= 0) {
+
+			log.error("insert 실패");
+			return false;
+
+		}
+
+		log.trace("insert 성공");
+		return true;
+
 	}
 }
 

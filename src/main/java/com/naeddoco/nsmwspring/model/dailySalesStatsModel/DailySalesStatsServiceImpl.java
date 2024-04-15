@@ -16,4 +16,9 @@ public class DailySalesStatsServiceImpl implements DailySalesStatsService{
 		return dailySalesStatsDAO.selectAll(dailySalesStatsDTO);
 	}
 
+	@Override
+	public boolean insert(DailySalesStatsDTO dailySalesStatsDTO) {
+		return dailySalesStatsDAO.insert(dailySalesStatsDTO);
+	}
+
 }

@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.naeddoco.nsmwspring.model.dailySalesStatsModel.DailySalesStatsDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,10 +30,10 @@ public class MonthlySalesStatsDAO {
 											+ "ORDER BY "
 												+ "MONTHLY_TOTAL_CALCULATE_DATE";
 
-	private static final String SELECTONE = "";
 	
-	//매월 초 전월의 판매 통계를 전월의 1일자로 저장함 
-	private static final String INSERT = "INSERT INTO MONTHLY_SALES_STATS "
+	// 매월 초 전월의 판매 통계를 전월의 1일자로 저장함 
+	// 이벤트 스케줄러 사용 예정
+	/* private static final String INSERT = "INSERT INTO MONTHLY_SALES_STATS "
 											+ "(MONTHLY_TOTAL_CALCULATE_DATE, MONTHLY_TOTAL_GROSS_MARGINE, MONTHLY_TOTAL_NET_PROFIT) "
 											+ "SELECT "
 												+ "DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01'), "
@@ -41,12 +42,26 @@ public class MonthlySalesStatsDAO {
 											+ "FROM "
 												+ "MONTHLY_PRODUCT_SALES_STATS "
 											+ "WHERE "
-											+ "MONTHLY_TOTAL_CALCULATE_DATE >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01')"
-											+ "AND MONTHLY_TOTAL_CALCULATE_DATE <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL 1 MONTH))";
+												+ "MONTHLY_TOTAL_CALCULATE_DATE >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01')"
+												+ "AND MONTHLY_TOTAL_CALCULATE_DATE <= LAST_DAY(DATE_SUB(CURDATE(), INTERVAL 1 MONTH))";
+	*/
 	
-	private static final String UPDATE = "";
+	//샘플데이터 추가시 사용
+	private static final String INSERT_SAMPLE_DATA = "INSERT INTO MONTHLY_SALES_STATS "
+														+ "(MONTHLY_TOTAL_CALCULATE_DATE, MONTHLY_TOTAL_GROSS_MARGINE, MONTHLY_TOTAL_NET_PROFIT) "
+													+ "SELECT "
+														+ "DATE_FORMAT(?, '%Y-%m-01'), "
+														+ "SUM(MONTHLY_TOTAL_GROSS_MARGINE), "
+														+ "SUM(MONTHLY_TOTAL_NET_PROFIT) "
+													+ "FROM "
+														+ "MONTHLY_PRODUCT_SALES_STATS "
+													+ "WHERE "
+														+ "MONTHLY_TOTAL_CALCULATE_DATE >= DATE_FORMAT(?, '%Y-%m-01') "
+														+ "AND MONTHLY_TOTAL_CALCULATE_DATE <= LAST_DAY(?)";
 	
-	private static final String DELETE = "";
+
+/*-----------------------------------[ selectAll ] ---------------------------------------------------------------------------------------------------------*/	
+
 	
 	public List<MonthlySalesStatsDTO> selectAll(MonthlySalesStatsDTO monthlySalesStatsDTO) {
 		log.trace("selectAll 진입");
@@ -72,66 +87,48 @@ public class MonthlySalesStatsDAO {
 		return null;
 	}
 	
+
 	
-	public MonthlySalesStatsDTO selectOne(MonthlySalesStatsDTO monthlySalesStatsDTO) {
-
-//		Object[] args = { monthlySalesStatsDTO.getMonthlySalesStatsID() };
-//		log.debug("selectOne start");
-//	
-//		try {
-//			return jdbcTemplate.queryForObject(SELECTONE, args, new MonthlySalesStatsRowMapper());
-//		} catch (Exception e) {
-//			log.debug("selectOne 예외처리");
-			return null;
-//		}
-	}
-
+/*-----------------------------------[ insert ] ------------------------------------------------------------------------------------------------------------*/
+	
 	
 	public boolean insert(MonthlySalesStatsDTO monthlySalesStatsDTO) {
-		
-//		log.trace("insert 진입");
-//		if(monthlySalesStatsDTO.getSearchCondition().equals("insertAdminStatDateDatas")) {
-//
-//			log.trace("insertAdminStatDateDatas 진입");
-//			int result = jdbcTemplate.update(INSERT);
-//			if(result <= 0) {
-//				log.error("insertAdminStatDateDatas 실패");
-//				return false;
-//			}
-//			log.trace("insertAdminStatDateDatas 성공");
-//			return true;
-//		}
-//
-//		log.error("insert 실패");
-		return false;
-}
 
-	
-	public boolean update(MonthlySalesStatsDTO monthlySalesStatsDTO) {
+		log.trace("insert 진입");
 
-//		int result = jdbcTemplate.update(UPDATE);
-//		if(result <= 0) {
-//			log.debug("update 실패");
+		int result = 0;
+
+		try {
+
+			result = jdbcTemplate.update(INSERT_SAMPLE_DATA, 
+											monthlySalesStatsDTO.getAncStartMonth(),
+											monthlySalesStatsDTO.getAncStartMonth(),
+											monthlySalesStatsDTO.getAncEndMonth());
+
+		} catch (Exception e) {
+
+			log.error("insert 예외 발생");
 			return false;
-//		}
-//		log.debug("update 성공");
-//		return true;
+
+		}
+
+		if (result <= 0) {
+
+			log.error("insert 실패");
+			return false;
+
+		}
+
+		log.trace("insert 성공");
+		return true;
+
 	}
 
-	
-	public boolean delete(MonthlySalesStatsDTO monthlySalesStatsDTO) {
-		
-//		int result = jdbcTemplate.update(DELETE);
-//		if(result <= 0) {
-//			log.debug("delete 성공");
-			return false;
-//		}
-//		log.debug("delete 성공");
-//		return true;
-	}	
 }
 
-//개발자의 편의를 위해 RowMapper 인터페이스를 사용
+/*-----------------------------------[ RowMapper ] ---------------------------------------------------------------------------------------------------------*/
+
+
 @Slf4j
 class MonthlySalesStatsRowMapper implements RowMapper<MonthlySalesStatsDTO> {
 	@Override
@@ -146,10 +143,10 @@ class MonthlySalesStatsRowMapper implements RowMapper<MonthlySalesStatsDTO> {
 		data.setMonthlyTotalGrossMargine(rs.getInt("MONTHLY_TOTAL_GROSS_MARGINE"));
 		data.setMonthlyTotalNetProfit(rs.getInt("MONTHLY_TOTAL_NET_PROFIT"));
 			
-		log.debug(Integer.toString(rs.getInt("MONTHLY_SALES_STATS_ID")));
-		log.debug(sdf.format(rs.getDate("MONTHLY_TOTAL_CALCULATE_DATE")));
-		log.debug(Integer.toString(rs.getInt("MONTHLY_TOTAL_GROSS_MARGINE")));
-		log.debug(Integer.toString(rs.getInt("MONTHLY_TOTAL_NET_PROFIT")));
+		log.debug("MONTHLY_SALES_STATS_ID : " + Integer.toString(rs.getInt("MONTHLY_SALES_STATS_ID")));
+		log.debug("MONTHLY_TOTAL_CALCULATE_DATE : " + sdf.format(rs.getDate("MONTHLY_TOTAL_CALCULATE_DATE")));
+		log.debug("MONTHLY_TOTAL_GROSS_MARGINE : " + Integer.toString(rs.getInt("MONTHLY_TOTAL_GROSS_MARGINE")));
+		log.debug("MONTHLY_TOTAL_NET_PROFIT : " + Integer.toString(rs.getInt("MONTHLY_TOTAL_NET_PROFIT")));
 		
 		return data;
 	}

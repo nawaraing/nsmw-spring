@@ -17,23 +17,8 @@ public class MonthlyProductSalesStatsServiceImpl implements MonthlyProductSalesS
 	}
 
 	@Override
-	public MonthlyProductSalesStatsDTO selectOne(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
-		return monthlyProductSalesStatsDAO.selectOne(monthlyProductSalesStatsDTO);
-	}
-
-	@Override
 	public boolean insert(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
 		return monthlyProductSalesStatsDAO.insert(monthlyProductSalesStatsDTO);
-	}
-
-	@Override
-	public boolean update(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
-		return monthlyProductSalesStatsDAO.update(monthlyProductSalesStatsDTO);
-	}
-
-	@Override
-	public boolean delete(MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO) {
-		return monthlyProductSalesStatsDAO.delete(monthlyProductSalesStatsDTO);
 	}
 
 }
