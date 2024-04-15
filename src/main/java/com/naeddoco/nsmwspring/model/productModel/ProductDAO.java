@@ -179,6 +179,7 @@ public class ProductDAO {
 			} catch (Exception e) {
 				
 				log.error("getProductDetail 예외 발생");
+				e.printStackTrace();
 
 				return null;
 

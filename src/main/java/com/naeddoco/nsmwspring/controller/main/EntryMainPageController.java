@@ -48,21 +48,21 @@ public class EntryMainPageController {
 		
 		String member = (String) session.getAttribute("memberID"); // 세션에 있는 유저 아이디 습득
 		
-		if(member != null) {
-			
-			MemberDTO memberDTO = new MemberDTO();
-			memberDTO.setSearchCondition("getAuthority");
-			memberDTO.setMemberID(member);
-			
-			memberDTO = memberService.selectOne(memberDTO);
-			
-			if(memberDTO.getAuthority().equals("ADMIN")) {
-				
-				return "redirect:/dashboard";
-				
-			}
-			
-		}
+//		if(member != null) {
+//			
+//			MemberDTO memberDTO = new MemberDTO();
+//			memberDTO.setSearchCondition("getAuthority");
+//			memberDTO.setMemberID(member);
+//			
+//			memberDTO = memberService.selectOne(memberDTO);
+//			
+//			if(memberDTO.getAuthority().equals("ADMIN")) {
+//				
+//				return "redirect:/dashboard";
+//				
+//			}
+//			
+//		}
 		
 		//----------------------------------------------- 상단 제품 출력 ↓ -----------------------------------------------
 		

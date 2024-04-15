@@ -71,7 +71,7 @@ public class EntryMyPageController {
 			
 		}
 
-		if (memberDTO.getAncCategoryName() != null) {
+		if (memberCategoryList != null && memberCategoryList.size() > 0) {
 			
 			log.debug("[MyPageController] 회원 카테고리 있음");
 			

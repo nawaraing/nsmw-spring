@@ -140,10 +140,10 @@
                               <!-- / 할인 방식 -->
                               <!-- 할인율(액) -->
                               <c:if test="${coupon.couponType eq 'WON'}">
-                                <td id="coupon-discount-${status.index}">${coupon.ancDiscount}원</td>
+                                <td id="coupon-discount-${status.index}"><fmt:formatNumber value="${coupon.ancDiscount}" type="number" groupingUsed="true"/>원</td>
                               </c:if>
                               <c:if test="${coupon.couponType eq 'PERCENTAGE'}">
-                                <td id="coupon-discount-${status.index}">${coupon.ancDiscount}%</td>
+                                <td id="coupon-discount-${status.index}"><fmt:formatNumber value="${coupon.ancDiscount}" type="number" groupingUsed="true"/>%</td>
                               </c:if>
                               <!-- / 할인율(액) -->
                               <!-- 금액 제한 -->
