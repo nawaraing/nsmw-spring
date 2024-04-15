@@ -45,6 +45,15 @@
 </head>
 <body>
 
+<style>
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+</style>
+
 <!-- 배너 -->
 <custom:mainBanner/>
 
@@ -211,7 +220,7 @@
 									</div>
 									<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.ancCategoryName}</div>
 									<div class="p-4 rounded-bottom">
-										<h4 style="text-align: center;">${data.ancProductName}</h4>
+										<h4 class="ellipsis" style="text-align: center;">${data.ancProductName}</h4>
 										<custom:starRateMain1 score='3' index='${loop.index}'/>
 										<div class="line-clamp my-2">
 											<p>${data.ancProductDetail}</p>
@@ -310,7 +319,7 @@
 															</div>
 															<div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;" onclick='location.href="/productDetail?productID=${data.productID}";'>${data.ancCategoryName}</div>
 															<div>
-																<h4>${data.ancProductName}</h4>
+																<h4 class="ellipsis">${data.ancProductName}</h4>
 																<div>
 																	<custom:starRateMain2 score='3' index='${loop.index}'/>
 																</div>

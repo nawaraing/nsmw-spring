@@ -48,6 +48,15 @@
 
 <body>
 
+<style>
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+</style>
+
 <!-- 배너 -->
 <custom:banner/>
 
@@ -238,7 +247,7 @@
 									</div>
 									<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.ancCategoryName}</div>
 									<div class="p-4 rounded-bottom">
-										<h4 style="text-align: center;">${data.ancProductName}</h4>
+										<h4 class="ellipsis" style="text-align: center;">${data.ancProductName}</h4>
 										<div class="line-clamp my-2">
 											<p>${data.ancProductDetail}</p>
 										</div>
@@ -273,7 +282,7 @@
 									</div>
 									<div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${data.ancCategoryName}</div>
 									<div class="p-4 rounded-bottom">
-										<h4 style="text-align: center;">${data.ancProductName}</h4>
+										<h4 class="ellipsis" style="text-align: center;">${data.ancProductName}</h4>
 										<div class="line-clamp my-2">
 											<p>${data.ancProductDetail}</p>
 										</div>
