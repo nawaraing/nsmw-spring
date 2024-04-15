@@ -162,6 +162,7 @@ public class EntryMainPageController {
 				
 				orderInfoDTOList.addAll(orderInfoService.selectAll(orderInfoDTO));
 				
+				model.addAttribute("recommandProductsByBI", orderInfoDTOList);
 				
 			} else { // 동일한 물품을 구매한 사용자가 있는 경우
 				
