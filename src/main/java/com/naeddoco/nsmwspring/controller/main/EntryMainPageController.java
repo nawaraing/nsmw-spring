@@ -155,67 +155,79 @@ public class EntryMainPageController {
 			
 			}
 			
-			// ----------------------------------------------- 사용자 아이디 중복 데이터 제거 ↓ ------------------------------------------------------
-			
-			List<OrderInfoDTO> distinctOrderInfoDTOList = new ArrayList<>();
-			Set<OrderInfoDTO> set = new HashSet<>();
+			if(orderInfoDTOList.size() == 0) { // 동일한 물품을 구매한 사용자가 없는 경우 
+				
+				OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
+				orderInfoDTO.setSearchCondition("getBestEight");
+				
+				orderInfoDTOList.addAll(orderInfoService.selectAll(orderInfoDTO));
+				
+				
+			} else { // 동일한 물품을 구매한 사용자가 있는 경우
+				
+				// ----------------------------------------------- 사용자 아이디 중복 데이터 제거 ↓ ------------------------------------------------------
+				
+				List<OrderInfoDTO> distinctOrderInfoDTOList = new ArrayList<>();
+				Set<OrderInfoDTO> set = new HashSet<>();
 
-			for (OrderInfoDTO orderInfoDTO : orderInfoDTOList) {
+				for (OrderInfoDTO orderInfoDTO : orderInfoDTOList) {
+					
+				    if (set.add(orderInfoDTO)) {
+				    	
+				        distinctOrderInfoDTOList.add(orderInfoDTO);
+				        
+				    }
+				    
+				}
 				
-			    if (set.add(orderInfoDTO)) {
-			    	
-			        distinctOrderInfoDTOList.add(orderInfoDTO);
-			        
-			    }
-			    
-			}
+				// ----------------------------------------------- 다른 사용자가 구매한 물품 습득 ↓ ------------------------------------------------------
 			
-			// ----------------------------------------------- 다른 사용자가 구매한 물품 습득 ↓ ------------------------------------------------------
-		
-			List<BuyInfoDTO> otherUserProductList = new ArrayList<BuyInfoDTO>();
-			
-			for(OrderInfoDTO oi : distinctOrderInfoDTOList) {
+				List<BuyInfoDTO> otherUserProductList = new ArrayList<BuyInfoDTO>();
 				
-				buyInfoDTO.setSearchCondition("getNotBuyProduct");
-				buyInfoDTO.setMemberID(oi.getAncMemberID());
+				for(OrderInfoDTO oi : distinctOrderInfoDTOList) {
+					
+					buyInfoDTO.setSearchCondition("getNotBuyProduct");
+					buyInfoDTO.setMemberID(oi.getAncMemberID());
+					
+					otherUserProductList.addAll(buyInfoService.selectAll(buyInfoDTO));
+					
+				}
 				
-				otherUserProductList.addAll(buyInfoService.selectAll(buyInfoDTO));
+				// ----------------------------------------------- 불필요 상품 삭제 ↓ ------------------------------------------------------
 				
-			}
-			
-			// ----------------------------------------------- 불필요 상품 삭제 ↓ ------------------------------------------------------
-			
-			List<BuyInfoDTO> filteredList = new ArrayList<>();
-			
-			for(BuyInfoDTO a : otherUserProductList) {
+				List<BuyInfoDTO> filteredList = new ArrayList<>();
 				
-				int dismatchCount = 0;
-			
-				for(BuyInfoDTO b : broughtProductList) {
-								
-					if (a.getAncProductID() != b.getAncProductID()) { 
+				for(BuyInfoDTO a : otherUserProductList) {
+					
+					int dismatchCount = 0;
+				
+					for(BuyInfoDTO b : broughtProductList) {
+									
+						if (a.getAncProductID() != b.getAncProductID()) { 
+							
+							dismatchCount ++;
+											        
+						} 
+							
+					}
+					
+					if(dismatchCount == broughtProductList.size()) {
 						
-						dismatchCount ++;
-										        
-					} 
+						filteredList.add(a);
 						
+					}
+					
+					if(filteredList.size() == 8) {
+						
+						break;
+						
+					}
+					
 				}
 				
-				if(dismatchCount == broughtProductList.size()) {
-					
-					filteredList.add(a);
-					
-				}
-				
-				if(filteredList.size() == 8) {
-					
-					break;
-					
-				}
+				model.addAttribute("recommandProductsByBI", filteredList);
 				
 			}
-			
-			model.addAttribute("recommandProductsByBI", filteredList);
 			
 		}
 		
