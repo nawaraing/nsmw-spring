@@ -15,7 +15,7 @@
     <script language="javascript">
         function init() {
             var url = location.href;
-            var confmKey = "devU01TX0FVVEgyMDI0MDExNDE2MDU1MzExNDQyOTQ=";
+            var confmKey = "devU01TX0FVVEgyMDI0MDQxNTEwMzQwMTExNDY4Nzg=";
             var resultType = "4"; // 도로명주소 검색결과 화면 출력내용
             var inputYn = "${param.inputYn}";
             var index = "${param.index}"; // 인덱스 값을 가져옵니다.
