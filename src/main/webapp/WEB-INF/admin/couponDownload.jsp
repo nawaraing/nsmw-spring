@@ -148,10 +148,10 @@
                               <!-- / 할인율(액) -->
                               <!-- 금액 제한 -->
                               <c:if test="${coupon.couponType eq 'WON'}">
-                                <td id="coupon-limit-${status.index}">최소 ${coupon.ancAmount}원 구매</td>
+                                <td id="coupon-limit-${status.index}">최소 <fmt:formatNumber value="${coupon.ancAmount}" type="number" groupingUsed="true"/>원 구매</td>
                               </c:if>
                               <c:if test="${coupon.couponType eq 'PERCENTAGE'}">
-                                <td id="coupon-limit-${status.index}">최대 ${coupon.ancAmount}원 할인</td>
+                                <td id="coupon-limit-${status.index}">최대 <fmt:formatNumber value="${coupon.ancAmount}" type="number" groupingUsed="true"/>원 할인</td>
                               </c:if>
                               <!-- / 금액 제한 -->
                               <!-- 팝업 이미지 -->
