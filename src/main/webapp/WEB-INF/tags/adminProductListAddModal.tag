@@ -30,7 +30,7 @@
         ></button>
       </div>
 
-      <form method="POST" enctype="multipart/form-data" action="/productList/insert">
+      <form method="POST" enctype="multipart/form-data" action="/productList/insert" id="add-product-list-form">
         <div class="modal-body">
           <div class="row">
             <div class="col-md-6 col-12 mb-md-0 mb-4">
@@ -126,7 +126,7 @@
             
               <!-- 카테고리 -->
               <div class="mb-3">
-                <label for="product-categories-add" class="form-label">카테고리</label>
+                <label for="product-categories-add" id="form-label-category" class="form-label">카테고리</label>
                 <div>
                   <a
                     class="dropdown-toggle"
@@ -137,10 +137,10 @@
                     aria-expanded="false"
                   >
                   </a>
-                  <script>console.log('categoryNames: ${categoryNames}');</script>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="checkbox-categories-${status.index}">
+                  <!-- <script>console.log('categoryNames: ${categoryNames}');</script> -->
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="checkbox-categories">
                     <c:forEach var="category" items="${fn:split(categoryNames, ',')}" varStatus="categoryStatus">
-	                  <script>console.log('category: ${category}');</script>
+	                  <!-- <script>console.log('category: ${category}');</script> -->
                       <li>
                         <div class="form-check">
                           <label class="dropdown-item" for="checkbox-product-add-category-${category}" id="dropdown-item-coupon-add-category-${categoryStatus.index}">
@@ -152,6 +152,7 @@
                   </ul>
                 </div>
               </div>
+              <div class="text-danger" id="category-required-notice"></div>
               <!-- / 카테고리 -->
               <div class="text-end mb-3">
                 <button
@@ -163,6 +164,7 @@
                   type="submit"
                   id="submit-button"
                   class="btn btn-success me-2"
+                  onclick="checkValid(event)"
                 >저장</button>
               </div>
             </div>
@@ -173,3 +175,20 @@
   </div>
 </div>
   
+<script>
+function checkValid(event) {
+	let isChecked = false;
+	$('#checkbox-categories input').each(function (index, elem) {
+		if ($(elem).prop('checked')) {
+			isChecked = true;
+			return false;
+		}
+	});
+	if (!isChecked) {
+		event.preventDefault();
+		$('#category-required-notice').text('카테고리를 선택해주세요!');
+	} else {
+		$('#category-required-notice').empty();
+	}
+}
+</script>

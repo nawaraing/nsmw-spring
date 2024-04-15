@@ -81,7 +81,7 @@
                 >
                 </a>
                 <script>console.log('categoryNames: ${categoryNames}');</script>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="checkbox-categories-${status.index}">
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="checkbox-categories">
                   <c:forEach var="category" items="${fn:split(categoryNames, ',')}" varStatus="categoryStatus">
 	                <script>console.log('category: ${category}');</script>
                     <li>
@@ -95,6 +95,7 @@
                 </ul>
               </div>
             </div>
+            <div class="text-danger" id="category-required-notice"></div>
             <!-- / 카테고리 -->
             <!-- 할인 방식 -->
             <div class="mb-3">
@@ -137,6 +138,7 @@
                 type="submit"
                 id="submit-button"
                 class="btn btn-success me-2"
+                onclick="checkValid(event)"
               >저장</button>
             </div>
           </div>
@@ -220,6 +222,21 @@ function parseDate(date) {
 	return date.toLocaleString('sv-SE', {timeZone: 'Asia/Seoul'}).slice(0, 16);
 }
  
+function checkValid(event) {
+	let isChecked = false;
+	$('#checkbox-categories input').each(function (index, elem) {
+		if ($(elem).prop('checked')) {
+			isChecked = true;
+			return false;
+		}
+	});
+	if (!isChecked) {
+		event.preventDefault();
+		$('#category-required-notice').text('카테고리를 선택해주세요!');
+	} else {
+		$('#category-required-notice').empty();
+	}
+}
 
 
 </script>
