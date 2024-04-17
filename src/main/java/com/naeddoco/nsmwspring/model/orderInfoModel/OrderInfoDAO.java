@@ -44,7 +44,7 @@ public class OrderInfoDAO {
 	private static final String SELECT_RANDOM_MEMBER_IDS = "SELECT DISTINCT B.MEMBER_ID " +
                                                            "FROM ORDER_INFO O " +
                                                            "INNER JOIN BUY_INFO B ON O.BUY_INFO_ID = B.BUY_INFO_ID " +
-                                                           "WHERE PRODUCT_ID = ? AND B.MEMBER_ID <> ? AND P.SALE_STATE = 'SALES' " +
+                                                           "WHERE PRODUCT_ID = ? AND B.MEMBER_ID <> ? " +
                                                            "ORDER BY RAND() " +
                                                            "LIMIT 5";
 	
