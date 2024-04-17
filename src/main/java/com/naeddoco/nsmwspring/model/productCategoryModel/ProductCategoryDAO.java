@@ -31,6 +31,7 @@ public class ProductCategoryDAO {
 			  												 "INNER JOIN CATEGORY C ON PC.CATEGORY_ID = C.CATEGORY_ID " +
 			  												 "INNER JOIN PRODUCT_IMAGE PI ON P.PRODUCT_ID = PI.PRODUCT_ID " +
 			  												 "INNER JOIN IMAGE I ON PI.IMAGE_ID = I.IMAGE_ID " +
+			  												 "WHERE P.SALE_STATE = 'SALES' " +
 			  												 "ORDER BY (SELECT SUM(BUY_QUANTITY) FROM ORDER_INFO O WHERE P.PRODUCT_ID = O.PRODUCT_ID) DESC " +
 			  												 "LIMIT ?";
 			                                                
@@ -47,7 +48,7 @@ public class ProductCategoryDAO {
 																   "INNER JOIN CATEGORY C ON PC.CATEGORY_ID = C.CATEGORY_ID " +
 																   "INNER JOIN PRODUCT_IMAGE PI ON P.PRODUCT_ID = PI.PRODUCT_ID " +
 																   "INNER JOIN IMAGE I ON PI.IMAGE_ID = I.IMAGE_ID " +
-																   "WHERE PC.CATEGORY_ID = ? " +
+																   "WHERE PC.CATEGORY_ID = ? AND P.SALE_STATE = 'SALES' " +
 																   "ORDER BY (SELECT SUM(BUY_QUANTITY) FROM ORDER_INFO O WHERE O.PRODUCT_ID = PC.PRODUCT_ID) DESC " +
 																   "LIMIT 1";
 																   

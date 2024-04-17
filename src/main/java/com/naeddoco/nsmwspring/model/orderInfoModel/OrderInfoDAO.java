@@ -36,6 +36,7 @@ public class OrderInfoDAO {
 			                                                     "JOIN CATEGORY C ON PC.CATEGORY_ID = C.CATEGORY_ID " +
 			                                                     "JOIN PRODUCT_IMAGE PI ON P.PRODUCT_ID = PI.PRODUCT_ID " +
 			                                                     "JOIN IMAGE I ON PI.IMAGE_ID = I.IMAGE_ID " +
+			                                                     "WHERE P.SALE_STATE = 'SALES' " +
 			                                                     "ORDER BY REGISTER_DATE DESC " +
 			                                                     "LIMIT 8";
 	
@@ -43,7 +44,7 @@ public class OrderInfoDAO {
 	private static final String SELECT_RANDOM_MEMBER_IDS = "SELECT DISTINCT B.MEMBER_ID " +
                                                            "FROM ORDER_INFO O " +
                                                            "INNER JOIN BUY_INFO B ON O.BUY_INFO_ID = B.BUY_INFO_ID " +
-                                                           "WHERE PRODUCT_ID = ? AND B.MEMBER_ID <> ? " +
+                                                           "WHERE PRODUCT_ID = ? AND B.MEMBER_ID <> ? AND P.SALE_STATE = 'SALES' " +
                                                            "ORDER BY RAND() " +
                                                            "LIMIT 5";
 	

@@ -34,7 +34,7 @@ public class BuyInfoDAO {
             										       "INNER JOIN CATEGORY C ON PC.CATEGORY_ID = C.CATEGORY_ID " +
             										       "INNER JOIN PRODUCT_IMAGE PI ON P.PRODUCT_ID = PI.PRODUCT_ID " +
             										       "INNER JOIN IMAGE I ON PI.IMAGE_ID = I.IMAGE_ID " +
-            										       "WHERE B.MEMBER_ID = ?";
+            										       "WHERE B.MEMBER_ID = ? AND P.SALE_STATE = 'SALES' ";
 	
 	// 가장 높은 PK값을 가져오는 쿼리
 	private static final String SELECTONE_MAX_PK = "SELECT MAX(BUY_INFO_ID) AS MAX_PK FROM BUY_INFO";
