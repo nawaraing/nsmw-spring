@@ -4,8 +4,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,8 +21,16 @@ import org.springframework.stereotype.Component;
 
 import com.naeddoco.nsmwspring.model.categoryModel.CategoryDAO;
 import com.naeddoco.nsmwspring.model.categoryModel.CategoryDTO;
+import com.naeddoco.nsmwspring.model.dailyProductSalesStatsModel.DailyProductSalesStatsDAO;
+import com.naeddoco.nsmwspring.model.dailyProductSalesStatsModel.DailyProductSalesStatsDTO;
+import com.naeddoco.nsmwspring.model.dailySalesStatsModel.DailySalesStatsDAO;
+import com.naeddoco.nsmwspring.model.dailySalesStatsModel.DailySalesStatsDTO;
 import com.naeddoco.nsmwspring.model.imageModel.ImageDAO;
 import com.naeddoco.nsmwspring.model.imageModel.ImageDTO;
+import com.naeddoco.nsmwspring.model.monthlyProductSalesStatsModel.MonthlyProductSalesStatsDAO;
+import com.naeddoco.nsmwspring.model.monthlyProductSalesStatsModel.MonthlyProductSalesStatsDTO;
+import com.naeddoco.nsmwspring.model.monthlySalesStatsModel.MonthlySalesStatsDAO;
+import com.naeddoco.nsmwspring.model.monthlySalesStatsModel.MonthlySalesStatsDTO;
 import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryDAO;
 import com.naeddoco.nsmwspring.model.productCategoryModel.ProductCategoryDTO;
 import com.naeddoco.nsmwspring.model.productImageModel.ProductImageDAO;
@@ -43,12 +54,96 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 	private ImageDAO imageDAO;
 	@Autowired
 	private ProductImageDAO productImageDAO;
+	@Autowired
+	private DailySalesStatsDAO dailySalesStatsDAO;
+	@Autowired
+	private DailyProductSalesStatsDAO dailyProductSalesStatsDAO;
+	@Autowired
+	private MonthlySalesStatsDAO monthlySalesStatsDAO;
+	@Autowired
+	private MonthlyProductSalesStatsDAO monthlyProductSalesStatsDAO;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		// crawling();
+//		crawling();
+//		insertProductSalesStat();
 	}
 
+	public void insertProductSalesStat() {
+		ProductDTO pDTO = new ProductDTO();
+
+		pDTO.setSearchCondition("selectAdminProductListDatas"); // 쿼리 분기명 set
+		pDTO.setSearchKeyword("%%"); // 검색 키워드 set
+		pDTO.setSortColumnName("REGISTER_DATE"); // 정렬할 컬럼명 set
+		pDTO.setSortMode("DESC"); // 정렬 방식 set
+		List<ProductDTO> pDTOList = productDAO.selectAll(pDTO);
+		log.debug("" + pDTOList);
+
+		
+        // 시작 날짜와 종료 날짜를 설정합니다.
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(2023, Calendar.APRIL, 1); // 시작일을 2024년 1월 1일로 설정합니다.
+
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(2024, Calendar.APRIL, 19); // 종료일을 2024년 1월 31일로 설정합니다.
+
+        Random random = new Random();
+    
+        // startDate부터 endDate까지 일자별로 출력합니다.
+        log.debug("startDate Daily: " + startDate.getTime());
+        for (Calendar date = startDate; date.compareTo(endDate) <= 0; date.add(Calendar.DAY_OF_MONTH, 1)) {
+        	DailySalesStatsDTO dailySalesStats = new DailySalesStatsDTO();
+//        	log.debug(date.toString());
+        	
+			for (ProductDTO data : pDTOList) {
+				DailyProductSalesStatsDTO dailyProductSalesStats = new DailyProductSalesStatsDTO();
+				
+				// 1부터 20 사이의 랜덤한 정수 생성
+				int qty = random.nextInt(20) + 1;
+				
+				// 상품별
+				dailyProductSalesStats.setSearchCondition("");
+				dailyProductSalesStats.setProductID(data.getProductID());
+				dailyProductSalesStats.setDailyTotalCalculateDate(new Date(date.getTimeInMillis()));
+//				log.debug("" + new Date(date.getTimeInMillis()));
+				dailyProductSalesStats.setDailyTotalQuantity(qty);
+				dailyProductSalesStats.setDailyTotalGrossMargine(qty * data.getSalePrice());
+				dailyProductSalesStats.setDailyTotalNetProfit(qty * (data.getSalePrice() - data.getCostPrice()));
+				if (!dailyProductSalesStatsDAO.insert(dailyProductSalesStats)) {
+//					log.error("dailyProductSalesStatsDAO.insert fail");
+					break;
+				}
+				
+			}
+			// 일자별
+			dailySalesStats.setDailyTotalCalculateDate(new Date(date.getTimeInMillis()));
+			dailySalesStatsDAO.insert(dailySalesStats);
+		}
+        
+        
+        startDate = Calendar.getInstance();
+        startDate.set(2023, Calendar.APRIL, 1); // 시작일을 2024년 1월 1일로 설정합니다.
+        
+        log.debug("startDate Monthly: " + startDate.getTime());
+        for (Calendar date = startDate; date.compareTo(endDate) <= 0; date.add(Calendar.MONTH, 1)) {
+        	log.debug(date.toString());
+	        MonthlyProductSalesStatsDTO monthlyProductSalesStatsDTO = new MonthlyProductSalesStatsDTO();
+	        monthlyProductSalesStatsDTO.setMonthlyTotalCalculateDate(new Date(date.getTimeInMillis()));
+	        if (!monthlyProductSalesStatsDAO.insert(monthlyProductSalesStatsDTO)) {
+	        	log.error("monthlyProductSalesStatsDAO.insert fail");
+	        	break;
+	        }
+	        
+	        MonthlySalesStatsDTO monthlySalesStatsDTO = new MonthlySalesStatsDTO();
+	        monthlySalesStatsDTO.setMonthlyTotalCalculateDate(new Date(date.getTimeInMillis()));
+	        if (!monthlySalesStatsDAO.insert(monthlySalesStatsDTO)) {
+	        	log.error("monthlySalesStatsDAO.insert fail");
+	        	break;
+	        }
+        }
+        
+        
+	}
 	public void crawling() {
 		String[] products = {
 				"milkthistle",
@@ -381,6 +476,8 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 
 		}
 
+		
+		
 	}
 
 }

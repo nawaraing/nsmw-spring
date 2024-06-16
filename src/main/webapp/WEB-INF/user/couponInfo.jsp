@@ -75,7 +75,7 @@
 							<th scope="col">쿠폰이름</th>
 							<th scope="col">만료일</th>
 							<th scope="col">카테고리</th>
-							<th scope="col">할인율</th>
+							<th scope="col">할인</th>
 							<th scope="col">사용조건</th>
 							<th scope="col">사용여부</th>
 						</tr>

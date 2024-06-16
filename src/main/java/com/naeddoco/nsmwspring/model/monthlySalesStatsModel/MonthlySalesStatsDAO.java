@@ -101,9 +101,9 @@ public class MonthlySalesStatsDAO {
 		try {
 
 			result = jdbcTemplate.update(INSERT_SAMPLE_DATA, 
-											monthlySalesStatsDTO.getAncStartMonth(),
-											monthlySalesStatsDTO.getAncStartMonth(),
-											monthlySalesStatsDTO.getAncEndMonth());
+											monthlySalesStatsDTO.getMonthlyTotalCalculateDate(),
+											monthlySalesStatsDTO.getMonthlyTotalCalculateDate(),
+											monthlySalesStatsDTO.getMonthlyTotalCalculateDate());
 
 		} catch (Exception e) {
 

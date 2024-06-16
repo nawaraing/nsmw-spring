@@ -10,8 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.naeddoco.nsmwspring.model.monthlySalesStatsModel.MonthlySalesStatsDTO;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Repository("monthlyProductSalesStatsDAO")
@@ -124,9 +122,9 @@ public class MonthlyProductSalesStatsDAO {
 		try {
 
 			result = jdbcTemplate.update(INSERT_SAMPLE_DATA, 
-											monthlyProductSalesStatsDTO.getAncStartMonth(),
-											monthlyProductSalesStatsDTO.getAncStartMonth(),
-											monthlyProductSalesStatsDTO.getAncEndMonth());
+											monthlyProductSalesStatsDTO.getMonthlyTotalCalculateDate(),
+											monthlyProductSalesStatsDTO.getMonthlyTotalCalculateDate(),
+											monthlyProductSalesStatsDTO.getMonthlyTotalCalculateDate());
 
 		} catch (Exception e) {
 

@@ -230,6 +230,10 @@
 						    </c:forEach>
 						</tbody>
 				</table>
+				<c:if test="${empty subscriptionInfos}">
+					<c:set var="message" value="구독한 상품이 없습니다.." />
+					<p style="text-align:center;"><c:out value="${message}" /></p>
+				</c:if>
 			</div>
 		</div>
 	</div>
